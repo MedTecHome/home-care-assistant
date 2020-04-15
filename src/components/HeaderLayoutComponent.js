@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { AuthContext } from './login/context/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -14,18 +18,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HeaderLayoutComponent() {
+function HeaderLayoutComponent({ history }) {
   const classes = useStyles();
+  const { currentUser } = useContext(AuthContext);
+  const handleClickLogin = () => {
+    history.push('/login');
+  };
+
+  const handleClickHome = () => {
+    history.push('/inicio');
+  };
+
+  const handleClickLogout = () => {
+    history.push('/logout');
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
         <div className={classes.title}>
-          <Button color="inherit">Inicio</Button>
+          <Button color="inherit" onClick={handleClickHome}>
+            Inicio
+          </Button>
         </div>
-        <Button color="inherit">Login</Button>
+        {currentUser && <Typography>{currentUser.email}</Typography>}
+        {!currentUser && (
+          <Button color="inherit" onClick={handleClickLogin}>
+            Login
+          </Button>
+        )}
+        {currentUser && (
+          <IconButton onClick={handleClickLogout} color="inherit">
+            <ExitToAppIcon />
+          </IconButton>
+        )}
       </Toolbar>
     </AppBar>
   );
 }
 
-export default HeaderLayoutComponent;
+export default withRouter(HeaderLayoutComponent);

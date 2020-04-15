@@ -17,7 +17,9 @@ const PatientHEalthForm = ({ location, history }) => {
   const methods = useForm();
 
   useEffect(() => {
-    setSelectedCheckbox(urlSearchParams.getAll('formulario'));
+    if (urlSearchParams.has('formulario')) {
+      setSelectedCheckbox(urlSearchParams.getAll('formulario'));
+    }
   }, [location]);
 
   const handleReset = () => {
@@ -78,7 +80,7 @@ const PatientHEalthForm = ({ location, history }) => {
               }}
             >
               <Button onClick={handleReset}>Cancelar</Button>
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" color="primary">
                 Guardar
               </Button>
             </div>

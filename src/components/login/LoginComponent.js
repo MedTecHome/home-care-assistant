@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import { SignInUser } from './context/LoginActions';
 
 function LoginComponent() {
   const { register, errors, handleSubmit } = useForm();
 
   const onSubmi = (value) => {
-    console.log(value);
+    SignInUser(value);
   };
 
   return (
@@ -16,6 +17,7 @@ function LoginComponent() {
       <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
         <Grid item xs={12}>
           <TextField
+            type="email"
             size="small"
             variant="outlined"
             error={!!errors.email}
@@ -29,6 +31,7 @@ function LoginComponent() {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            type="password"
             size="small"
             variant="outlined"
             error={!!errors.password}

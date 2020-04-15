@@ -3,10 +3,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import RoutesComponent from './RoutesComponent';
-import { DoctorContextProvider } from './contexts/doctor/DoctorContext';
-import GetDoctorCompoent from './components/GetDoctorComponent';
+import RoutesComponent from './routes/RoutesComponent';
 import HeaderLayoutComponent from './components/HeaderLayoutComponent';
+import RouteService from './routes/RoutesService';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -18,19 +17,17 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   return (
-    <Suspense fallback={<div>loading...</div>}>
-      <Router>
-        <GetDoctorCompoent />
-        <Grid container>
-          <HeaderLayoutComponent />
+    <Router>
+      <RouteService />
+      <Grid container>
+        <HeaderLayoutComponent />
+        <Suspense fallback={<div>loading...</div>}>
           <Container maxWidth="sm" className={classes.mainContainer}>
-            <DoctorContextProvider>
-              <RoutesComponent />
-            </DoctorContextProvider>
+            <RoutesComponent />
           </Container>
-        </Grid>
-      </Router>
-    </Suspense>
+        </Suspense>
+      </Grid>
+    </Router>
   );
 }
 
