@@ -1,9 +1,9 @@
 import React from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -14,16 +14,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function HeaderLayoutComponent(){
+function HeaderLayoutComponent({history}) {
     const classes = useStyles();
+
+    const handleClickLogin = () => {
+        history.push('/login')
+    };
     return <AppBar position="static">
         <Toolbar>
             <div className={classes.title}>
                 <Button color="inherit">Inicio</Button>
             </div>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={handleClickLogin}>Login</Button>
         </Toolbar>
     </AppBar>
 }
 
-export default HeaderLayoutComponent;
+export default withRouter(HeaderLayoutComponent);

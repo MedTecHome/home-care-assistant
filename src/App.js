@@ -23,9 +23,7 @@ function App() {
                 <Grid container>
                     <HeaderLayoutComponent/>
                     <Container maxWidth={"sm"} className={classes.mainContainer}>
-                        <DoctorContextProvider>
-                            <RoutesComponent/>
-                        </DoctorContextProvider>
+                        <RoutesComponent/>
                     </Container>
                 </Grid>
             </Router>
