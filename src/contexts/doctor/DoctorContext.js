@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from "react";
 import axios from 'axios';
 import DoctorReducers, {initialState} from "./DoctorReducers";
-import {SigInUserToApplication} from "../login/LoginActions";
+import {SigInUserToApplication} from "../auth/LoginActions";
 
 export const DoctorContext = createContext();
 

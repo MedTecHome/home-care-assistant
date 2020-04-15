@@ -18,7 +18,7 @@ function HeaderLayoutComponent({history}) {
     const classes = useStyles();
 
     const handleClickLogin = () => {
-        history.push('/login')
+        history.push('/auth')
     };
     return <AppBar position="static">
         <Toolbar>

@@ -2,16 +2,14 @@ import React, {useContext} from "react";
 import {useForm} from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import {SignInUserToApplication} from "../../contexts/auth/LoginActions";
 import Grid from "@material-ui/core/Grid";
-import {LoginContext} from "../../contexts/login/LoginContext";
 
 function LoginComponent() {
-    const {SignIn} = useContext(LoginContext);
     const {register, errors, handleSubmit} = useForm();
 
     const onSubmi = value => {
-        console.log(value);
-        SignIn(value);
+        SignInUserToApplication(value);
     };
 
     return <form autoComplete={"off"} onSubmit={handleSubmit(onSubmi)}>
