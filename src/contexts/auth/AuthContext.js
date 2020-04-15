@@ -1,26 +1,30 @@
-import React, {createContext, useEffect, useState} from "react";
-import firebase from "../../firebase.config";
+import React, { createContext, useEffect, useState } from 'react';
+import firebase from '../../firebase.config';
+
 const auth = firebase.auth();
 
 export const AuthContext = createContext();
 
-export function AuthContextProvider({children}) {
-    const [currentUser, setCurrentUser] = useState(null);
+export function AuthContextProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUser'));
 
-    useEffect(() => {
-        auth.onAuthStateChanged(observableUser => {
-            if(observableUser){
-                setCurrentUser(auth.currentUser)
-            }else {
-                setCurrentUser(null)
-            }
-        });
-    }, []);
+  auth.onAuthStateChanged((observableUser) => {
+    if (observableUser) {
+      localStorage.setItem('currentUser', observableUser.uid);
+      setCurrentUser(observableUser);
+    } else {
+      localStorage.removeItem('currentUser');
+      setCurrentUser(null);
+    }
+  });
 
-    return <AuthContext.Provider value={{
-        currentUser
-    }}>
-        {children}
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUser,
+      }}
+    >
+      {children}
     </AuthContext.Provider>
+  );
 }
-

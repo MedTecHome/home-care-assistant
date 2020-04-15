@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {AuthContextProvider} from "./contexts/auth/AuthContext";
+import { AuthContextProvider } from './contexts/auth/AuthContext';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <AuthContextProvider>
-            <App/>
-        </AuthContextProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
+  <React.StrictMode>
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
