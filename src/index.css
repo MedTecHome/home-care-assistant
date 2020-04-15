@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.ant-form-item-control-input input,
+.ant-input-number-input-wrap input,
+.ant-form-item-control-input textarea {
+  border-radius: 3px;
+}
+
+.ant-col-24.ant-form-item-label {
+  padding: 0;
+}
