@@ -5,8 +5,8 @@ function LogoutComponent({ location }) {
   const { SignOutUser } = useContext(AuthContext);
   useEffect(() => {
     SignOutUser();
-  }, [location]);
-  return <></>;
+  }, [location, SignOutUser]);
+  return <div />;
 }
 
 export default LogoutComponent;

@@ -33,6 +33,21 @@ function HeaderLayoutComponent({ history }) {
     history.push('/logout');
   };
 
+  const handleClickReporte = () => {
+    history.push('/paciente/form');
+  };
+
+  const handleClickPacientes = () => {
+    history.push('/doctor/pacientes');
+  };
+
+  const handleClickDoctor = () => {
+    history.push('/doctor');
+  };
+  const handleClickHospital = () => {
+    history.push('/hospital');
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -41,6 +56,18 @@ function HeaderLayoutComponent({ history }) {
             Inicio
           </Button>
         </div>
+        <Button color="inherit" onClick={handleClickReporte}>
+          Reporte
+        </Button>
+        <Button color="inherit" onClick={handleClickPacientes}>
+          Pacientes
+        </Button>
+        <Button color="inherit" onClick={handleClickDoctor}>
+          Doctores
+        </Button>
+        <Button color="inherit" onClick={handleClickHospital}>
+          Hospitales
+        </Button>
         {currentUser && <Typography>{currentUser.email}</Typography>}
         {!currentUser && (
           <Button color="inherit" onClick={handleClickLogin}>
