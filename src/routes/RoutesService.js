@@ -18,7 +18,7 @@ function RouteService({ location, history }) {
     if (location.pathname === '/logout' && !currentUser) {
       history.push('/login');
     }
-  }, [location, currentUser]);
+  }, [location, currentUser, history]);
 
   return <div />;
 }

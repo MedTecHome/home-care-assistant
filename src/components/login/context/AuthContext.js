@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { SignIn, SignOut } from './AuthActions';
+import { signIn, signOut } from './AuthActions';
+import { authFirebase } from '../../../firebaseConfig';
 
 export const AuthContext = createContext();
 
@@ -7,20 +8,20 @@ export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    let user = null;
-    if (localStorage.getItem('currentUser')) {
-      user = JSON.parse(localStorage.getItem('currentUser'));
-      setCurrentUser(user);
-    }
+    if (authFirebase.currentUser) setCurrentUser(authFirebase.currentUser);
   }, []);
 
-  const SignInUser = async (credentials) => {
-    const result = await SignIn(credentials);
-    setCurrentUser(result);
+  const signInUser = async (credentials) => {
+    try {
+      await signIn(credentials);
+      setCurrentUser(authFirebase.currentUser);
+    } catch (error) {
+      // else handle authentication errors
+    }
   };
 
-  const SignOutUser = () => {
-    SignOut();
+  const signOutUser = () => {
+    signOut();
     setCurrentUser(null);
   };
 
@@ -28,8 +29,8 @@ export function AuthContextProvider({ children }) {
     <AuthContext.Provider
       value={{
         currentUser,
-        SignInUser,
-        SignOutUser,
+        signInUser,
+        signOutUser,
       }}
     >
       {children}

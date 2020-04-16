@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HeaderLayoutComponent({ history }) {
+function HeaderComponent({ history }) {
   const classes = useStyles();
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, signOutUser } = useContext(AuthContext);
   const handleClickLogin = () => {
     history.push('/login');
   };
@@ -30,7 +30,7 @@ function HeaderLayoutComponent({ history }) {
   };
 
   const handleClickLogout = () => {
-    history.push('/logout');
+    signOutUser();
   };
 
   return (
@@ -57,4 +57,4 @@ function HeaderLayoutComponent({ history }) {
   );
 }
 
-export default withRouter(HeaderLayoutComponent);
+export default withRouter(HeaderComponent);

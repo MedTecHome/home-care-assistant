@@ -1,23 +1,5 @@
-import { firebaseConfig } from '../../../firebaseConfig';
-import { apiIdentitytoolkit } from '../../../apiConfig';
+import { authFirebase } from '../../../firebaseConfig';
 
-const { apiKey } = firebaseConfig;
+export const signIn = async ({ email, password }) => authFirebase.signInWithEmailAndPassword(email, password);
 
-export const SignIn = async ({ email, password }) => {
-  try {
-    const response = await apiIdentitytoolkit.post(`accounts:signInWithPassword?key=${apiKey}`, {
-      email,
-      password,
-      returnSecureToken: true,
-    });
-    localStorage.setItem('currentUser', JSON.stringify(response.data));
-    return response.data;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e.message);
-  }
-};
-
-export const SignOut = () => {
-  localStorage.removeItem('currentUser');
-};
+export const signOut = () => authFirebase.signOut();
