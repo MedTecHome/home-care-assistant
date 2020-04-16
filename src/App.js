@@ -7,7 +7,7 @@ import RoutesComponent from './routes/RoutesComponent';
 import HeaderLayoutComponent from './components/HeaderLayoutComponent';
 import RouteService from './routes/RoutesService';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   mainContainer: {
     paddingTop: 15,
     height: 'calc(100vh-0px)',

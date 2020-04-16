@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { useFormContext } from 'react-hook-form';
 import { useTheme } from '@material-ui/core/styles';
-import { useStyle } from './cssInJs';
+import useStyle from './cssInJs';
 
 function TemperaturaForm() {
   const { register, errors } = useFormContext();

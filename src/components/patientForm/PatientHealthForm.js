@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -11,12 +12,12 @@ import OxygenoForm from './OxygenoForm';
 import INRForm from './INRForm';
 import SelectedChecboxForm from './SelectedCheckboxForm';
 
-const PatientHEalthForm = ({ location, history }) => {
-  const urlSearchParams = new URLSearchParams(location.search);
+const PatientHEalthForm = ({ location }) => {
   const [selectedCheckbox, setSelectedCheckbox] = useState([]);
   const methods = useForm();
 
   useEffect(() => {
+    const urlSearchParams = new URLSearchParams(location.search);
     if (urlSearchParams.has('formulario')) {
       setSelectedCheckbox(urlSearchParams.getAll('formulario'));
     }
@@ -27,6 +28,7 @@ const PatientHEalthForm = ({ location, history }) => {
   };
 
   const onSubmit = (value) => {
+    // eslint-disable-next-line no-console
     console.log(value);
   };
 

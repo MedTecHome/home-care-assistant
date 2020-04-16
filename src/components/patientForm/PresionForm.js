@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { useTheme } from '@material-ui/core/styles';
 import { useFormContext } from 'react-hook-form';
 import { useMediaQuery } from '@material-ui/core';
-import { useStyle } from './cssInJs';
+import useStyle from './cssInJs';
 
 function PresionForm() {
   const theme = useTheme();
