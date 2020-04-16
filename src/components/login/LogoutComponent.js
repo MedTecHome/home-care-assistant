@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SignOutUser } from '../../contexts/auth/LoginActions';
+import { SignOutUser } from './context/LoginActions';
 
 function LogoutComponent({ history }) {
   useEffect(() => {

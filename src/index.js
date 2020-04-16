@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { AuthContextProvider } from './contexts/auth/AuthContext';
+import { AuthContextProvider } from './components/login/context/AuthContext';
 
 ReactDOM.render(
   <React.StrictMode>

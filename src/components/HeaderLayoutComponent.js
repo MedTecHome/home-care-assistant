@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { AuthContext } from '../contexts/auth/AuthContext';
+import { AuthContext } from './login/context/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {

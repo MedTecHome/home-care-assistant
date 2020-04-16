@@ -1,4 +1,4 @@
-import firebase from '../../firebase.config';
+import firebase from '../../../firebase.config';
 
 const auth = firebase.auth();
 

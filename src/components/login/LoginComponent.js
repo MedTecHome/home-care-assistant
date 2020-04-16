@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { SignInUser } from '../../contexts/auth/LoginActions';
+import { SignInUser } from './context/LoginActions';
 
 function LoginComponent() {
   const { register, errors, handleSubmit } = useForm();
