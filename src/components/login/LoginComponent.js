@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { AuthContext } from './context/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function LoginComponent() {
   const { register, errors, handleSubmit } = useForm();
   const { signInUser } = useContext(AuthContext);
 
-  const onSubmit = (value) => {
+  const onSubmit = value => {
     signInUser(value);
   };
 
