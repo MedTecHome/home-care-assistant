@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { SignOutUser } from './context/LoginActions';
+import React, { useContext, useEffect } from 'react';
+import { AuthContext } from './context/AuthContext';
 
-function LogoutComponent({ history }) {
+function LogoutComponent({ location }) {
+  const { SignOutUser } = useContext(AuthContext);
   useEffect(() => {
     SignOutUser();
-  }, [history]);
+  }, [location]);
   return <></>;
 }
 

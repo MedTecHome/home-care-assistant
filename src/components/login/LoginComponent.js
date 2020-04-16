@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { SignInUser } from './context/LoginActions';
+import { AuthContext } from './context/AuthContext';
 
 function LoginComponent() {
   const { register, errors, handleSubmit } = useForm();
+  const { SignInUser } = useContext(AuthContext);
 
   const onSubmi = (value) => {
     SignInUser(value);
