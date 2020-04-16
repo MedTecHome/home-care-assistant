@@ -1,38 +1,25 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoutes from './PrivateRoutes';
-import { HospitalContextProvider } from '../components/hospital/context/HospitalContext';
 
 const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
 const LoginComponent = lazy(() => import('../components/login/LoginComponent'));
-const LogoutComponent = lazy(() => import('../components/login/LogoutComponent'));
-const IndexHomeComponent = lazy(() => import('../components/IndexHome'));
-const DoctorComponent = lazy(() => import('../components/IndexHome'));
-const HospitalComponent = lazy(() => import('../components/hospital/HospitalComponent'));
-const PatientsComponent = lazy(() => import('../components/IndexHome'));
+// const LogoutComponent = lazy(() => import('../components/login/LogoutComponent'));
+const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const PatientHealthForm = lazy(() => import('../components/patientForm/PatientHealthForm'));
 
 function RoutesComponent() {
   return (
     <Switch>
-      <Route path="/" exact component={(props) => <IndexHomeComponent {...props} />} />
-      <Route path="/login" exact component={(props) => <LoginComponent {...props} />} />
-      <PrivateRoutes path="/logout" exact component={(props) => <LogoutComponent {...props} />} />
-      <PrivateRoutes path="/inicio/" exact component={(props) => <IndexHomeComponent {...props} />} />
-      <PrivateRoutes path="/paciente/form" exact component={(props) => <PatientHealthForm {...props} />} />
-      <PrivateRoutes path="/doctor" exact component={(props) => <DoctorComponent {...props} />} />
-      <PrivateRoutes path="/doctor/pacientes" exact component={(props) => <PatientsComponent {...props} />} />
-      <PrivateRoutes
-        path="/hospital"
-        exact
-        component={(props) => (
-          <HospitalContextProvider>
-            <HospitalComponent {...props} />
-          </HospitalContextProvider>
-        )}
-      />
-      <Route component={(props) => <PageNotFound {...props} />} />
+      <Route path="/" exact component={HomeComponent} />
+      <Route path="/login" exact component={LoginComponent} />
+      {/* <PrivateRoutes path="/logout" exact component={LogoutComponent} /> */}
+      <PrivateRoutes path="/inicio/" exact component={HomeComponent} />
+      <PrivateRoutes path="/paciente/" exact component={HomeComponent} />
+      <PrivateRoutes path="/paciente/form" exact component={PatientHealthForm} />
+      <PrivateRoutes path="/doctor" exact component={HomeComponent} />
+      <PrivateRoutes path="/doctor/paciente" exact component={HomeComponent} />
+      <Route component={PageNotFound} />
     </Switch>
   );
 }

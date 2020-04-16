@@ -7,14 +7,14 @@ import { AuthContext } from './context/AuthContext';
 
 function LoginComponent() {
   const { register, errors, handleSubmit } = useForm();
-  const { SignInUser } = useContext(AuthContext);
+  const { signInUser } = useContext(AuthContext);
 
-  const onSubmi = (value) => {
-    SignInUser(value);
+  const onSubmit = (value) => {
+    signInUser(value);
   };
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit(onSubmi)}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
       <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
         <Grid item xs={12}>
           <TextField
