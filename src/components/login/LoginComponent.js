@@ -3,17 +3,18 @@ import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { SignInUser } from './context/LoginActions';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function LoginComponent() {
   const { register, errors, handleSubmit } = useForm();
+  const { signInUser } = useContext(AuthContext);
 
-  const onSubmi = (value) => {
-    SignInUser(value);
+  const onSubmit = value => {
+    signInUser(value);
   };
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit(onSubmi)}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
       <Grid container direction="column" justify="center" alignItems="center" spacing={3}>
         <Grid item xs={12}>
           <TextField

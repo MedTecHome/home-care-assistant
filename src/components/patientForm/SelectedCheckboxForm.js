@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withRouter } from 'react-router-dom';
 import useTheme from '@material-ui/core/styles/useTheme';
-import { useStyle } from './cssInJs';
+import useStyle from './cssInJs';
 
 const optionsCheckbox = [
   { label: 'Presion', value: 'presion' },

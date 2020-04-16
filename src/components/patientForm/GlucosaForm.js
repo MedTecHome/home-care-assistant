@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { useStyle } from './cssInJs';
+import useStyle from './cssInJs';
 
 function GlucosaForm() {
   const { register, setValue, errors } = useFormContext();
@@ -43,7 +43,7 @@ function GlucosaForm() {
         />
         <FormControl error={!!errors.medido}>
           <InputLabel id="demo-simple-select-label">Medido</InputLabel>
-          <Select name="medido2" name="test" onChange={(e) => setValue('medido', e.target.value)}>
+          <Select name="medido2" onChange={(e) => setValue('medido', e.target.value)}>
             <MenuItem value={10}>Ten</MenuItem>
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>

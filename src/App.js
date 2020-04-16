@@ -4,10 +4,10 @@ import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import RoutesComponent from './routes/RoutesComponent';
-import HeaderLayoutComponent from './components/HeaderLayoutComponent';
+import HeaderComponent from './components/HeaderComponent';
 import RouteService from './routes/RoutesService';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   mainContainer: {
     paddingTop: 15,
     height: 'calc(100vh-0px)',
@@ -20,7 +20,7 @@ function App() {
     <Router>
       <RouteService />
       <Grid container>
-        <HeaderLayoutComponent />
+        <HeaderComponent />
         <Suspense fallback={<div>loading...</div>}>
           <Container maxWidth="sm" className={classes.mainContainer}>
             <RoutesComponent />

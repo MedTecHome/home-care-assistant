@@ -2,7 +2,7 @@ import firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyCvb5QM0mEXHKBsOOWzolWGZkiHz0HDhDo',
   authDomain: 'test1-6f25a.firebaseapp.com',
   databaseURL: 'https://test1-6f25a.firebaseio.com',
@@ -14,4 +14,7 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-export default firebase;
+
+export const authFirebase = firebase.auth();
+
+export const dbFirebase = firebase.firestore();
