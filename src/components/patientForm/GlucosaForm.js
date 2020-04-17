@@ -43,7 +43,7 @@ function GlucosaForm() {
         />
         <FormControl error={!!errors.medido}>
           <InputLabel id="demo-simple-select-label">Medido</InputLabel>
-          <Select name="medido2" onChange={(e) => setValue('medido', e.target.value)}>
+          <Select name="medido2" onChange={e => setValue('medido', e.target.value)}>
             <MenuItem value={10}>Ten</MenuItem>
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>

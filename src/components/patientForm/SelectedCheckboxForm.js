@@ -23,14 +23,14 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
   const theme = useTheme();
   const { justifyCheckbox } = useStyle(theme);
 
-  const handleSelectCheckbox = (ev) => {
+  const handleSelectCheckbox = ev => {
     const { name, checked } = ev.target;
     if (checked) {
       urlSearchParams.append(`formulario`, name);
     } else {
-      const formularios = urlSearchParams.getAll('formulario').filter((s) => s !== name);
+      const formularios = urlSearchParams.getAll('formulario').filter(s => s !== name);
       urlSearchParams.delete('formulario');
-      formularios.map((f) => urlSearchParams.append('formulario', f));
+      formularios.map(f => urlSearchParams.append('formulario', f));
     }
     history.push({
       pathname: location.pathname,
@@ -46,7 +46,7 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
     >
       <FormLabel component="legend">Seleccione uno o mas formulario</FormLabel>
       <FormGroup className={justifyCheckbox} row defaultValue={defaultValues}>
-        {optionsCheckbox.map((op) => (
+        {optionsCheckbox.map(op => (
           <FormControlLabel
             key={op.label}
             control={

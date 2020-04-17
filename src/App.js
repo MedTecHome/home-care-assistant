@@ -22,7 +22,7 @@ function App() {
       <Grid container>
         <HeaderComponent />
         <Suspense fallback={<div>loading...</div>}>
-          <Container maxWidth="sm" className={classes.mainContainer}>
+          <Container maxWidth="md" className={classes.mainContainer}>
             <RoutesComponent />
           </Container>
         </Suspense>
