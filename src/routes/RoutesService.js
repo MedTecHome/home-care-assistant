@@ -1,26 +1,20 @@
-import React, { useContext, useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import { AuthContext } from '../components/login/context/AuthContext';
+import { AuthContext } from '../contexts/AuthContext';
 
 function RouteService({ location, history }) {
   const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(location.search);
     if (location.pathname === '/login' && currentUser) {
+      const urlSearchParams = new URLSearchParams(location.search);
       const pathname = urlSearchParams.has('toUrl') ? urlSearchParams.get('toUrl') : '/inicio';
       urlSearchParams.delete('toUrl');
-      history.push({
-        pathname,
-        search: urlSearchParams.toString(),
-      });
+      history.push({ pathname });
     }
-    if (location.pathname === '/logout' && !currentUser) {
-      history.push('/login');
-    }
-  }, [location, currentUser, history]);
+  }, [currentUser, history, location.pathname, location.search]);
 
-  return <div />;
+  return null;
 }
 
 export default withRouter(RouteService);

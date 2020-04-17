@@ -7,9 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { AuthContext } from './login/context/AuthContext';
+import { AuthContext } from '../contexts/AuthContext';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
