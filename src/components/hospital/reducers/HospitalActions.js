@@ -1,43 +1,61 @@
 import { dbFirebase } from '../../../firebaseConfig';
 import {
   ADD_FORM_TEXT,
+  DELETE_FORM_TEXT,
   EDIT_FORM_TEXT,
   LIST_HOSPITAL,
   SELECTED_HOSPITALS,
   SET_HOSPITAL_MODAL_VISIBLE,
 } from '../../../commons/globalText';
 
-export const setListHospital = ({ list, total }) => ({
+export const setListHospitalAction = ({ list, total }) => ({
   type: LIST_HOSPITAL,
   list,
   total,
 });
 
-export const selectHospitalsFromList = ids => ({
+export const selectHospitalsFromListAction = ids => ({
   type: SELECTED_HOSPITALS,
   ids,
 });
 
-export const setHospitalModalVisible = (flag, formType) => ({
+export const setHospitalModalVisibleAction = (flag, formType) => ({
   type: SET_HOSPITAL_MODAL_VISIBLE,
   flag,
   formType,
 });
 
-export const fetchHospitals = async params => {
+export const fetchHospitalsAction = params => {
   // eslint-disable-next-line no-console
   console.log(params);
-  const response = dbFirebase.collection('hospital').orderBy('name', 'asc').get();
-  return response;
+  return dbFirebase.collection('hospital').orderBy('name', 'asc').get();
 };
 
-export const saveHospitalValues = async ({ id, ...values }, form) => {
+export const saveHospitalValuesAction = ({ id, ...values }, form) => {
   if (form === ADD_FORM_TEXT) {
-    const response = await dbFirebase.collection('hospital').add(values);
-    return response;
+    dbFirebase
+      .collection('hospital')
+      .add(values)
+      // eslint-disable-next-line no-console
+      .catch(e => console.error(e));
   }
   if (form === EDIT_FORM_TEXT) {
-    const response = await dbFirebase.collection('hospital').doc(id).update(values);
-    return response;
+    dbFirebase
+      .collection('hospital')
+      .doc(id)
+      .update(values)
+      // eslint-disable-next-line no-console
+      .catch(e => console.error(e));
+  }
+  if (form === DELETE_FORM_TEXT) {
+    id.map(hosp => {
+      dbFirebase
+        .collection('hospital')
+        .doc(hosp.id)
+        .delete()
+        // eslint-disable-next-line no-console
+        .catch(e => console.error(e));
+      return null;
+    });
   }
 };

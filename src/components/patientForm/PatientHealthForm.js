@@ -27,7 +27,7 @@ const PatientHEalthForm = ({ location }) => {
     methods.reset();
   };
 
-  const onSubmit = (value) => {
+  const onSubmit = value => {
     // eslint-disable-next-line no-console
     console.log(value);
   };

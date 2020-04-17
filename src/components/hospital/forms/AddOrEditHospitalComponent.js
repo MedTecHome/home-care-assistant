@@ -40,28 +40,27 @@ export default function AddOrEditHospitalComponent() {
 
   useEffect(() => {
     if (hospitalsSelected.length > 0 && hospitalFormType === EDIT_FORM_TEXT) {
-      console.log(hospitalsSelected);
       setValue(Object.keys(hospitalsSelected[0]).map(k => ({ [k]: hospitalsSelected[0][k] })));
     }
   }, [hospitalFormType, hospitalsSelected]);
+
+  const handleCancel = () => {
+    setHospitalModalVisible(false, null);
+  };
 
   const onSubmit = values => {
     saveHospitalValues(values, hospitalFormType);
     handleCancel();
   };
 
-  const handleCancel = () => {
-    setHospitalModalVisible(false, null);
-  };
-
   return (
     <div>
-      <h3>Adicionar hospital</h3>
+      <h3>{hospitalFormType === ADD_FORM_TEXT ? 'Adicionar' : 'Editar'} hospital</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         {hospitalsSelected.length > 0 && hospitalFormType === EDIT_FORM_TEXT && (
           <input type="hidden" ref={register} name="id" />
         )}
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <FormControl className={classes.formControl} error={!!errors.name}>
               <InputLabel>Nombre hospital</InputLabel>
@@ -87,7 +86,13 @@ export default function AddOrEditHospitalComponent() {
           <Grid item xs={12}>
             <FormControl className={classes.formControl} error={!!errors.phone}>
               <InputLabel>Telefono</InputLabel>
-              <Input inputRef={register} aria-describedby="Telefono del hospital" name="phone" />
+              <Input
+                inputRef={register({
+                  pattern: /([+]\d{3}?)|(\d{3}-\d{4})/ || 'Formato de telefono no valido',
+                })}
+                aria-describedby="Telefono del hospital"
+                name="phone"
+              />
               <FormHelperText>{errors.phone ? errors.phone.message : 'Ej: 4545424424'}</FormHelperText>
             </FormControl>
           </Grid>
@@ -97,6 +102,10 @@ export default function AddOrEditHospitalComponent() {
                 <InputLabel htmlFor="hospital-name">Limite doctores</InputLabel>
                 <Input
                   type="number"
+                  inputProps={{
+                    defaultValue: 20,
+                    min: 0,
+                  }}
                   inputRef={register({
                     required: REQUIRED_FIELD,
                   })}
@@ -111,6 +120,10 @@ export default function AddOrEditHospitalComponent() {
                 <InputLabel>Limite Pacientes</InputLabel>
                 <Input
                   type="number"
+                  inputProps={{
+                    defaultValue: 20,
+                    min: 0,
+                  }}
                   inputRef={register({
                     required: REQUIRED_FIELD,
                   })}
@@ -122,8 +135,10 @@ export default function AddOrEditHospitalComponent() {
             </Grid>
           </Grid>
           <Grid item className={classes.buttonActions} xs={12}>
-            <Button onClick={handleCancel}>cancelar</Button>
-            <Button type="submit" color="primary">
+            <Button variant="contained" onClick={handleCancel}>
+              cancelar
+            </Button>
+            <Button variant="contained" type="submit" color="primary">
               guardar
             </Button>
           </Grid>

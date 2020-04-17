@@ -37,7 +37,7 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
-  const { title = '', selected, onAdd = (b, ADD_FORM_TEXT) => {}, onEdit, onDelete } = props;
+  const { title = '', selected, onAdd, onEdit, onDelete } = props;
 
   const handleAddItem = () => {
     onAdd(true, ADD_FORM_TEXT);
