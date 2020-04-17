@@ -1,15 +1,8 @@
-import React, { useContext } from 'react';
-import TableHead from '@material-ui/core/TableHead';
+import React, { useContext, useEffect } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
-import { lighten } from '@material-ui/core';
-import Toolbar from '@material-ui/core/Toolbar';
-import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -17,10 +10,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TablePagination from '@material-ui/core/TablePagination';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import EditIcon from '@material-ui/icons/Edit';
-import { HospitalContext } from './context/HospitalContext';
+import { HospitalContext } from '../../contexts/HospitalContext';
+import EnhancedTableHead from '../EnhancedTableHead';
+import EnhancedTableToolbar from '../EnhancedTableToolbar';
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
@@ -30,113 +22,7 @@ const headCells = [
   { id: 'maxPatients', numeric: true, disablePadding: false, label: 'Limite. Pacientes' },
 ];
 
-function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount } = props;
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'center' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            {headCell.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.primary.main,
-          backgroundColor: lighten(theme.palette.primary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.primary.dark,
-        },
-  title: {
-    flex: '1 1 100%',
-  },
-}));
-
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { selecteds } = props;
-
-  const handleEditSelected = () => {
-    // eslint-disable-next-line no-console
-    console.log(selecteds[0]);
-  };
-
-  const handleDeleteSelecteds = () => {
-    // eslint-disable-next-line no-console
-    console.log(selecteds);
-  };
-
-  return (
-    <Toolbar
-      color="primary"
-      className={clsx(classes.root, {
-        [classes.highlight]: selecteds.length > 0,
-      })}
-    >
-      {selecteds.length > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {selecteds.length} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Hospitals
-        </Typography>
-      )}
-      {selecteds.length === 1 && (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete" onClick={handleEditSelected}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-
-      {selecteds.length > 0 && (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete" onClick={handleDeleteSelecteds}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-      {selecteds.length < 1 && (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
   },
@@ -161,18 +47,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HospitalListComponent() {
-  const { hospitals } = useContext(HospitalContext);
-
+  const { fetchHospitals, hospitals, setHospitalModalVisible, selectHospitals } = useContext(HospitalContext);
   const classes = useStyles();
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleSelectAllClick = (event) => {
+  useEffect(() => {
+    fetchHospitals({});
+  }, []);
+
+  useEffect(() => {
+    selectHospitals(selected);
+  }, [selected]);
+
+  const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = hospitals.map((n) => n.id);
-      setSelected(newSelecteds);
+      const newSelected = hospitals.map(n => n.id);
+      setSelected(newSelected);
       return;
     }
     setSelected([]);
@@ -199,23 +92,29 @@ function HospitalListComponent() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
+  const handleChangeDense = event => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, hospitals.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar selecteds={selected} />
+        <EnhancedTableToolbar
+          title="Hospital list"
+          selected={selected}
+          onAdd={setHospitalModalVisible}
+          onEdit={setHospitalModalVisible}
+          onDelete={setHospitalModalVisible}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -224,6 +123,7 @@ function HospitalListComponent() {
             aria-label="enhanced table"
           >
             <EnhancedTableHead
+              headCells={headCells}
               classes={classes}
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
@@ -237,7 +137,7 @@ function HospitalListComponent() {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={event => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}

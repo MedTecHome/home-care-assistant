@@ -1,18 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-import { HospitalContext } from './context/HospitalContext';
+import React from 'react';
+import { HospitalContextProvider } from '../../contexts/HospitalContext';
 import HospitalListComponent from './HospitalListComponent';
+import ModalHospitalComponent from './ModalHospitalComponent';
+import HospitalForms from './forms/HospitalForms';
 
 function HospitalComponent() {
-  const { FetchHospitals } = useContext(HospitalContext);
-
-  useEffect(() => {
-    FetchHospitals({});
-  }, []);
-
   return (
-    <>
+    <HospitalContextProvider>
+      <ModalHospitalComponent>
+        <HospitalForms />
+      </ModalHospitalComponent>
       <HospitalListComponent />
-    </>
+    </HospitalContextProvider>
   );
 }
 
