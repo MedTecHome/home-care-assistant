@@ -8,8 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TablePagination from '@material-ui/core/TablePagination';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import { HospitalContext } from '../../contexts/HospitalContext';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
@@ -33,6 +33,12 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 750,
   },
+  largeCells: {
+    maxWidth: 200,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
   visuallyHidden: {
     border: 0,
     clip: 'rect(0 0 0 0)',
@@ -51,7 +57,6 @@ function HospitalListComponent() {
   const classes = useStyles();
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   useEffect(() => {
@@ -97,10 +102,6 @@ function HospitalListComponent() {
     setPage(0);
   };
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, hospitals.length - page * rowsPerPage);
@@ -109,19 +110,14 @@ function HospitalListComponent() {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
-          title="Hospital list"
+          title="Lista de hospitales"
           selected={selected}
           onAdd={setHospitalModalVisible}
           onEdit={setHospitalModalVisible}
           onDelete={setHospitalModalVisible}
         />
         <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-            aria-label="enhanced table"
-          >
+          <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
             <EnhancedTableHead
               headCells={headCells}
               classes={classes}
@@ -147,10 +143,12 @@ function HospitalListComponent() {
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
                     </TableCell>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                      {row.name}
+                    <TableCell className={classes.largeCells}>
+                      <Tooltip title={row.name} arrow placement="top">
+                        <Typography>{row.name}</Typography>
+                      </Tooltip>
                     </TableCell>
-                    <TableCell>{row.address}</TableCell>
+                    <TableCell className={classes.largeCells}>{row.address}</TableCell>
                     <TableCell align="center">{row.phone}</TableCell>
                     <TableCell align="center">{row.maxDoctors}</TableCell>
                     <TableCell align="center">{row.maxPatients}</TableCell>
@@ -158,7 +156,7 @@ function HospitalListComponent() {
                 );
               })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow style={{ height: 33 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -175,10 +173,6 @@ function HospitalListComponent() {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch color="primary" checked={dense} onChange={handleChangeDense} />}
-        label="Compactar tabla"
-      />
     </div>
   );
 }

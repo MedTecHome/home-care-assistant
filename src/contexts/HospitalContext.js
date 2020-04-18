@@ -8,7 +8,7 @@ import {
   setListHospitalAction,
 } from '../components/hospital/reducers/HospitalActions';
 
-export const HospitalContext = createContext({});
+export const HospitalContext = createContext();
 
 export const HospitalContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(HospitalReducers, initialHispitalState, init => init);
@@ -35,7 +35,7 @@ export const HospitalContextProvider = ({ children }) => {
   };
 
   const saveHospitalValues = (values, form) => {
-    dispatch(saveHospitalValuesAction(values, form));
+    saveHospitalValuesAction(values, form);
   };
 
   return (

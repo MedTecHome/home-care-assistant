@@ -38,16 +38,14 @@ export const saveHospitalValuesAction = ({ id, ...values }, form) => {
       .add(values)
       // eslint-disable-next-line no-console
       .catch(e => console.error(e));
-  }
-  if (form === EDIT_FORM_TEXT) {
+  } else if (form === EDIT_FORM_TEXT) {
     dbFirebase
       .collection('hospital')
       .doc(id)
       .update(values)
       // eslint-disable-next-line no-console
       .catch(e => console.error(e));
-  }
-  if (form === DELETE_FORM_TEXT) {
+  } else if (form === DELETE_FORM_TEXT) {
     id.map(hosp => {
       dbFirebase
         .collection('hospital')
@@ -58,4 +56,5 @@ export const saveHospitalValuesAction = ({ id, ...values }, form) => {
       return null;
     });
   }
+  return null;
 };

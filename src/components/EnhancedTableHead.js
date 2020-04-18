@@ -5,8 +5,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
 export default function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, headCells } = props;
-
+  const { onSelectAllClick, numSelected, rowCount, headCells } = props;
   return (
     <TableHead>
       <TableRow>
@@ -20,12 +19,7 @@ export default function EnhancedTableHead(props) {
           />
         </TableCell>
         {headCells.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'center' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
+          <TableCell key={headCell.id} align={headCell.numeric ? 'center' : 'left'}>
             {headCell.label}
           </TableCell>
         ))}

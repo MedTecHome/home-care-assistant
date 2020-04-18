@@ -60,7 +60,7 @@ const EnhancedTableToolbar = props => {
     >
       {selected.length > 0 ? (
         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {selected.length} selected
+          {selected.length} seleccionados
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
