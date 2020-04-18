@@ -13,12 +13,12 @@ export const PatientsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PatientsReducers, initialPatientsState, init => init);
 
   const getListPatients = params => {
-    let list = [];
-    listPatientsFetch(params).then(querySnapshot => {
+    listPatientsFetch(params).onSnapshot(querySnapshot => {
+      let result = [];
       querySnapshot.forEach(doc => {
-        list = [...list, { id: doc.id, ...doc.data() }];
+        result = [...result, { id: doc.id, ...doc.data() }];
       });
-      dispatch(setListPatientsAction(list, 0));
+      dispatch(setListPatientsAction(result, 0));
     });
   };
 

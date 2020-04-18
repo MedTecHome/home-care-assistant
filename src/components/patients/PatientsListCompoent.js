@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -9,11 +9,16 @@ import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import TablePagination from '@material-ui/core/TablePagination';
 import moment from 'moment';
-import { PatientsContext } from '../../contexts/PatientsContext';
-import EnhancedTableToolbar from '../EnhancedTableToolbar';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import FormControl from '@material-ui/core/FormControl';
+import IconButton from '@material-ui/core/IconButton';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import EnhancedTableHead from '../EnhancedTableHead';
+import EnhancedTableToolbar from '../EnhancedTableToolbar';
+import { PatientsContext } from '../../contexts/PatientsContext';
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
@@ -54,19 +59,25 @@ const useStyles = makeStyles(theme => {
       top: 20,
       width: 1,
     },
+    pagination: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      padding: 10,
+    },
   };
 });
 
 export default function PatientsListComponent() {
   const { patients, getListPatients, selectPatients } = useContext(PatientsContext);
   const classes = useStyles();
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState({});
+  const [rowsPerPage, setRowsPerPage] = useState(2);
 
   useEffect(() => {
-    getListPatients({});
-  }, []);
+    getListPatients({ limit: rowsPerPage, page });
+  }, [rowsPerPage, page]);
 
   useEffect(() => {
     selectPatients(selected);
@@ -98,28 +109,32 @@ export default function PatientsListComponent() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  };
+
+  const handleBackward = () => {
+    setPage({ prev: patients[0] });
+  };
+
+  const handleForward = () => {
+    setPage({ next: patients[patients.length - 1] });
   };
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, patients.length - page * rowsPerPage);
-
   const handlePatientAdd = formType => {
+    // eslint-disable-next-line no-console
     console.log(formType);
   };
 
   const handlePatientEdit = formType => {
+    // eslint-disable-next-line no-console
     console.log(formType);
   };
 
   const handlePatientDelete = formType => {
+    // eslint-disable-next-line no-console
     console.log(formType);
   };
 
@@ -127,7 +142,7 @@ export default function PatientsListComponent() {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
-          title="Lista de hospitales"
+          title="Lista de pacientes"
           selected={selected}
           onAdd={handlePatientAdd}
           onEdit={handlePatientEdit}
@@ -167,29 +182,41 @@ export default function PatientsListComponent() {
                     <TableCell>
                       <Typography className={classes.textCells}>{row.lastName}</Typography>
                     </TableCell>
-                    <TableCell align="center">{moment(row.birthday.toDate()).format('DD/MM/YYYY')}</TableCell>
+                    <TableCell align="center">
+                      {moment(row.birthday.toDate()).format('DD [del] MM [de] YYYY')}
+                    </TableCell>
                     <TableCell align="center">{row.phone}</TableCell>
                     <TableCell align="center">{row.userId}</TableCell>
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 33 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={patients.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        <div className={classes.pagination}>
+          <FormControl>
+            <IconButton onClick={handleBackward}>
+              <ArrowBackIosIcon fontSize="small" />
+            </IconButton>
+          </FormControl>
+          <FormControl>
+            <IconButton onClick={handleForward}>
+              <ArrowForwardIosIcon fontSize="small" />
+            </IconButton>
+          </FormControl>
+          <FormControl>
+            <Select
+              value={rowsPerPage}
+              onChange={handleChangeRowsPerPage}
+              className={classes.selectEmpty}
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </Paper>
     </div>
   );

@@ -18,12 +18,17 @@ export const setSelectedPatientsAction = selected => ({
   selected,
 });
 
-export const listPatientsFetch = ({ doctorId, ...params }) => {
-  const ref = dbFirebase.collection('patients');
-  if (doctorId) {
-    ref.where('doctorId', '==', doctorId);
+export const listPatientsFetch = ({ limit = 2, page, doctorId, ...params }) => {
+  const sortfield = 'name';
+  let ref = dbFirebase.collection('patients').orderBy(sortfield, 'asc');
+  if (page && page.next) {
+    ref = ref.startAfter(page.next[sortfield]).limit(limit);
+  } else if (page && page.prev) {
+    ref = ref.endBefore(page.prev[sortfield]).limitToLast(limit);
+  } else {
+    ref = ref.limit(limit);
   }
-  return ref.get();
+  return ref;
 };
 
 export const saveDataOfPatientFetch = ({ id, values }) => {
