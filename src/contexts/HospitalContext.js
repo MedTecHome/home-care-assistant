@@ -18,16 +18,13 @@ export const HospitalContextProvider = ({ children }) => {
   };
 
   const fetchHospitals = params => {
-    fetchHospitalsAction(params)
-      .then(querySnapshot => {
-        let result = [];
-        querySnapshot.forEach(doc => {
-          result = [...result, { id: doc.id, ...doc.data() }];
-        });
-        dispatch(setListHospitalAction({ list: result, total: 0 }));
-      })
-      // eslint-disable-next-line no-console
-      .catch(e => console.error(e));
+    fetchHospitalsAction(params).onSnapshot(querySnapshot => {
+      let result = [];
+      querySnapshot.forEach(doc => {
+        result = [...result, { id: doc.id, ...doc.data() }];
+      });
+      dispatch(setListHospitalAction({ list: result, total: 0 }));
+    });
   };
 
   const setHospitalModalVisible = (flag, modalType) => {

@@ -25,10 +25,17 @@ export const setHospitalModalVisibleAction = (flag, formType) => ({
   formType,
 });
 
-export const fetchHospitalsAction = params => {
-  // eslint-disable-next-line no-console
-  console.log(params);
-  return dbFirebase.collection('hospital').orderBy('name', 'asc').get();
+export const fetchHospitalsAction = ({ limit = 2, page }) => {
+  const sortfield = 'name';
+  let ref = dbFirebase.collection('hospital').orderBy(sortfield, 'asc');
+  if (page && page.next) {
+    ref = ref.startAfter(page.next[sortfield]).limit(limit);
+  } else if (page && page.prev) {
+    ref = ref.endBefore(page.prev[sortfield]).limitToLast(limit);
+  } else {
+    ref = ref.limit(limit);
+  }
+  return ref;
 };
 
 export const saveHospitalValuesAction = ({ id, ...values }, form) => {

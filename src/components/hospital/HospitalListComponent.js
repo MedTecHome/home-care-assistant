@@ -7,9 +7,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TablePagination from '@material-ui/core/TablePagination';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { HospitalContext } from '../../contexts/HospitalContext';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
@@ -53,6 +58,12 @@ const useStyles = makeStyles(theme => {
       top: 20,
       width: 1,
     },
+    pagination: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      padding: 10,
+    },
   };
 });
 
@@ -60,12 +71,12 @@ function HospitalListComponent() {
   const { fetchHospitals, hospitals, setHospitalModalVisible, selectHospitals } = useContext(HospitalContext);
   const classes = useStyles();
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState({});
+  const [rowsPerPage, setRowsPerPage] = React.useState(2);
 
   useEffect(() => {
-    fetchHospitals({});
-  }, []);
+    fetchHospitals({ limit: rowsPerPage, page });
+  }, [rowsPerPage, page]);
 
   useEffect(() => {
     selectHospitals(selected);
@@ -97,18 +108,23 @@ function HospitalListComponent() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handleBackward = () => {
+    setPage({ prev: hospitals[0] });
+  };
+
+  const handleForward = () => {
+    setPage({ next: hospitals[hospitals.length - 1] });
   };
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, hospitals.length - page * rowsPerPage);
+  const handleHospitalModalVisible = formType => {
+    setHospitalModalVisible(true, formType);
+  };
 
   return (
     <div className={classes.root}>
@@ -116,9 +132,9 @@ function HospitalListComponent() {
         <EnhancedTableToolbar
           title="Lista de hospitales"
           selected={selected}
-          onAdd={setHospitalModalVisible}
-          onEdit={setHospitalModalVisible}
-          onDelete={setHospitalModalVisible}
+          onAdd={handleHospitalModalVisible}
+          onEdit={handleHospitalModalVisible}
+          onDelete={handleHospitalModalVisible}
         />
         <TableContainer>
           <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
@@ -160,23 +176,33 @@ function HospitalListComponent() {
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 33 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={hospitals.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        <div className={classes.pagination}>
+          <FormControl>
+            <IconButton size="small" onClick={handleBackward}>
+              <ArrowBackIosIcon />
+            </IconButton>
+          </FormControl>
+          <FormControl>
+            <IconButton size="small" onClick={handleForward}>
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </FormControl>
+          <FormControl>
+            <Select
+              value={rowsPerPage}
+              onChange={handleChangeRowsPerPage}
+              className={classes.selectEmpty}
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </Paper>
     </div>
   );
