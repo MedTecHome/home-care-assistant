@@ -22,35 +22,39 @@ const headCells = [
   { id: 'maxPatients', numeric: true, disablePadding: false, label: 'Limite. Pacientes' },
 ];
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-  },
-  paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  largeCells: {
-    maxWidth: 200,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-}));
+const useStyles = makeStyles(theme => {
+  return {
+    root: {
+      width: '100%',
+    },
+    paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+    },
+    table: {
+      minWidth: 750,
+    },
+    largeCells: {
+      maxWidth: 230,
+    },
+    textCells: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    visuallyHidden: {
+      border: 0,
+      clip: 'rect(0 0 0 0)',
+      height: 1,
+      margin: -1,
+      overflow: 'hidden',
+      padding: 0,
+      position: 'absolute',
+      top: 20,
+      width: 1,
+    },
+  };
+});
 
 function HospitalListComponent() {
   const { fetchHospitals, hospitals, setHospitalModalVisible, selectHospitals } = useContext(HospitalContext);
@@ -129,7 +133,6 @@ function HospitalListComponent() {
               {hospitals.map((row, index) => {
                 const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
-
                 return (
                   <TableRow
                     hover
@@ -145,10 +148,12 @@ function HospitalListComponent() {
                     </TableCell>
                     <TableCell className={classes.largeCells}>
                       <Tooltip title={row.name} arrow placement="top">
-                        <Typography>{row.name}</Typography>
+                        <Typography className={classes.textCells}>{row.name}</Typography>
                       </Tooltip>
                     </TableCell>
-                    <TableCell className={classes.largeCells}>{row.address}</TableCell>
+                    <TableCell className={classes.largeCells}>
+                      <Typography className={classes.textCells}>{row.address}</Typography>
+                    </TableCell>
                     <TableCell align="center">{row.phone}</TableCell>
                     <TableCell align="center">{row.maxDoctors}</TableCell>
                     <TableCell align="center">{row.maxPatients}</TableCell>
