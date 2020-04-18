@@ -40,15 +40,15 @@ const EnhancedTableToolbar = props => {
   const { title = '', selected, onAdd, onEdit, onDelete } = props;
 
   const handleAddItem = () => {
-    onAdd(true, ADD_FORM_TEXT);
+    onAdd(ADD_FORM_TEXT);
   };
 
   const handleEditSelected = () => {
-    onEdit(true, EDIT_FORM_TEXT);
+    onEdit(EDIT_FORM_TEXT);
   };
 
   const handleDeleteSelecteds = () => {
-    onDelete(true, DELETE_FORM_TEXT);
+    onDelete(DELETE_FORM_TEXT);
   };
 
   return (

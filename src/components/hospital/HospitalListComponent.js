@@ -110,15 +110,19 @@ function HospitalListComponent() {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, hospitals.length - page * rowsPerPage);
 
+  const handleHospitalModalVisible = formType => {
+    setHospitalModalVisible(true, formType);
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           title="Lista de hospitales"
           selected={selected}
-          onAdd={setHospitalModalVisible}
-          onEdit={setHospitalModalVisible}
-          onDelete={setHospitalModalVisible}
+          onAdd={handleHospitalModalVisible}
+          onEdit={handleHospitalModalVisible}
+          onDelete={handleHospitalModalVisible}
         />
         <TableContainer>
           <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
