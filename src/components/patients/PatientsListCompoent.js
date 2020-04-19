@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -18,7 +19,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
-import { PatientsContext } from '../../contexts/PatientsContext';
+import { usePatientsContext } from '../../contexts/PatientsContext';
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
@@ -69,7 +70,8 @@ const useStyles = makeStyles(theme => {
 });
 
 export default function PatientsListComponent() {
-  const { patients, getListPatients, selectPatients } = useContext(PatientsContext);
+  const history = useHistory();
+  const { patients, getListPatients, selectPatients } = usePatientsContext();
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState({});
@@ -123,19 +125,16 @@ export default function PatientsListComponent() {
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const handlePatientAdd = formType => {
-    // eslint-disable-next-line no-console
-    console.log(formType);
+  const handlePatientAdd = () => {
+    history.push('/pacientes/adicionar');
   };
 
-  const handlePatientEdit = formType => {
-    // eslint-disable-next-line no-console
-    console.log(formType);
+  const handlePatientEdit = () => {
+    history.push('/pacientes/editar');
   };
 
-  const handlePatientDelete = formType => {
-    // eslint-disable-next-line no-console
-    console.log(formType);
+  const handlePatientDelete = () => {
+    history.push('/pacientes/eliminar');
   };
 
   return (
