@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { isEmpty, values } from 'ramda';
+import { isEmpty, isNil } from 'ramda';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,7 +11,7 @@ import MomentUtils from '@date-io/moment';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { EDIT_FORM_TEXT, REQUIRED_FIELD } from '../../../commons/globalText';
-import { dbFirebase } from '../../../firebaseConfig';
+import { usePatientsContext } from '../../../contexts/PatientsContext';
 
 const useStyles = makeStyles(() => ({
   formControl: {
@@ -22,7 +22,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function FormPatientsComponent({ selectedPatients, formType, onSubmit, onCancel }) {
+function AddOrEditPatienstComponent({ title }) {
+  const { savePatientsData, patientsSelected, formType, setModalVisible } = usePatientsContext();
   const [birthday, setBirthday] = useState(Date.now);
   const classes = useStyles();
   const { register, setValue, handleSubmit, reset, errors } = useForm();
@@ -39,17 +40,28 @@ function FormPatientsComponent({ selectedPatients, formType, onSubmit, onCancel 
   }, [birthday]);
 
   useEffect(() => {
-    if (!isEmpty(selectedPatients) && formType === EDIT_FORM_TEXT) {
-      setValue([]);
+    if (!isEmpty(patientsSelected) && !isNil(patientsSelected) && formType === EDIT_FORM_TEXT) {
+      setValue(Object.keys(patientsSelected[0]).map(k => ({ [k]: patientsSelected[0][k] })));
+      setBirthday(patientsSelected[0].birthday.toDate());
     }
-  }, [selectedPatients, formType]);
+  }, [patientsSelected, formType]);
+
+  const onSubmit = values => {
+    savePatientsData(values, formType);
+    setModalVisible(false, null);
+  };
+
+  const onCancel = () => {
+    setModalVisible(false, null);
+  };
 
   return (
     <div>
       <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+        {formType === EDIT_FORM_TEXT && <input type="hidden" ref={register} name="id" />}
         <Container maxWidth="xs">
           <div className={classes.titleForm}>
-            <h2>Adicionar Paciente</h2>
+            <h2>{title} Paciente</h2>
           </div>
           <Grid container justify="space-around" spacing={3}>
             <Grid item xs={12} sm={12} md={12}>
@@ -179,10 +191,10 @@ function FormPatientsComponent({ selectedPatients, formType, onSubmit, onCancel 
               </FormControl>
             </Grid>
             <Grid item container xs={12} justify="space-evenly">
-              <Button variant="outlined" onClick={onCancel}>
+              <Button variant="contained" onClick={onCancel}>
                 cancelar
               </Button>
-              <Button type="submit" variant="outlined" color="primary">
+              <Button type="submit" variant="contained" color="primary">
                 Aceptar
               </Button>
             </Grid>
@@ -193,4 +205,4 @@ function FormPatientsComponent({ selectedPatients, formType, onSubmit, onCancel 
   );
 }
 
-export default FormPatientsComponent;
+export default AddOrEditPatienstComponent;

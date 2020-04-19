@@ -7,11 +7,14 @@ import {
   setListPatientsAction,
   setSelectedPatientsAction,
 } from '../components/patients/reducers/PatientsActions';
+import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
+import setModalVisibleAction from '../commons/reducers/GlobalActions';
 
 const PatientsContext = createContext({});
 
 const PatientsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PatientsReducers, initialPatientsState, init => init);
+  const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const getListPatients = params => {
     listPatientsFetch(params)
@@ -37,10 +40,14 @@ const PatientsContextProvider = ({ children }) => {
     }
   };
 
+  const setModalVisible = (visible, formType) => modalDispatch(setModalVisibleAction(visible, formType));
+
   return (
     <PatientsContext.Provider
       value={{
         ...state,
+        ...modalState,
+        setModalVisible,
         getListPatients,
         selectPatients,
         savePatientsData,

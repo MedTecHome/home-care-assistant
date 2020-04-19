@@ -18,7 +18,7 @@ export const setSelectedPatientsAction = selected => ({
   selected,
 });
 
-export const listPatientsFetch = ({ limit = 2, page, doctorId, ...params }) => {
+export const listPatientsFetch = ({ limit = 10, page, doctorId, ...params }) => {
   // eslint-disable-next-line no-console
   console.log(params);
   const sortField = 'name';

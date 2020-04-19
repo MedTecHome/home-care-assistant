@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -70,12 +69,11 @@ const useStyles = makeStyles(theme => {
 });
 
 export default function PatientsListComponent() {
-  const history = useHistory();
-  const { patients, getListPatients, selectPatients } = usePatientsContext();
+  const { patients, getListPatients, selectPatients, setModalVisible } = usePatientsContext();
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     getListPatients({ limit: rowsPerPage, page });
@@ -125,16 +123,16 @@ export default function PatientsListComponent() {
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const handlePatientAdd = () => {
-    history.push('/pacientes/adicionar');
+  const handlePatientAdd = formType => {
+    setModalVisible(true, formType);
   };
 
-  const handlePatientEdit = () => {
-    history.push('/pacientes/editar');
+  const handlePatientEdit = formType => {
+    setModalVisible(true, formType);
   };
 
-  const handlePatientDelete = () => {
-    history.push('/pacientes/eliminar');
+  const handlePatientDelete = formType => {
+    setModalVisible(true, formType);
   };
 
   return (

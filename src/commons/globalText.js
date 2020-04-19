@@ -1,5 +1,6 @@
 /** text reducers actions */
 export const SET_TYPE_FORM = 'SET_TYPE_FORM';
+export const SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE';
 /** hospitals */
 export const LIST_HOSPITAL = 'LIST_HOSPITAL';
 export const SELECTED_HOSPITALS = 'SELECTED_HOSPITALS';
