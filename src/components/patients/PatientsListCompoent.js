@@ -10,8 +10,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import IconButton from '@material-ui/core/IconButton';
-import NextPageIcon from '@material-ui/icons/ArrowForward';
-import PrevPageIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
 import { usePatientsContext } from '../../contexts/PatientsContext';
@@ -62,11 +62,11 @@ function PatientsListComponent() {
 
   useEffect(() => {
     getListPatients({ limit: 5, ...page });
-  }, [page]);
+  }, [page, getListPatients]);
 
   useEffect(() => {
     selectPatients(selected);
-  }, [selected]);
+  }, [selected, selectPatients]);
 
   const handleClick = (event, id) => {
     setSelected(selected === id ? null : id);
@@ -140,10 +140,10 @@ function PatientsListComponent() {
           {!listLoading && (
             <>
               <IconButton onClick={() => setPage({ prev: patients[0] })}>
-                <PrevPageIcon fontSize="small" />
+                <ArrowBackIosIcon fontSize="small" />
               </IconButton>
               <IconButton onClick={() => setPage({ next: patients[patients.length - 1] })}>
-                <NextPageIcon fontSize="small" />
+                <ArrowForwardIosIcon fontSize="small" />
               </IconButton>
               <Typography
                 style={{

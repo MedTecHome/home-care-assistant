@@ -42,7 +42,7 @@ function HeaderComponent({ history }) {
   };
 
   const handleClickDoctor = () => {
-    history.push('/doctor');
+    history.push('/doctores');
   };
   const handleClickHospital = () => {
     history.push('/hospitales');

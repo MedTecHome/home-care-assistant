@@ -41,7 +41,7 @@ export const fetchHospitalsAction = ({ limit = 2, page }) => {
 export const saveHospitalValuesAction = ({ id, ...values }, form) => {
   if (form === ADD_FORM_TEXT) {
     dbFirebase
-      .collection('hospital')
+      .collection('')
       .add(values)
       // eslint-disable-next-line no-console
       .catch(e => console.error(e));

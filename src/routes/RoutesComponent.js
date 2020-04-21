@@ -6,6 +6,7 @@ const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
 const LoginComponent = lazy(() => import('../components/login/LoginComponent'));
 const HospitalComponent = lazy(() => import('../components/hospital/HospitalComponent'));
 const PatientsComponent = lazy(() => import('../components/patients/PatientsComponent'));
+const DoctorsComponent = lazy(() => import('../components/doctors/DoctorsComponent'));
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const PatientHealthForm = lazy(() => import('../components/patientForm/PatientHealthForm'));
 
@@ -17,6 +18,7 @@ function RoutesComponent() {
       <PrivateRoutes path="/inicio/" exact component={HomeComponent} />
       <PrivateRoutes path="/paciente/form" exact component={PatientHealthForm} />
       <PrivateRoutes path="/pacientes" exact component={PatientsComponent} />
+      <PrivateRoutes path="/doctores" exact component={DoctorsComponent} />
       <PrivateRoutes path="/hospitales" exact component={HospitalComponent} />
       <Route component={PageNotFound} />
     </Switch>
