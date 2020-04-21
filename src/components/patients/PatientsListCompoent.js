@@ -55,21 +55,24 @@ const useStyles = makeStyles(theme => {
 });
 
 function PatientsListComponent() {
-  const { total, patients, listLoading, getListPatients, selectPatients, setModalVisible } = usePatientsContext();
+  const {
+    total,
+    patientSelected,
+    patients,
+    listLoading,
+    getListPatients,
+    selectPatients,
+    setModalVisible,
+  } = usePatientsContext();
   const classes = useStyles();
-  const [selected, setSelected] = useState(null);
   const [page, setPage] = useState({});
 
   useEffect(() => {
     getListPatients({ limit: 5, ...page });
   }, [page, getListPatients]);
 
-  useEffect(() => {
-    selectPatients(selected);
-  }, [selected, selectPatients]);
-
   const handleClick = (event, id) => {
-    setSelected(selected === id ? null : id);
+    selectPatients(id);
   };
 
   const handlePatientAdd = formType => {
@@ -89,7 +92,7 @@ function PatientsListComponent() {
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           title="Lista de pacientes"
-          selected={selected}
+          selected={patientSelected && patientSelected.id}
           onAdd={handlePatientAdd}
           onEdit={handlePatientEdit}
           onDelete={handlePatientDelete}
@@ -102,7 +105,7 @@ function PatientsListComponent() {
               <EnhancedTableHead headCells={headCells} />
               <TableBody>
                 {patients.map((row, index) => {
-                  const isItemSelected = row.id === selected;
+                  const isItemSelected = patientSelected && row.id === patientSelected.id;
                   return (
                     <TableRow
                       hover

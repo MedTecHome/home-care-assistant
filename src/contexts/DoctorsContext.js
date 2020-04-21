@@ -5,10 +5,11 @@ import {
   getRefDoctorsAction,
   saveDoctorValuesAction,
   setListDoctorsAction,
+  setListLoadingDoctorsAction,
+  setSaveLoadingDoctorsAction,
   setSelectedDoctorAction,
   setTotalDoctorsAction,
 } from '../components/doctors/reducers/DoctorsActions';
-import { setListLoadingAction, setSaveLoadingAction } from '../components/patients/reducers/PatientsActions';
 import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../commons/reducers/GlobalActions';
 
@@ -19,7 +20,7 @@ const DoctorsContextProvider = ({ children }) => {
   const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const getListDoctors = useCallback(({ limit = 5, next, prev }) => {
-    dispatch(setListLoadingAction(true));
+    dispatch(setListLoadingDoctorsAction(true));
     let ref = getRefDoctorsAction();
     ref.onSnapshot(snapshot => {
       dispatch(setTotalDoctorsAction(snapshot.data().total));
@@ -33,15 +34,11 @@ const DoctorsContextProvider = ({ children }) => {
     } else {
       ref = ref.limit(limit);
     }
-    ref
-      .get()
-      .then(snapshot => {
-        const result = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        dispatch(setListDoctorsAction(result));
-      })
-      // eslint-disable-next-line no-console
-      .catch(console.error)
-      .finally(() => dispatch(setListLoadingAction(false)));
+    ref.onSnapshot(snapshot => {
+      const result = snapshot.docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+      dispatch(setListDoctorsAction(result));
+      dispatch(setListLoadingDoctorsAction(false));
+    });
   }, []);
 
   const selectDoctor = useCallback(selected => {
@@ -49,12 +46,12 @@ const DoctorsContextProvider = ({ children }) => {
   }, []);
 
   const saveDoctorValues = useCallback((values, formType) => {
-    dispatch(setSaveLoadingAction(true));
+    dispatch(setSaveLoadingDoctorsAction(true));
     saveDoctorValuesAction(values, formType)
       .then()
       // eslint-disable-next-line no-console
       .catch(console.error)
-      .finally(() => dispatch(setSaveLoadingAction(false)));
+      .finally(() => dispatch(setSaveLoadingDoctorsAction(false)));
   }, []);
 
   const setModalVisible = useCallback((visible, formType) => {

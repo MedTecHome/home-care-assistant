@@ -37,11 +37,11 @@ export const setSelectedDoctorAction = selected => ({
 
 // eslint-disable-next-line no-unused-vars
 export const getRefDoctorsAction = () => {
-  return dbFirebase.collection('home-care-assistant').doc('doctors');
+  return dbFirebase.collection('home-care-assistant').doc('doctor');
 };
 
 export const saveDoctorValuesAction = ({ id, ...values }, formType) => {
-  const ref = dbFirebase.collection('home-care-assistant').doc('doctors').collection('doctors');
+  const ref = dbFirebase.collection('home-care-assistant').doc('doctor').collection('doctors');
   if (formType === ADD_FORM_TEXT) {
     return ref.add(values);
   }

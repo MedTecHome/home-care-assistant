@@ -3,9 +3,9 @@ import { isEmpty } from 'ramda';
 import { initialPatientsState, PatientsReducers } from '../components/patients/reducers/PatientsReducers';
 import {
   saveDataOfPatientFetchAction,
-  setListLoadingAction,
+  setListPatientsLoadingAction,
   setListPatientsAction,
-  setSaveLoadingAction,
+  setSavePatientLoadingAction,
   setSelectedPatientsAction,
   setTotalPatientsAction,
 } from '../components/patients/reducers/PatientsActions';
@@ -20,12 +20,12 @@ const PatientsContextProvider = ({ children }) => {
   const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const getListPatients = useCallback(({ limit = 5, next, prev }) => {
-    dispatch(setListLoadingAction(true));
+    dispatch(setListPatientsLoadingAction(true));
     dbFirebase
       .collection('home-care-assistant')
-      .doc('patients')
+      .doc('patient')
       .onSnapshot(doc => dispatch(setTotalPatientsAction(doc.data().total)));
-    let ref = dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').orderBy('name');
+    let ref = dbFirebase.collection('home-care-assistant').doc('patient').collection('patients').orderBy('name');
     if (next) {
       ref = ref.startAfter(next.name).limit(limit);
     } else if (prev) {
@@ -33,15 +33,11 @@ const PatientsContextProvider = ({ children }) => {
     } else {
       ref = ref.limit(limit);
     }
-    ref
-      .get()
-      .then(snapshot => {
-        const result = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        dispatch(setListPatientsAction(result));
-      })
-      // eslint-disable-next-line no-console
-      .catch(console.error)
-      .finally(() => dispatch(setListLoadingAction(false)));
+    ref.onSnapshot(snapshot => {
+      const result = snapshot.docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+      dispatch(setListPatientsAction(result));
+      dispatch(setListPatientsLoadingAction(false));
+    });
   }, []);
 
   const selectPatients = useCallback(selected => {
@@ -49,11 +45,11 @@ const PatientsContextProvider = ({ children }) => {
   }, []);
 
   const savePatientsData = useCallback((data, formType) => {
-    dispatch(setSaveLoadingAction(true));
+    dispatch(setSavePatientLoadingAction(true));
     saveDataOfPatientFetchAction(data, formType)
       // eslint-disable-next-line no-console
       .catch(console.error)
-      .finally(() => dispatch(setSaveLoadingAction(false)));
+      .finally(() => dispatch(setSavePatientLoadingAction(false)));
   }, []);
 
   const setModalVisible = useCallback((visible, formType) => {

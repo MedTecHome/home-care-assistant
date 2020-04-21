@@ -1,11 +1,17 @@
-import { LIST_HOSPITAL, SELECTED_HOSPITALS, SET_HOSPITAL_MODAL_VISIBLE } from '../../../commons/globalText';
+import {
+  LIST_HOSPITAL,
+  LIST_HOSPITAL_LOADING,
+  SAVE_HOSPITAL_LOADING,
+  SELECTED_HOSPITAL,
+  TOTAL_LIST_HOSPITAL,
+} from '../../../commons/globalText';
 
 export const initialHispitalState = {
   hospitals: [],
   total: 0,
-  hospitalsSelected: null,
-  hospitalModalVisible: false,
-  hospitalFormType: null,
+  hospitalSelected: null,
+  listLoading: false,
+  saveLoading: false,
 };
 
 export const HospitalReducers = (state, action) => {
@@ -14,18 +20,26 @@ export const HospitalReducers = (state, action) => {
       return {
         ...state,
         hospitals: action.list,
+      };
+    case TOTAL_LIST_HOSPITAL:
+      return {
+        ...state,
         total: action.total,
       };
-    case SELECTED_HOSPITALS:
+    case LIST_HOSPITAL_LOADING:
       return {
         ...state,
-        hospitalsSelected: state.hospitals.filter(a => action.ids.some(b => b === a.id)),
+        listLoading: action.flag,
       };
-    case SET_HOSPITAL_MODAL_VISIBLE:
+    case SAVE_HOSPITAL_LOADING:
       return {
         ...state,
-        hospitalModalVisible: action.flag,
-        hospitalFormType: action.formType,
+        saveLoading: action.flag,
+      };
+    case SELECTED_HOSPITAL:
+      return {
+        ...state,
+        hospitalSelected: state.hospitals.find(a => a.id === action.selected) || null,
       };
     default:
       return state;

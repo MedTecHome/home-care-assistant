@@ -15,12 +15,12 @@ export const setListPatientsAction = list => ({
   list,
 });
 
-export const setListLoadingAction = flag => ({
+export const setListPatientsLoadingAction = flag => ({
   type: LIST_PATIENTS_LOADING,
   flag,
 });
 
-export const setSaveLoadingAction = flag => ({
+export const setSavePatientLoadingAction = flag => ({
   type: SAVE_PATIENTS_LOADING,
   flag,
 });
@@ -36,15 +36,16 @@ export const setSelectedPatientsAction = selected => ({
 });
 
 export const saveDataOfPatientFetchAction = ({ id, ...values }, formType) => {
+  const ref = dbFirebase.collection('home-care-assistant').doc('patient').collection('patients');
   switch (formType) {
     case ADD_FORM_TEXT: {
-      return dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').add(values);
+      return ref.add(values);
     }
     case EDIT_FORM_TEXT: {
-      return dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').doc(id).update(values);
+      return ref.doc(id).update(values);
     }
     case DELETE_FORM_TEXT: {
-      return dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').doc(id).delete();
+      return ref.doc(id).delete();
     }
     default:
       return null;

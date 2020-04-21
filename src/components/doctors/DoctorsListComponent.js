@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
 import { useDoctorsContext } from '../../contexts/DoctorsContext';
+import CircularProgressComponent from '../CircularProgressComponent';
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
@@ -52,21 +53,24 @@ const useStyles = makeStyles(theme => {
 });
 
 export default function DoctorsListComponent() {
-  const { doctors, total, listLoading, getListDoctors, selectDoctor, setModalVisible } = useDoctorsContext();
+  const {
+    doctors,
+    total,
+    doctorSelected,
+    listLoading,
+    getListDoctors,
+    selectDoctor,
+    setModalVisible,
+  } = useDoctorsContext();
   const classes = useStyles();
-  const [selected, setSelected] = React.useState(null);
   const [page, setPage] = useState({});
 
   useEffect(() => {
     getListDoctors(page);
   }, [getListDoctors, page]);
 
-  useEffect(() => {
-    selectDoctor(selected);
-  }, [selectDoctor, selected]);
-
   const handleClick = (event, id) => {
-    setSelected(selected === id ? null : id);
+    selectDoctor(id);
   };
   const handleActionDoctorButton = formType => {
     setModalVisible(true, formType);
@@ -77,44 +81,48 @@ export default function DoctorsListComponent() {
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           title="Lista de doctores"
-          selected={selected}
+          selected={doctorSelected && doctorSelected.id}
           onAdd={handleActionDoctorButton}
           onEdit={handleActionDoctorButton}
           onDelete={handleActionDoctorButton}
         />
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
-            <EnhancedTableHead headCells={headCells} />
-            <TableBody>
-              {doctors.map((row, index) => {
-                const isItemSelected = row.id === selected;
-                return (
-                  <TableRow
-                    hover
-                    onClick={event => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">{index + 1}</TableCell>
-                    <TableCell className={classes.largeCells}>
-                      <Tooltip title={row.name} arrow placement="top">
-                        <Typography className={classes.textCells}>{row.name}</Typography>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell className={classes.largeCells}>
-                      <Typography className={classes.textCells}>{row.lastName}</Typography>
-                    </TableCell>
-                    <TableCell align="center">{row.phone}</TableCell>
-                    <TableCell>{row.hospitalId}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {listLoading ? (
+          <CircularProgressComponent />
+        ) : (
+          <TableContainer>
+            <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
+              <EnhancedTableHead headCells={headCells} />
+              <TableBody>
+                {doctors.map((row, index) => {
+                  const isItemSelected = doctorSelected && row.id === doctorSelected.id;
+                  return (
+                    <TableRow
+                      hover
+                      onClick={event => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">{index + 1}</TableCell>
+                      <TableCell className={classes.largeCells}>
+                        <Tooltip title={row.name} arrow placement="top">
+                          <Typography className={classes.textCells}>{row.name}</Typography>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell className={classes.largeCells}>
+                        <Typography className={classes.textCells}>{row.lastName}</Typography>
+                      </TableCell>
+                      <TableCell align="center">{row.phone}</TableCell>
+                      <TableCell>{row.hospitalId}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
         <div className={classes.pagination}>
           {!listLoading && (
             <>
