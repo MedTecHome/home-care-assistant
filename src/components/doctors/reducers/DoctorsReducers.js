@@ -1,8 +1,10 @@
-import { LIST_DOCTORS, SELECTED_DOCTORS } from '../../../commons/globalText';
+import { LIST_DOCTORS, LIST_DOCTORS_LOADING, SAVE_DOCTORS_LOADING, SELECTED_DOCTOR } from '../../../commons/globalText';
 
 export const initialDoctorsState = {
   doctors: [],
-  doctorsSelected: null,
+  listLoading: false,
+  saveLoading: false,
+  doctorSelected: null,
 };
 
 export const DoctorsReducer = (state, action) => {
@@ -12,10 +14,20 @@ export const DoctorsReducer = (state, action) => {
         ...state,
         doctors: action.list,
       };
-    case SELECTED_DOCTORS:
+    case LIST_DOCTORS_LOADING:
       return {
         ...state,
-        doctorsSelected: state.doctors.filter(a => action.selected.some(b => b === a.id)),
+        listLoading: action.flag,
+      };
+    case SAVE_DOCTORS_LOADING:
+      return {
+        ...state,
+        saveLoading: action.flag,
+      };
+    case SELECTED_DOCTOR:
+      return {
+        ...state,
+        doctorSelected: state.doctors.find(a => a.id === action.selected) || null,
       };
     default:
       return state;

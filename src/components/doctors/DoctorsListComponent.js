@@ -48,17 +48,6 @@ const useStyles = makeStyles(theme => {
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
     },
-    visuallyHidden: {
-      border: 0,
-      clip: 'rect(0 0 0 0)',
-      height: 1,
-      margin: -1,
-      overflow: 'hidden',
-      padding: 0,
-      position: 'absolute',
-      top: 20,
-      width: 1,
-    },
     pagination: {
       width: '100%',
       display: 'flex',
@@ -69,10 +58,9 @@ const useStyles = makeStyles(theme => {
 });
 
 export default function DoctorsListComponent() {
-  const history = useHistory();
-  const { doctors, getListDoctors, selectDoctors } = useDoctorsContext();
+  const { doctors, getListDoctors, selectDoctor, setModalVisible } = useDoctorsContext();
   const classes = useStyles();
-  const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = React.useState(null);
   const [page, setPage] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -81,7 +69,7 @@ export default function DoctorsListComponent() {
   }, [rowsPerPage, page]);
 
   useEffect(() => {
-    selectDoctors(selected);
+    selectDoctor(selected);
   }, [selected]);
 
   const handleRowsPerPage = ev => {
@@ -96,43 +84,11 @@ export default function DoctorsListComponent() {
     setPage({ prev: doctors[0] });
   };
 
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = doctors.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-
-    setSelected(newSelected);
+    setSelected(selected === id ? null : id);
   };
-  const isSelected = name => selected.indexOf(name) !== -1;
-
-  const handleAddDoctorButon = () => {
-    history.push('/doctores/adicionar');
-  };
-
-  const handleEditDoctorButon = () => {
-    history.push('/doctores/editar');
-  };
-
-  const handleDelDoctorButon = () => {
-    history.push('/doctores/eliminar');
+  const handleActionDoctorButton = formType => {
+    setModalVisible(true, formType);
   };
 
   return (
@@ -141,22 +97,16 @@ export default function DoctorsListComponent() {
         <EnhancedTableToolbar
           title="Lista de doctores"
           selected={selected}
-          onAdd={handleAddDoctorButon}
-          onEdit={handleEditDoctorButon}
-          onDelete={handleDelDoctorButon}
+          onAdd={handleActionDoctorButton}
+          onEdit={handleActionDoctorButton}
+          onDelete={handleActionDoctorButton}
         />
         <TableContainer>
           <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
-            <EnhancedTableHead
-              headCells={headCells}
-              classes={classes}
-              numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
-              rowCount={doctors.length}
-            />
+            <EnhancedTableHead headCells={headCells} />
             <TableBody>
               {doctors.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
+                const isItemSelected = row.id === selected;
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow

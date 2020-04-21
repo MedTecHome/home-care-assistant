@@ -18,7 +18,7 @@ function RoutesComponent() {
       <PrivateRoutes path="/inicio/" exact component={HomeComponent} />
       <PrivateRoutes path="/paciente/form" exact component={PatientHealthForm} />
       <PrivateRoutes path="/pacientes" exact component={PatientsComponent} />
-      <Route path="/doctores" exact component={DoctorsComponent} />
+      <PrivateRoutes path="/doctores" exact component={DoctorsComponent} />
       <PrivateRoutes path="/hospitales" exact component={HospitalComponent} />
       <Route component={PageNotFound} />
     </Switch>

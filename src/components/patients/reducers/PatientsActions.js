@@ -5,7 +5,7 @@ import {
   EDIT_FORM_TEXT,
   LIST_PATIENTS,
   TOTAL_LIST_PATIENTS,
-  SELECTED_PATIENTS,
+  SELECTED_PATIENT,
   SAVE_PATIENTS_LOADING,
   LIST_PATIENTS_LOADING,
 } from '../../../commons/globalText';
@@ -31,7 +31,7 @@ export const setTotalPatientsAction = total => ({
 });
 
 export const setSelectedPatientsAction = selected => ({
-  type: SELECTED_PATIENTS,
+  type: SELECTED_PATIENT,
   selected,
 });
 

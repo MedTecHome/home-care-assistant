@@ -2,7 +2,7 @@ import {
   LIST_PATIENTS,
   LIST_PATIENTS_LOADING,
   SAVE_PATIENTS_LOADING,
-  SELECTED_PATIENTS,
+  SELECTED_PATIENT,
   SET_TYPE_FORM,
   TOTAL_LIST_PATIENTS,
 } from '../../../commons/globalText';
@@ -43,7 +43,7 @@ export const PatientsReducers = (state, action) => {
         ...state,
         total: action.total,
       };
-    case SELECTED_PATIENTS:
+    case SELECTED_PATIENT:
       return {
         ...state,
         patientSelected: state.patients.find(a => a.id === action.selected) || null,
