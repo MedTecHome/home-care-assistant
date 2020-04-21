@@ -1,7 +1,16 @@
-import { LIST_PATIENTS, SELECTED_PATIENTS, SET_TYPE_FORM } from '../../../commons/globalText';
+import {
+  LIST_PATIENTS,
+  LIST_PATIENTS_LOADING,
+  SAVE_PATIENTS_LOADING,
+  SELECTED_PATIENTS,
+  SET_TYPE_FORM,
+  TOTAL_LIST_PATIENTS,
+} from '../../../commons/globalText';
 
 export const initialPatientsState = {
   patients: [],
+  listLoading: false,
+  saveLoading: false,
   total: 0,
   patientsSelected: null,
   formType: null,
@@ -14,16 +23,30 @@ export const PatientsReducers = (state, action) => {
         ...state,
         formType: action.formType,
       };
+    case LIST_PATIENTS_LOADING:
+      return {
+        ...state,
+        listLoading: action.flag,
+      };
+    case SAVE_PATIENTS_LOADING:
+      return {
+        ...state,
+        saveLoading: action.flag,
+      };
     case LIST_PATIENTS:
       return {
         ...state,
         patients: action.list,
+      };
+    case TOTAL_LIST_PATIENTS:
+      return {
+        ...state,
         total: action.total,
       };
     case SELECTED_PATIENTS:
       return {
         ...state,
-        patientsSelected: state.patients.filter(a => action.selected.some(b => b === a.id)),
+        patientSelected: state.patients.find(a => a.id === action.selected) || null,
       };
     default:
       return state;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { isEmpty, isNil } from 'ramda';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
@@ -23,7 +22,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function AddOrEditPatienstComponent({ title }) {
-  const { savePatientsData, patientsSelected, formType, setModalVisible } = usePatientsContext();
+  const { savePatientsData, patientSelected, formType, setModalVisible } = usePatientsContext();
   const [birthday, setBirthday] = useState(Date.now);
   const classes = useStyles();
   const { register, setValue, handleSubmit, reset, errors } = useForm();
@@ -40,11 +39,11 @@ function AddOrEditPatienstComponent({ title }) {
   }, [birthday]);
 
   useEffect(() => {
-    if (!isEmpty(patientsSelected) && !isNil(patientsSelected) && formType === EDIT_FORM_TEXT) {
-      setValue(Object.keys(patientsSelected[0]).map(k => ({ [k]: patientsSelected[0][k] })));
-      setBirthday(patientsSelected[0].birthday.toDate());
+    if (patientSelected && formType === EDIT_FORM_TEXT) {
+      setValue(Object.keys(patientSelected).map(k => ({ [k]: patientSelected[k] })));
+      setBirthday(patientSelected.birthday.toDate());
     }
-  }, [patientsSelected, formType]);
+  }, [patientSelected, formType]);
 
   const onSubmit = values => {
     savePatientsData(values, formType);
@@ -61,13 +60,13 @@ function AddOrEditPatienstComponent({ title }) {
         {formType === EDIT_FORM_TEXT && <input type="hidden" ref={register} name="id" />}
         <Container maxWidth="xs">
           <div className={classes.titleForm}>
-            <h2>{title} Paciente</h2>
+            <h4>{title} Paciente</h4>
           </div>
           <Grid container justify="space-around" spacing={3}>
             <Grid item xs={12} sm={12} md={12}>
               <FormControl className={classes.formControl} error={!!errors.name}>
                 <TextField
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   size="small"
                   inputRef={register({
                     required: REQUIRED_FIELD,
@@ -85,7 +84,7 @@ function AddOrEditPatienstComponent({ title }) {
               <FormControl size="small" className={classes.formControl} error={!!errors.lastName}>
                 <TextField
                   size="small"
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   inputRef={register({
                     required: REQUIRED_FIELD,
                   })}
@@ -119,7 +118,7 @@ function AddOrEditPatienstComponent({ title }) {
             <Grid item xs={4} sm={4} md={4}>
               <FormControl className={classes.formControl} error={!!errors.height}>
                 <TextField
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   size="small"
                   type="number"
                   inputRef={register({
@@ -136,7 +135,7 @@ function AddOrEditPatienstComponent({ title }) {
             <Grid item xs={12}>
               <FormControl className={classes.formControl} error={!!errors.address}>
                 <TextField
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   size="small"
                   inputRef={register({
                     required: REQUIRED_FIELD,
@@ -152,7 +151,7 @@ function AddOrEditPatienstComponent({ title }) {
             <Grid item xs={12}>
               <FormControl className={classes.formControl} error={!!errors.phone}>
                 <TextField
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   size="small"
                   type="number"
                   inputRef={register({
@@ -169,7 +168,7 @@ function AddOrEditPatienstComponent({ title }) {
             <Grid item xs={12} md={6}>
               <FormControl className={classes.formControl} error={!!errors.userId}>
                 <TextField
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   size="small"
                   inputRef={register({
                     required: REQUIRED_FIELD,
@@ -185,7 +184,7 @@ function AddOrEditPatienstComponent({ title }) {
             <Grid item xs={12} md={6}>
               <FormControl className={classes.formControl} error={!!errors.doctorId}>
                 <TextField
-                  InputLabelProps={{ shrink: formType === EDIT_FORM_TEXT }}
+                  InputLabelProps={{ shrink: true }}
                   size="small"
                   inputRef={register({
                     required: REQUIRED_FIELD,

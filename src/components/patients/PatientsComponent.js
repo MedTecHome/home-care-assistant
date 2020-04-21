@@ -6,6 +6,7 @@ import PatientsFormComponent from './forms/PatientsFormComponent';
 
 function PatientsComponent() {
   const { modalVisible, formType, getListPatients } = usePatientsContext();
+
   const onModalClose = () => {
     getListPatients({});
   };
@@ -13,7 +14,7 @@ function PatientsComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible} handleModalClose={onModalClose}>
-        <PatientsFormComponent formType={formType} />
+        <PatientsFormComponent formType={formType} handleOnClose={onModalClose} />
       </ModalComponent>
       <PatientsListComponent />
     </>

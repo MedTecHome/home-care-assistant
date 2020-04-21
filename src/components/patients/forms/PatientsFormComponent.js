@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import DelPatiensComponent from './DelPatientsComponent';
 import AddOrEditPatienstComponent from './AddOrEditPatienstComponent';
 
-function PatientsFormComponent({ formType }) {
+function PatientsFormComponent({ formType, handleOnClose }) {
+  useEffect(() => {
+    return () => {
+      handleOnClose();
+    };
+  }, [formType]);
+
   return (
     <>
       {formType === ADD_FORM_TEXT && <AddOrEditPatienstComponent title="Adicionar" />}

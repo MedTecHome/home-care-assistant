@@ -4,12 +4,29 @@ import {
   DELETE_FORM_TEXT,
   EDIT_FORM_TEXT,
   LIST_PATIENTS,
+  TOTAL_LIST_PATIENTS,
   SELECTED_PATIENTS,
+  SAVE_PATIENTS_LOADING,
+  LIST_PATIENTS_LOADING,
 } from '../../../commons/globalText';
 
-export const setListPatientsAction = (list, total) => ({
+export const setListPatientsAction = list => ({
   type: LIST_PATIENTS,
   list,
+});
+
+export const setListLoadingAction = flag => ({
+  type: LIST_PATIENTS_LOADING,
+  flag,
+});
+
+export const setSaveLoadingAction = flag => ({
+  type: SAVE_PATIENTS_LOADING,
+  flag,
+});
+
+export const setTotalPatientsAction = total => ({
+  type: TOTAL_LIST_PATIENTS,
   total,
 });
 
@@ -18,38 +35,20 @@ export const setSelectedPatientsAction = selected => ({
   selected,
 });
 
-export const listPatientsFetch = ({ limit = 10, page, doctorId, ...params }) => {
-  // eslint-disable-next-line no-console
-  console.log(params);
-  const sortField = 'name';
-  let ref = dbFirebase.collection('patients').orderBy(sortField, 'asc');
-  if (page && page.next) {
-    ref = ref.startAfter(page.next[sortField]).limit(limit);
-  } else if (page && page.prev) {
-    ref = ref.endBefore(page.prev[sortField]).limitToLast(limit);
-  } else {
-    ref = ref.limit(limit);
-  }
-  return ref.get();
+export const getRefPatients = () => {
+  return dbFirebase.collection('home-care-assistant').doc('patients');
 };
 
-export const saveDataOfPatientFetch = ({ id, ...values }, formType) => {
+export const saveDataOfPatientFetchAction = ({ id, ...values }, formType) => {
   switch (formType) {
     case ADD_FORM_TEXT: {
-      // eslint-disable-next-line no-console
-      return dbFirebase.collection('patients').add(values);
+      return dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').add(values);
     }
     case EDIT_FORM_TEXT: {
-      // eslint-disable-next-line no-console
-      return dbFirebase.collection('patients').doc(id).update(values);
+      return dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').doc(id).update(values);
     }
     case DELETE_FORM_TEXT: {
-      id.map(a => {
-        // eslint-disable-next-line no-console
-        dbFirebase.collection('patients').doc(a.id).delete().catch(console.error);
-        return null;
-      });
-      return null;
+      return dbFirebase.collection('home-care-assistant').doc('patients').collection('patients').doc(id).delete();
     }
     default:
       return null;
