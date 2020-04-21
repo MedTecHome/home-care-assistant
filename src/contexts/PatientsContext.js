@@ -3,6 +3,7 @@ import { isEmpty } from 'ramda';
 import { initialPatientsState, PatientsReducers } from '../components/patients/reducers/PatientsReducers';
 import {
   getRefPatients,
+  saveDataOfPatientFetchAction,
   setListLoadingAction,
   setListPatientsAction,
   setSaveLoadingAction,
@@ -45,9 +46,9 @@ const PatientsContextProvider = ({ children }) => {
 
   const savePatientsData = async (data, formType) => {
     dispatch(setSaveLoadingAction(true));
-    saveHospitalValuesAction(data, formType)
+    saveDataOfPatientFetchAction(data, formType)
       // eslint-disable-next-line no-console
-      .catch(console.error())
+      .catch(console.error)
       .finally(() => dispatch(setSaveLoadingAction(false)));
   };
 

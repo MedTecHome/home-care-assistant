@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, Form, FormContext } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { EDIT_FORM_TEXT, REQUIRED_FIELD } from '../../../commons/globalText';

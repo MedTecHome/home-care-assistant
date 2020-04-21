@@ -54,6 +54,7 @@ export default function GenericPatientForm({ classes, formType, birthday, setBir
               size="small"
               variant="inline"
               value={birthday}
+              autoOk
               onChange={setBirthday}
               animateYearScrolling
               format="DD/MM/YYYY"
