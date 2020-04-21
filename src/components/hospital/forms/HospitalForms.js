@@ -1,17 +1,21 @@
-import React, { useContext } from 'react';
-import { HospitalContext } from '../../../contexts/HospitalContext';
+import React, { useEffect } from 'react';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import AddOrEditHospitalComponent from './AddOrEditHospitalComponent';
 import DeleteHospitalComponent from './DeleteHospitalComponent';
 
-function HospitalForms() {
-  const { hospitalFormType } = useContext(HospitalContext);
+function HospitalForms({ formType, onFormClose }) {
+  useEffect(() => {
+    return () => {
+      onFormClose();
+    };
+  }, [onFormClose]);
+
   return (
     <>
-      {hospitalFormType === ADD_FORM_TEXT && <AddOrEditHospitalComponent />}
-      {hospitalFormType === EDIT_FORM_TEXT && <AddOrEditHospitalComponent />}
-      {hospitalFormType === DELETE_FORM_TEXT && <DeleteHospitalComponent />}
-      {hospitalFormType === DETAILS_FORM_TEXT && <div>DETAILS</div>}
+      {formType === ADD_FORM_TEXT && <AddOrEditHospitalComponent />}
+      {formType === EDIT_FORM_TEXT && <AddOrEditHospitalComponent />}
+      {formType === DELETE_FORM_TEXT && <DeleteHospitalComponent />}
+      {formType === DETAILS_FORM_TEXT && <div>DETAILS</div>}
     </>
   );
 }

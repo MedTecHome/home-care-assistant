@@ -4,64 +4,51 @@ import {
   DELETE_FORM_TEXT,
   EDIT_FORM_TEXT,
   LIST_HOSPITAL,
-  SELECTED_HOSPITALS,
-  SET_HOSPITAL_MODAL_VISIBLE,
+  LIST_HOSPITAL_LOADING,
+  SAVE_HOSPITAL_LOADING,
+  SELECTED_HOSPITAL,
+  TOTAL_LIST_HOSPITAL,
 } from '../../../commons/globalText';
 
-export const setListHospitalAction = ({ list, total }) => ({
+export const setListHospitalAction = list => ({
   type: LIST_HOSPITAL,
   list,
+});
+
+export const setTotalHospitalAction = total => ({
+  type: TOTAL_LIST_HOSPITAL,
   total,
 });
 
-export const selectHospitalsFromListAction = ids => ({
-  type: SELECTED_HOSPITALS,
-  ids,
-});
-
-export const setHospitalModalVisibleAction = (flag, formType) => ({
-  type: SET_HOSPITAL_MODAL_VISIBLE,
+export const setListHospitalLoadingAction = flag => ({
+  type: LIST_HOSPITAL_LOADING,
   flag,
-  formType,
 });
 
-export const fetchHospitalsAction = ({ limit = 2, page }) => {
-  const sortfield = 'name';
-  let ref = dbFirebase.collection('hospital').orderBy(sortfield, 'asc');
-  if (page && page.next) {
-    ref = ref.startAfter(page.next[sortfield]).limit(limit);
-  } else if (page && page.prev) {
-    ref = ref.endBefore(page.prev[sortfield]).limitToLast(limit);
-  } else {
-    ref = ref.limit(limit);
-  }
-  return ref;
+export const setSaveHospitalLoadingAction = flag => ({
+  type: SAVE_HOSPITAL_LOADING,
+  flag,
+});
+
+export const selectHospitalsFromListAction = selected => ({
+  type: SELECTED_HOSPITAL,
+  selected,
+});
+
+export const fetchHospitalsAction = () => {
+  return dbFirebase.collection('home-care-assistant').doc('hospital');
 };
 
 export const saveHospitalValuesAction = ({ id, ...values }, form) => {
+  const ref = dbFirebase.collection('home-care-assistant').doc('hospital').collection('hospitals');
   if (form === ADD_FORM_TEXT) {
-    dbFirebase
-      .collection('')
-      .add(values)
-      // eslint-disable-next-line no-console
-      .catch(e => console.error(e));
-  } else if (form === EDIT_FORM_TEXT) {
-    dbFirebase
-      .collection('hospital')
-      .doc(id)
-      .update(values)
-      // eslint-disable-next-line no-console
-      .catch(e => console.error(e));
-  } else if (form === DELETE_FORM_TEXT) {
-    id.map(hosp => {
-      dbFirebase
-        .collection('hospital')
-        .doc(hosp.id)
-        .delete()
-        // eslint-disable-next-line no-console
-        .catch(e => console.error(e));
-      return null;
-    });
+    return ref.add(values);
   }
-  return null;
+  if (form === EDIT_FORM_TEXT) {
+    return ref.doc(id).update(values);
+  }
+  if (form === DELETE_FORM_TEXT) {
+    return ref.doc(id).delete();
+  }
+  return Promise;
 };

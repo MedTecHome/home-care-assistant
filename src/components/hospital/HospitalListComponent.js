@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
@@ -9,15 +8,13 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { HospitalContext } from '../../contexts/HospitalContext';
+import { useHospitalContext } from '../../contexts/HospitalContext';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
+import CircularProgressComponent from '../CircularProgressComponent';
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
@@ -68,62 +65,28 @@ const useStyles = makeStyles(theme => {
 });
 
 function HospitalListComponent() {
-  const { fetchHospitals, hospitals, setHospitalModalVisible, selectHospitals } = useContext(HospitalContext);
+  const {
+    hospitals,
+    total,
+    hospitalSelected,
+    listLoading,
+    getListHospitals,
+    selectHospital,
+    setModalVisible,
+  } = useHospitalContext();
   const classes = useStyles();
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState({});
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
 
   useEffect(() => {
-    fetchHospitals({ limit: rowsPerPage, page });
-  }, [rowsPerPage, page]);
-
-  useEffect(() => {
-    selectHospitals(selected);
-  }, [selected]);
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = hospitals.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
+    getListHospitals(page);
+  }, [getListHospitals, page]);
 
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-
-    setSelected(newSelected);
+    selectHospital(id);
   };
-
-  const handleBackward = () => {
-    setPage({ prev: hospitals[0] });
-  };
-
-  const handleForward = () => {
-    setPage({ next: hospitals[hospitals.length - 1] });
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const isSelected = name => selected.indexOf(name) !== -1;
 
   const handleHospitalModalVisible = formType => {
-    setHospitalModalVisible(true, formType);
+    setModalVisible(true, formType);
   };
 
   return (
@@ -131,77 +94,66 @@ function HospitalListComponent() {
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           title="Lista de hospitales"
-          selected={selected}
+          selected={hospitalSelected && hospitalSelected.id}
           onAdd={handleHospitalModalVisible}
           onEdit={handleHospitalModalVisible}
           onDelete={handleHospitalModalVisible}
         />
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
-            <EnhancedTableHead
-              headCells={headCells}
-              classes={classes}
-              numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
-              rowCount={hospitals.length}
-            />
-            <TableBody>
-              {hospitals.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow
-                    hover
-                    onClick={event => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox color="primary" checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-                    </TableCell>
-                    <TableCell className={classes.largeCells}>
-                      <Tooltip title={row.name} arrow placement="top">
-                        <Typography className={classes.textCells}>{row.name}</Typography>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell className={classes.largeCells}>
-                      <Typography className={classes.textCells}>{row.address}</Typography>
-                    </TableCell>
-                    <TableCell align="center">{row.phone}</TableCell>
-                    <TableCell align="center">{row.maxDoctors}</TableCell>
-                    <TableCell align="center">{row.maxPatients}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {listLoading ? (
+          <CircularProgressComponent />
+        ) : (
+          <TableContainer>
+            <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
+              <EnhancedTableHead headCells={headCells} />
+              <TableBody>
+                {hospitals.map((row, index) => {
+                  const isItemSelected = hospitalSelected && row.id === hospitalSelected.id;
+                  return (
+                    <TableRow
+                      hover
+                      onClick={event => handleClick(event, row.id)}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                    >
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell className={classes.largeCells}>
+                        <Tooltip title={row.name} arrow placement="top">
+                          <Typography className={classes.textCells}>{row.name}</Typography>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell className={classes.largeCells}>
+                        <Typography className={classes.textCells}>{row.address}</Typography>
+                      </TableCell>
+                      <TableCell align="center">{row.phone}</TableCell>
+                      <TableCell align="center">{row.maxDoctors}</TableCell>
+                      <TableCell align="center">{row.maxPatients}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
         <div className={classes.pagination}>
-          <FormControl>
-            <IconButton size="small" onClick={handleBackward}>
-              <ArrowBackIosIcon />
-            </IconButton>
-          </FormControl>
-          <FormControl>
-            <IconButton size="small" onClick={handleForward}>
-              <ArrowForwardIosIcon />
-            </IconButton>
-          </FormControl>
-          <FormControl>
-            <Select
-              value={rowsPerPage}
-              onChange={handleChangeRowsPerPage}
-              className={classes.selectEmpty}
-              inputProps={{ 'aria-label': 'Without label' }}
-            >
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-            </Select>
-          </FormControl>
+          {!listLoading && (
+            <>
+              <IconButton onClick={() => setPage({ prev: hospitals[0] })}>
+                <ArrowBackIosIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => setPage({ next: hospitals[hospitals.length - 1] })}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+              <Typography
+                style={{
+                  padding: 10,
+                  color: '#666',
+                }}
+              >
+                total: {total}
+              </Typography>
+            </>
+          )}
         </div>
       </Paper>
     </div>

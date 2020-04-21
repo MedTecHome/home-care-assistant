@@ -1,18 +1,28 @@
 import React from 'react';
-import { HospitalContextProvider } from '../../contexts/HospitalContext';
+import { useHospitalContext, withHospitalContext } from '../../contexts/HospitalContext';
 import HospitalListComponent from './HospitalListComponent';
-import ModalHospitalComponent from './ModalHospitalComponent';
 import HospitalForms from './forms/HospitalForms';
+import ModalComponent from '../ModalComponent';
 
 function HospitalComponent() {
+  const { modalVisible, setModalVisible, formType, getListHospitals, selectHospital } = useHospitalContext();
+  const handleBackdrop = () => {
+    setModalVisible(false, true);
+  };
+
+  const handleFormClose = () => {
+    getListHospitals({});
+    selectHospital(null);
+  };
+
   return (
-    <HospitalContextProvider>
-      <ModalHospitalComponent>
-        <HospitalForms />
-      </ModalHospitalComponent>
+    <>
+      <ModalComponent visible={modalVisible} handleBackdropClick={handleBackdrop}>
+        <HospitalForms formType={formType} onFormClose={handleFormClose} />
+      </ModalComponent>
       <HospitalListComponent />
-    </HospitalContextProvider>
+    </>
   );
 }
 
-export default HospitalComponent;
+export default withHospitalContext(HospitalComponent);
