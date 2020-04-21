@@ -2,7 +2,6 @@ import React, { createContext, useContext, useReducer } from 'react';
 import { isEmpty } from 'ramda';
 import { initialPatientsState, PatientsReducers } from '../components/patients/reducers/PatientsReducers';
 import {
-  getRefPatients,
   saveDataOfPatientFetchAction,
   setListLoadingAction,
   setListPatientsAction,
@@ -12,7 +11,7 @@ import {
 } from '../components/patients/reducers/PatientsActions';
 import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../commons/reducers/GlobalActions';
-import { saveHospitalValuesAction } from '../components/hospital/reducers/HospitalActions';
+import { dbFirebase } from '../firebaseConfig';
 
 const PatientsContext = createContext({});
 
@@ -22,8 +21,11 @@ const PatientsContextProvider = ({ children }) => {
 
   const getListPatients = ({ limit = 5, next, prev }) => {
     dispatch(setListLoadingAction(true));
-    getRefPatients().onSnapshot(doc => dispatch(setTotalPatientsAction(doc.data().total)));
-    let ref = getRefPatients().collection('patients');
+    dbFirebase
+      .collection('home-care-assistant')
+      .doc('patients')
+      .onSnapshot(doc => dispatch(setTotalPatientsAction(doc.data().total)));
+    let ref = dbFirebase.collection('home-care-assistant').doc('patients').collection('patients');
     if (next) {
       ref = ref.startAfter(next.name).limit(limit);
     } else if (prev) {

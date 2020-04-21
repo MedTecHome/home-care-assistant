@@ -5,14 +5,18 @@ import DoctorForms from './forms/DoctorForms';
 import ModalComponent from '../ModalComponent';
 
 function DoctorsComponent() {
-  const { modalVisible, formType, getListDoctors } = useDoctorsContext();
+  const { modalVisible, setModalVisible, formType, getListDoctors } = useDoctorsContext();
   const onModalClose = () => {
     getListDoctors({});
   };
 
+  const onBackdropClick = () => {
+    setModalVisible(false, null);
+  };
+
   return (
     <>
-      <ModalComponent visible={modalVisible} handleModalClose={onModalClose}>
+      <ModalComponent visible={modalVisible} handleModalClose={onModalClose} handleBackdropClick={onBackdropClick}>
         <DoctorForms formType={formType} />
       </ModalComponent>
       <DoctorsListComponent />

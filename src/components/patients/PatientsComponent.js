@@ -5,15 +5,19 @@ import ModalComponent from '../ModalComponent';
 import PatientsFormComponent from './forms/PatientsFormComponent';
 
 function PatientsComponent() {
-  const { modalVisible, formType, getListPatients } = usePatientsContext();
+  const { setModalVisible, modalVisible, formType, getListPatients } = usePatientsContext();
 
   const onModalClose = () => {
     getListPatients({});
   };
 
+  const handleBackdropClick = () => {
+    setModalVisible(false, null);
+  };
+
   return (
     <>
-      <ModalComponent visible={modalVisible} handleModalClose={onModalClose}>
+      <ModalComponent visible={modalVisible} handleModalClose={onModalClose} handleBackdropClick={handleBackdropClick}>
         <PatientsFormComponent formType={formType} handleOnClose={onModalClose} />
       </ModalComponent>
       <PatientsListComponent />

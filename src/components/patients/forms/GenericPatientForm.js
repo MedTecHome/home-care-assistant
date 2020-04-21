@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { useFormContext } from 'react-hook-form';
+import moment from 'moment';
 import { EDIT_FORM_TEXT, REQUIRED_FIELD } from '../../../commons/globalText';
 
-export default function GenericPatientForm({ classes, formType, birthday, setBirthday }) {
-  const { register, errors } = useFormContext();
+export default function GenericPatientForm({ classes, formType, selected }) {
+  const { register, errors, reset, setValue } = useFormContext();
+  const [birthday, setBirthday] = useState(Date.now);
+
+  useEffect(() => {
+    register({ name: 'birthday' }, { required: REQUIRED_FIELD });
+    return () => {
+      reset();
+    };
+  }, []);
+
+  useEffect(() => {
+    setValue([{ birthday: birthday ? moment(birthday).toDate() : birthday }]);
+  }, [birthday]);
+
+  useEffect(() => {
+    if (selected && formType === EDIT_FORM_TEXT) {
+      setValue(Object.keys(selected).map(k => ({ [k]: selected[k] })));
+      setBirthday(selected.birthday.toDate());
+    }
+  }, [selected, formType]);
+
   return (
     <>
       {formType === EDIT_FORM_TEXT && <input type="hidden" ref={register} name="id" />}

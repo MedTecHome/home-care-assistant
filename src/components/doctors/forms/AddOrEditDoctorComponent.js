@@ -1,36 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-import { useForm } from 'react-hook-form';
+import { FormContext, useForm } from 'react-hook-form';
+import Button from '@material-ui/core/Button';
+import moment from 'moment';
 import { useDoctorsContext } from '../../../contexts/DoctorsContext';
-import { REQUIRED_FIELD } from '../../../commons/globalText';
+import { EDIT_FORM_TEXT, REQUIRED_FIELD } from '../../../commons/globalText';
+import GenericPatientForm from '../../patients/forms/GenericPatientForm';
 
 const useStyles = makeStyles({
   root: {
     marginTop: 10,
   },
   headerStyle: {
-    padding: 0,
     color: '#6c6c6c',
-    borderBottom: '1px solid #ccc',
+  },
+  formControl: {
+    width: '100%',
   },
 });
 
 export default function AddOrEditDoctorComponent({ title }) {
-  const { selectDoctor, formType, setModalVisible } = useDoctorsContext();
-  const { register, handleSubmit, setValue, reset, errors } = useForm();
+  const { doctorSelected, saveDoctorValues, formType, setModalVisible } = useDoctorsContext();
+  const methods = useForm();
   const classes = useStyles();
 
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, []);
+  const onSubmit = values => {
+    saveDoctorValues(values, formType);
+    setModalVisible(false, null);
+  };
 
-  const onSubmit = value => {
-    console.log(value);
+  const handleCancel = () => {
+    setModalVisible(false, null);
   };
 
   return (
@@ -38,22 +41,36 @@ export default function AddOrEditDoctorComponent({ title }) {
       <div className={classes.headerStyle}>
         <h4>{title} Doctor</h4>
       </div>
-      <Grid container>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid item xs={12}>
-            <FormControl>
-              <TextField
-                error={!!errors.hospitalId}
-                label="Hospital"
-                inputRef={register({
-                  required: REQUIRED_FIELD,
-                })}
-                name="hospitalId"
-              />
-            </FormControl>
+      <FormContext {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <Grid container justify="space-around" spacing={3}>
+            <GenericPatientForm formType={formType} classes={classes} selected={doctorSelected} />
+            <Grid item xs={12} sm={12} md={12}>
+              <FormControl className={classes.formControl}>
+                <TextField
+                  size="small"
+                  error={!!methods.errors.hospitalId}
+                  label="Hospital"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  inputRef={methods.register({
+                    required: REQUIRED_FIELD,
+                  })}
+                  name="hospitalId"
+                />
+              </FormControl>
+            </Grid>
+            <Grid item container xs={12} justify="space-evenly">
+              <Button variant="contained" onClick={handleCancel}>
+                cancelar
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Aceptar
+              </Button>
+            </Grid>
           </Grid>
         </form>
-      </Grid>
+      </FormContext>
     </div>
   );
 }

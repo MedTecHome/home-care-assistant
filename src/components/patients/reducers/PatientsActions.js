@@ -35,10 +35,6 @@ export const setSelectedPatientsAction = selected => ({
   selected,
 });
 
-export const getRefPatients = () => {
-  return dbFirebase.collection('home-care-assistant').doc('patients');
-};
-
 export const saveDataOfPatientFetchAction = ({ id, ...values }, formType) => {
   switch (formType) {
     case ADD_FORM_TEXT: {

@@ -20,27 +20,8 @@ const useStyles = makeStyles(() => ({
 
 function AddOrEditPatienstComponent({ title }) {
   const { savePatientsData, patientSelected, formType, setModalVisible } = usePatientsContext();
-  const [birthday, setBirthday] = useState(Date.now);
   const classes = useStyles();
   const methods = useForm();
-
-  useEffect(() => {
-    methods.register({ name: 'birthday' }, { required: REQUIRED_FIELD });
-    return () => {
-      methods.reset();
-    };
-  }, []);
-
-  useEffect(() => {
-    methods.setValue([{ birthday: birthday ? moment(birthday).toDate() : birthday }]);
-  }, [birthday]);
-
-  useEffect(() => {
-    if (patientSelected && formType === EDIT_FORM_TEXT) {
-      methods.setValue(Object.keys(patientSelected).map(k => ({ [k]: patientSelected[k] })));
-      setBirthday(patientSelected.birthday.toDate());
-    }
-  }, [patientSelected, formType]);
 
   const onSubmit = values => {
     savePatientsData(values, formType);
@@ -60,7 +41,7 @@ function AddOrEditPatienstComponent({ title }) {
               <h4>{title} Paciente</h4>
             </div>
             <Grid container justify="space-around" spacing={3}>
-              <GenericPatientForm formType={formType} classes={classes} birthday={birthday} setBirthday={setBirthday} />
+              <GenericPatientForm formType={formType} classes={classes} selected={patientSelected} />
               <Grid item container xs={12} justify="space-evenly">
                 <Button variant="contained" onClick={onCancel}>
                   cancelar
