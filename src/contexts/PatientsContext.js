@@ -8,10 +8,12 @@ import {
   setSavePatientLoadingAction,
   setSelectedPatientsAction,
   setTotalPatientsAction,
+  setListDoctorOnPatientAction,
 } from '../components/patients/reducers/PatientsActions';
 import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
 import { setModalVisibleAction } from '../commons/reducers/GlobalActions';
 import { dbFirebase } from '../firebaseConfig';
+import { getDoctorDetailsAction } from '../components/doctors/reducers/DoctorsActions';
 
 const PatientsContext = createContext({});
 
@@ -34,7 +36,14 @@ const PatientsContextProvider = ({ children }) => {
       ref = ref.limit(limit);
     }
     ref.onSnapshot(snapshot => {
-      const result = snapshot.docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+      const result = snapshot.docChanges().map(({ doc }) => {
+        if (doc.data().doctorId) {
+          getDoctorDetailsAction(doc.data().doctorId).onSnapshot(doctor => {
+            dispatch(setListDoctorOnPatientAction({ id: doctor.id, ...doctor.data() }));
+          });
+        }
+        return { id: doc.id, ...doc.data() };
+      });
       dispatch(setListPatientsAction(result));
       dispatch(setListPatientsLoadingAction(false));
     });
@@ -79,6 +88,7 @@ export const usePatientsContext = () => {
     patients: values.patients,
     listLoading: values.listLoading,
     saveLoading: values.saveLoading,
+    patientDoctorList: values.patientDoctorList,
     total: values.total,
     patientSelected: values.patientSelected,
     formType: values.formType,

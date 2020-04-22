@@ -5,10 +5,11 @@ import ModalComponent from '../ModalComponent';
 import PatientsFormComponent from './forms/PatientsFormComponent';
 
 function PatientsComponent() {
-  const { setModalVisible, modalVisible, formType, getListPatients } = usePatientsContext();
+  const { setModalVisible, modalVisible, formType, getListPatients, selectPatients } = usePatientsContext();
 
   const onFormsClose = () => {
     getListPatients({});
+    selectPatients(null);
   };
 
   const handleBackdropClick = useCallback(() => {

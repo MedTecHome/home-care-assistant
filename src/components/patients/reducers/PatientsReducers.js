@@ -3,9 +3,12 @@ import {
   LIST_PATIENTS_LOADING,
   SAVE_PATIENTS_LOADING,
   SELECTED_PATIENT,
+  SET_LIST_DOCTORS_ON_PATIENTS,
+  SET_LIST_HOSPITALS_DOCTORS,
   SET_TYPE_FORM,
   TOTAL_LIST_PATIENTS,
 } from '../../../commons/globalText';
+import addOrReplace from '../../../commons/util';
 
 export const initialPatientsState = {
   patients: [],
@@ -14,6 +17,7 @@ export const initialPatientsState = {
   total: 0,
   patientSelected: null,
   formType: null,
+  patientDoctorList: [],
 };
 
 export const PatientsReducers = (state, action) => {
@@ -27,6 +31,11 @@ export const PatientsReducers = (state, action) => {
       return {
         ...state,
         listLoading: action.flag,
+      };
+    case SET_LIST_DOCTORS_ON_PATIENTS:
+      return {
+        ...state,
+        patientDoctorList: addOrReplace(state.patientDoctorList, action.doctor),
       };
     case SAVE_PATIENTS_LOADING:
       return {

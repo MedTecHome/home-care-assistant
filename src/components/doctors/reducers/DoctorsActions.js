@@ -41,6 +41,10 @@ export const setSelectedDoctorAction = selected => ({
   selected,
 });
 
+export const getDoctorDetailsAction = id => {
+  return dbFirebase.collection('home-care-assistant').doc('doctor').collection('doctors').doc(id);
+};
+
 // eslint-disable-next-line no-unused-vars
 export const getRefDoctorsAction = () => {
   return dbFirebase.collection('home-care-assistant').doc('doctor');
