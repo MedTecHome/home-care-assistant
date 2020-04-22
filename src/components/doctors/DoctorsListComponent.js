@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
@@ -23,7 +18,6 @@ import { useDoctorsContext } from '../../contexts/DoctorsContext';
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
   { id: 'lastName', numeric: false, disablePadding: false, label: 'Apellidos' },
-  { id: 'birthday', numeric: true, disablePadding: false, label: 'Fecha de nacimiento' },
   { id: 'phone', numeric: true, disablePadding: false, label: 'Telefono' },
   { id: 'hospitalId', numeric: false, disablePadding: false, label: 'Hospital' },
 ];
@@ -49,40 +43,27 @@ const useStyles = makeStyles(theme => {
       whiteSpace: 'nowrap',
     },
     pagination: {
-      width: '100%',
+      width: 'auto',
       display: 'flex',
-      justifyContent: 'center',
-      padding: 10,
+      justifyContent: 'flex-end',
+      padding: 15,
     },
   };
 });
 
 export default function DoctorsListComponent() {
-  const { doctors, getListDoctors, selectDoctor, setModalVisible } = useDoctorsContext();
+  const { doctors, total, listLoading, getListDoctors, selectDoctor, setModalVisible } = useDoctorsContext();
   const classes = useStyles();
   const [selected, setSelected] = React.useState(null);
   const [page, setPage] = useState({});
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    getListDoctors({ limit: rowsPerPage, page });
-  }, [rowsPerPage, page]);
+    getListDoctors(page);
+  }, [getListDoctors, page]);
 
   useEffect(() => {
     selectDoctor(selected);
-  }, [selected]);
-
-  const handleRowsPerPage = ev => {
-    setRowsPerPage(parseInt(ev.target.value, 10));
-  };
-
-  const handleNextPage = () => {
-    setPage({ next: doctors[doctors.length - 1] });
-  };
-
-  const handlePrevPage = () => {
-    setPage({ prev: doctors[0] });
-  };
+  }, [selectDoctor, selected]);
 
   const handleClick = (event, id) => {
     setSelected(selected === id ? null : id);
@@ -107,7 +88,6 @@ export default function DoctorsListComponent() {
             <TableBody>
               {doctors.map((row, index) => {
                 const isItemSelected = row.id === selected;
-                const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
                     hover
@@ -118,20 +98,17 @@ export default function DoctorsListComponent() {
                     key={row.id}
                     selected={isItemSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox color="primary" checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-                    </TableCell>
+                    <TableCell padding="checkbox">{index + 1}</TableCell>
                     <TableCell className={classes.largeCells}>
                       <Tooltip title={row.name} arrow placement="top">
                         <Typography className={classes.textCells}>{row.name}</Typography>
                       </Tooltip>
                     </TableCell>
                     <TableCell className={classes.largeCells}>
-                      <Typography className={classes.textCells}>{row.address}</Typography>
+                      <Typography className={classes.textCells}>{row.lastName}</Typography>
                     </TableCell>
                     <TableCell align="center">{row.phone}</TableCell>
-                    <TableCell align="center">{row.maxDoctors}</TableCell>
-                    <TableCell align="center">{row.maxPatients}</TableCell>
+                    <TableCell>{row.hospitalId}</TableCell>
                   </TableRow>
                 );
               })}
@@ -139,28 +116,24 @@ export default function DoctorsListComponent() {
           </Table>
         </TableContainer>
         <div className={classes.pagination}>
-          <FormControl>
-            <IconButton size="small" onClick={handlePrevPage}>
-              <ArrowBackIosIcon />
-            </IconButton>
-          </FormControl>
-          <FormControl>
-            <IconButton size="small" onClick={handleNextPage}>
-              <ArrowForwardIosIcon />
-            </IconButton>
-          </FormControl>
-          <FormControl>
-            <Select
-              value={rowsPerPage}
-              onChange={handleRowsPerPage}
-              className={classes.selectEmpty}
-              inputProps={{ 'aria-label': 'Without label' }}
-            >
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-            </Select>
-          </FormControl>
+          {!listLoading && (
+            <>
+              <IconButton onClick={() => setPage({ prev: doctors[0] })}>
+                <ArrowBackIosIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => setPage({ next: doctors[doctors.length - 1] })}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+              <Typography
+                style={{
+                  padding: 10,
+                  color: '#666',
+                }}
+              >
+                total: {total}
+              </Typography>
+            </>
+          )}
         </div>
       </Paper>
     </div>

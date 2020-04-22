@@ -12,7 +12,7 @@ export const initialPatientsState = {
   listLoading: false,
   saveLoading: false,
   total: 0,
-  patientsSelected: null,
+  patientSelected: null,
   formType: null,
 };
 

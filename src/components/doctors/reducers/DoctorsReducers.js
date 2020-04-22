@@ -1,7 +1,14 @@
-import { LIST_DOCTORS, LIST_DOCTORS_LOADING, SAVE_DOCTORS_LOADING, SELECTED_DOCTOR } from '../../../commons/globalText';
+import {
+  LIST_DOCTORS,
+  LIST_DOCTORS_LOADING,
+  SAVE_DOCTORS_LOADING,
+  SELECTED_DOCTOR,
+  TOTAL_LIST_DOCTORS,
+} from '../../../commons/globalText';
 
 export const initialDoctorsState = {
   doctors: [],
+  total: 0,
   listLoading: false,
   saveLoading: false,
   doctorSelected: null,
@@ -13,6 +20,11 @@ export const DoctorsReducer = (state, action) => {
       return {
         ...state,
         doctors: action.list,
+      };
+    case TOTAL_LIST_DOCTORS:
+      return {
+        ...state,
+        total: action.total,
       };
     case LIST_DOCTORS_LOADING:
       return {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDoctorsContext, withDoctorContext } from '../../contexts/DoctorsContext';
 import DoctorsListComponent from './DoctorsListComponent';
-import DoctorForms from './forms/DoctorForms';
+import DoctorsFormComponent from './forms/DoctorsFormComponent';
 import ModalComponent from '../ModalComponent';
 
 function DoctorsComponent() {
@@ -16,8 +16,8 @@ function DoctorsComponent() {
 
   return (
     <>
-      <ModalComponent visible={modalVisible} handleModalClose={onModalClose} handleBackdropClick={onBackdropClick}>
-        <DoctorForms formType={formType} />
+      <ModalComponent visible={modalVisible} handleBackdropClick={onBackdropClick}>
+        <DoctorsFormComponent formType={formType} handleOnClose={onModalClose} />
       </ModalComponent>
       <DoctorsListComponent />
     </>

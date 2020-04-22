@@ -40,4 +40,16 @@ export const getRefDoctorsAction = () => {
   return dbFirebase.collection('home-care-assistant').doc('doctors');
 };
 
-export const saveDoctorValuesAction = ({ id, ...values }, formType) => {};
+export const saveDoctorValuesAction = ({ id, ...values }, formType) => {
+  const ref = dbFirebase.collection('home-care-assistant').doc('doctors').collection('doctors');
+  if (formType === ADD_FORM_TEXT) {
+    return ref.add(values);
+  }
+  if (formType === EDIT_FORM_TEXT) {
+    return ref.doc(id).update(values);
+  }
+  if (formType === DELETE_FORM_TEXT) {
+    return ref.doc(id).delete();
+  }
+  return Promise;
+};
