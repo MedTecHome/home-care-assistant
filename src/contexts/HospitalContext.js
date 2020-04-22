@@ -10,7 +10,7 @@ import {
   setSaveHospitalLoadingAction,
   setTotalHospitalAction,
 } from '../components/hospital/reducers/HospitalActions';
-import setGlobaModalVisibleAction from '../commons/reducers/GlobalActions';
+import { setModalVisibleAction } from '../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
 
 const HospitalContext = createContext({});
@@ -19,7 +19,7 @@ const HospitalContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(HospitalReducers, initialHispitalState, init => init);
   const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
-  const getListHospitals = useCallback(({ limit = 5, next, prev }) => {
+  const getListHospitals = useCallback(({ limit = 5, next, prev, filters }) => {
     dispatch(setListHospitalLoadingAction(true));
     fetchHospitalsAction().onSnapshot(snapshot => {
       dispatch(setTotalHospitalAction(snapshot.data().total));
@@ -31,6 +31,13 @@ const HospitalContextProvider = ({ children }) => {
       ref = ref.endBefore(prev.name).limitToLast(limit);
     } else {
       ref = ref.limit(limit);
+    }
+
+    if (filters && !isEmpty(filters)) {
+      Object.keys(filters).map(k => {
+        ref = ref.where(k, '>=', filters[k]);
+        return null;
+      });
     }
     ref.onSnapshot(snapshot => {
       const result = snapshot.docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
@@ -54,7 +61,7 @@ const HospitalContextProvider = ({ children }) => {
   }, []);
 
   const setModalVisible = useCallback((visible, formType) => {
-    modalDispatch(setGlobaModalVisibleAction(visible, formType));
+    modalDispatch(setModalVisibleAction(visible, formType));
   }, []);
 
   return (
@@ -91,10 +98,11 @@ export const useHospitalContext = () => {
   };
 };
 
-export const withHospitalContext = WrapperComponent => () => {
+export const withHospitalContext = WrapperComponent => props => {
   return (
     <HospitalContextProvider>
-      <WrapperComponent />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <WrapperComponent {...props} />
     </HospitalContextProvider>
   );
 };

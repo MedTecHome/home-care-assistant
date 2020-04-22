@@ -15,6 +15,7 @@
     "clsx": "latest",
     "final-form": "^4.19.1",
     "firebase": "^7.14.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mui-rff": "^2.1.9",
     "ramda": "^0.27.0",

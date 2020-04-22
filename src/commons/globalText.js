@@ -1,6 +1,7 @@
 /** text reducers actions */
 export const SET_TYPE_FORM = 'SET_TYPE_FORM';
 export const SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE';
+export const UNSUSBCRIBE_FROM_ALL = 'UNSUSBCRIBE_FROM_ALL';
 /** hospitals */
 export const LIST_HOSPITAL = 'LIST_HOSPITAL';
 export const TOTAL_LIST_HOSPITAL = 'TOTAL_LIST_HOSPITAL';
@@ -11,6 +12,7 @@ export const SELECTED_HOSPITAL = 'SELECTED_HOSPITAL';
 /** doctors reducers */
 export const LIST_DOCTORS = 'LIST_DOCTORS';
 export const TOTAL_LIST_DOCTORS = 'TOTAL_LIST_DOCTORS';
+export const SET_LIST_HOSPITALS_DOCTORS = 'SET_LIST_HOSPITALS_DOCTORS';
 export const LIST_DOCTORS_LOADING = 'LIST_DOCTORS_LOADING';
 export const SAVE_DOCTORS_LOADING = 'SAVE_DOCTORS_LOADING';
 export const SELECTED_DOCTOR = 'SELECTED_DOCTOR';

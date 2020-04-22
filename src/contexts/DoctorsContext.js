@@ -5,19 +5,21 @@ import {
   getRefDoctorsAction,
   saveDoctorValuesAction,
   setListDoctorsAction,
+  setListHospitalOnDoctorsAction,
   setListLoadingDoctorsAction,
   setSaveLoadingDoctorsAction,
   setSelectedDoctorAction,
   setTotalDoctorsAction,
 } from '../components/doctors/reducers/DoctorsActions';
 import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
-import setModalVisibleAction from '../commons/reducers/GlobalActions';
+import { setModalVisibleAction } from '../commons/reducers/GlobalActions';
+import { getHospitalDetailsAction } from '../components/hospital/reducers/HospitalActions';
 
 const DoctorsContext = createContext({});
 
 const DoctorsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(DoctorsReducer, initialDoctorsState, init => init);
-  const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const getListDoctors = useCallback(({ limit = 5, next, prev }) => {
     dispatch(setListLoadingDoctorsAction(true));
@@ -34,8 +36,16 @@ const DoctorsContextProvider = ({ children }) => {
     } else {
       ref = ref.limit(limit);
     }
+
     ref.onSnapshot(snapshot => {
-      const result = snapshot.docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+      const result = snapshot.docChanges().map(({ doc }) => {
+        if (doc.data().hospitalId) {
+          getHospitalDetailsAction(doc.data().hospitalId).onSnapshot(h => {
+            dispatch(setListHospitalOnDoctorsAction({ id: h.id, ...h.data() }));
+          });
+        }
+        return { id: doc.id, ...doc.data() };
+      });
       dispatch(setListDoctorsAction(result));
       dispatch(setListLoadingDoctorsAction(false));
     });
@@ -55,18 +65,21 @@ const DoctorsContextProvider = ({ children }) => {
   }, []);
 
   const setModalVisible = useCallback((visible, formType) => {
-    modalDispatch(setModalVisibleAction(visible, formType));
+    globalDispatch(setModalVisibleAction(visible, formType));
   }, []);
+
+  const getHospitalDetails = useCallback(id => getHospitalDetailsAction(id), []);
 
   return (
     <DoctorsContext.Provider
       value={{
         ...state,
-        ...modalState,
+        ...globalState,
         getListDoctors,
         selectDoctor,
         saveDoctorValues,
         setModalVisible,
+        getHospitalDetails,
       }}
     >
       {children}
@@ -74,10 +87,11 @@ const DoctorsContextProvider = ({ children }) => {
   );
 };
 
-export const withDoctorContext = WrapperComponent => () => {
+export const withDoctorContext = WrapperComponent => props => {
   return (
     <DoctorsContextProvider>
-      <WrapperComponent />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <WrapperComponent {...props} />
     </DoctorsContextProvider>
   );
 };
@@ -90,6 +104,7 @@ export const useDoctorsContext = () => {
     total: value.total,
     modalVisible: value.modalVisible,
     doctors: value.doctors,
+    hospitalDoctorsList: value.hospitalDoctorsList,
     listLoading: value.listLoading,
     saveLoading: value.saveLoading,
     doctorSelected: value.doctorSelected,
@@ -97,5 +112,6 @@ export const useDoctorsContext = () => {
     selectDoctor: value.selectDoctor,
     saveDoctorValues: value.saveDoctorValues,
     setModalVisible: value.setModalVisible,
+    getHospitalDetailsAction: value.getHospitalDetailsAction,
   };
 };

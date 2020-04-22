@@ -39,6 +39,10 @@ export const fetchHospitalsAction = () => {
   return dbFirebase.collection('home-care-assistant').doc('hospital');
 };
 
+export const getHospitalDetailsAction = id => {
+  return dbFirebase.collection('home-care-assistant').doc('hospital').collection('hospitals').doc(id);
+};
+
 export const saveHospitalValuesAction = ({ id, ...values }, form) => {
   const ref = dbFirebase.collection('home-care-assistant').doc('hospital').collection('hospitals');
   if (form === ADD_FORM_TEXT) {
