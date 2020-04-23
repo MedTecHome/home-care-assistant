@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { useHospitalContext } from '../HospitalContext';
+import { useProfilesContext } from '../ProfilesContext';
 
 const useStyles = makeStyles({
   buttonActions: {
@@ -12,25 +12,31 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DeleteHospitalComponent() {
-  const { setModalVisible, hospitalSelected, saveHospitalValues, formType } = useHospitalContext();
+export default function DeleteProfilesComponent() {
+  const { setModalVisible, profileSelected, saveProfileValues, formType, getProfilesList } = useProfilesContext();
   const classes = useStyles();
+
+  useEffect(() => {
+    return () => {
+      getProfilesList({});
+    };
+  }, [getProfilesList]);
 
   const handleCancel = () => {
     setModalVisible(false, null);
   };
 
   const onDelete = () => {
-    saveHospitalValues(hospitalSelected, formType);
+    saveProfileValues(profileSelected, formType);
     handleCancel();
   };
 
   return (
     <div>
-      <h3>Eliminar Hopital</h3>
+      <h3>Eliminar Perfile</h3>
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          <Typography>Esta seguro que desea eliminar el hospital seleccionado.</Typography>
+          <Typography>Esta seguro que desea eliminar el perfile seleccionado.</Typography>
         </Grid>
         <Grid item className={classes.buttonActions} xs={12}>
           <Button variant="contained" size="small" onClick={handleCancel}>

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
 import { TextField } from 'mui-rff';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { useHospitalContext } from '../../../contexts/HospitalContext';
+import { useHospitalContext } from '../HospitalContext';
 
 const useStyles = makeStyles({
   formControl: {

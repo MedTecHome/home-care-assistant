@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import debounce from 'lodash/debounce';
 
-import { useHospitalContext, withHospitalContext } from '../../contexts/HospitalContext';
+import { useHospitalContext, withHospitalContext } from '../hospital/HospitalContext';
 
 function HospitalFieldComponent({ classes }) {
   const { getListHospitals, listLoading, hospitals } = useHospitalContext();

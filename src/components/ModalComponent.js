@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ModalComponent({ children, handleModalClose, handleBackdropClick, visible }) {
+function ModalComponent({ children, handleModalClose, onBackdropClick, visible }) {
   const classes = useStyles();
 
   return (
@@ -27,7 +27,7 @@ function ModalComponent({ children, handleModalClose, handleBackdropClick, visib
       disableBackdropClick={false}
       open={visible}
       onClose={handleModalClose}
-      onBackdropClick={handleBackdropClick}
+      onBackdropClick={onBackdropClick}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >

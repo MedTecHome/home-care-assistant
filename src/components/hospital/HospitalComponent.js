@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHospitalContext, withHospitalContext } from '../../contexts/HospitalContext';
+import { useHospitalContext, withHospitalContext } from './HospitalContext';
 import HospitalListComponent from './HospitalListComponent';
 import HospitalForms from './forms/HospitalForms';
 import ModalComponent from '../ModalComponent';

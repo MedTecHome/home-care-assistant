@@ -41,11 +41,12 @@ function HeaderComponent({ history }) {
     history.push('/pacientes');
   };
 
-  const handleClickDoctor = () => {
-    history.push('/doctores');
-  };
   const handleClickHospital = () => {
     history.push('/hospitales');
+  };
+
+  const handleClickProfiles = () => {
+    history.push('/perfiles');
   };
 
   return (
@@ -62,8 +63,8 @@ function HeaderComponent({ history }) {
         <Button color="inherit" onClick={handleClickPacientes}>
           Pacientes
         </Button>
-        <Button color="inherit" onClick={handleClickDoctor}>
-          Doctores
+        <Button color="inherit" onClick={handleClickProfiles}>
+          Perfiles
         </Button>
         <Button color="inherit" onClick={handleClickHospital}>
           Hospitales

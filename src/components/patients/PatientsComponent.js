@@ -1,29 +1,49 @@
 import React, { useCallback } from 'react';
-import { usePatientsContext, withPatientsContextProvider } from '../../contexts/PatientsContext';
-import PatientsListComponent from './PatientsListCompoent';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
 import ModalComponent from '../ModalComponent';
-import PatientsFormComponent from './forms/PatientsFormComponent';
+import { useProfilesContext, withProfileContext } from '../profiles/ProfilesContext';
+import ProfilesFormComponent from '../profiles/forms/ProfilesFormsComponent';
+import ListProfilesComponent from '../profiles/ListProfilesComponent';
+import ToolbarProfileComponent from '../profiles/ToolbarProfilesComponent';
+import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 
 function PatientsComponent() {
-  const { setModalVisible, modalVisible, formType, getListPatients, selectPatients } = usePatientsContext();
+  const { setModalVisible, modalVisible, formType, getProfilesList, selectProfileFromList } = useProfilesContext();
 
   const onFormsClose = () => {
-    getListPatients({});
-    selectPatients(null);
+    getProfilesList({});
+    selectProfileFromList(null);
   };
 
   const handleBackdropClick = useCallback(() => {
     setModalVisible(false, null);
   }, [setModalVisible]);
 
+  const handleOnClickDelete = () => {
+    setModalVisible(true, DELETE_FORM_TEXT);
+  };
+
+  const handleOnClickEdit = () => {
+    setModalVisible(true, EDIT_FORM_TEXT);
+  };
+
+  const handleOnClickAdd = () => {
+    setModalVisible(true, ADD_FORM_TEXT);
+  };
+
   return (
     <>
       <ModalComponent visible={modalVisible} handleBackdropClick={handleBackdropClick}>
-        <PatientsFormComponent formType={formType} handleOnClose={onFormsClose} />
+        <ProfilesFormComponent formType={formType} onFormsClosed={onFormsClose} />
       </ModalComponent>
-      <PatientsListComponent />
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography color="textPrimary">Perfiles</Typography>
+      </Breadcrumbs>
+      <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
+      <ListProfilesComponent onClickDelete={handleOnClickDelete} onClickEdit={handleOnClickEdit} />
     </>
   );
 }
 
-export default withPatientsContextProvider(PatientsComponent);
+export default withProfileContext(PatientsComponent);
