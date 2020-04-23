@@ -3,8 +3,10 @@ import {
   LIST_DOCTORS_LOADING,
   SAVE_DOCTORS_LOADING,
   SELECTED_DOCTOR,
+  SET_LIST_HOSPITALS_DOCTORS,
   TOTAL_LIST_DOCTORS,
 } from '../../../commons/globalText';
+import addOrReplace from '../../../commons/util';
 
 export const initialDoctorsState = {
   doctors: [],
@@ -12,6 +14,7 @@ export const initialDoctorsState = {
   listLoading: false,
   saveLoading: false,
   doctorSelected: null,
+  hospitalDoctorsList: [],
 };
 
 export const DoctorsReducer = (state, action) => {
@@ -25,6 +28,11 @@ export const DoctorsReducer = (state, action) => {
       return {
         ...state,
         total: action.total,
+      };
+    case SET_LIST_HOSPITALS_DOCTORS:
+      return {
+        ...state,
+        hospitalDoctorsList: addOrReplace(state.hospitalDoctorsList, action.hospital),
       };
     case LIST_DOCTORS_LOADING:
       return {

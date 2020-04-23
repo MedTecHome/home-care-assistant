@@ -10,7 +10,7 @@ import {
   setTotalPatientsAction,
 } from '../components/patients/reducers/PatientsActions';
 import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
-import setModalVisibleAction from '../commons/reducers/GlobalActions';
+import { setModalVisibleAction } from '../commons/reducers/GlobalActions';
 import { dbFirebase } from '../firebaseConfig';
 
 const PatientsContext = createContext({});
@@ -90,10 +90,11 @@ export const usePatientsContext = () => {
   };
 };
 
-export const withPatientsContextProvider = WrapperComponent => () => {
+export const withPatientsContextProvider = WrapperComponent => props => {
   return (
     <PatientsContextProvider>
-      <WrapperComponent />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <WrapperComponent {...props} />
     </PatientsContextProvider>
   );
 };

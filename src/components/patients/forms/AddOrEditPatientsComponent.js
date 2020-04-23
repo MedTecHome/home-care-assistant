@@ -3,14 +3,18 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { KeyboardDatePicker, TextField } from 'mui-rff';
+import { KeyboardDatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import { Form } from 'react-final-form';
 import moment from 'moment';
+import AddressFieldComponent from '../../fields/AddressFieldComponent';
 import DoctorAndPatientFields from './DoctorAndPatientFields';
 import { usePatientsContext } from '../../../contexts/PatientsContext';
 import { EDIT_FORM_TEXT } from '../../../commons/globalText';
 import PatientsFormValidate from './PatientsFormValidate';
+import HeightFieldComponent from '../../fields/HeightFieldComponent';
+import UserFieldComponent from '../../fields/UserFieldComponent';
+import DoctorFieldComponent from '../../fields/DoctorFieldComponent';
 
 const useStyles = makeStyles(() => ({
   formControl: {
@@ -70,49 +74,16 @@ function AddOrEditPatientsComponent({ title }) {
                   />
                 </Grid>
                 <Grid item xs={4} sm={4} md={4}>
-                  <TextField
-                    required
-                    type="number"
-                    className={classes.formControl}
-                    InputLabelProps={{ shrink: true }}
-                    size="small"
-                    label="Estatura:"
-                    variant="outlined"
-                    name="height"
-                  />
+                  <HeightFieldComponent classes={classes} />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    className={classes.formControl}
-                    InputLabelProps={{ shrink: true }}
-                    size="small"
-                    label="Direccion:"
-                    variant="outlined"
-                    name="address"
-                  />
+                  <AddressFieldComponent classes={classes} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    className={classes.formControl}
-                    InputLabelProps={{ shrink: true }}
-                    size="small"
-                    label="Usuario:"
-                    variant="outlined"
-                    name="userId"
-                  />
+                  <UserFieldComponent classes={classes} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    className={classes.formControl}
-                    InputLabelProps={{ shrink: true }}
-                    size="small"
-                    label="Doctor:"
-                    variant="outlined"
-                    name="doctorId"
-                  />
+                  <DoctorFieldComponent classes={classes} />
                 </Grid>
                 <Grid item container xs={12} justify="space-evenly">
                   <Button variant="contained" onClick={onCancel}>

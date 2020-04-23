@@ -55,6 +55,7 @@ const useStyles = makeStyles(theme => {
 export default function DoctorsListComponent() {
   const {
     doctors,
+    hospitalDoctorsList,
     total,
     doctorSelected,
     listLoading,
@@ -95,6 +96,7 @@ export default function DoctorsListComponent() {
               <TableBody>
                 {doctors.map((row, index) => {
                   const isItemSelected = doctorSelected && row.id === doctorSelected.id;
+                  const hospital = hospitalDoctorsList.find(hosp => hosp.id === row.hospitalId);
                   return (
                     <TableRow
                       hover
@@ -115,7 +117,7 @@ export default function DoctorsListComponent() {
                         <Typography className={classes.textCells}>{row.lastName}</Typography>
                       </TableCell>
                       <TableCell align="center">{row.phone}</TableCell>
-                      <TableCell>{row.hospitalId}</TableCell>
+                      <TableCell>{hospital ? hospital.name : ''}</TableCell>
                     </TableRow>
                   );
                 })}

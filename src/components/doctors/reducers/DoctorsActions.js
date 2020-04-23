@@ -6,6 +6,7 @@ import {
   LIST_DOCTORS_LOADING,
   SAVE_DOCTORS_LOADING,
   SELECTED_DOCTOR,
+  SET_LIST_HOSPITALS_DOCTORS,
   TOTAL_LIST_DOCTORS,
 } from '../../../commons/globalText';
 import { dbFirebase } from '../../../firebaseConfig';
@@ -18,6 +19,11 @@ export const setTotalDoctorsAction = total => ({
 export const setListDoctorsAction = list => ({
   type: LIST_DOCTORS,
   list,
+});
+
+export const setListHospitalOnDoctorsAction = hospital => ({
+  type: SET_LIST_HOSPITALS_DOCTORS,
+  hospital,
 });
 
 export const setListLoadingDoctorsAction = flag => ({

@@ -3,10 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { TextField } from 'mui-rff';
+import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
 import { useDoctorsContext } from '../../../contexts/DoctorsContext';
 import DoctorAndPatientFields from '../../patients/forms/DoctorAndPatientFields';
 import { EDIT_FORM_TEXT } from '../../../commons/globalText';
+import UserFieldComponent from '../../fields/UserFieldComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -47,17 +48,12 @@ export default function AddOrEditDoctorComponent({ title }) {
             <Grid container spacing={3}>
               <DoctorAndPatientFields formType={formType} classes={classes} />
               <Grid item xs={12}>
-                <TextField
-                  className={classes.formControl}
-                  size="small"
-                  label="Hospital"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  name="hospitalId"
-                />
+                <UserFieldComponent classes={classes} />
               </Grid>
+              <Grid item xs={12}>
+                <HospitalFieldComponent classes={classes} />
+              </Grid>
+
               <Grid item container xs={12} justify="space-evenly">
                 <Button variant="contained" onClick={handleCancel}>
                   Cancel
