@@ -54,4 +54,5 @@ export const saveHospitalValuesAction = ({ id, ...values }, form) => {
   if (form === DELETE_FORM_TEXT) {
     return ref.doc(id).delete();
   }
+  return new Promise();
 };

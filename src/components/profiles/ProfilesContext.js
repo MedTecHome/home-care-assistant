@@ -1,45 +1,54 @@
-import React, { createContext, useCallback, useContext, useReducer } from 'react';
+import React, { createContext, memo, useCallback, useContext, useReducer } from 'react';
 import { isEmpty } from 'ramda';
-import { initialProfilesState, ProfilesReducer } from '../components/profiles/reducers/ProfileReducer';
-import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
+import { initialProfilesState, ProfilesReducer } from './reducers/ProfileReducer';
+import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import {
   getDoctorById,
   getRefProfiles,
   saveProfileValuesAction,
   setListProfilesAction,
+  setListProfilesNomencladorAction,
   setProfileListLoadingAction,
   setProfilesDoctorAction,
   setProfileSelected,
   setProfilesHospitalAction,
   setProfilesRoleAction,
   setProfilesSaveLoadingAction,
-} from '../components/profiles/reducers/ProfileActions';
-import { getHospitalDetailsAction, saveHospitalValuesAction } from '../components/hospital/reducers/HospitalActions';
-import { getRoleById, setModalVisibleAction } from '../commons/reducers/GlobalActions';
+} from './reducers/ProfileActions';
+import { getHospitalDetailsAction } from '../hospital/reducers/HospitalActions';
+import { getRoleById, setModalVisibleAction } from '../../commons/reducers/GlobalActions';
+import { initialProfileFiltersState, ProfileFiltersReducer } from './reducers/ProfileFiltersReducer';
+import setProfileFilterAction from './reducers/ProfilesFiltersActions';
 
 const ProfilesContext = createContext({});
 
 export const withProfileContext = WrapperComponent => () => {
   const [state, dispatch] = useReducer(ProfilesReducer, initialProfilesState, init => init);
+  const [filtersState, filtersDispatch] = useReducer(ProfileFiltersReducer, initialProfileFiltersState, init => init);
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const getProfilesList = useCallback(({ limit = 5, next, prev, filters }) => {
     dispatch(setProfileListLoadingAction(true));
-    let ref = getRefProfiles().orderBy('name');
-
+    let ref = getRefProfiles();
     if (filters) {
+      Object.keys(filters).map(k => {
+        ref = ref.where(k, '==', filters[k]);
+        return null;
+      });
     } else if (next) {
-      ref = ref.startAfter(next.name).limit(limit);
+      ref = ref.startAt(next.fullname).limit(limit);
     } else if (prev) {
-      ref = ref.endBefore(prev.name).limitToLast(limit);
-    } else {
-      ref = ref.limit(limit);
+      ref = ref.endBefore(prev.fullname).limitToLast(limit);
     }
+
+    ref = ref.limit(limit);
 
     ref.onSnapshot(snapshot => {
       const result = snapshot.docChanges().map(({ doc }) => {
         if (doc.data().userId) {
+          // eslint-disable-next-line no-console
           console.log(doc.data().userId);
+          console.count(doc.data().userId);
         }
         if (doc.data().doctorId) {
           getDoctorById(doc.data().doctorId).onSnapshot(doctor => {
@@ -63,12 +72,34 @@ export const withProfileContext = WrapperComponent => () => {
     });
   }, []);
 
+  const getListProfilesNomenclador = useCallback(({ filters }) => {
+    dispatch(setProfileListLoadingAction(true));
+    let ref = getRefProfiles();
+
+    if (filters) {
+      Object.keys(filters).map(k => {
+        ref = ref.where(k, '==', filters[k]);
+        return null;
+      });
+
+      ref.onSnapshot(snapshot => {
+        const result = snapshot.docChanges().map(({ doc }) => {
+          return { id: doc.id, name: doc.data().name };
+        });
+        dispatch(setListProfilesNomencladorAction(result));
+        dispatch(setProfileListLoadingAction(false));
+      });
+    }
+  }, []);
+
   const saveProfileValues = useCallback((values, formType) => {
     dispatch(setProfilesSaveLoadingAction(true));
     saveProfileValuesAction(values, formType)
       .then(result => {
+        // eslint-disable-next-line no-console
         console.log(result);
       })
+      // eslint-disable-next-line no-console
       .catch(console.error);
   }, []);
 
@@ -79,15 +110,20 @@ export const withProfileContext = WrapperComponent => () => {
     []
   );
 
+  const setProfileFilter = useCallback(filters => filtersDispatch(setProfileFilterAction(filters)), []);
+
   return (
     <ProfilesContext.Provider
       value={{
         ...state,
         ...globalState,
+        ...filtersState,
         getProfilesList,
         selectProfileFromList,
         saveProfileValues,
         setModalVisible,
+        setProfileFilter,
+        getListProfilesNomenclador,
       }}
     >
       <WrapperComponent />
@@ -114,5 +150,9 @@ export const useProfilesContext = () => {
     selectProfileFromList: values.selectProfileFromList,
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
+    profilesNomenclador: values.profilesNomenclador,
+    getListProfilesNomenclador: values.getListProfilesNomenclador,
+    filters: values.filters,
+    setProfileFilter: values.setProfileFilter,
   };
 };

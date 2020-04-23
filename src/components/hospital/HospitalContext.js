@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useReducer } from 'react';
 import { isEmpty, isNil } from 'ramda';
-import { HospitalReducers, initialHispitalState } from '../components/hospital/reducers/HospitalReducers';
+import { HospitalReducers, initialHispitalState } from './reducers/HospitalReducers';
 import {
   fetchHospitalsAction,
   saveHospitalValuesAction,
@@ -9,9 +9,9 @@ import {
   setListHospitalLoadingAction,
   setSaveHospitalLoadingAction,
   setTotalHospitalAction,
-} from '../components/hospital/reducers/HospitalActions';
-import { setModalVisibleAction } from '../commons/reducers/GlobalActions';
-import { GlobalReducer, initialGlobalState } from '../commons/reducers/GlobalReducers';
+} from './reducers/HospitalActions';
+import { setModalVisibleAction } from '../../commons/reducers/GlobalActions';
+import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 
 const HospitalContext = createContext({});
 

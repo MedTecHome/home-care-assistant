@@ -1,13 +1,23 @@
 import React from 'react';
-import { useProfilesContext, withProfileContext } from '../../contexts/ProfilesContext';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { makeStyles } from '@material-ui/core/styles';
+import { useProfilesContext, withProfileContext } from './ProfilesContext';
 import ListProfilesComponent from './ListProfilesComponent';
 import ToolbarProfileComponent from './ToolbarProfilesComponent';
 import ModalComponent from '../ModalComponent';
 import ProfilesFormComponent from './forms/ProfilesFormsComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 
+const useStyles = makeStyles({
+  pageHeader: {
+    color: '#6d6d6d',
+  },
+});
 function ProfilesComponent() {
   const { formType, setModalVisible, modalVisible, selectProfileFromList, getProfilesList } = useProfilesContext();
+  const classes = useStyles();
+
   const handleBackdropClick = () => {
     setModalVisible(false, null);
   };
@@ -34,6 +44,11 @@ function ProfilesComponent() {
       <ModalComponent visible={modalVisible} onBackdropClick={handleBackdropClick}>
         <ProfilesFormComponent formType={formType} onFormsClosed={handleClosedForms} />
       </ModalComponent>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>
+          Pacientes
+        </Typography>
+      </Breadcrumbs>
       <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
       <ListProfilesComponent onClickDelete={handleOnClickDelete} onClickEdit={handleOnClickEdit} />
     </>

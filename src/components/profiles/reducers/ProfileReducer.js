@@ -7,11 +7,13 @@ import {
   SET_PROFILE_ROLE,
   SET_PROFILE_HOSPITAL,
   SET_PROFILE_USER,
+  LIST_PROFILES_NOMENCLADOR,
 } from '../../../commons/globalText';
 import addOrReplace from '../../../commons/util';
 
 export const initialProfilesState = {
   profiles: [],
+  profilesNomenclador: [],
   total: 0,
   profileSelected: null,
   usersProfile: [],
@@ -27,12 +29,17 @@ export const ProfilesReducer = (state, action) => {
     case LIST_PROFILES_LOADING:
       return {
         ...state,
-        listLoading: action.flag,
+        loadingList: action.flag,
       };
     case LIST_PROFILES:
       return {
         ...state,
         profiles: action.list,
+      };
+    case LIST_PROFILES_NOMENCLADOR:
+      return {
+        ...state,
+        profilesNomenclador: action.list,
       };
     case SELECTED_PROFILE:
       return {

@@ -23,6 +23,7 @@ export const withRolesContext = WrapperComponent => props => {
         getRoles,
       }}
     >
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <WrapperComponent {...props} />
     </RolesContext.Provider>
   );

@@ -1,24 +1,102 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@material-ui/core/Input';
+import SearchIcon from '@material-ui/icons/Search';
+import Grid from '@material-ui/core/Grid';
+import { useMediaQuery } from '@material-ui/core';
+import useTheme from '@material-ui/core/styles/useTheme';
+import { useRolesContext, withRolesContext } from '../../contexts/RolesContext';
+import { useProfilesContext } from './ProfilesContext';
+
+const useStyles = makeStyles({
+  formControl: {
+    minWidth: '100%',
+  },
+  listRoot: {
+    position: 'inherit',
+  },
+  addButtonIcon: {
+    fontSize: 48,
+    background: '#fff',
+  },
+  addFloatingButton: {
+    position: 'fixed',
+    zIndex: 666,
+    bottom: 0,
+    right: 0,
+  },
+});
 
 function ToolbarProfileComponent({ onClickAdd }) {
+  const { roles, getRoles } = useRolesContext();
+  const { filters, setProfileFilter } = useProfilesContext();
+  const [fullname, setFullName] = useState('');
+
+  const classes = useStyles();
+  const theme = useTheme();
+  const match = useMediaQuery(theme.breakpoints.down('xs'));
+
+  useEffect(() => {
+    getRoles();
+  }, [getRoles]);
+
+  const handleSearchClick = () => {
+    if (fullname) {
+      setProfileFilter({ ...filters, fullname });
+    }
+  };
+
   return (
-    <List>
-      <ListItem>
-        <ListItemAvatar>
+    <List className={classes.listRoot}>
+      <Grid container spacing={3} justify="space-between">
+        <Grid item xs={12} sm={3} md={3} className={match ? classes.addFloatingButton : ''}>
           <IconButton color="primary" onClick={onClickAdd}>
-            <AddCircleIcon fontSize="large" />
+            <AddCircleIcon fontSize="large" className={classes.addButtonIcon} />
           </IconButton>
-        </ListItemAvatar>
-      </ListItem>
-      <Divider />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <FormControl className={classes.formControl}>
+            <InputLabel>buscar por nombre</InputLabel>
+            <Input
+              value={fullname}
+              onChange={event => setFullName(event.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton aria-label="toggle password visibility" onClick={handleSearchClick}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={3} md={3}>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Tipo de perfile</InputLabel>
+            <Select
+              name="filter-roles"
+              value={filters.roleId || ''}
+              onChange={event => setProfileFilter({ ...filters, roleId: event.target.value })}
+            >
+              {roles.map(role => (
+                <MenuItem key={role.id} value={role.id}>
+                  {role.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
     </List>
   );
 }
 
-export default memo(ToolbarProfileComponent);
+export default withRolesContext(memo(ToolbarProfileComponent));

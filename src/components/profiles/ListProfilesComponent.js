@@ -13,7 +13,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import clsx from 'clsx';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
-import { useProfilesContext } from '../../contexts/ProfilesContext';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { useProfilesContext } from './ProfilesContext';
+import CircularProgressComponent from '../CircularProgressComponent';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,15 +41,33 @@ const useStyles = makeStyles(theme => ({
     fontSize: 10,
     color: '#6f6f6f',
   },
+  footerList: {
+    height: 120,
+  },
+  pagination: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    padding: 10,
+  },
 }));
 
-function ListProfilesComponent({ userRole, onClickDelete, onClickEdit }) {
-  const { profiles, getProfilesList, selectProfileFromList, profileSelected, rolesProfile } = useProfilesContext();
+function ListProfilesComponent({ onClickDelete, onClickEdit }) {
+  const {
+    profiles,
+    getProfilesList,
+    selectProfileFromList,
+    profileSelected,
+    rolesProfile,
+    filters,
+    loadingList,
+  } = useProfilesContext();
+  const [page, setPage] = React.useState({});
   const classes = useStyles();
 
   useEffect(() => {
-    getProfilesList(userRole ? { roleId: userRole } : {});
-  }, [getProfilesList]);
+    getProfilesList({ filters, ...page });
+  }, [getProfilesList, filters, page]);
 
   const handleSelectItemOnClick = id => {
     selectProfileFromList(id);
@@ -64,6 +85,7 @@ function ListProfilesComponent({ userRole, onClickDelete, onClickEdit }) {
 
   return (
     <List className={classes.root}>
+      {loadingList && <CircularProgressComponent />}
       {profiles.map(profile => {
         const isSelected = profileSelected && profileSelected.id === profile.id;
         const role = rolesProfile.find(r => r.id === profile.roleId);
@@ -82,7 +104,7 @@ function ListProfilesComponent({ userRole, onClickDelete, onClickEdit }) {
               primary={
                 <Grid container spacing={5}>
                   <Grid item xs={3} container>
-                    <Typography>{`${profile.name} ${profile.lastName} `}</Typography>
+                    <Typography>{profile.fullname}</Typography>
                   </Grid>
                   <Grid item xs={8}>
                     <Typography className={classes.itemListContentPrimary}>
@@ -111,6 +133,28 @@ function ListProfilesComponent({ userRole, onClickDelete, onClickEdit }) {
           </ListItem>
         );
       })}
+      <ListItem className={classes.footerList}>
+        <div className={classes.pagination}>
+          {!loadingList && (
+            <>
+              <IconButton onClick={() => setPage({ prev: profiles[0] })}>
+                <ArrowBackIosIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => setPage({ next: profiles[profiles.length - 1] })}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+              <Typography
+                style={{
+                  padding: 10,
+                  color: '#666',
+                }}
+              >
+                total: {0}
+              </Typography>
+            </>
+          )}
+        </div>
+      </ListItem>
     </List>
   );
 }

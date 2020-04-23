@@ -1,4 +1,4 @@
-import { dbRef } from '../../../firebaseConfig';
+import firebase, { dbRef } from '../../../firebaseConfig';
 import {
   LIST_PROFILES,
   LIST_PROFILES_LOADING,
@@ -11,12 +11,18 @@ import {
   EDIT_FORM_TEXT,
   DELETE_FORM_TEXT,
   SET_PROFILE_ROLE,
+  LIST_PROFILES_NOMENCLADOR,
 } from '../../../commons/globalText';
 
 const profilesRef = dbRef('profile');
 
 export const setListProfilesAction = list => ({
   type: LIST_PROFILES,
+  list,
+});
+
+export const setListProfilesNomencladorAction = list => ({
+  type: LIST_PROFILES_NOMENCLADOR,
   list,
 });
 
@@ -62,10 +68,10 @@ export const getDoctorById = id => profilesRef.collection('profiles').doc(id);
 export const saveProfileValuesAction = ({ id, ...values }, formType) => {
   const ref = profilesRef.collection('profiles');
   if (formType === ADD_FORM_TEXT) {
-    return ref.add(values);
+    return ref.add({ ...values, fullname: `${values.name} ${values.lastName}`, createdAt: Date.now() });
   }
   if (formType === EDIT_FORM_TEXT) {
-    return ref.doc(id).update(values);
+    return ref.doc(id).update({ ...values, fullname: `${values.name} ${values.lastName}`, updateAt: Date.now() });
   }
   if (formType === DELETE_FORM_TEXT) {
     return ref.doc(id).delete();

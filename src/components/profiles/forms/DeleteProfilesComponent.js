@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { useProfilesContext } from '../../../contexts/ProfilesContext';
+import { useProfilesContext } from '../ProfilesContext';
 
 const useStyles = makeStyles({
   buttonActions: {
@@ -13,8 +13,14 @@ const useStyles = makeStyles({
 });
 
 export default function DeleteProfilesComponent() {
-  const { setModalVisible, profileSelected, saveProfileValues, formType } = useProfilesContext();
+  const { setModalVisible, profileSelected, saveProfileValues, formType, getProfilesList } = useProfilesContext();
   const classes = useStyles();
+
+  useEffect(() => {
+    return () => {
+      getProfilesList({});
+    };
+  }, [getProfilesList]);
 
   const handleCancel = () => {
     setModalVisible(false, null);
