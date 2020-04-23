@@ -8,6 +8,8 @@ import {
   SELECTED_PATIENT,
   SAVE_PATIENTS_LOADING,
   LIST_PATIENTS_LOADING,
+  SET_LIST_HOSPITALS_DOCTORS,
+  SET_LIST_DOCTORS_ON_PATIENTS,
 } from '../../../commons/globalText';
 
 export const setListPatientsAction = list => ({
@@ -18,6 +20,11 @@ export const setListPatientsAction = list => ({
 export const setListPatientsLoadingAction = flag => ({
   type: LIST_PATIENTS_LOADING,
   flag,
+});
+
+export const setListDoctorOnPatientAction = doctor => ({
+  type: SET_LIST_DOCTORS_ON_PATIENTS,
+  doctor,
 });
 
 export const setSavePatientLoadingAction = flag => ({

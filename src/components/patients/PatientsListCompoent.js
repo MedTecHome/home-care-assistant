@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -22,6 +22,7 @@ const headCells = [
   { id: 'lastName', numeric: false, disablePadding: false, label: 'Apellidos' },
   { id: 'birthday', numeric: true, disablePadding: false, label: 'Fecha de nacimiento' },
   { id: 'phone', numeric: true, disablePadding: false, label: 'Telefono' },
+  { id: 'doctorId', numeric: false, disablePadding: false, label: 'Doctor' },
   { id: 'userId', numeric: false, disablePadding: false, label: 'Usuario' },
 ];
 
@@ -63,9 +64,12 @@ function PatientsListComponent() {
     getListPatients,
     selectPatients,
     setModalVisible,
+    patientDoctorList,
   } = usePatientsContext();
   const classes = useStyles();
   const [page, setPage] = useState({});
+
+  const patientDoctorListMemoize = useMemo(() => patientDoctorList, [patientDoctorList]);
 
   useEffect(() => {
     getListPatients({ limit: 5, ...page });
@@ -106,6 +110,7 @@ function PatientsListComponent() {
               <TableBody>
                 {patients.map((row, index) => {
                   const isItemSelected = patientSelected && row.id === patientSelected.id;
+                  const doctor = patientDoctorListMemoize.find(d => d.id === row.doctorId);
                   return (
                     <TableRow
                       hover
@@ -131,7 +136,8 @@ function PatientsListComponent() {
                         {moment(row.birthday.toDate()).format('DD [del] MM [de] YYYY')}
                       </TableCell>
                       <TableCell align="center">{row.phone}</TableCell>
-                      <TableCell align="center">{row.userId}</TableCell>
+                      <TableCell>{doctor ? doctor.name : '-'}</TableCell>
+                      <TableCell>{row.userId}</TableCell>
                     </TableRow>
                   );
                 })}

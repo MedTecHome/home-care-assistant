@@ -44,7 +44,7 @@ function AddOrEditPatientsComponent({ title }) {
     <div>
       <Form
         initialValues={
-          formType === EDIT_FORM_TEXT && patientSelected ? { ...initialValues, birthday: birthday.toDate() } : {}
+          formType === EDIT_FORM_TEXT && patientSelected && { ...initialValues, birthday: birthday.toDate() }
         }
         validate={PatientsFormValidate}
         onSubmit={onSubmit}

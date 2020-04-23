@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -46,4 +46,4 @@ function HospitalFieldComponent({ classes }) {
   );
 }
 
-export default memo(withHospitalContext(HospitalFieldComponent));
+export default withHospitalContext(HospitalFieldComponent);

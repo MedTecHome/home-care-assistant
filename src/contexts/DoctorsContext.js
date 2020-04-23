@@ -21,7 +21,7 @@ const DoctorsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(DoctorsReducer, initialDoctorsState, init => init);
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
-  const getListDoctors = useCallback(({ limit = 5, next, prev }) => {
+  const getListDoctors = useCallback(({ limit = 5, next, prev, filters }) => {
     dispatch(setListLoadingDoctorsAction(true));
     let ref = getRefDoctorsAction();
     ref.onSnapshot(snapshot => {
@@ -29,6 +29,13 @@ const DoctorsContextProvider = ({ children }) => {
     });
 
     ref = ref.collection('doctors').orderBy('name');
+    if (!isEmpty(filters) && !isNil(filters)) {
+      Object.keys(filters).map(k => {
+        ref = ref.where(k, '>=', filters[k]);
+        return null;
+      });
+    }
+
     if (next) {
       ref = ref.startAfter(next).limit(limit);
     } else if (prev) {
