@@ -3,18 +3,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import debounce from 'lodash/debounce';
-import { useDoctorsContext, withDoctorContext } from '../../contexts/DoctorsContext';
+import { useProfilesContext } from '../../contexts/ProfilesContext';
 
 function DoctorFieldComponent({ classes }) {
-  const { getListDoctors, listLoading, doctors } = useDoctorsContext();
+  const { getProfilesList, listLoading, profiles } = useProfilesContext();
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
 
   const filterNameMemoize = useMemo(() => filterName, [filterName]);
 
   useEffect(() => {
-    getListDoctors({ limit: 5, filters: { name: filterNameMemoize } });
-  }, [getListDoctors, filterNameMemoize]);
+    getProfilesList({ limit: 5, filters: { name: filterNameMemoize } });
+  }, [getProfilesList, filterNameMemoize]);
 
   const handleInputChange = event => {
     setFilterNameDebounced(event.target.value);
@@ -38,11 +38,11 @@ function DoctorFieldComponent({ classes }) {
         onChange: handleInputChange,
       }}
       openOnFocus={false}
-      options={doctors}
+      options={profiles}
       getOptionValue={option => option.id}
       getOptionLabel={option => option.name}
     />
   );
 }
 
-export default withDoctorContext(DoctorFieldComponent);
+export default DoctorFieldComponent;

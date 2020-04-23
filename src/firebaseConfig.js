@@ -20,3 +20,5 @@ export default firebase;
 export const authFirebase = firebase.auth();
 
 export const dbFirebase = firebase.firestore();
+
+export const dbRef = doc => dbFirebase.collection('home-care-assistant').doc(doc);

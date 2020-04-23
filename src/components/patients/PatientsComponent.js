@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
-import { usePatientsContext, withPatientsContextProvider } from '../../contexts/PatientsContext';
-import PatientsListComponent from './PatientsListCompoent';
 import ModalComponent from '../ModalComponent';
-import PatientsFormComponent from './forms/PatientsFormComponent';
+import { useProfilesContext, withProfileContext } from '../../contexts/ProfilesContext';
+import ProfilesFormComponent from '../profiles/forms/ProfilesFormsComponent';
+import ListProfilesComponent from '../profiles/ListProfilesComponent';
 
 function PatientsComponent() {
-  const { setModalVisible, modalVisible, formType, getListPatients, selectPatients } = usePatientsContext();
+  const { setModalVisible, modalVisible, formType, getProfilesList, selectProfileFromList } = useProfilesContext();
 
   const onFormsClose = () => {
-    getListPatients({});
-    selectPatients(null);
+    getProfilesList({});
+    selectProfileFromList(null);
   };
 
   const handleBackdropClick = useCallback(() => {
@@ -19,11 +19,11 @@ function PatientsComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible} handleBackdropClick={handleBackdropClick}>
-        <PatientsFormComponent formType={formType} handleOnClose={onFormsClose} />
+        <ProfilesFormComponent formType={formType} handleOnClose={onFormsClose} />
       </ModalComponent>
-      <PatientsListComponent />
+      <ListProfilesComponent />
     </>
   );
 }
 
-export default withPatientsContextProvider(PatientsComponent);
+export default withProfileContext(PatientsComponent);
