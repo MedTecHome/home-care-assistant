@@ -3,7 +3,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles } from '@material-ui/core/styles';
 import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -11,10 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHospitalContext } from './HospitalContext';
 import EnhancedTableHead from '../EnhancedTableHead';
 import EnhancedTableToolbar from '../EnhancedTableToolbar';
-import CircularProgressComponent from '../CircularProgressComponent';
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Nombre' },
@@ -91,71 +90,69 @@ function HospitalListComponent() {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <EnhancedTableToolbar
-          title="Lista de hospitales"
-          selected={hospitalSelected && hospitalSelected.id}
-          onAdd={handleHospitalModalVisible}
-          onEdit={handleHospitalModalVisible}
-          onDelete={handleHospitalModalVisible}
-        />
-        {listLoading ? (
-          <CircularProgressComponent />
-        ) : (
-          <TableContainer>
-            <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
-              <EnhancedTableHead headCells={headCells} />
-              <TableBody>
-                {hospitals.map((row, index) => {
-                  const isItemSelected = hospitalSelected && row.id === hospitalSelected.id;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.id)}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell className={classes.largeCells}>
-                        <Tooltip title={row.name} arrow placement="top">
-                          <Typography className={classes.textCells}>{row.name}</Typography>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell className={classes.largeCells}>
-                        <Typography className={classes.textCells}>{row.address}</Typography>
-                      </TableCell>
-                      <TableCell align="center">{row.phone}</TableCell>
-                      <TableCell align="center">{row.maxDoctors}</TableCell>
-                      <TableCell align="center">{row.maxPatients}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+      <EnhancedTableToolbar
+        title="Lista de hospitales"
+        selected={hospitalSelected && hospitalSelected.id}
+        onAdd={handleHospitalModalVisible}
+        onEdit={handleHospitalModalVisible}
+        onDelete={handleHospitalModalVisible}
+      />
+      {listLoading ? (
+        <CircularProgress size={25} />
+      ) : (
+        <TableContainer>
+          <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
+            <EnhancedTableHead headCells={headCells} />
+            <TableBody>
+              {hospitals.map((row, index) => {
+                const isItemSelected = hospitalSelected && row.id === hospitalSelected.id;
+                return (
+                  <TableRow
+                    hover
+                    onClick={event => handleClick(event, row.id)}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell className={classes.largeCells}>
+                      <Tooltip title={row.name} arrow placement="top">
+                        <Typography className={classes.textCells}>{row.name}</Typography>
+                      </Tooltip>
+                    </TableCell>
+                    <TableCell className={classes.largeCells}>
+                      <Typography className={classes.textCells}>{row.address}</Typography>
+                    </TableCell>
+                    <TableCell align="center">{row.phone}</TableCell>
+                    <TableCell align="center">{row.maxDoctors}</TableCell>
+                    <TableCell align="center">{row.maxPatients}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+      <div className={classes.pagination}>
+        {!listLoading && (
+          <>
+            <IconButton onClick={() => setPage({ prev: hospitals[0] })}>
+              <ArrowBackIosIcon fontSize="small" />
+            </IconButton>
+            <IconButton onClick={() => setPage({ next: hospitals[hospitals.length - 1] })}>
+              <ArrowForwardIosIcon fontSize="small" />
+            </IconButton>
+            <Typography
+              style={{
+                padding: 10,
+                color: '#666',
+              }}
+            >
+              total: {total}
+            </Typography>
+          </>
         )}
-        <div className={classes.pagination}>
-          {!listLoading && (
-            <>
-              <IconButton onClick={() => setPage({ prev: hospitals[0] })}>
-                <ArrowBackIosIcon fontSize="small" />
-              </IconButton>
-              <IconButton onClick={() => setPage({ next: hospitals[hospitals.length - 1] })}>
-                <ArrowForwardIosIcon fontSize="small" />
-              </IconButton>
-              <Typography
-                style={{
-                  padding: 10,
-                  color: '#666',
-                }}
-              >
-                total: {total}
-              </Typography>
-            </>
-          )}
-        </div>
-      </Paper>
+      </div>
     </div>
   );
 }

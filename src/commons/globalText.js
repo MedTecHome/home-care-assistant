@@ -28,6 +28,7 @@ export const DETAILS_FORM_TEXT = 'DETAILS_FORM_TEXT';
 
 /** validator text */
 export const REQUIRED_FIELD = 'Este campo es obligatorio.';
+export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada';
 
 /** pagination */
 export const SET_PAGINATION_PAGE = 'SET_PAGINATION_PAGE';

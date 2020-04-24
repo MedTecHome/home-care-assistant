@@ -50,7 +50,7 @@ function HeaderComponent({ history }) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
         <div className={classes.title}>
           <Button color="inherit" onClick={handleClickHome}>

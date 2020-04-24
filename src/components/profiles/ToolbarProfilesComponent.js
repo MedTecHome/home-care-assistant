@@ -70,7 +70,7 @@ function ToolbarProfileComponent({ onClickAdd }) {
               onChange={event => setFullName(event.target.value)}
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility" onClick={handleSearchClick}>
+                  <IconButton onClick={handleSearchClick}>
                     <SearchIcon />
                   </IconButton>
                 </InputAdornment>
