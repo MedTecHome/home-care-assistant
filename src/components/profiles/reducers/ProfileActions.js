@@ -1,11 +1,11 @@
-import firebase, { dbRef } from '../../../firebaseConfig';
+import { dbRef } from '../../../firebaseConfig';
 import {
   LIST_PROFILES,
   LIST_PROFILES_LOADING,
   SAVE_PROFILES_LOADING,
   SET_PROFILE_HOSPITAL,
   SET_PROFILE_DOCTOR,
-  SET_PROFILE_USER,
+  /*  SET_PROFILE_USER, */
   SELECTED_PROFILE,
   ADD_FORM_TEXT,
   EDIT_FORM_TEXT,
@@ -36,10 +36,10 @@ export const setProfilesSaveLoadingAction = flag => ({
   flag,
 });
 
-export const setProfilesUserAction = user => ({
+/* export const setProfilesUserAction = user => ({
   type: SET_PROFILE_USER,
   user,
-});
+}); */
 
 export const setProfilesDoctorAction = doctor => ({
   type: SET_PROFILE_DOCTOR,

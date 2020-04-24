@@ -1,4 +1,4 @@
-import React, { createContext, memo, useCallback, useContext, useReducer } from 'react';
+import React, { createContext, useCallback, useContext, useReducer } from 'react';
 import { isEmpty } from 'ramda';
 import { initialProfilesState, ProfilesReducer } from './reducers/ProfileReducer';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
@@ -48,7 +48,6 @@ export const withProfileContext = WrapperComponent => () => {
         if (doc.data().userId) {
           // eslint-disable-next-line no-console
           console.log(doc.data().userId);
-          console.count(doc.data().userId);
         }
         if (doc.data().doctorId) {
           getDoctorById(doc.data().doctorId).onSnapshot(doctor => {
