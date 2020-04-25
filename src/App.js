@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Container } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import RoutesComponent from './routes/RoutesComponent';
 import HeaderComponent from './components/HeaderComponent';
@@ -10,7 +9,7 @@ import RouteService from './routes/RoutesService';
 const useStyles = makeStyles(() => ({
   mainContainer: {
     paddingTop: 15,
-    height: 'calc(100vh-0px)',
+    maxHeight: '100vh',
   },
 }));
 
@@ -19,14 +18,12 @@ function App() {
   return (
     <Router>
       <RouteService />
-      <Grid container>
-        <HeaderComponent />
+      <HeaderComponent />
+      <Container className={classes.mainContainer}>
         <Suspense fallback={<div>loading...</div>}>
-          <Container maxWidth="md" className={classes.mainContainer}>
-            <RoutesComponent />
-          </Container>
+          <RoutesComponent />
         </Suspense>
-      </Grid>
+      </Container>
     </Router>
   );
 }

@@ -15,8 +15,8 @@ import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useProfilesContext } from './ProfilesContext';
-import CircularProgressComponent from '../CircularProgressComponent';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -85,7 +85,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
 
   return (
     <List className={classes.root}>
-      {loadingList && <CircularProgressComponent />}
+      {loadingList && <CircularProgress size={50} />}
       {profiles.map(profile => {
         const isSelected = profileSelected && profileSelected.id === profile.id;
         const role = rolesProfile.find(r => r.id === profile.roleId);
@@ -108,7 +108,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                   </Grid>
                   <Grid item xs={8}>
                     <Typography className={classes.itemListContentPrimary}>
-                      Nacio: {moment(profile.birthday.toDate()).format('DD/MM/YYYYY')}
+                      Nacio: {profile.birthday && moment(profile.birthday.toDate()).format('DD/MM/YYYYY')}
                     </Typography>
                     <Typography className={classes.itemListContentPrimary}>Estatura: {profile.height}</Typography>
                   </Grid>

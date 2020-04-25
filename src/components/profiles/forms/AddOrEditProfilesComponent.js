@@ -53,7 +53,10 @@ function AddOrEditProfilesComponent({ title }) {
       <Form
         initialValues={
           formType === EDIT_FORM_TEXT &&
-          profileSelected && { ...profileSelected, birthday: profileSelected.birthday.toDate() }
+          profileSelected && {
+            ...profileSelected,
+            birthday: profileSelected.birthday && profileSelected.birthday.toDate(),
+          }
         }
         onSubmit={onSubmit}
         // validate={ValidateDoctorForm}

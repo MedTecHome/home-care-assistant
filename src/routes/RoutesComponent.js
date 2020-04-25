@@ -4,6 +4,7 @@ import PrivateRoutes from './PrivateRoutes';
 
 const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
 const LoginComponent = lazy(() => import('../components/login/LoginComponent'));
+const RegisterComponent = lazy(() => import('../components/login/RegisterComponent'));
 const HospitalComponent = lazy(() => import('../components/hospital/HospitalComponent'));
 const ProfilesComponent = lazy(() => import('../components/profiles/ProfilesComponent'));
 const PatientsComponent = lazy(() => import('../components/patients/PatientsComponent'));
@@ -15,6 +16,7 @@ function RoutesComponent() {
     <Switch>
       <Route path="/" exact component={HomeComponent} />
       <Route path="/login" exact component={LoginComponent} />
+      <Route path="/registrarse" exact component={RegisterComponent} />
       <PrivateRoutes path="/inicio/" exact component={HomeComponent} />
       <PrivateRoutes path="/paciente/form" exact component={PatientHealthForm} />
       <PrivateRoutes path="/pacientes" exact component={PatientsComponent} />
