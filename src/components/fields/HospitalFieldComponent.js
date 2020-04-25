@@ -29,7 +29,7 @@ function HospitalFieldComponent({ classes }) {
       blurOnSelect
       size="small"
       label="Hospital"
-      name="hospitalId"
+      name="hospital"
       popupIcon={listLoading ? <CircularProgress size={12} /> : <ExpandMoreIcon size={12} />}
       textFieldProps={{
         size: 'small',

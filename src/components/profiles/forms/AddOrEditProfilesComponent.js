@@ -13,6 +13,9 @@ import LastNameFieldComponent from '../../fields/LastNameFieldComponent';
 import PhoneFieldComponent from '../../fields/PhoneFieldComponent';
 import PatientsFieldComponent from '../../fields/PatientFieldsComponent';
 import RoleFieldComponent from '../../fields/RoleFieldComponent';
+import { getDoctorByIdAction } from '../reducers/ProfileActions';
+import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
+import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
 
 const useStyles = makeStyles({
   root: {
@@ -36,8 +39,17 @@ function AddOrEditProfilesComponent({ title }) {
     };
   }, [getProfilesList]);
 
-  const onSubmit = values => {
-    saveProfileValues({ ...values, birthday: moment(values.birthday).toDate() }, formType);
+  const onSubmit = async ({ user, ...values }) => {
+    saveProfileValues(
+      {
+        ...values,
+        ...(values.birthday ? { birthday: moment(values.birthday).toDate() } : {}),
+        ...(values.doctor ? { doctor: await getDoctorByIdAction(values.doctor) } : {}),
+        ...(values.role ? { role: await getRoleByIdAction(values.role) } : {}),
+        ...(values.hospital ? { hospital: await getHospitalByIdAction(values.hospital) } : {}),
+      },
+      formType
+    );
     setModalVisible(false, null);
   };
 
@@ -55,7 +67,11 @@ function AddOrEditProfilesComponent({ title }) {
           formType === EDIT_FORM_TEXT &&
           profileSelected && {
             ...profileSelected,
-            birthday: profileSelected.birthday && profileSelected.birthday.toDate(),
+            ...(profileSelected.user ? { user: profileSelected.user.email } : {}),
+            ...(profileSelected.role ? { role: profileSelected.role.id } : {}),
+            ...(profileSelected.doctor ? { doctor: profileSelected.doctor.id } : {}),
+            ...(profileSelected.hospital ? { hospital: profileSelected.hospital.id } : {}),
+            ...(profileSelected.birthday ? { birthday: profileSelected.birthday.toDate() } : {}),
           }
         }
         onSubmit={onSubmit}
@@ -74,14 +90,14 @@ function AddOrEditProfilesComponent({ title }) {
                 <Grid item xs={12}>
                   <PhoneFieldComponent classes={classes} />
                 </Grid>
-                {values && values.roleId === 'patient' && <PatientsFieldComponent classes={classes} />}
-                {values && values.roleId === 'doctor' && (
+                {values && values.role === 'patient' && <PatientsFieldComponent classes={classes} />}
+                {values && values.role === 'doctor' && (
                   <Grid item xs={12}>
                     <HospitalFieldComponent classes={classes} />
                   </Grid>
                 )}
                 <Grid item xs={12}>
-                  <UserFieldComponent classes={classes} />
+                  <UserFieldComponent classes={classes} disabled />
                 </Grid>
                 <Grid item xs={12}>
                   <RoleFieldComponent classes={classes} />

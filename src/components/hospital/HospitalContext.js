@@ -10,7 +10,7 @@ import {
   setSaveHospitalLoadingAction,
   setTotalHospitalAction,
 } from './reducers/HospitalActions';
-import { setModalVisibleAction } from '../../commons/reducers/GlobalActions';
+import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 
 const HospitalContext = createContext({});

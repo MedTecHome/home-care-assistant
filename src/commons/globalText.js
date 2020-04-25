@@ -1,7 +1,5 @@
 /** text reducers actions */
-export const SET_ROLES = 'SET_ROLES';
 export const SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE';
-export const UNSUSBCRIBE_FROM_ALL = 'UNSUSBCRIBE_FROM_ALL';
 /** hospitals */
 export const LIST_HOSPITAL = 'LIST_HOSPITAL';
 export const TOTAL_LIST_HOSPITAL = 'TOTAL_LIST_HOSPITAL';
@@ -15,10 +13,6 @@ export const SAVE_PROFILES_LOADING = 'SAVE_PROFILES_LOADING';
 export const LIST_PROFILES = 'LIST_PROFILES';
 export const LIST_PROFILES_NOMENCLADOR = 'LIST_PROFILES_NOMENCLADOR';
 export const SELECTED_PROFILE = 'SELECTED_PROFILE';
-export const SET_PROFILE_USER = 'SET_PROFILE_USER';
-export const SET_PROFILE_DOCTOR = 'SET_PROFILE_DOCTOR';
-export const SET_PROFILE_HOSPITAL = 'SET_PROFILE_HOSPITAL';
-export const SET_PROFILE_ROLE = 'SET_PROFILE_ROLE';
 export const SET_PROFILE_FILTER = 'SET_PROFILE_FILTER';
 
 export const ADD_FORM_TEXT = 'ADD_FORM_TEXT';
@@ -29,7 +23,3 @@ export const DETAILS_FORM_TEXT = 'DETAILS_FORM_TEXT';
 /** validator text */
 export const REQUIRED_FIELD = 'Este campo es obligatorio.';
 export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada';
-
-/** pagination */
-export const SET_PAGINATION_PAGE = 'SET_PAGINATION_PAGE';
-export const SET_PAGINATION_LIMIT = 'SET_PAGINATION_LIMIT';

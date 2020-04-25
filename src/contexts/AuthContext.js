@@ -44,7 +44,7 @@ export function AuthContextProvider({ children }) {
     setLoadingState(true);
     try {
       const { user } = await authFirebase.createUserWithEmailAndPassword(email, password);
-      await saveProfileValuesAction({ ...values, userId: user.uid }, ADD_FORM_TEXT);
+      await saveProfileValuesAction({ ...values, user: { id: user.uid, email: user.email } }, ADD_FORM_TEXT);
     } catch (e) {
       setAndClearErrorState(e);
     }

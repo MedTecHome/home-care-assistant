@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Select } from 'mui-rff';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useRolesContext, withRolesContext } from '../../contexts/RolesContext';
+import { useRolesContext, withRolesContext } from './roles/RolesContext';
 
 function RoleFieldComponent({ classes }) {
   const { roles, getRoles } = useRolesContext();
@@ -12,25 +12,19 @@ function RoleFieldComponent({ classes }) {
 
   return (
     <Select
-      defaultValue=""
       className={classes.formControl}
       label="Tipo"
-      name="roleId"
+      name="role"
       variant="outlined"
       formControlProps={{
         size: 'small',
       }}
       fieldProps={{
-        size: 'small',
         InputLabelProps: {
           shrink: true,
-          size: 'small',
         },
       }}
     >
-      <MenuItem key="none" value="">
-        None
-      </MenuItem>
       {roles.map(role => (
         <MenuItem key={role.id} value={role.id}>
           {role.name}

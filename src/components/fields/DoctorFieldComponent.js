@@ -1,20 +1,17 @@
 import { Autocomplete } from 'mui-rff';
 import React, { useEffect, useMemo, useState } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import debounce from 'lodash/debounce';
-import { useProfilesContext } from '../profiles/ProfilesContext';
+import { getDoctorsListAction } from '../profiles/reducers/ProfileActions';
 
 function DoctorFieldComponent({ classes }) {
-  const { getListProfilesNomenclador, listLoading, profiles } = useProfilesContext();
+  const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
 
   const filterNameMemoize = useMemo(() => filterName, [filterName]);
-
   useEffect(() => {
-    getListProfilesNomenclador({ filters: { name: filterNameMemoize } });
-  }, [getListProfilesNomenclador, filterNameMemoize]);
+    getDoctorsListAction({ name: filterNameMemoize }).then(res => setDoctors(res));
+  }, [filterNameMemoize]);
 
   const handleInputChange = event => {
     setFilterNameDebounced(event.target.value);
@@ -28,8 +25,8 @@ function DoctorFieldComponent({ classes }) {
       blurOnSelect
       size="small"
       label="Doctor"
-      name="doctorId"
-      popupIcon={listLoading ? <CircularProgress size={12} /> : <ExpandMoreIcon size={12} />}
+      name="doctor"
+      // popupIcon={false ? <CircularProgress size={12} /> : <ExpandMoreIcon size={12} />}
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',
@@ -38,7 +35,7 @@ function DoctorFieldComponent({ classes }) {
         onChange: handleInputChange,
       }}
       openOnFocus={false}
-      options={profiles}
+      options={doctors}
       getOptionValue={option => option.id}
       getOptionLabel={option => option.name}
     />

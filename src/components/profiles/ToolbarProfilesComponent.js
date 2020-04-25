@@ -13,7 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
 import { useMediaQuery } from '@material-ui/core';
 import useTheme from '@material-ui/core/styles/useTheme';
-import { useRolesContext, withRolesContext } from '../../contexts/RolesContext';
+import { useRolesContext, withRolesContext } from '../fields/roles/RolesContext';
 import { useProfilesContext } from './ProfilesContext';
 
 const useStyles = makeStyles({

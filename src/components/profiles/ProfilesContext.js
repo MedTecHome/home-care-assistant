@@ -3,20 +3,15 @@ import { isEmpty } from 'ramda';
 import { initialProfilesState, ProfilesReducer } from './reducers/ProfileReducer';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import {
-  getDoctorById,
+  getDoctorsNomencladorAction,
   getRefProfiles,
   saveProfileValuesAction,
   setListProfilesAction,
-  setListProfilesNomencladorAction,
   setProfileListLoadingAction,
-  setProfilesDoctorAction,
   setProfileSelected,
-  setProfilesHospitalAction,
-  setProfilesRoleAction,
   setProfilesSaveLoadingAction,
 } from './reducers/ProfileActions';
-import { getHospitalDetailsAction } from '../hospital/reducers/HospitalActions';
-import { getRoleById, setModalVisibleAction } from '../../commons/reducers/GlobalActions';
+import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { initialProfileFiltersState, ProfileFiltersReducer } from './reducers/ProfileFiltersReducer';
 import setProfileFilterAction from './reducers/ProfilesFiltersActions';
 
@@ -27,7 +22,7 @@ export const withProfileContext = WrapperComponent => () => {
   const [filtersState, filtersDispatch] = useReducer(ProfileFiltersReducer, initialProfileFiltersState, init => init);
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
-  const getProfilesList = useCallback(({ limit = 5, next, prev, filters }) => {
+  const getProfilesList = useCallback(async ({ limit = 5, next, prev, filters }) => {
     dispatch(setProfileListLoadingAction(true));
     let ref = getRefProfiles();
     if (filters) {
@@ -42,64 +37,23 @@ export const withProfileContext = WrapperComponent => () => {
     }
 
     ref = ref.limit(limit);
-
-    ref.onSnapshot(snapshot => {
-      const result = snapshot.docChanges().map(({ doc }) => {
-        if (doc.data().userId) {
-          // eslint-disable-next-line no-console
-          console.log(doc.data().userId);
-        }
-        if (doc.data().doctorId) {
-          getDoctorById(doc.data().doctorId).onSnapshot(doctor => {
-            dispatch(setProfilesDoctorAction({ id: doctor.id, ...doctor.data() }));
-          });
-        }
-        if (doc.data().hospitalId) {
-          getHospitalDetailsAction(doc.data().hospitalId).onSnapshot(hospital => {
-            dispatch(setProfilesHospitalAction({ id: hospital.id, ...hospital.data() }));
-          });
-        }
-        if (doc.data().roleId) {
-          getRoleById(doc.data().roleId).onSnapshot(role => {
-            dispatch(setProfilesRoleAction({ id: role.id, ...role.data() }));
-          });
-        }
-        return { id: doc.id, ...doc.data() };
-      });
+    try {
+      const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
       dispatch(setListProfilesAction(result));
-      dispatch(setProfileListLoadingAction(false));
-    });
-  }, []);
-
-  const getListProfilesNomenclador = useCallback(({ filters }) => {
-    dispatch(setProfileListLoadingAction(true));
-    let ref = getRefProfiles();
-
-    if (filters) {
-      Object.keys(filters).map(k => {
-        ref = ref.where(k, '==', filters[k]);
-        return null;
-      });
-
-      ref.onSnapshot(snapshot => {
-        const result = snapshot.docChanges().map(({ doc }) => {
-          return { id: doc.id, name: doc.data().name };
-        });
-        dispatch(setListProfilesNomencladorAction(result));
-        dispatch(setProfileListLoadingAction(false));
-      });
+    } catch (e) {
+      // handle error
     }
+    dispatch(setProfileListLoadingAction(false));
   }, []);
 
-  const saveProfileValues = useCallback((values, formType) => {
+  const saveProfileValues = useCallback(async (values, formType) => {
     dispatch(setProfilesSaveLoadingAction(true));
-    saveProfileValuesAction(values, formType)
-      .then(result => {
-        // eslint-disable-next-line no-console
-        console.log(result);
-      })
-      // eslint-disable-next-line no-console
-      .catch(console.error);
+    try {
+      await saveProfileValuesAction(values, formType);
+    } catch (e) {
+      // handle error
+    }
+    dispatch(setProfilesSaveLoadingAction(true));
   }, []);
 
   const selectProfileFromList = useCallback(selected => dispatch(setProfileSelected(selected)), []);
@@ -108,6 +62,18 @@ export const withProfileContext = WrapperComponent => () => {
     (visible, formType) => globalDispatch(setModalVisibleAction(visible, formType)),
     []
   );
+
+  const getDoctorsNomenclador = useCallback(async ({ filters }) => {
+    let ref = getRefProfiles();
+    if (filters) {
+      Object.keys(filters).map(k => {
+        ref = ref.where(k, '==', filters[k]);
+        return null;
+      });
+    }
+    const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    dispatch(getDoctorsNomencladorAction(result));
+  }, []);
 
   const setProfileFilter = useCallback(filters => filtersDispatch(setProfileFilterAction(filters)), []);
 
@@ -122,7 +88,7 @@ export const withProfileContext = WrapperComponent => () => {
         saveProfileValues,
         setModalVisible,
         setProfileFilter,
-        getListProfilesNomenclador,
+        getDoctorsNomenclador,
       }}
     >
       <WrapperComponent />
@@ -137,10 +103,6 @@ export const useProfilesContext = () => {
     profiles: values.profiles,
     total: values.total,
     profileSelected: values.profileSelected,
-    usersProfiles: values.usersProfiles,
-    doctorsProfile: values.doctorsProfile,
-    hospitalsProfile: values.hospitalsProfile,
-    rolesProfile: values.rolesProfile,
     loadingList: values.loadingList,
     loadingSave: values.loadingSave,
     formType: values.formType,
@@ -149,8 +111,8 @@ export const useProfilesContext = () => {
     selectProfileFromList: values.selectProfileFromList,
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
-    profilesNomenclador: values.profilesNomenclador,
-    getListProfilesNomenclador: values.getListProfilesNomenclador,
+    doctorsNomenclador: values.doctorsNomenclador,
+    getDoctorsNomenclador: values.getDoctorsNomenclador,
     filters: values.filters,
     setProfileFilter: values.setProfileFilter,
   };
