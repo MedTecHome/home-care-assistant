@@ -58,7 +58,6 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
     getProfilesList,
     selectProfileFromList,
     profileSelected,
-    rolesProfile,
     filters,
     loadingList,
   } = useProfilesContext();
@@ -88,7 +87,6 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
       {loadingList && <CircularProgress size={50} />}
       {profiles.map(profile => {
         const isSelected = profileSelected && profileSelected.id === profile.id;
-        const role = rolesProfile.find(r => r.id === profile.roleId);
         return (
           <ListItem
             key={profile.id}
@@ -117,7 +115,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
               secondary={
                 <>
                   <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
-                    Tipo: {role ? role.name : '?'}
+                    Tipo: {profile.role ? profile.role.id : '?'}
                   </Typography>
                 </>
               }

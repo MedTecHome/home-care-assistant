@@ -1,4 +1,4 @@
-import { dbFirebase } from '../../../firebaseConfig';
+import { dbRef } from '../../../firebaseConfig';
 import {
   ADD_FORM_TEXT,
   DELETE_FORM_TEXT,
@@ -9,6 +9,8 @@ import {
   SELECTED_HOSPITAL,
   TOTAL_LIST_HOSPITAL,
 } from '../../../commons/globalText';
+
+const hospitalRef = dbRef('hospital');
 
 export const setListHospitalAction = list => ({
   type: LIST_HOSPITAL,
@@ -36,15 +38,16 @@ export const selectHospitalsFromListAction = selected => ({
 });
 
 export const fetchHospitalsAction = () => {
-  return dbFirebase.collection('home-care-assistant').doc('hospital');
+  return hospitalRef;
 };
 
-export const getHospitalDetailsAction = id => {
-  return dbFirebase.collection('home-care-assistant').doc('hospital').collection('hospitals').doc(id);
+export const getHospitalByIdAction = async id => {
+  const ref = await hospitalRef.collection('hospitals').doc(id).get();
+  return { id: ref.id, ...ref.data() };
 };
 
 export const saveHospitalValuesAction = ({ id, ...values }, form) => {
-  const ref = dbFirebase.collection('home-care-assistant').doc('hospital').collection('hospitals');
+  const ref = hospitalRef.collection('hospitals');
   if (form === ADD_FORM_TEXT) {
     return ref.add(values);
   }

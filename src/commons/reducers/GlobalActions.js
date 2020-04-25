@@ -1,23 +1,9 @@
-import { SET_MODAL_VISIBLE, SET_ROLES, UNSUSBCRIBE_FROM_ALL } from '../globalText';
-import { dbRef } from '../../firebaseConfig';
+import { SET_MODAL_VISIBLE } from '../globalText';
 
-const rolesRef = dbRef('role');
-export const setModalVisibleAction = (flag, formType) => ({
-  type: SET_MODAL_VISIBLE,
-  flag,
-  formType,
-});
-
-export const setUnsubscriptionAction = unsubscription => ({
-  type: UNSUSBCRIBE_FROM_ALL,
-  unsubscription,
-});
-
-export const setRolesAction = roles => ({
-  type: SET_ROLES,
-  roles,
-});
-
-export const getRolesAction = () => rolesRef.collection('roles');
-
-export const getRoleById = id => rolesRef.collection('roles').doc(id);
+export default function setModalVisibleAction(flag, formType) {
+  return {
+    type: SET_MODAL_VISIBLE,
+    flag,
+    formType,
+  };
+}

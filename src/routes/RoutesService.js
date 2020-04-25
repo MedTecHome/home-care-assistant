@@ -2,6 +2,9 @@ import { useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
+/**
+ * @return {null}
+ */
 function RouteService({ location, history }) {
   const { currentUser } = useContext(AuthContext);
 
