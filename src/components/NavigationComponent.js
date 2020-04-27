@@ -22,9 +22,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function NavigationComponent() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, currentUserProfile } = useContext(AuthContext);
   const history = useHistory();
   const classes = useStyles();
+
   const handleClickReporte = () => {
     history.push('/paciente/form');
   };
@@ -46,18 +47,26 @@ export default function NavigationComponent() {
       {currentUser && (
         <Container className={classes.navigation}>
           <div>
-            <Button disableElevation color="inherit" onClick={handleClickReporte}>
-              Reporte
-            </Button>
-            <Button disableElevation color="inherit" onClick={handleClickPacientes}>
-              Pacientes
-            </Button>
-            <Button disableElevation color="inherit" onClick={handleClickProfiles}>
-              Perfiles
-            </Button>
-            <Button disableElevation color="inherit" onClick={handleClickHospital}>
-              Hospitales
-            </Button>
+            {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
+              <Button disableElevation color="inherit" onClick={handleClickReporte}>
+                Reporte
+              </Button>
+            )}
+            {currentUserProfile && ['admin', 'doctor'].includes(currentUserProfile.role.id) && (
+              <Button disableElevation color="inherit" onClick={handleClickPacientes}>
+                Pacientes
+              </Button>
+            )}
+            {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
+              <Button disableElevation color="inherit" onClick={handleClickProfiles}>
+                Perfiles
+              </Button>
+            )}
+            {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
+              <Button disableElevation color="inherit" onClick={handleClickHospital}>
+                Hospitales
+              </Button>
+            )}
           </div>
         </Container>
       )}

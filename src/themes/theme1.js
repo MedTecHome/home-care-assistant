@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { green, grey, red, yellow } from '@material-ui/core/colors';
 import createPalette from '@material-ui/core/styles/createPalette';
 
-export const theme1 = createMuiTheme({
+const theme1 = createMuiTheme({
   palette: createPalette({
     type: 'light',
     primary: {
@@ -19,3 +19,5 @@ export const theme1 = createMuiTheme({
     inProgress: yellow,
   }),
 });
+
+export default theme1;

@@ -1,10 +1,11 @@
 import React from 'react';
 import { TextField } from 'mui-rff';
 
-function EmailFieldComponent({ classes }) {
+function EmailFieldComponent({ classes, disabled }) {
   return (
     <TextField
       required
+      disabled={disabled}
       type="email"
       name="email"
       className={classes.formControl}

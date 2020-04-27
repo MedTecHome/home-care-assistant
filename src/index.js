@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthContextProvider } from './contexts/AuthContext';
-import { theme1 } from './themes/theme1';
+import theme1 from './themes/theme1';
 
 ReactDOM.render(
   <AuthContextProvider>
