@@ -1,31 +1,38 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField } from 'mui-rff';
 import Typography from '@material-ui/core/Typography';
+import { TextField } from 'mui-rff';
+// import { useFormContext } from 'react-hook-form';
 
-function TemperaturaForm({ classStyle }) {
+function CoagulacionForm({ classStyle }) {
+  // const { register, errors } = useFormContext();
   return (
     <div className={classStyle.paper}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Temperatura:
+        Coagulacion - INR:
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            required
             className={classStyle.formControl}
+            type="number"
+            label="INR:"
+            name="coagulationInr"
+            required
             variant="outlined"
             size="small"
             InputLabelProps={{
               shrink: true,
             }}
-            label="Grados Celcius"
-            name="temperatureCelsiusDegree"
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             className={classStyle.formControl}
+            type="number"
+            label="Nota:"
+            name="coagulationInrNota"
+            required
             variant="outlined"
             size="small"
             InputLabelProps={{
@@ -33,8 +40,6 @@ function TemperaturaForm({ classStyle }) {
             }}
             multiline
             rows={4}
-            label="Nota"
-            name="temperatureNote"
           />
         </Grid>
       </Grid>
@@ -42,4 +47,4 @@ function TemperaturaForm({ classStyle }) {
   );
 }
 
-export default TemperaturaForm;
+export default CoagulacionForm;

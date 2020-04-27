@@ -9,13 +9,14 @@ import useTheme from '@material-ui/core/styles/useTheme';
 import useStyle from './cssInJs';
 
 const optionsCheckbox = [
-  { label: 'Presion', value: 'presion' },
-  { label: 'Temperatura', value: 'temperatura' },
-  { label: 'Peso', value: 'peso' },
-  { label: 'Glucosa', value: 'glucosa' },
-  { label: 'Respiracion', value: 'respiracion' },
+  { label: 'Presion', value: 'pressure' },
+  { label: 'Temperatura', value: 'temperature' },
+  { label: 'Peso', value: 'weight' },
+  { label: 'Glucosa', value: 'glucose' },
+  { label: 'Respiracion', value: 'breathing' },
   { label: 'Oxígeno', value: 'oxygeno' },
   { label: 'INR', value: 'inr' },
+  { label: 'Pulso', value: 'heartbeat' },
 ];
 
 function SelectedChecboxForm({ location, history, defaultValues }) {
@@ -26,11 +27,12 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
   const handleSelectCheckbox = ev => {
     const { name, checked } = ev.target;
     if (checked) {
-      urlSearchParams.append(`formulario`, name);
-    } else {
-      const formularios = urlSearchParams.getAll('formulario').filter(s => s !== name);
+      urlSearchParams.append('formulario', name);
+    }
+    if (!checked) {
+      const resto = urlSearchParams.getAll('formulario').filter(sear => sear !== name);
       urlSearchParams.delete('formulario');
-      formularios.map(f => urlSearchParams.append('formulario', f));
+      resto.map(insert => urlSearchParams.append('formulario', insert));
     }
     history.push({
       pathname: location.pathname,
@@ -44,7 +46,7 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
       }}
       component="fieldset"
     >
-      <FormLabel component="legend">Seleccione uno o mas formulario</FormLabel>
+      <FormLabel component="legend">Seleccione</FormLabel>
       <FormGroup className={justifyCheckbox} row defaultValue={defaultValues}>
         {optionsCheckbox.map(op => (
           <FormControlLabel

@@ -1,32 +1,31 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import { useFormContext } from 'react-hook-form';
+import { TextField } from 'mui-rff';
+import Typography from '@material-ui/core/Typography';
 
-function PesoForm() {
-  const { register, errors } = useFormContext();
+function PesoForm({ classStyle }) {
   return (
-    <Grid container>
-      <h3
-        style={{
-          marginBlockEnd: 0,
-        }}
-      >
-        PESO:
-      </h3>
-      <Grid item xs={12}>
-        <TextField
-          error={!!errors.peso}
-          inputRef={register({
-            required: 'Obligatorio',
-          })}
-          type="number"
-          label="Peso"
-          name="peso"
-          helperText={errors.peso && errors.peso.message}
-        />
+    <div className={classStyle.paper}>
+      <Typography className={classStyle.titleForms} variant="subtitle1">
+        Peso:
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            className={classStyle.formControl}
+            variant="outlined"
+            size="small"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            required
+            type="number"
+            label="Peso"
+            name="weightWeight"
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 

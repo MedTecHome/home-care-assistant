@@ -43,7 +43,7 @@ export default function NavigationComponent() {
 
   return (
     <>
-      {currentUser && (
+      {true && (
         <Container className={classes.navigation}>
           <div>
             <Button disableElevation color="inherit" onClick={handleClickReporte}>
