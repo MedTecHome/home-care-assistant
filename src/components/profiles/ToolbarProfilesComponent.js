@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useContext, useEffect, useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import List from '@material-ui/core/List';
@@ -15,6 +15,7 @@ import { useMediaQuery } from '@material-ui/core';
 import useTheme from '@material-ui/core/styles/useTheme';
 import { useRolesContext, withRolesContext } from '../fields/roles/RolesContext';
 import { useProfilesContext } from './ProfilesContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const useStyles = makeStyles({
   formControl: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 });
 
 function ToolbarProfileComponent({ onClickAdd }) {
+  const { currentUserProfile } = useContext(AuthContext);
   const { roles, getRoles } = useRolesContext();
   const { filters, setProfileFilter } = useProfilesContext();
   const [fullname, setFullName] = useState('');
@@ -78,22 +80,24 @@ function ToolbarProfileComponent({ onClickAdd }) {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={3} md={3}>
-          <FormControl className={classes.formControl}>
-            <InputLabel>Tipo de perfile</InputLabel>
-            <Select
-              name="filter-roles"
-              value={filters.roleId || ''}
-              onChange={event => setProfileFilter({ ...filters, roleId: event.target.value })}
-            >
-              {roles.map(role => (
-                <MenuItem key={role.id} value={role.id}>
-                  {role.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
+        {currentUserProfile && currentUserProfile.role.id === 'admin' && (
+          <Grid item xs={12} sm={3} md={3}>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Tipo de perfile</InputLabel>
+              <Select
+                name="filter-roles"
+                value={filters['role.id'] || ''}
+                onChange={event => setProfileFilter({ ...filters, 'role.id': event.target.value })}
+              >
+                {roles.map(role => (
+                  <MenuItem key={role.id} value={role.id}>
+                    {role.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        )}
       </Grid>
     </List>
   );

@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Field, Form } from 'react-final-form';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { EDIT_FORM_TEXT } from '../../../commons/globalText';
-import UserFieldComponent from '../../fields/UserFieldComponent';
 import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
 import { useProfilesContext } from '../ProfilesContext';
 import NameFieldComponent from '../../fields/NameFieldComponent';
@@ -16,6 +15,8 @@ import RoleFieldComponent from '../../fields/RoleFieldComponent';
 import { getDoctorByIdAction } from '../reducers/ProfileActions';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
+import EmailFieldComponent from '../../fields/EmailFieldComponent';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 const useStyles = makeStyles({
   root: {
@@ -30,14 +31,9 @@ const useStyles = makeStyles({
 });
 
 function AddOrEditProfilesComponent({ title }) {
-  const { profileSelected, saveProfileValues, formType, setModalVisible, getProfilesList } = useProfilesContext();
+  const { currentUserProfile } = useContext(AuthContext);
+  const { profileSelected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
   const classes = useStyles();
-
-  useEffect(() => {
-    return () => {
-      getProfilesList({});
-    };
-  }, [getProfilesList]);
 
   const onSubmit = async ({ user, ...values }) => {
     saveProfileValues(
@@ -64,15 +60,16 @@ function AddOrEditProfilesComponent({ title }) {
       </div>
       <Form
         initialValues={
-          formType === EDIT_FORM_TEXT &&
-          profileSelected && {
-            ...profileSelected,
-            ...(profileSelected.user ? { user: profileSelected.user.email } : {}),
-            ...(profileSelected.role ? { role: profileSelected.role.id } : {}),
-            ...(profileSelected.doctor ? { doctor: profileSelected.doctor.id } : {}),
-            ...(profileSelected.hospital ? { hospital: profileSelected.hospital.id } : {}),
-            ...(profileSelected.birthday ? { birthday: profileSelected.birthday.toDate() } : {}),
-          }
+          formType === EDIT_FORM_TEXT && profileSelected
+            ? {
+                ...profileSelected,
+                ...(profileSelected.user ? { email: profileSelected.user.email } : {}),
+                ...(profileSelected.role ? { role: profileSelected.role.id } : {}),
+                ...(profileSelected.doctor ? { doctor: profileSelected.doctor.id } : {}),
+                ...(profileSelected.hospital ? { hospital: profileSelected.hospital.id } : {}),
+                ...(profileSelected.birthday ? { birthday: profileSelected.birthday.toDate() } : {}),
+              }
+            : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id }
         }
         onSubmit={onSubmit}
         // validate={ValidateDoctorForm}
@@ -90,17 +87,19 @@ function AddOrEditProfilesComponent({ title }) {
                 <Grid item xs={12}>
                   <PhoneFieldComponent classes={classes} />
                 </Grid>
-                {values && values.role === 'patient' && <PatientsFieldComponent classes={classes} />}
+                {values && values.role === 'patient' && (
+                  <PatientsFieldComponent classes={classes} userRole={currentUserProfile.role} />
+                )}
                 {values && values.role === 'doctor' && (
                   <Grid item xs={12}>
                     <HospitalFieldComponent classes={classes} />
                   </Grid>
                 )}
                 <Grid item xs={12}>
-                  <UserFieldComponent classes={classes} disabled />
+                  <RoleFieldComponent classes={classes} userRole={currentUserProfile.role} />
                 </Grid>
                 <Grid item xs={12}>
-                  <RoleFieldComponent classes={classes} />
+                  <EmailFieldComponent disabled={formType === EDIT_FORM_TEXT} classes={classes} />
                 </Grid>
                 <Grid item container xs={12} justify="space-evenly">
                   <Button disableElevation variant="contained" onClick={handleCancel}>

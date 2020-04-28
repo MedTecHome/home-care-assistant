@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import AddOrEditProfilesComponent from './AddOrEditProfilesComponent';
 import DeleteProfilesComponent from './DeleteProfilesComponent';
 
-function ProfilesFormComponent({ formType }) {
+function ProfilesFormComponent({ formType, handleModalClose }) {
+  useEffect(() => {
+    return () => {
+      handleModalClose();
+    };
+  }, [handleModalClose]);
+
   return (
     <>
       {formType === ADD_FORM_TEXT && <AddOrEditProfilesComponent title="Adicionar" />}

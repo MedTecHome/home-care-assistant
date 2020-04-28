@@ -1,28 +1,27 @@
-import React, { lazy } from 'react';
+import React, { useContext } from 'react';
+import uuid from 'uuid4';
 import { Route, Switch } from 'react-router-dom';
+import { isEmpty, isNil } from 'ramda';
 import PrivateRoutes from './PrivateRoutes';
-
-const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
-const LoginComponent = lazy(() => import('../components/login/LoginComponent'));
-const RegisterComponent = lazy(() => import('../components/login/RegisterComponent'));
-const HospitalComponent = lazy(() => import('../components/hospital/HospitalComponent'));
-const ProfilesComponent = lazy(() => import('../components/profiles/ProfilesComponent'));
-const PatientsComponent = lazy(() => import('../components/patients/PatientsComponent'));
-const HomeComponent = lazy(() => import('../components/HomeComponent'));
-const PatientHealthForm = lazy(() => import('../components/patientForm/PatientHealthForm'));
+import RouteListConfig from './RoutesListConfig';
+import { AuthContext } from '../contexts/AuthContext';
 
 function RoutesComponent() {
+  const { currentUserProfile } = useContext(AuthContext);
   return (
     <Switch>
-      <Route path="/" exact component={HomeComponent} />
-      <Route path="/login" exact component={LoginComponent} />
-      <Route path="/registrarse" exact component={RegisterComponent} />
-      <PrivateRoutes path="/inicio/" exact component={HomeComponent} />
-      <PrivateRoutes path="/paciente/form" exact component={PatientHealthForm} />
-      <PrivateRoutes path="/pacientes" exact component={PatientsComponent} />
-      <PrivateRoutes path="/perfiles" exact component={ProfilesComponent} />
-      <PrivateRoutes path="/hospitales" exact component={HospitalComponent} />
-      <Route component={PageNotFound} />
+      {RouteListConfig.filter(
+        route =>
+          isEmpty(route.roles) ||
+          isNil(route.roles) ||
+          (route.roles && currentUserProfile && route.roles.includes(currentUserProfile.role.id))
+      ).map(({ path, roles, component }) => {
+        if (!isEmpty(roles) && !isNil(roles)) {
+          return <PrivateRoutes key={uuid()} path={path} exact component={component} />;
+        }
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <Route key={uuid()} {...(path ? { path } : {})} exact component={component} />;
+      })}
     </Switch>
   );
 }

@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 function HeaderComponent({ history }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { currentUser, signOutUser } = useContext(AuthContext);
+  const { currentUser, currentUserProfile, signOutUser } = useContext(AuthContext);
   const handleClickLogin = () => {
     history.push('/login');
   };
@@ -68,7 +68,11 @@ function HeaderComponent({ history }) {
               Login
             </Button>
           )}
-          {currentUser && <Typography className={classes.currentUser}>{currentUser.email}</Typography>}
+          {currentUser && (
+            <Typography className={classes.currentUser}>
+              {currentUserProfile ? currentUserProfile.fullname : currentUser.email}
+            </Typography>
+          )}
           {currentUser && (
             <div>
               <IconButton aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
