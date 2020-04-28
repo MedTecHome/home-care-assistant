@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
 import { TextField } from 'mui-rff';
+import { green } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useHospitalContext } from '../HospitalContext';
 
@@ -15,6 +17,17 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-around',
   },
+  wrapper: {
+    position: 'relative',
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 });
 
 export default function AddOrEditHospitalComponent() {
@@ -25,8 +38,8 @@ export default function AddOrEditHospitalComponent() {
     setModalVisible(false, null);
   };
 
-  const onSubmit = values => {
-    saveHospitalValues(values, formType);
+  const onSubmit = async values => {
+    await saveHospitalValues(values, formType);
     handleCancel();
   };
 
@@ -36,8 +49,15 @@ export default function AddOrEditHospitalComponent() {
       <Form
         initialValues={formType === EDIT_FORM_TEXT && hospitalSelected && hospitalSelected}
         onSubmit={onSubmit}
-        render={({ handleSubmit }) => (
-          <form autoComplete="off" onSubmit={handleSubmit}>
+        render={({ handleSubmit, form, submitting, pristine }) => (
+          <form
+            autoComplete="off"
+            onSubmit={event => {
+              handleSubmit(event).then(() => {
+                form.reset();
+              });
+            }}
+          >
             {hospitalSelected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -113,14 +133,22 @@ export default function AddOrEditHospitalComponent() {
                   />
                 </Grid>
               </Grid>
-
               <Grid item className={classes.buttonActions} xs={12}>
                 <Button disableElevation variant="contained" onClick={handleCancel}>
                   cancelar
                 </Button>
-                <Button disableElevation variant="contained" type="submit" color="primary">
-                  guardar
-                </Button>
+                <div className={classes.wrapper}>
+                  <Button
+                    disabled={submitting || pristine}
+                    disableElevation
+                    variant="contained"
+                    type="submit"
+                    color="primary"
+                  >
+                    guardar
+                  </Button>
+                  {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+                </div>
               </Grid>
             </Grid>
           </form>

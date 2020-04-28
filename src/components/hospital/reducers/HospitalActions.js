@@ -5,9 +5,7 @@ import {
   EDIT_FORM_TEXT,
   LIST_HOSPITAL,
   LIST_HOSPITAL_LOADING,
-  SAVE_HOSPITAL_LOADING,
   SELECTED_HOSPITAL,
-  TOTAL_LIST_HOSPITAL,
 } from '../../../commons/globalText';
 
 const hospitalRef = dbRef('hospital');
@@ -17,18 +15,8 @@ export const setListHospitalAction = list => ({
   list,
 });
 
-export const setTotalHospitalAction = total => ({
-  type: TOTAL_LIST_HOSPITAL,
-  total,
-});
-
 export const setListHospitalLoadingAction = flag => ({
   type: LIST_HOSPITAL_LOADING,
-  flag,
-});
-
-export const setSaveHospitalLoadingAction = flag => ({
-  type: SAVE_HOSPITAL_LOADING,
   flag,
 });
 
@@ -46,16 +34,15 @@ export const getHospitalByIdAction = async id => {
   return { id: ref.id, ...ref.data() };
 };
 
-export const saveHospitalValuesAction = ({ id, ...values }, form) => {
+export const saveHospitalValuesAction = async ({ id, ...values }, form) => {
   const ref = hospitalRef.collection('hospitals');
   if (form === ADD_FORM_TEXT) {
-    return ref.add(values);
+    await ref.add(values);
   }
   if (form === EDIT_FORM_TEXT) {
-    return ref.doc(id).update(values);
+    await ref.doc(id).update(values);
   }
   if (form === DELETE_FORM_TEXT) {
-    return ref.doc(id).delete();
+    await ref.doc(id).delete();
   }
-  return new Promise();
 };

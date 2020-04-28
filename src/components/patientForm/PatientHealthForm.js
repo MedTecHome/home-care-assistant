@@ -5,6 +5,9 @@ import Container from '@material-ui/core/Container';
 import { Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { isEmpty, isNil } from 'ramda';
+import { green } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
 import PresionForm from './PresionForm';
 import TemperaturaForm from './TemperaturaForm';
 import GlucosaForm from './GlucosaForm';
@@ -29,6 +32,17 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20,
     paddingBottom: 10,
   },
+  wrapper: {
+    position: 'relative',
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
 const PatientHEalthForm = ({ location }) => {
@@ -36,23 +50,47 @@ const PatientHEalthForm = ({ location }) => {
   const selectedCheckbox = urlSearchParams.getAll('formulario');
   const classes = useStyles();
 
-  const onSubmit = values => {
+  const onSubmit = async values => {
     if (!isNil(values) && !isEmpty(values)) {
-      saveHealthDataAction(values);
+      try {
+        await saveHealthDataAction(values);
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
   return (
     <Container maxWidth="md">
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          md={3}
+          lg={3}
+          xl={3}
+          style={{
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+          }}
+        >
           <SelectedChecboxForm defaultValues={selectedCheckbox} />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} container>
           <Form
             onSubmit={onSubmit}
-            render={({ handleSubmit }) => (
-              <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            render={({ handleSubmit, form, submitting, pristine }) => (
+              <form
+                noValidate
+                autoComplete="off"
+                onSubmit={event => {
+                  handleSubmit(event).then(() => {
+                    form.reset();
+                  });
+                }}
+              >
                 <Grid container spacing={2}>
                   {selectedCheckbox.includes('pressure') && (
                     <Grid item xs={12}>
@@ -99,9 +137,18 @@ const PatientHEalthForm = ({ location }) => {
                       <Button disableElevation variant="contained">
                         Cancelar
                       </Button>
-                      <Button disableElevation type="submit" variant="contained" color="primary">
-                        Guardar
-                      </Button>
+                      <div className={classes.wrapper}>
+                        <Button
+                          disabled={submitting || pristine}
+                          disableElevation
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                        >
+                          Guardar
+                        </Button>
+                        {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+                      </div>
                     </Grid>
                   )}
                 </Grid>

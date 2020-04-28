@@ -8,7 +8,6 @@ export const AuthContext = createContext({});
 export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
-  const [loadingState, setLoadingState] = useState(false);
   const [errorState, setErrorState] = useState(null);
 
   useEffect(() => {
@@ -19,8 +18,9 @@ export function AuthContextProvider({ children }) {
         setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
       } else
         setCurrentUserProfile({
+          id: '2',
           role: {
-            id: 'doctor',
+            id: 'admin',
           },
         });
     });
@@ -39,26 +39,22 @@ export function AuthContextProvider({ children }) {
   };
 
   const signInUser = async ({ email, password }) => {
-    setLoadingState(true);
     try {
-      await authFirebase.signInWithEmailAndPassword(email, password);
+      return await authFirebase.signInWithEmailAndPassword(email, password);
     } catch (e) {
       setAndClearErrorState(e);
     }
-    setLoadingState(false);
   };
 
   const signOutUser = () => authFirebase.signOut();
 
   const signUpUser = useCallback(async ({ email, password, passwordConfirm, ...values }) => {
-    setLoadingState(true);
     try {
       const { user } = await authFirebase.createUserWithEmailAndPassword(email, password);
-      await saveProfileValuesAction({ ...values, user: { id: user.uid, email: user.email } }, ADD_FORM_TEXT);
+      return await saveProfileValuesAction({ ...values, user: { id: user.uid, email: user.email } }, ADD_FORM_TEXT);
     } catch (e) {
       setAndClearErrorState(e);
     }
-    setLoadingState(false);
   }, []);
 
   return (
@@ -69,7 +65,6 @@ export function AuthContextProvider({ children }) {
         signInUser,
         signOutUser,
         signUpUser,
-        loadingState,
         errorState,
       }}
     >

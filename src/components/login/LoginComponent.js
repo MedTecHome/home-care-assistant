@@ -36,20 +36,26 @@ const useStyles = makeStyles({
 });
 
 function LoginComponent() {
-  const { signInUser, loadingState, errorState } = useContext(AuthContext);
+  const { signInUser, errorState } = useContext(AuthContext);
 
   const classes = useStyles();
 
-  const onSubmit = value => {
-    signInUser(value);
+  const onSubmit = async value => {
+    await signInUser(value);
   };
 
   return (
     <Form
       onSubmit={onSubmit}
       validate={LoginFormValidation}
-      render={({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+      render={({ handleSubmit, form, submitting, pristine }) => (
+        <form
+          onSubmit={event => {
+            handleSubmit(event).then(() => {
+              form.reset();
+            });
+          }}
+        >
           <Grid className={classes.root} item container spacing={2}>
             <ErrorMessageComponent errorState={errorState} />
             <AuthFormsTitleComponent title="Acceso" />
@@ -77,7 +83,7 @@ function LoginComponent() {
               <div className={classes.wrapper}>
                 <Button
                   disableElevation
-                  disabled={loadingState}
+                  disabled={submitting || pristine}
                   className={classes.formControl}
                   type="submit"
                   color="primary"
@@ -85,7 +91,7 @@ function LoginComponent() {
                 >
                   Acceder
                 </Button>
-                {loadingState && <CircularProgress size={24} className={classes.buttonProgress} />}
+                {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
               </div>
             </Grid>
           </Grid>

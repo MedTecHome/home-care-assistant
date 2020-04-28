@@ -2,6 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { TextField } from 'mui-rff';
 import Grid from '@material-ui/core/Grid';
+import DateFieldComponent from '../fields/DateFieldComponent';
+import TimeFieldComponent from '../fields/TimeFieldComponent';
 
 export default function PulsoForm({ classStyle }) {
   return (
@@ -13,7 +15,7 @@ export default function PulsoForm({ classStyle }) {
         <Grid item xs={12}>
           <TextField
             required
-            name="heartbeatSpO2"
+            name="SpO2"
             label="SpO2:"
             variant="outlined"
             size="small"
@@ -25,7 +27,7 @@ export default function PulsoForm({ classStyle }) {
         <Grid item xs={12}>
           <TextField
             required
-            name="heartbeatHeartbeat"
+            name="heartbeat"
             label="Pulso:"
             variant="outlined"
             size="small"
@@ -46,6 +48,8 @@ export default function PulsoForm({ classStyle }) {
             }}
           />
         </Grid>
+        <DateFieldComponent classes={classStyle} name="heartbeatDate" label="Dia" />
+        <TimeFieldComponent label="Hora" name="heartbeatTime" classes={classStyle} />
       </Grid>
     </div>
   );

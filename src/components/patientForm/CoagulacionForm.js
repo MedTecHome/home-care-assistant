@@ -2,6 +2,8 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { TextField } from 'mui-rff';
+import DateFieldComponent from '../fields/DateFieldComponent';
+import TimeFieldComponent from '../fields/TimeFieldComponent';
 // import { useFormContext } from 'react-hook-form';
 
 function CoagulacionForm({ classStyle }) {
@@ -17,7 +19,7 @@ function CoagulacionForm({ classStyle }) {
             className={classStyle.formControl}
             type="number"
             label="INR:"
-            name="coagulationInr"
+            name="INR"
             required
             variant="outlined"
             size="small"
@@ -26,6 +28,8 @@ function CoagulacionForm({ classStyle }) {
             }}
           />
         </Grid>
+        <DateFieldComponent classes={classStyle} name="coagulationInrDate" label="Dia" />
+        <TimeFieldComponent label="Hora" name="coagulationInrTime" classes={classStyle} />
         <Grid item xs={12}>
           <TextField
             className={classStyle.formControl}

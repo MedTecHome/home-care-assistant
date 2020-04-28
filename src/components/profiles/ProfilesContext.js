@@ -9,7 +9,6 @@ import {
   setListProfilesAction,
   setProfileListLoadingAction,
   setProfileSelected,
-  setProfilesSaveLoadingAction,
 } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { initialProfileFiltersState, ProfileFiltersReducer } from './reducers/ProfileFiltersReducer';
@@ -47,13 +46,11 @@ export const withProfileContext = WrapperComponent => () => {
   }, []);
 
   const saveProfileValues = useCallback(async (values, formType) => {
-    dispatch(setProfilesSaveLoadingAction(true));
     try {
       await saveProfileValuesAction(values, formType);
     } catch (e) {
-      // handle error
+      console.error(e);
     }
-    dispatch(setProfilesSaveLoadingAction(true));
   }, []);
 
   const selectProfileFromList = useCallback(selected => dispatch(setProfileSelected(selected)), []);
@@ -104,7 +101,6 @@ export const useProfilesContext = () => {
     total: values.total,
     profileSelected: values.profileSelected,
     loadingList: values.loadingList,
-    loadingSave: values.loadingSave,
     formType: values.formType,
     modalVisible: values.modalVisible,
     getProfilesList: values.getProfilesList,

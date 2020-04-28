@@ -5,6 +5,8 @@ import { useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import DateFieldComponent from '../fields/DateFieldComponent';
+import TimeFieldComponent from '../fields/TimeFieldComponent';
 
 function GlucosaForm({ classStyle }) {
   const theme = useTheme();
@@ -28,7 +30,7 @@ function GlucosaForm({ classStyle }) {
               shrink: true,
             }}
             label={`${matches ? 'Concent.' : 'Concentracion'} de azucar`}
-            name="glucoseSugarConcentration"
+            name="sugarConcentration"
           />
         </Grid>
         <Grid item xs={12}>
@@ -36,7 +38,7 @@ function GlucosaForm({ classStyle }) {
             defaultValue={undefined}
             className={classStyle.formControl}
             label="Horario"
-            name="glucoseSchedule"
+            name="schedule"
             variant="outlined"
             formControlProps={{
               size: 'small',
@@ -66,6 +68,8 @@ function GlucosaForm({ classStyle }) {
             name="glucoseNote"
           />
         </Grid>
+        <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
+        <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />
       </Grid>
     </div>
   );

@@ -3,7 +3,6 @@ import { authFirebase, dbRef } from '../../../firebaseConfig';
 import {
   LIST_PROFILES,
   LIST_PROFILES_LOADING,
-  SAVE_PROFILES_LOADING,
   SELECTED_PROFILE,
   ADD_FORM_TEXT,
   EDIT_FORM_TEXT,
@@ -32,11 +31,6 @@ export const getDoctorsNomencladorAction = list => ({
 
 export const setProfileListLoadingAction = flag => ({
   type: LIST_PROFILES_LOADING,
-  flag,
-});
-
-export const setProfilesSaveLoadingAction = flag => ({
-  type: SAVE_PROFILES_LOADING,
   flag,
 });
 

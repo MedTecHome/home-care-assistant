@@ -7,8 +7,6 @@ import {
   selectHospitalsFromListAction,
   setListHospitalAction,
   setListHospitalLoadingAction,
-  setSaveHospitalLoadingAction,
-  setTotalHospitalAction,
 } from './reducers/HospitalActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
@@ -21,9 +19,6 @@ const HospitalContextProvider = ({ children }) => {
 
   const getListHospitals = useCallback(({ limit = 5, next, prev, filters }) => {
     dispatch(setListHospitalLoadingAction(true));
-    fetchHospitalsAction().onSnapshot(snapshot => {
-      dispatch(setTotalHospitalAction(snapshot.data().total));
-    });
     let ref = fetchHospitalsAction().collection('hospitals').orderBy('name');
     if (next) {
       ref = ref.startAfter(next.name).limit(limit);
@@ -50,14 +45,8 @@ const HospitalContextProvider = ({ children }) => {
     dispatch(selectHospitalsFromListAction(selected));
   }, []);
 
-  const saveHospitalValues = useCallback((values, formType) => {
-    dispatch(setSaveHospitalLoadingAction(true));
-    saveHospitalValuesAction(values, formType)
-      // eslint-disable-next-line no-console
-      .then(console.info)
-      // eslint-disable-next-line no-console
-      .catch(console.error)
-      .finally(() => dispatch(setSaveHospitalLoadingAction(false)));
+  const saveHospitalValues = useCallback(async (values, formType) => {
+    await saveHospitalValuesAction(values, formType);
   }, []);
 
   const setModalVisible = useCallback((visible, formType) => {

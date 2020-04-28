@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import { AuthContext } from '../contexts/AuthContext';
+import theme1 from '../themes/theme1';
 
 const useStyles = makeStyles(theme => ({
   navigation: {
@@ -18,29 +20,20 @@ const useStyles = makeStyles(theme => ({
       textTransform: 'none',
       fontSize: '0.7rem',
     },
+    defaultLink: {
+      color: 'red',
+    },
+    activeLink: {
+      textDecoration: 'none',
+    },
   },
 }));
 
 export default function NavigationComponent() {
   const { currentUser, currentUserProfile } = useContext(AuthContext);
-  const history = useHistory();
+  const theme = useTheme();
+
   const classes = useStyles();
-
-  const handleClickReporte = () => {
-    history.push('/paciente/form');
-  };
-
-  const handleClickPacientes = () => {
-    history.push('/pacientes');
-  };
-
-  const handleClickHospital = () => {
-    history.push('/hospitales');
-  };
-
-  const handleClickProfiles = () => {
-    history.push('/perfiles');
-  };
 
   return (
     <>
@@ -48,22 +41,27 @@ export default function NavigationComponent() {
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickReporte}>
-                Reporte
+              <Button color="inherit" component={NavLink} to="/paciente/historial">
+                Historial
+              </Button>
+            )}
+            {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
+              <Button color="inherit" component={NavLink} to="/paciente/form">
+                Reportar
               </Button>
             )}
             {currentUserProfile && ['admin', 'doctor'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickPacientes}>
+              <Button color="inherit" component={NavLink} to="/pacientes">
                 Pacientes
               </Button>
             )}
             {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickProfiles}>
+              <Button color="inherit" component={NavLink} to="/perfiles">
                 Perfiles
               </Button>
             )}
             {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickHospital}>
+              <Button color="inherit" component={NavLink} to="/hospitales">
                 Hospitales
               </Button>
             )}

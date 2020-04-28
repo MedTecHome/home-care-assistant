@@ -5,6 +5,9 @@ export default makeStyles(theme => ({
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
     justifyItem: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   justifyFlex: {
     display: 'grid',
