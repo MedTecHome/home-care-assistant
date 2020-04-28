@@ -6,7 +6,7 @@ import HeightFieldComponent from './HeightFieldComponent';
 import AddressFieldComponent from './AddressFieldComponent';
 import DoctorFieldComponent from './DoctorFieldComponent';
 
-function PatientsFieldComponent({ classes }) {
+function PatientsFieldComponent({ classes, userRole }) {
   return (
     <>
       <Grid item xs={8} sm={8} md={8}>
@@ -33,7 +33,7 @@ function PatientsFieldComponent({ classes }) {
         <AddressFieldComponent classes={classes} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <DoctorFieldComponent classes={classes} />
+        <DoctorFieldComponent classes={classes} userRole={userRole} />
       </Grid>
     </>
   );

@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
 import { getDoctorsListAction } from '../profiles/reducers/ProfileActions';
 
-function DoctorFieldComponent({ classes }) {
+function DoctorFieldComponent({ classes, userRole }) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
@@ -26,7 +26,7 @@ function DoctorFieldComponent({ classes }) {
       size="small"
       label="Doctor"
       name="doctor"
-      // popupIcon={false ? <CircularProgress size={12} /> : <ExpandMoreIcon size={12} />}
+      disabled={userRole.id === 'doctor'}
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',

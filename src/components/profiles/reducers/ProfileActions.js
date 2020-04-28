@@ -1,4 +1,5 @@
-import { dbRef } from '../../../firebaseConfig';
+import uuid from 'uuid4';
+import { authFirebase, dbRef } from '../../../firebaseConfig';
 import {
   LIST_PROFILES,
   LIST_PROFILES_LOADING,
@@ -9,6 +10,13 @@ import {
   DELETE_FORM_TEXT,
   LIST_PROFILES_NOMENCLADOR,
 } from '../../../commons/globalText';
+
+// import { apiData } from '../../../axiosApiRequest';
+
+const actionCodeSettings = {
+  url: 'http://localhost:3000/inicio',
+  handleCodeInApp: true,
+};
 
 const profilesRef = dbRef('profile');
 
@@ -50,21 +58,28 @@ export const getDoctorByIdAction = async id => {
   return { id: ref.id, ...ref.data() };
 };
 
-export const saveProfileValuesAction = ({ id, ...values }, formType) => {
+export const saveProfileValuesAction = async ({ id, email, ...values }, formType) => {
   const ref = profilesRef.collection('profiles');
 
   if (formType === ADD_FORM_TEXT) {
-    return ref.add({
-      ...values,
-      fullname: `${values.name} ${values.lastName}`,
-      createdAt: Date.now(),
-    });
+    try {
+      const user = await authFirebase.createUserWithEmailAndPassword(email, uuid());
+      await authFirebase.sendPasswordResetEmail(user.user.email, actionCodeSettings);
+      return ref.add({
+        ...values,
+        user: { id: user.user.uid, email: user.user.email },
+        fullname: `${values.name} ${values.lastName}`,
+        createdAt: Date.now(),
+      });
+    } catch (e) {
+      // handle error
+    }
   }
   if (formType === EDIT_FORM_TEXT) {
     return ref.doc(id).update({
       ...values,
       fullname: `${values.name} ${values.lastName}`,
-      updateAt: Date.now(),
+      updatedAt: Date.now(),
     });
   }
   if (formType === DELETE_FORM_TEXT) {

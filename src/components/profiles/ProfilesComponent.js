@@ -15,7 +15,14 @@ const useStyles = makeStyles({
   },
 });
 function ProfilesComponent() {
-  const { formType, setModalVisible, modalVisible, selectProfileFromList, getProfilesList } = useProfilesContext();
+  const {
+    formType,
+    setModalVisible,
+    modalVisible,
+    selectProfileFromList,
+    getProfilesList,
+    filters,
+  } = useProfilesContext();
   const classes = useStyles();
 
   const handleBackdropClick = () => {
@@ -23,7 +30,7 @@ function ProfilesComponent() {
   };
 
   const handleClosedForms = () => {
-    getProfilesList({});
+    getProfilesList({ filters });
     selectProfileFromList(null);
   };
 
@@ -42,11 +49,11 @@ function ProfilesComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible} onBackdropClick={handleBackdropClick}>
-        <ProfilesFormComponent formType={formType} onFormsClosed={handleClosedForms} />
+        <ProfilesFormComponent formType={formType} handleModalClose={handleClosedForms} />
       </ModalComponent>
       <Breadcrumbs aria-label="breadcrumb">
         <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>
-          Pacientes
+          Todos
         </Typography>
       </Breadcrumbs>
       <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />

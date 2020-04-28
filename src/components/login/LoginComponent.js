@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,7 +37,6 @@ const useStyles = makeStyles({
 
 function LoginComponent() {
   const { signInUser, loadingState, errorState } = useContext(AuthContext);
-  const history = useHistory();
 
   const classes = useStyles();
 
@@ -46,16 +44,12 @@ function LoginComponent() {
     signInUser(value);
   };
 
-  const onRegisterClick = () => {
-    history.push('/registrarse');
-  };
-
   return (
     <Form
       onSubmit={onSubmit}
       validate={LoginFormValidation}
       render={({ handleSubmit }) => (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Grid className={classes.root} item container spacing={2}>
             <ErrorMessageComponent errorState={errorState} />
             <AuthFormsTitleComponent title="Acceso" />
@@ -93,17 +87,6 @@ function LoginComponent() {
                 </Button>
                 {loadingState && <CircularProgress size={24} className={classes.buttonProgress} />}
               </div>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                disableElevation
-                className={classes.formControl}
-                color="default"
-                variant="contained"
-                onClick={onRegisterClick}
-              >
-                Registrarse
-              </Button>
             </Grid>
           </Grid>
         </form>
