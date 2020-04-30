@@ -6,8 +6,11 @@ import { Form } from 'react-final-form';
 import { TextField } from 'mui-rff';
 import { green } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useHospitalContext } from '../HospitalContext';
+import { DialogTitleComponent } from '../../ModalComponent';
 
 const useStyles = makeStyles({
   formControl: {
@@ -44,8 +47,10 @@ export default function AddOrEditHospitalComponent() {
   };
 
   return (
-    <div>
-      <h3>{formType === ADD_FORM_TEXT ? 'Adicionar' : 'Editar'} hospital</h3>
+    <>
+      <DialogTitleComponent onClose={handleCancel}>
+        {formType === ADD_FORM_TEXT ? 'Adicionar' : 'Editar'} hospital
+      </DialogTitleComponent>
       <Form
         initialValues={formType === EDIT_FORM_TEXT && hospitalSelected && hospitalSelected}
         onSubmit={onSubmit}
@@ -58,46 +63,46 @@ export default function AddOrEditHospitalComponent() {
               });
             }}
           >
-            {hospitalSelected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <TextField
-                  label="Nombre hospital"
-                  required
-                  className={classes.formControl}
-                  variant="outlined"
-                  size="small"
-                  name="name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Direccion del hospital"
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  className={classes.formControl}
-                  variant="outlined"
-                  size="small"
-                  name="address"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="number"
-                  label="Telefono"
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  className={classes.formControl}
-                  variant="outlined"
-                  size="small"
-                  name="phone"
-                />
-              </Grid>
-              <Grid item container spacing={5}>
+            <DialogContent dividers>
+              {hospitalSelected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Nombre hospital"
+                    required
+                    className={classes.formControl}
+                    variant="outlined"
+                    size="small"
+                    name="name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Direccion del hospital"
+                    required
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    className={classes.formControl}
+                    variant="outlined"
+                    size="small"
+                    name="address"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    type="number"
+                    label="Telefono"
+                    required
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    className={classes.formControl}
+                    variant="outlined"
+                    size="small"
+                    name="phone"
+                  />
+                </Grid>
                 <Grid item xs={12} sm={6} lg={4}>
                   <TextField
                     type="number"
@@ -133,27 +138,27 @@ export default function AddOrEditHospitalComponent() {
                   />
                 </Grid>
               </Grid>
-              <Grid item className={classes.buttonActions} xs={12}>
-                <Button disableElevation variant="contained" onClick={handleCancel}>
-                  cancelar
+            </DialogContent>
+            <DialogActions>
+              <Button disableElevation variant="contained" onClick={handleCancel}>
+                cancelar
+              </Button>
+              <div className={classes.wrapper}>
+                <Button
+                  disabled={submitting || pristine}
+                  disableElevation
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                >
+                  guardar
                 </Button>
-                <div className={classes.wrapper}>
-                  <Button
-                    disabled={submitting || pristine}
-                    disableElevation
-                    variant="contained"
-                    type="submit"
-                    color="primary"
-                  >
-                    guardar
-                  </Button>
-                  {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-                </div>
-              </Grid>
-            </Grid>
+                {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+              </div>
+            </DialogActions>
           </form>
         )}
       />
-    </div>
+    </>
   );
 }

@@ -19,8 +19,9 @@ export function AuthContextProvider({ children }) {
       } else
         setCurrentUserProfile({
           id: '2',
+          fullname: 'jajaja',
           role: {
-            id: 'admin',
+            id: 'patient',
           },
         });
     });

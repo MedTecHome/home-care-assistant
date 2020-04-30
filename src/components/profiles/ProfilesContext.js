@@ -21,6 +21,7 @@ export const withProfileContext = WrapperComponent => () => {
   const [filtersState, filtersDispatch] = useReducer(ProfileFiltersReducer, initialProfileFiltersState, init => init);
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
+  // eslint-disable-next-line no-unused-vars
   const getProfilesList = useCallback(async ({ limit = 5, next, prev, filters }) => {
     dispatch(setProfileListLoadingAction(true));
     let ref = getRefProfiles();
@@ -29,13 +30,13 @@ export const withProfileContext = WrapperComponent => () => {
         ref = ref.where(k, '==', filters[k]);
         return null;
       });
-    } else if (next) {
+    } /* else if (next) {
       ref = ref.startAt(next.fullname).limit(limit);
     } else if (prev) {
       ref = ref.endBefore(prev.fullname).limitToLast(limit);
     }
 
-    ref = ref.limit(limit);
+    ref = ref.limit(limit); */
     try {
       const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
       dispatch(setListProfilesAction(result));

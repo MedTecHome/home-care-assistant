@@ -41,14 +41,14 @@ export default function NavigationComponent() {
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
-              <Button color="inherit" component={NavLink} to="/paciente/historial">
-                Historial
-              </Button>
-            )}
-            {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
-              <Button color="inherit" component={NavLink} to="/paciente/form">
-                Reportar
-              </Button>
+              <>
+                <Button color="inherit" component={NavLink} to="/paciente/historial">
+                  Historial
+                </Button>
+                <Button color="inherit" component={NavLink} to="/paciente/form">
+                  Reportar
+                </Button>
+              </>
             )}
             {currentUserProfile && ['admin', 'doctor'].includes(currentUserProfile.role.id) && (
               <Button color="inherit" component={NavLink} to="/pacientes">
@@ -56,14 +56,14 @@ export default function NavigationComponent() {
               </Button>
             )}
             {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
-              <Button color="inherit" component={NavLink} to="/perfiles">
-                Perfiles
-              </Button>
-            )}
-            {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
-              <Button color="inherit" component={NavLink} to="/hospitales">
-                Hospitales
-              </Button>
+              <>
+                <Button color="inherit" component={NavLink} to="/perfiles">
+                  Perfiles
+                </Button>
+                <Button color="inherit" component={NavLink} to="/hospitales">
+                  Hospitales
+                </Button>
+              </>
             )}
           </div>
         </Container>

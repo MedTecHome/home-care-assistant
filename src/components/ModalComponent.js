@@ -1,37 +1,50 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import DialogContent from '@material-ui/core/DialogContent';
+import Dialog from '@material-ui/core/Dialog';
+import CloseIcon from '@material-ui/icons/Close';
+import withStyles from '@material-ui/core/styles/withStyles';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(theme => ({
-  modal: {
-    position: 'fixed',
-    maxWidth: 400,
-    margin: 'auto',
-    top: 15,
-    left: 0,
-    right: 0,
-    overflowY: 'auto',
-    maxHeight: '90%',
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(0, 4, 3),
+const styles = theme => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
   },
-}));
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+export const DialogTitleComponent = withStyles(styles)(props => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <DialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+        <CloseIcon />
+      </IconButton>
+    </DialogTitle>
+  );
+});
 
 function ModalComponent({ children, onBackdropClick, visible }) {
-  const classes = useStyles();
-
   return (
-    <Modal
-      disableBackdropClick={false}
+    <Dialog
       open={visible}
       onBackdropClick={onBackdropClick}
+      scroll="paper"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
-      <div className={classes.modal}>{children}</div>
-    </Modal>
+      {children}
+    </Dialog>
   );
 }
 

@@ -3,7 +3,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import { useHospitalContext } from '../HospitalContext';
+import { DialogTitleComponent } from '../../ModalComponent';
 
 const useStyles = makeStyles({
   buttonActions: {
@@ -26,21 +29,19 @@ export default function DeleteHospitalComponent() {
   };
 
   return (
-    <div>
-      <h3>Eliminar Hopital</h3>
-      <Grid container spacing={5}>
-        <Grid item xs={12}>
-          <Typography>Esta seguro que desea eliminar el hospital seleccionado.</Typography>
-        </Grid>
-        <Grid item className={classes.buttonActions} xs={12}>
-          <Button disableElevation variant="contained" size="small" onClick={handleCancel}>
-            cancelar
-          </Button>
-          <Button disableElevation size="small" variant="contained" color="secondary" onClick={onDelete}>
-            eliminar
-          </Button>
-        </Grid>
-      </Grid>
-    </div>
+    <>
+      <DialogTitleComponent onClose={handleCancel}>Eliminar Hopital</DialogTitleComponent>
+      <DialogContent dividers>
+        <Typography>Esta seguro que desea eliminar el hospital seleccionado.</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button disableElevation variant="contained" size="small" onClick={handleCancel}>
+          cancelar
+        </Button>
+        <Button disableElevation size="small" variant="contained" color="secondary" onClick={onDelete}>
+          eliminar
+        </Button>
+      </DialogActions>
+    </>
   );
 }

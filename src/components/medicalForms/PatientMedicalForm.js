@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { isEmpty, isNil } from 'ramda';
 import { green } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Box from '@material-ui/core/Box';
 import PresionForm from './PresionForm';
 import TemperaturaForm from './TemperaturaForm';
 import GlucosaForm from './GlucosaForm';
@@ -18,6 +17,7 @@ import CoagulacionForm from './CoagulacionForm';
 import SelectedChecboxForm from './SelectedCheckboxForm';
 import PulsoForm from './PulsoForm';
 import { saveHealthDataAction } from './reducers/PatienHealthActions';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   formContainer: {
@@ -45,7 +45,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PatientHEalthForm = ({ location }) => {
+const PatientMedicalForm = ({ location }) => {
+  const {
+    currentUserProfile: { id, fullname },
+  } = useContext(AuthContext);
   const urlSearchParams = new URLSearchParams(location.search);
   const selectedCheckbox = urlSearchParams.getAll('formulario');
   const classes = useStyles();
@@ -53,7 +56,7 @@ const PatientHEalthForm = ({ location }) => {
   const onSubmit = async values => {
     if (!isNil(values) && !isEmpty(values)) {
       try {
-        await saveHealthDataAction(values);
+        await saveHealthDataAction({ ...values, user: { id, fullname } });
       } catch (e) {
         console.error(e);
       }
@@ -161,4 +164,4 @@ const PatientHEalthForm = ({ location }) => {
   );
 };
 
-export default PatientHEalthForm;
+export default PatientMedicalForm;

@@ -17,16 +17,17 @@ const HospitalContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(HospitalReducers, initialHispitalState, init => init);
   const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
-  const getListHospitals = useCallback(({ limit = 5, next, prev, filters }) => {
+  // eslint-disable-next-line no-unused-vars
+  const getListHospitals = useCallback(async ({ limit = 5, next, prev, filters }) => {
     dispatch(setListHospitalLoadingAction(true));
     let ref = fetchHospitalsAction().collection('hospitals').orderBy('name');
-    if (next) {
+    /* if (next) {
       ref = ref.startAfter(next.name).limit(limit);
     } else if (prev) {
       ref = ref.endBefore(prev.name).limitToLast(limit);
     } else {
       ref = ref.limit(limit);
-    }
+    } */
 
     if (filters && !isEmpty(filters)) {
       Object.keys(filters).map(k => {
@@ -34,11 +35,9 @@ const HospitalContextProvider = ({ children }) => {
         return null;
       });
     }
-    ref.onSnapshot(snapshot => {
-      const result = snapshot.docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
-      dispatch(setListHospitalAction(result));
-      dispatch(setListHospitalLoadingAction(false));
-    });
+    const result = (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+    dispatch(setListHospitalAction(result));
+    dispatch(setListHospitalLoadingAction(false));
   }, []);
 
   const selectHospital = useCallback(selected => {
