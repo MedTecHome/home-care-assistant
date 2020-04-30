@@ -54,6 +54,8 @@ function GlucosaForm({ classStyle }) {
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
         </Grid>
+        <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
+        <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />
         <Grid item xs={12}>
           <TextField
             className={classStyle.formControl}
@@ -68,8 +70,6 @@ function GlucosaForm({ classStyle }) {
             name="glucoseNote"
           />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />
       </Grid>
     </div>
   );

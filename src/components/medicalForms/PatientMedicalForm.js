@@ -18,6 +18,7 @@ import SelectedChecboxForm from './SelectedCheckboxForm';
 import PulsoForm from './PulsoForm';
 import { saveHealthDataAction } from './reducers/PatienHealthActions';
 import { AuthContext } from '../../contexts/AuthContext';
+import ExercisesForm from './ExercisesForm';
 
 const useStyles = makeStyles(theme => ({
   formContainer: {
@@ -58,7 +59,7 @@ const PatientMedicalForm = ({ location }) => {
       try {
         await saveHealthDataAction({ ...values, user: { id, fullname } });
       } catch (e) {
-        console.error(e);
+        // handle error
       }
     }
   };
@@ -135,9 +136,14 @@ const PatientMedicalForm = ({ location }) => {
                       <PulsoForm classStyle={classes} />
                     </Grid>
                   )}
+                  {selectedCheckbox.includes('exercises') && (
+                    <Grid item xs={12}>
+                      <ExercisesForm classStyle={classes} />
+                    </Grid>
+                  )}
                   {selectedCheckbox.length > 0 && (
                     <Grid item container justify="space-between">
-                      <Button disableElevation variant="contained">
+                      <Button disableElevation variant="contained" onClick={() => form.reset()}>
                         Cancelar
                       </Button>
                       <div className={classes.wrapper}>

@@ -28,11 +28,13 @@ export const tempratureMutate = ({ user, celsiusDegree, temperatureNote, tempera
   ...(temperatureDate && temperatureTime ? { date: formatDate(temperatureDate, temperatureTime) } : {}),
   ...(temperatureNote ? { nota: temperatureNote } : {}),
 });
-export const weightMutate = ({ user, weight, weightDate, weightTime }) => ({
+export const weightMutate = ({ user, weight, weightDate, weightTime, weightNote }) => ({
   ...(user ? { user } : {}),
   ...(weight ? { weight } : {}),
+  ...(weightNote ? { note: weightNote } : {}),
   ...(weightDate && weightTime ? { date: formatDate(weightDate, weightTime) } : {}),
 });
+
 export const glucoseMutate = ({ user, sugarConcentration, shedule, glucoseNote, glucoseDate, glucoseTime }) => ({
   ...(user ? { user } : {}),
   ...(sugarConcentration ? { sugarConcentration } : {}),
@@ -40,12 +42,21 @@ export const glucoseMutate = ({ user, sugarConcentration, shedule, glucoseNote, 
   ...(glucoseDate && glucoseTime ? { date: formatDate(glucoseDate, glucoseTime) } : {}),
   ...(glucoseNote ? { nota: glucoseNote } : {}),
 });
-export const breathingMutate = ({ user, EtCO, breathingFrecuency, breathingtPI, breathingtDate, breathingTime }) => ({
+export const breathingMutate = ({
+  user,
+  EtCO,
+  breathingFrecuency,
+  breathingtPI,
+  breathingtDate,
+  breathingTime,
+  breathingNote,
+}) => ({
   ...(user ? { user } : {}),
   ...(EtCO ? { EtCO } : {}),
   ...(breathingFrecuency ? { breathingFrecuency } : {}),
   ...(breathingtPI ? { PI: breathingtPI } : {}),
   ...(breathingtDate && breathingTime ? { date: formatDate(breathingtDate, breathingTime) } : {}),
+  ...(breathingNote ? { note: breathingNote } : {}),
 });
 export const inrMutate = ({ user, INR, coagulationInrNota, coagulationInrDate, coagulationInrTime }) => ({
   ...(user ? { user } : {}),
@@ -53,10 +64,19 @@ export const inrMutate = ({ user, INR, coagulationInrNota, coagulationInrDate, c
   ...(coagulationInrNota ? { nota: coagulationInrNota } : {}),
   ...(coagulationInrDate && coagulationInrTime ? { date: formatDate(coagulationInrDate, coagulationInrTime) } : {}),
 });
-export const pulseMutate = ({ user, SpO2, heartbeat, heartbeatPI, heartbeatDate, heartbeatTime }) => ({
+export const pulseMutate = ({ user, SpO2, heartbeat, heartbeatPI, heartbeatDate, heartbeatTime, heartbeatNote }) => ({
   ...(user ? { user } : {}),
   ...(SpO2 ? { SpO2 } : {}),
   ...(heartbeat ? { heartbeat } : {}),
   ...(heartbeatPI ? { PI: heartbeatPI } : {}),
   ...(heartbeatDate && heartbeatTime ? { date: formatDate(heartbeatDate, heartbeatTime) } : {}),
+  ...(heartbeatNote ? { note: heartbeatNote } : {}),
+});
+
+export const exercicesMutate = ({ distance, time, steps, exercisesDate, exercisesTime, exercisesNote }) => ({
+  ...(distance ? { distance } : {}),
+  ...(time ? { time } : {}),
+  ...(steps ? { steps } : {}),
+  ...(exercisesDate && exercisesTime ? { date: formatDate(exercisesDate, exercisesTime) } : {}),
+  ...(exercisesNote ? { note: exercisesNote } : {}),
 });

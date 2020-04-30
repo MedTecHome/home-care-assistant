@@ -7,6 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
+  dialogRoot: {
+    '& .MuiDialog-paperWidthSm': {
+      width: '80%',
+    },
+  },
   root: {
     margin: 0,
     padding: theme.spacing(2),
@@ -20,9 +25,9 @@ const styles = theme => ({
 });
 
 export const DialogTitleComponent = withStyles(styles)(props => {
-  const { children, classes, onClose, ...other } = props;
+  const { children, classes, onClose } = props;
   return (
-    <DialogTitle disableTypography className={classes.root} {...other}>
+    <DialogTitle disableTypography className={classes.root}>
       <Typography variant="h6">{children}</Typography>
       <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
         <CloseIcon />
@@ -31,9 +36,11 @@ export const DialogTitleComponent = withStyles(styles)(props => {
   );
 });
 
-function ModalComponent({ children, onBackdropClick, visible }) {
+const ModalComponent = withStyles(styles)(props => {
+  const { children, onBackdropClick, visible, classes } = props;
   return (
     <Dialog
+      className={classes.dialogRoot}
       open={visible}
       onBackdropClick={onBackdropClick}
       scroll="paper"
@@ -43,6 +50,6 @@ function ModalComponent({ children, onBackdropClick, visible }) {
       {children}
     </Dialog>
   );
-}
+});
 
 export default ModalComponent;

@@ -66,6 +66,13 @@ function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
           <Typography className={classes.listItem}>{`PI: ${data.PI}%`}</Typography>
         </>
       )}
+      {idType === 'exercises' && (
+        <>
+          <Typography className={classes.listItem}>{`Distancia: ${data.distance}m`}</Typography>
+          <Typography className={classes.listItem}>{`Tiempo: ${data.time}min`}</Typography>
+          <Typography className={classes.listItem}>{`Cantidad de pasos: ${data.steps}`}</Typography>
+        </>
+      )}
     </div>
   );
 }

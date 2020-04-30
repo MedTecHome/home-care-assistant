@@ -21,7 +21,7 @@ export function AuthContextProvider({ children }) {
           id: '2',
           fullname: 'jajaja',
           role: {
-            id: 'patient',
+            id: 'admin',
           },
         });
     });
@@ -44,6 +44,7 @@ export function AuthContextProvider({ children }) {
       return await authFirebase.signInWithEmailAndPassword(email, password);
     } catch (e) {
       setAndClearErrorState(e);
+      throw new Error(e);
     }
   };
 
@@ -55,6 +56,7 @@ export function AuthContextProvider({ children }) {
       return await saveProfileValuesAction({ ...values, user: { id: user.uid, email: user.email } }, ADD_FORM_TEXT);
     } catch (e) {
       setAndClearErrorState(e);
+      throw new Error(e);
     }
   }, []);
 

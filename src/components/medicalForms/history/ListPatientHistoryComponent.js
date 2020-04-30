@@ -17,7 +17,7 @@ import { faInfoCircle, faTemperatureHigh, faQuestionCircle, faWeight } from '@fo
 import clsx from 'clsx';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import TypeMedicalFormComponent from './TypeHistoryMedicalFormComponent';
-import { findByIdePatientMedicalForm } from '../nomenc';
+import { findByIdePatientMedicalForm } from '../Nomenc';
 import { DETAILS_FORM_TEXT } from '../../../commons/globalText';
 
 const useStyles = makeStyles({

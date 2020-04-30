@@ -2,6 +2,7 @@ import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import {
   breathingMutate,
+  exercicesMutate,
   glucoseMutate,
   inrMutate,
   pressureMutate,
@@ -17,6 +18,7 @@ export const GlucoseRef = dbRef('health').collection('glucose');
 export const BreathingRef = dbRef('health').collection('breathing');
 export const INRRef = dbRef('health').collection('inr');
 export const PulseRef = dbRef('health').collection('pulse');
+export const ExericesRef = dbRef('health').collection('exercises');
 
 export const saveHealthDataAction = async ({ user, ...values }) => {
   if (!isEmpty(pressureMutate(values))) {
@@ -52,6 +54,9 @@ export const saveHealthDataAction = async ({ user, ...values }) => {
   if (!isEmpty(pulseMutate(values))) {
     await PulseRef.add({ ...pulseMutate(values), user });
   }
+  if (!isEmpty(exercicesMutate(values))) {
+    await ExericesRef.add({ ...exercicesMutate(values), user });
+  }
 };
 
 export const getBloodPressureAction = async ({ limit = 1, ...params }) => {
@@ -80,6 +85,7 @@ export const getWeightAction = async ({ limit = 1, ...params }) => {
   let ref = WeightRef;
   Object.keys(params).map(k => {
     ref = ref.where(k, '==', params[k]);
+    return null;
   });
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'weight' }));
 };
@@ -123,6 +129,17 @@ export const getPulseAction = async ({ limit = 1, ...params }) => {
     .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'heartbeat' }));
 };
 
+export const getExercisesAction = async ({ limit = 1, ...params }) => {
+  let ref = ExericesRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get())
+    .docChanges()
+    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'exercises' }));
+};
+
 export const getAllPatientHistoryAction = async ({ filters }) => {
   const { type, ...rest } = filters;
   const params = { ...rest, limit: type === 'all' ? 1 : 1000 };
@@ -154,6 +171,10 @@ export const getAllPatientHistoryAction = async ({ filters }) => {
     }
     if ((filters && type === 'all') || type === 'pulse') {
       const pulse = await getPulseAction(params);
+      result = [...result, ...pulse];
+    }
+    if ((filters && type === 'all') || type === 'exercises') {
+      const pulse = await getExercisesAction(params);
       result = [...result, ...pulse];
     }
     return result;

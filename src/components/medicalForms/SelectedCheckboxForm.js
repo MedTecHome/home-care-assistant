@@ -7,7 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { withRouter } from 'react-router-dom';
 import useTheme from '@material-ui/core/styles/useTheme';
 import useStyle from './cssInJs';
-import optionsTypesFormsPatientHealth from './nomenc';
+import optionsTypesFormsPatientHealth from './Nomenc';
 
 function SelectedChecboxForm({ location, history, defaultValues }) {
   const urlSearchParams = new URLSearchParams(location.search);

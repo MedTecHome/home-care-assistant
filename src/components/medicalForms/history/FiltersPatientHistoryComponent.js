@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import uuid from 'uuid4';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import optionsTypesFormsPatientHealth from '../nomenc';
-import { usePatientHistoryContext } from './PatientHistoryContext';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useLocation, useHistory } from 'react-router-dom';
+import optionsTypesFormsPatientHealth from '../Nomenc';
 
 const useStyles = makeStyles({
   formControl: {
@@ -20,12 +19,29 @@ const useStyles = makeStyles({
 });
 
 function FiltersPatientHistoryComponent() {
-  const { setFilters, filters } = usePatientHistoryContext();
+  const { search, pathname } = useLocation();
+  const history = useHistory();
   const classes = useStyles();
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(search);
+    if (!urlSearchParams.has('tipoPrueba')) {
+      urlSearchParams.set('tipoPrueba', 'all');
+      history.push({
+        pathname,
+        search: urlSearchParams.toString(),
+      });
+    }
+  }, [search, pathname, history]);
 
   const handleSetTypeHistory = event => {
     const medicalForm = event.target.value;
-    setFilters({ ...filters, type: medicalForm });
+    const urlSearchParams = new URLSearchParams(search);
+    urlSearchParams.set('tipoPrueba', medicalForm);
+    history.push({
+      pathname,
+      search: urlSearchParams.toString(),
+    });
   };
 
   return (

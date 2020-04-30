@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import { AuthContext } from '../contexts/AuthContext';
-import theme1 from '../themes/theme1';
 
 const useStyles = makeStyles(theme => ({
   navigation: {
@@ -31,13 +29,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function NavigationComponent() {
   const { currentUser, currentUserProfile } = useContext(AuthContext);
-  const theme = useTheme();
 
   const classes = useStyles();
 
   return (
     <>
-      {true && (
+      {currentUser && (
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
@@ -46,7 +43,7 @@ export default function NavigationComponent() {
                   Historial
                 </Button>
                 <Button color="inherit" component={NavLink} to="/paciente/form">
-                  Reportar
+                  Prueba
                 </Button>
               </>
             )}

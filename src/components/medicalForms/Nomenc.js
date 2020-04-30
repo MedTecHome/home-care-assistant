@@ -7,6 +7,7 @@ const optionsTypesFormsPatientHealth = [
   { name: 'Oxígeno', id: 'oxygeno' },
   { name: 'INR', id: 'inr' },
   { name: 'Pulso', id: 'heartbeat' },
+  { name: 'Actividad fisica', id: 'exercises' },
 ];
 
 export default optionsTypesFormsPatientHealth;

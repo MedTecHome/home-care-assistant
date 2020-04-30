@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import ToolbarProfileComponent from './ToolbarProfilesComponent';
 import ModalComponent from '../ModalComponent';
 import ProfilesFormComponent from './forms/ProfilesFormsComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
-import { AuthContext } from '../../contexts/AuthContext';
 
 const useStyles = makeStyles({
   pageHeader: {

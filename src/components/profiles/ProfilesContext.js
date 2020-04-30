@@ -22,7 +22,7 @@ export const withProfileContext = WrapperComponent => () => {
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   // eslint-disable-next-line no-unused-vars
-  const getProfilesList = useCallback(async ({ limit = 5, next, prev, filters }) => {
+  const getProfilesList = useCallback(async ({ filters }) => {
     dispatch(setProfileListLoadingAction(true));
     let ref = getRefProfiles();
     if (filters) {
@@ -30,13 +30,8 @@ export const withProfileContext = WrapperComponent => () => {
         ref = ref.where(k, '==', filters[k]);
         return null;
       });
-    } /* else if (next) {
-      ref = ref.startAt(next.fullname).limit(limit);
-    } else if (prev) {
-      ref = ref.endBefore(prev.fullname).limitToLast(limit);
     }
 
-    ref = ref.limit(limit); */
     try {
       const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
       dispatch(setListProfilesAction(result));
@@ -50,7 +45,7 @@ export const withProfileContext = WrapperComponent => () => {
     try {
       await saveProfileValuesAction(values, formType);
     } catch (e) {
-      console.error(e);
+      // handle error
     }
   }, []);
 

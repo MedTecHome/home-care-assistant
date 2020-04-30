@@ -2,20 +2,16 @@ import React, { createContext, useCallback, useContext, useMemo, useReducer, use
 import { getAllPatientHistoryAction } from '../reducers/PatienHealthActions';
 import { GlobalReducer, initialGlobalState } from '../../../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../../../commons/reducers/GlobalActions';
-import { AuthContext } from '../../../contexts/AuthContext';
 
 const PatientHistoryContext = createContext({});
 
 const PatientHistoryContextProvider = ({ children }) => {
-  const { currentUserProfile } = useContext(AuthContext);
   const [list, setHistoryList] = useState([]);
   const [slcted, setSelected] = useState(null);
-  const [ftrs, setFilters] = useState({ type: 'all', 'user.id': currentUserProfile.id });
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const historyList = useMemo(() => list, [list]);
   const selected = useMemo(() => slcted, [slcted]);
-  const filters = useMemo(() => ftrs, [ftrs]);
 
   const [loadingList, setLoadingList] = useState(false);
 
@@ -46,8 +42,6 @@ const PatientHistoryContextProvider = ({ children }) => {
         loadingList,
         selected,
         ...modalState,
-        filters,
-        setFilters,
         selectMedicalForm,
         getPatientHistory,
         setModalVisible,
@@ -77,8 +71,6 @@ export const usePatientHistoryContext = () => {
     selected: values.selected,
     selectMedicalForm: values.selectMedicalForm,
     formType: values.formType,
-    filters: values.filters,
-    setFilters: values.setFilters,
     getPatientHistory: values.getPatientHistory,
     setModalVisible: values.setModalVisible,
   };
