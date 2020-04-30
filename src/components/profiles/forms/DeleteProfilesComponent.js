@@ -1,20 +1,13 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 import { useProfilesContext } from '../ProfilesContext';
-
-const useStyles = makeStyles({
-  buttonActions: {
-    display: 'flex',
-    justifyContent: 'space-around',
-  },
-});
+import { DialogTitleComponent } from '../../ModalComponent';
 
 export default function DeleteProfilesComponent() {
   const { setModalVisible, profileSelected, saveProfileValues, formType } = useProfilesContext();
-  const classes = useStyles();
 
   const handleCancel = () => {
     setModalVisible(false, null);
@@ -26,21 +19,19 @@ export default function DeleteProfilesComponent() {
   };
 
   return (
-    <div>
-      <h3>Eliminar Perfile</h3>
-      <Grid container spacing={5}>
-        <Grid item xs={12}>
-          <Typography>Esta seguro que desea eliminar el perfile seleccionado.</Typography>
-        </Grid>
-        <Grid item className={classes.buttonActions} xs={12}>
-          <Button disableElevation variant="contained" size="small" onClick={handleCancel}>
-            cancelar
-          </Button>
-          <Button disableElevation size="small" variant="contained" color="secondary" onClick={onDelete}>
-            eliminar
-          </Button>
-        </Grid>
-      </Grid>
-    </div>
+    <>
+      <DialogTitleComponent onClose={handleCancel}>Eliminar</DialogTitleComponent>
+      <DialogContent dividers>
+        <Typography>Esta seguro que desea eliminar el perfile seleccionado.</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button disableElevation variant="contained" size="small" onClick={handleCancel}>
+          cancelar
+        </Button>
+        <Button disableElevation size="small" variant="contained" color="secondary" onClick={onDelete}>
+          eliminar
+        </Button>
+      </DialogActions>
+    </>
   );
 }

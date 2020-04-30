@@ -6,7 +6,8 @@ const HospitalComponent = lazy(() => import('../components/hospital/HospitalComp
 const ProfilesComponent = lazy(() => import('../components/profiles/ProfilesComponent'));
 const PatientsComponent = lazy(() => import('../components/patients/PatientsComponent'));
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
-const PatientHealthForm = lazy(() => import('../components/patientForm/PatientHealthForm'));
+const PatientHealthForm = lazy(() => import('../components/medicalForms/PatientMedicalForm'));
+const PatientHistoryComponent = lazy(() => import('../components/medicalForms/history/PatientHistoryComponent'));
 
 const RouteListConfig = [
   {
@@ -20,6 +21,11 @@ const RouteListConfig = [
   {
     path: '/login',
     component: LoginComponent,
+  },
+  {
+    path: '/paciente/historial',
+    component: PatientHistoryComponent,
+    roles: ['patient'],
   },
   {
     path: '/paciente/form',

@@ -7,16 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { withRouter } from 'react-router-dom';
 import useTheme from '@material-ui/core/styles/useTheme';
 import useStyle from './cssInJs';
-
-const optionsCheckbox = [
-  { label: 'Presion', value: 'presion' },
-  { label: 'Temperatura', value: 'temperatura' },
-  { label: 'Peso', value: 'peso' },
-  { label: 'Glucosa', value: 'glucosa' },
-  { label: 'Respiracion', value: 'respiracion' },
-  { label: 'Oxígeno', value: 'oxygeno' },
-  { label: 'INR', value: 'inr' },
-];
+import optionsTypesFormsPatientHealth from './Nomenc';
 
 function SelectedChecboxForm({ location, history, defaultValues }) {
   const urlSearchParams = new URLSearchParams(location.search);
@@ -26,11 +17,12 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
   const handleSelectCheckbox = ev => {
     const { name, checked } = ev.target;
     if (checked) {
-      urlSearchParams.append(`formulario`, name);
-    } else {
-      const formularios = urlSearchParams.getAll('formulario').filter(s => s !== name);
+      urlSearchParams.append('formulario', name);
+    }
+    if (!checked) {
+      const resto = urlSearchParams.getAll('formulario').filter(sear => sear !== name);
       urlSearchParams.delete('formulario');
-      formularios.map(f => urlSearchParams.append('formulario', f));
+      resto.map(insert => urlSearchParams.append('formulario', insert));
     }
     history.push({
       pathname: location.pathname,
@@ -44,20 +36,20 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
       }}
       component="fieldset"
     >
-      <FormLabel component="legend">Seleccione uno o mas formulario</FormLabel>
+      <FormLabel component="legend">Seleccione</FormLabel>
       <FormGroup className={justifyCheckbox} row defaultValue={defaultValues}>
-        {optionsCheckbox.map(op => (
+        {optionsTypesFormsPatientHealth.map(op => (
           <FormControlLabel
-            key={op.label}
+            key={op.name}
             control={
               <Checkbox
                 color="primary"
                 onChange={handleSelectCheckbox}
-                checked={defaultValues.includes(op.value)}
-                name={`${op.value}`}
+                checked={defaultValues.includes(op.id)}
+                name={`${op.id}`}
               />
             }
-            label={`${op.label}`}
+            label={`${op.name}`}
           />
         ))}
       </FormGroup>

@@ -9,7 +9,6 @@ import {
   setListProfilesAction,
   setProfileListLoadingAction,
   setProfileSelected,
-  setProfilesSaveLoadingAction,
 } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { initialProfileFiltersState, ProfileFiltersReducer } from './reducers/ProfileFiltersReducer';
@@ -22,7 +21,8 @@ export const withProfileContext = WrapperComponent => () => {
   const [filtersState, filtersDispatch] = useReducer(ProfileFiltersReducer, initialProfileFiltersState, init => init);
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
-  const getProfilesList = useCallback(async ({ limit = 5, next, prev, filters }) => {
+  // eslint-disable-next-line no-unused-vars
+  const getProfilesList = useCallback(async ({ filters }) => {
     dispatch(setProfileListLoadingAction(true));
     let ref = getRefProfiles();
     if (filters) {
@@ -30,13 +30,8 @@ export const withProfileContext = WrapperComponent => () => {
         ref = ref.where(k, '==', filters[k]);
         return null;
       });
-    } else if (next) {
-      ref = ref.startAt(next.fullname).limit(limit);
-    } else if (prev) {
-      ref = ref.endBefore(prev.fullname).limitToLast(limit);
     }
 
-    ref = ref.limit(limit);
     try {
       const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
       dispatch(setListProfilesAction(result));
@@ -47,13 +42,11 @@ export const withProfileContext = WrapperComponent => () => {
   }, []);
 
   const saveProfileValues = useCallback(async (values, formType) => {
-    dispatch(setProfilesSaveLoadingAction(true));
     try {
       await saveProfileValuesAction(values, formType);
     } catch (e) {
       // handle error
     }
-    dispatch(setProfilesSaveLoadingAction(true));
   }, []);
 
   const selectProfileFromList = useCallback(selected => dispatch(setProfileSelected(selected)), []);
@@ -104,7 +97,6 @@ export const useProfilesContext = () => {
     total: values.total,
     profileSelected: values.profileSelected,
     loadingList: values.loadingList,
-    loadingSave: values.loadingSave,
     formType: values.formType,
     modalVisible: values.modalVisible,
     getProfilesList: values.getProfilesList,

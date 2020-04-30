@@ -24,6 +24,7 @@ function PatientsComponent() {
     getProfilesList,
     selectProfileFromList,
     setProfileFilter,
+    filters,
   } = useProfilesContext();
   const { currentUserProfile } = useContext(AuthContext);
   const classes = useStyles();
@@ -36,7 +37,7 @@ function PatientsComponent() {
   }, [setProfileFilter, currentUserProfile]);
 
   const onFormsClose = () => {
-    getProfilesList({ filters: { 'role.id': 'patient' } });
+    getProfilesList({ filters });
     selectProfileFromList(null);
   };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,8 +22,15 @@ function ProfilesComponent() {
     selectProfileFromList,
     getProfilesList,
     filters,
+    setProfileFilter,
   } = useProfilesContext();
   const classes = useStyles();
+
+  useEffect(() => {
+    setProfileFilter({
+      'role.id': 'doctor',
+    });
+  }, [setProfileFilter]);
 
   const handleBackdropClick = () => {
     setModalVisible(false, null);

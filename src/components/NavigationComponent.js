@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,29 +18,19 @@ const useStyles = makeStyles(theme => ({
       textTransform: 'none',
       fontSize: '0.7rem',
     },
+    defaultLink: {
+      color: 'red',
+    },
+    activeLink: {
+      textDecoration: 'none',
+    },
   },
 }));
 
 export default function NavigationComponent() {
   const { currentUser, currentUserProfile } = useContext(AuthContext);
-  const history = useHistory();
+
   const classes = useStyles();
-
-  const handleClickReporte = () => {
-    history.push('/paciente/form');
-  };
-
-  const handleClickPacientes = () => {
-    history.push('/pacientes');
-  };
-
-  const handleClickHospital = () => {
-    history.push('/hospitales');
-  };
-
-  const handleClickProfiles = () => {
-    history.push('/perfiles');
-  };
 
   return (
     <>
@@ -48,24 +38,29 @@ export default function NavigationComponent() {
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickReporte}>
-                Reporte
-              </Button>
+              <>
+                <Button color="inherit" component={NavLink} to="/paciente/historial">
+                  Historial
+                </Button>
+                <Button color="inherit" component={NavLink} to="/paciente/form">
+                  Prueba
+                </Button>
+              </>
             )}
             {currentUserProfile && ['admin', 'doctor'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickPacientes}>
+              <Button color="inherit" component={NavLink} to="/pacientes">
                 Pacientes
               </Button>
             )}
             {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickProfiles}>
-                Perfiles
-              </Button>
-            )}
-            {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
-              <Button disableElevation color="inherit" onClick={handleClickHospital}>
-                Hospitales
-              </Button>
+              <>
+                <Button color="inherit" component={NavLink} to="/perfiles">
+                  Perfiles
+                </Button>
+                <Button color="inherit" component={NavLink} to="/hospitales">
+                  Hospitales
+                </Button>
+              </>
             )}
           </div>
         </Container>

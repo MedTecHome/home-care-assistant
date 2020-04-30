@@ -1,7 +1,6 @@
 import {
   LIST_PROFILES,
   LIST_PROFILES_LOADING,
-  SAVE_PROFILES_LOADING,
   SELECTED_PROFILE,
   LIST_PROFILES_NOMENCLADOR,
 } from '../../../commons/globalText';
@@ -36,11 +35,6 @@ export const ProfilesReducer = (state, action) => {
       return {
         ...state,
         profileSelected: state.profiles.find(a => a.id === action.selected) || null,
-      };
-    case SAVE_PROFILES_LOADING:
-      return {
-        ...state,
-        loadingSave: action.flag,
       };
     default:
       return state;

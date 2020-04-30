@@ -32,7 +32,7 @@ function PatientsFieldComponent({ classes, userRole }) {
       <Grid item xs={12}>
         <AddressFieldComponent classes={classes} />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={12}>
         <DoctorFieldComponent classes={classes} userRole={userRole} />
       </Grid>
     </>

@@ -1,38 +1,55 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Dialog';
+import CloseIcon from '@material-ui/icons/Close';
+import withStyles from '@material-ui/core/styles/withStyles';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
-  modal: {
-    position: 'fixed',
-    maxWidth: 400,
-    margin: 'auto',
-    top: 15,
-    left: 0,
-    right: 0,
-    overflowY: 'auto',
-    maxHeight: '90%',
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(0, 4, 3),
+const styles = theme => ({
+  dialogRoot: {
+    '& .MuiDialog-paperWidthSm': {
+      width: '80%',
+    },
   },
-}));
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
 
-function ModalComponent({ children, onBackdropClick, visible }) {
-  const classes = useStyles();
-
+export const DialogTitleComponent = withStyles(styles)(props => {
+  const { children, classes, onClose } = props;
   return (
-    <Modal
-      disableBackdropClick={false}
+    <DialogTitle disableTypography className={classes.root}>
+      <Typography variant="h6">{children}</Typography>
+      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+        <CloseIcon />
+      </IconButton>
+    </DialogTitle>
+  );
+});
+
+const ModalComponent = withStyles(styles)(props => {
+  const { children, onBackdropClick, visible, classes } = props;
+  return (
+    <Dialog
+      className={classes.dialogRoot}
       open={visible}
       onBackdropClick={onBackdropClick}
+      scroll="paper"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
-      <div className={classes.modal}>{children}</div>
-    </Modal>
+      {children}
+    </Dialog>
   );
-}
+});
 
 export default ModalComponent;

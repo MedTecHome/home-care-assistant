@@ -4,6 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import { EDIT_FORM_TEXT } from '../../../commons/globalText';
 import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
 import { useProfilesContext } from '../ProfilesContext';
@@ -17,6 +21,7 @@ import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
 import EmailFieldComponent from '../../fields/EmailFieldComponent';
 import { AuthContext } from '../../../contexts/AuthContext';
+import { DialogTitleComponent } from '../../ModalComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +33,17 @@ const useStyles = makeStyles({
   formControl: {
     width: '100%',
   },
+  wrapper: {
+    position: 'relative',
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 });
 
 function AddOrEditProfilesComponent({ title }) {
@@ -36,7 +52,7 @@ function AddOrEditProfilesComponent({ title }) {
   const classes = useStyles();
 
   const onSubmit = async ({ user, ...values }) => {
-    saveProfileValues(
+    await saveProfileValues(
       {
         ...values,
         ...(values.birthday ? { birthday: moment(values.birthday).toDate() } : {}),
@@ -54,10 +70,8 @@ function AddOrEditProfilesComponent({ title }) {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.headerStyle}>
-        <h4>{title}</h4>
-      </div>
+    <>
+      <DialogTitleComponent onClose={handleCancel}>{title}</DialogTitleComponent>
       <Form
         initialValues={
           formType === EDIT_FORM_TEXT && profileSelected
@@ -73,48 +87,66 @@ function AddOrEditProfilesComponent({ title }) {
         }
         onSubmit={onSubmit}
         // validate={ValidateDoctorForm}
-        render={({ handleSubmit, values }) => {
+        render={({ handleSubmit, values, form, submitting, pristine }) => {
           return (
-            <form autoComplete="off" onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
-                {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
-                <Grid item xs={12} sm={12} md={12}>
-                  <NameFieldComponent classes={classes} />
-                </Grid>
-                <Grid item xs={12} sm={12} md={12}>
-                  <LastNameFieldComponent classes={classes} />
-                </Grid>
-                <Grid item xs={12}>
-                  <PhoneFieldComponent classes={classes} />
-                </Grid>
-                {values && values.role === 'patient' && (
-                  <PatientsFieldComponent classes={classes} userRole={currentUserProfile.role} />
-                )}
-                {values && values.role === 'doctor' && (
-                  <Grid item xs={12}>
-                    <HospitalFieldComponent classes={classes} />
+            <form
+              autoComplete="off"
+              onSubmit={event => {
+                handleSubmit(event).then(() => {
+                  form.reset();
+                });
+              }}
+            >
+              <DialogContent dividers>
+                <Grid container spacing={3}>
+                  {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
+                  <Grid item xs={12} sm={12} md={12}>
+                    <NameFieldComponent classes={classes} />
                   </Grid>
-                )}
-                <Grid item xs={12}>
-                  <RoleFieldComponent classes={classes} userRole={currentUserProfile.role} />
+                  <Grid item xs={12} sm={12} md={12}>
+                    <LastNameFieldComponent classes={classes} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <PhoneFieldComponent classes={classes} />
+                  </Grid>
+                  {values && values.role === 'patient' && (
+                    <PatientsFieldComponent classes={classes} userRole={currentUserProfile.role} />
+                  )}
+                  {values && values.role === 'doctor' && (
+                    <Grid item xs={12}>
+                      <HospitalFieldComponent classes={classes} />
+                    </Grid>
+                  )}
+                  <Grid item xs={12}>
+                    <RoleFieldComponent classes={classes} userRole={currentUserProfile.role} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <EmailFieldComponent disabled={formType === EDIT_FORM_TEXT} classes={classes} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <EmailFieldComponent disabled={formType === EDIT_FORM_TEXT} classes={classes} />
-                </Grid>
-                <Grid item container xs={12} justify="space-evenly">
-                  <Button disableElevation variant="contained" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                  <Button disableElevation variant="contained" type="submit" color="primary">
+              </DialogContent>
+              <DialogActions>
+                <Button disableElevation variant="contained" onClick={handleCancel}>
+                  Cancel
+                </Button>
+                <div className={classes.wrapper}>
+                  <Button
+                    disabled={submitting || pristine}
+                    disableElevation
+                    variant="contained"
+                    type="submit"
+                    color="primary"
+                  >
                     Guardar
                   </Button>
-                </Grid>
-              </Grid>
+                  {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+                </div>
+              </DialogActions>
             </form>
           );
         }}
       />
-    </div>
+    </>
   );
 }
 
