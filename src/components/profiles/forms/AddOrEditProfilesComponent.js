@@ -56,9 +56,9 @@ function AddOrEditProfilesComponent({ title }) {
       {
         ...values,
         ...(values.birthday ? { birthday: moment(values.birthday).toDate() } : {}),
-        ...(values.doctor ? { doctor: await getDoctorByIdAction(values.doctor) } : {}),
+        ...(values.doctor ? { doctor: await getDoctorByIdAction(values.doctor, ['fullname']) } : {}),
         ...(values.role ? { role: await getRoleByIdAction(values.role) } : {}),
-        ...(values.hospital ? { hospital: await getHospitalByIdAction(values.hospital) } : {}),
+        ...(values.hospital ? { hospital: await getHospitalByIdAction(values.hospital, ['name']) } : {}),
       },
       formType
     );

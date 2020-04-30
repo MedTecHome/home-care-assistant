@@ -1,3 +1,4 @@
+import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import {
   ADD_FORM_TEXT,
@@ -29,9 +30,10 @@ export const fetchHospitalsAction = () => {
   return hospitalRef;
 };
 
-export const getHospitalByIdAction = async id => {
+export const getHospitalByIdAction = async (id, fields = []) => {
   const ref = await hospitalRef.collection('hospitals').doc(id).get();
-  return { id: ref.id, ...ref.data() };
+  const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
+  return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
 };
 
 export const saveHospitalValuesAction = async ({ id, ...values }, form) => {

@@ -23,7 +23,6 @@ function PatientsFieldComponent({ classes, userRole }) {
           format="DD/MM/YYYY"
           inputVariant="outlined"
           name="birthday"
-          InputAdornmentProps={{ position: 'start' }}
         />
       </Grid>
       <Grid item xs={4} sm={4} md={4}>
