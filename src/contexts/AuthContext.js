@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
+import { isNil } from 'ramda';
 import { authFirebase, dbRef } from '../firebaseConfig';
 import { saveProfileValuesAction } from '../components/profiles/reducers/ProfileActions';
 import { ADD_FORM_TEXT } from '../commons/globalText';
@@ -14,14 +15,18 @@ export function AuthContextProvider({ children }) {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {
       setCurrentUser(user);
       if (user) {
-        const profile = await dbRef('profile').collection('profiles').where('user.email', '==', user.email).get();
-        setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
+        const profile = await dbRef('profile').collection('profiles').where('user.id', '==', user.uid).get();
+        if (!isNil(profile.docChanges()[0])) {
+          setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
+        }
       } else
         setCurrentUserProfile({
-          id: '2',
+          // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
+          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+          id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
           fullname: 'jajaja',
           role: {
-            id: 'admin',
+            id: 'doctor',
           },
         });
     });
@@ -44,7 +49,7 @@ export function AuthContextProvider({ children }) {
       return await authFirebase.signInWithEmailAndPassword(email, password);
     } catch (e) {
       setAndClearErrorState(e);
-      throw new Error(e);
+      return null;
     }
   };
 
@@ -56,7 +61,7 @@ export function AuthContextProvider({ children }) {
       return await saveProfileValuesAction({ ...values, user: { id: user.uid, email: user.email } }, ADD_FORM_TEXT);
     } catch (e) {
       setAndClearErrorState(e);
-      throw new Error(e);
+      return null;
     }
   }, []);
 

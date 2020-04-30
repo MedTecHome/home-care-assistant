@@ -4,10 +4,13 @@ const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
 const LoginComponent = lazy(() => import('../components/login/LoginComponent'));
 const HospitalComponent = lazy(() => import('../components/hospital/HospitalComponent'));
 const ProfilesComponent = lazy(() => import('../components/profiles/ProfilesComponent'));
-const PatientsComponent = lazy(() => import('../components/patients/PatientsComponent'));
+const PatientsComponent = lazy(() => import('../components/profiles/patients/PatientsComponent'));
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const PatientHealthForm = lazy(() => import('../components/medicalForms/PatientMedicalForm'));
 const PatientHistoryComponent = lazy(() => import('../components/medicalForms/history/PatientHistoryComponent'));
+const DoctorPatientHistoryComponent = lazy(() =>
+  import('../components/profiles/doctors/DoctorPatientsMedicalHistoryComponent')
+);
 
 const RouteListConfig = [
   {
@@ -23,6 +26,11 @@ const RouteListConfig = [
     component: LoginComponent,
   },
   {
+    path: '/doctor/paciente/historial',
+    component: DoctorPatientHistoryComponent,
+    roles: ['doctor'],
+  },
+  {
     path: '/paciente/historial',
     component: PatientHistoryComponent,
     roles: ['patient'],
@@ -35,7 +43,7 @@ const RouteListConfig = [
   {
     path: '/pacientes',
     component: PatientsComponent,
-    roles: ['admin', 'doctor'],
+    roles: ['doctor'],
   },
   {
     path: '/perfiles',

@@ -1,4 +1,5 @@
-import uuid from 'uuid4';
+// import uuid from 'uuid4';
+import { isEmpty } from 'ramda';
 import { authFirebase, dbRef } from '../../../firebaseConfig';
 import {
   LIST_PROFILES,
@@ -9,8 +10,6 @@ import {
   DELETE_FORM_TEXT,
   LIST_PROFILES_NOMENCLADOR,
 } from '../../../commons/globalText';
-
-// import { apiData } from '../../../axiosApiRequest';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
@@ -41,15 +40,17 @@ export const setProfileSelected = selected => ({
 
 export const getRefProfiles = () => profilesRef.collection('profiles');
 
-// eslint-disable-next-line no-unused-vars
 export const getDoctorsListAction = async ({ filters }) => {
+  // eslint-disable-next-line no-console
+  console.log(filters);
   const ref = getRefProfiles().where('role.id', '==', 'doctor');
   return (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getDoctorByIdAction = async id => {
+export const getDoctorByIdAction = async (id, fields = []) => {
   const ref = await getRefProfiles().doc(id).get();
-  return { id: ref.id, ...ref.data() };
+  const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
+  return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
 };
 
 export const saveProfileValuesAction = async ({ id, email, ...values }, formType) => {
@@ -57,7 +58,8 @@ export const saveProfileValuesAction = async ({ id, email, ...values }, formType
 
   if (formType === ADD_FORM_TEXT) {
     try {
-      const user = await authFirebase.createUserWithEmailAndPassword(email, uuid());
+      // const user = await authFirebase.createUserWithEmailAndPassword(email, uuid());
+      const user = await authFirebase.createUserWithEmailAndPassword(email, 'Test*123');
       await authFirebase.sendPasswordResetEmail(user.user.email, actionCodeSettings);
       return ref.add({
         ...values,

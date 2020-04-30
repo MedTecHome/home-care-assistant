@@ -2,13 +2,13 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import ModalComponent from '../ModalComponent';
-import { useProfilesContext, withProfileContext } from '../profiles/ProfilesContext';
-import ProfilesFormComponent from '../profiles/forms/ProfilesFormsComponent';
-import ListProfilesComponent from '../profiles/ListProfilesComponent';
-import ToolbarProfileComponent from '../profiles/ToolbarProfilesComponent';
-import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
-import { AuthContext } from '../../contexts/AuthContext';
+import ModalComponent from '../../ModalComponent';
+import { useProfilesContext, withProfileContext } from '../ProfilesContext';
+import ProfilesFormComponent from '../forms/ProfilesFormsComponent';
+import ListProfilesComponent from '../ListProfilesComponent';
+import ToolbarProfileComponent from '../ToolbarProfilesComponent';
+import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 const useStyles = makeStyles({
   pageHeader: {

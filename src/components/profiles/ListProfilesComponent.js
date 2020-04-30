@@ -1,4 +1,5 @@
 import React, { memo, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,6 +16,8 @@ import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faNotesMedical } from '@fortawesome/free-solid-svg-icons';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useProfilesContext } from './ProfilesContext';
 
@@ -53,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ListProfilesComponent({ onClickDelete, onClickEdit }) {
+  const history = useHistory();
   const {
     profiles,
     getProfilesList,
@@ -80,6 +84,15 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   const handleOnClickEdit = id => {
     handleSelectItemOnClick(id);
     onClickEdit();
+  };
+
+  const handleOnClickMedicalHistory = id => {
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set('pId', id);
+    history.push({
+      pathname: '/doctor/paciente/historial',
+      search: urlSearchParams.toString(),
+    });
   };
 
   return (
@@ -121,6 +134,11 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
               }
             />
             <ListItemSecondaryAction>
+              {profile.role && profile.role.id === 'patient' && (
+                <IconButton edge="end" aria-label="edit" onClick={() => handleOnClickMedicalHistory(profile.id)}>
+                  <FontAwesomeIcon icon={faNotesMedical} />
+                </IconButton>
+              )}
               <IconButton edge="end" aria-label="edit" onClick={() => handleOnClickEdit(profile.id)}>
                 <EditIcon />
               </IconButton>
