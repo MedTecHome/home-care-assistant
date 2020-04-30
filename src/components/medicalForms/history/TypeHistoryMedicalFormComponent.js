@@ -19,15 +19,15 @@ const useStyles = makeStyles({
   },
 });
 
-function TypeMedicalFormComponent({ data, type: { id: idType } }) {
+function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
   const classes = useStyles();
   return (
     <div className={classes.listItemValues}>
       {idType === 'pressure' && (
         <>
-          <Typography className={classes.listItem}>{`Pulsaciones: ${data.heartrate}`}</Typography>
           <Typography className={classes.listItem}>{`Sistolica: ${data.sistolica}`}</Typography>
           <Typography className={classes.listItem}>{`Diastolica: ${data.diastolica}`}</Typography>
+          <Typography className={classes.listItem}>{`Frecuencia cardiaca: ${data.heartrate}`}</Typography>
         </>
       )}
       {idType === 'temperature' && (
@@ -48,10 +48,10 @@ function TypeMedicalFormComponent({ data, type: { id: idType } }) {
       {idType === 'breathing' && (
         <>
           <Typography className={classes.listItem}>{`EtCO: ${data.EtCO} mmHg`}</Typography>
+          <Typography className={classes.listItem}>{`PI: ${data.PI}%`}</Typography>
           <Typography
             className={classes.listItem}
-          >{`Frecuencia Repiraoria: ${data.breathingFrecuency} RPM`}</Typography>
-          <Typography className={classes.listItem}>{`Indice Perfucion (PI): ${data.PI}%`}</Typography>
+          >{`Frecuencia Repiratoria: ${data.breathingFrecuency} RPM`}</Typography>
         </>
       )}
       {idType === 'inr' && (
@@ -69,4 +69,4 @@ function TypeMedicalFormComponent({ data, type: { id: idType } }) {
     </div>
   );
 }
-export default memo(TypeMedicalFormComponent);
+export default memo(TypeHistoryMedicalFormComponent);

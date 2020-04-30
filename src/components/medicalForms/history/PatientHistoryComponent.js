@@ -4,7 +4,7 @@ import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHi
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../../ModalComponent';
-import MedicalFormDetailComponent from './MedicalFormDetailComponent';
+import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 
 function PatientHistoryComponent() {
   const { getPatientHistory, filters, modalVisible, setModalVisible } = usePatientHistoryContext();
@@ -19,7 +19,7 @@ function PatientHistoryComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible} onBackdropClick={handleClose}>
-        <MedicalFormDetailComponent />
+        <DetailHistoryMedicalFormComponent />
       </ModalComponent>
       <Container maxWidth="md">
         <FiltersPatientHistoryComponent />

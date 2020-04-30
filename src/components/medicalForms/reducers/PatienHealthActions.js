@@ -44,53 +44,81 @@ export const saveHealthDataAction = async ({ user, ...values }) => {
     });
   }
   if (!isEmpty(breathingMutate(values))) {
-    await BreathingRef.add({ ...breathingMutate(values) });
+    await BreathingRef.add({ ...breathingMutate(values), user });
   }
   if (!isEmpty(inrMutate(values))) {
-    await INRRef.add({ ...inrMutate(values) });
+    await INRRef.add({ ...inrMutate(values), user });
   }
   if (!isEmpty(pulseMutate(values))) {
-    await PulseRef.add({ ...pulseMutate(values) });
+    await PulseRef.add({ ...pulseMutate(values), user });
   }
 };
 
-export const getBloodPressureAction = async ({ limit = 1 }) => {
-  return (await PessureRef.orderBy('date', 'desc').limit(limit).get())
+export const getBloodPressureAction = async ({ limit = 1, ...params }) => {
+  let ref = PessureRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get())
     .docChanges()
     .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'pressure' }));
 };
 
-export const getTemperatureAction = async ({ limit = 1 }) => {
-  return (await TemperatureRef.orderBy('date', 'desc').limit(limit).get())
+export const getTemperatureAction = async ({ limit = 1, ...params }) => {
+  let ref = TemperatureRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get())
     .docChanges()
-    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'temprature' }));
+    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'temperature' }));
 };
 
-export const getWeightAction = async ({ limit = 1 }) => {
-  return (await WeightRef.orderBy('date', 'desc').limit(limit).get())
-    .docChanges()
-    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'weight' }));
+export const getWeightAction = async ({ limit = 1, ...params }) => {
+  let ref = WeightRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+  });
+  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'weight' }));
 };
 
-export const getGlucoseAction = async ({ limit = 1 }) => {
-  return (await GlucoseRef.orderBy('date', 'desc').limit(limit).get())
-    .docChanges()
-    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'glucose' }));
+export const getGlucoseAction = async ({ limit = 1, ...params }) => {
+  let ref = GlucoseRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'glucose' }));
 };
 
-export const getBreathingAction = async ({ limit = 1 }) => {
-  return (await BreathingRef.orderBy('date', 'desc').limit(limit).get())
+export const getBreathingAction = async ({ limit = 1, ...params }) => {
+  let ref = BreathingRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get())
     .docChanges()
     .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'breathing' }));
 };
-export const getINRAction = async ({ limit = 1 }) => {
-  return (await INRRef.orderBy('date', 'desc').limit(limit).get())
-    .docChanges()
-    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'inr' }));
+export const getINRAction = async ({ limit = 1, ...params }) => {
+  let ref = INRRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'inr' }));
 };
 
-export const getPulseAction = async ({ limit = 1 }) => {
-  return (await PulseRef.orderBy('date', 'desc').limit(limit).get())
+export const getPulseAction = async ({ limit = 1, ...params }) => {
+  let ref = PulseRef;
+  Object.keys(params).map(k => {
+    ref = ref.where(k, '==', params[k]);
+    return null;
+  });
+  return (await ref.limit(limit).get())
     .docChanges()
     .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'heartbeat' }));
 };
@@ -128,7 +156,6 @@ export const getAllPatientHistoryAction = async ({ filters }) => {
       const pulse = await getPulseAction(params);
       result = [...result, ...pulse];
     }
-    console.log(result);
     return result;
   } catch (e) {
     throw new Error(e);

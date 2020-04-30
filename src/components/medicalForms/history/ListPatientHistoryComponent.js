@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTemperatureHigh, faQuestionCircle, faWeight } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import TypeMedicalFormComponent from './TypeMedicalFormComponent';
+import TypeMedicalFormComponent from './TypeHistoryMedicalFormComponent';
 import { findByIdePatientMedicalForm } from '../nomenc';
 import { DETAILS_FORM_TEXT } from '../../../commons/globalText';
 
