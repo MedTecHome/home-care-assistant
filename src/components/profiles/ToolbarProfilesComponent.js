@@ -23,6 +23,7 @@ const useStyles = makeStyles({
   },
   listRoot: {
     position: 'inherit',
+    background: '#fff',
   },
   addButtonIcon: {
     fontSize: 48,

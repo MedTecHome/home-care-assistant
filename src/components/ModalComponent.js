@@ -36,8 +36,7 @@ export const DialogTitleComponent = withStyles(styles)(props => {
   );
 });
 
-const ModalComponent = withStyles(styles)(props => {
-  const { children, onBackdropClick, visible, classes } = props;
+const ModalComponent = withStyles(styles)(({ children, onBackdropClick, visible, classes }) => {
   return (
     <Dialog
       className={classes.dialogRoot}

@@ -11,6 +11,7 @@ const PatientHistoryComponent = lazy(() => import('../components/medicalForms/hi
 const DoctorPatientHistoryComponent = lazy(() =>
   import('../components/profiles/doctors/DoctorPatientsMedicalHistoryComponent')
 );
+const MedicinesComponent = lazy(() => import('../components/medicines/MedicinesComponent'));
 
 const RouteListConfig = [
   {
@@ -28,6 +29,11 @@ const RouteListConfig = [
   {
     path: '/doctor/paciente/historial',
     component: DoctorPatientHistoryComponent,
+    roles: ['doctor'],
+  },
+  {
+    path: '/medicamentos',
+    component: MedicinesComponent,
     roles: ['doctor'],
   },
   {

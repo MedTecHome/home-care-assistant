@@ -18,5 +18,11 @@ export const DELETE_FORM_TEXT = 'DELETE_FORM_TEXT';
 export const DETAILS_FORM_TEXT = 'DETAILS_FORM_TEXT';
 
 /** validator text */
+export const REGEX_POSITIVE_NUMBER = /^\d*[1-9]\d*$/;
+export const REGEX_POSITIVE_NUMBER_AND_DECIMAL = /^\d*\.?\d*$/;
+export const REGEX_ALPHANUMERIC_AND_SPACE = /^[-\w\s]+$/;
+export const REGEX_ONLY_ALPHA = /^[a-zA-Z\s]+$/;
+export const INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT = 'Formato no valido para numeros.';
+export const INVALID_WEIRD_CHARACTERS_ON_TEXT = 'Texto no valido';
 export const REQUIRED_FIELD = 'Este campo es obligatorio.';
 export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada';

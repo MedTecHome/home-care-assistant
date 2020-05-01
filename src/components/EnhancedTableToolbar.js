@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { lighten } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -38,7 +37,7 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
-  const { title = '', selected, onAdd, onEdit, onDelete } = props;
+  const { filters, selected, onAdd, onEdit, onDelete } = props;
 
   const handleAddItem = () => {
     onAdd(ADD_FORM_TEXT);
@@ -59,15 +58,13 @@ const EnhancedTableToolbar = props => {
         [classes.highlight]: !!selected,
       })}
     >
-      <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-        {title}
-      </Typography>
+      <div className={classes.title}>{filters}</div>
       <IconButton variant="contained" color="primary" arial-label="add" onClick={handleAddItem}>
         <AddIcon fontSize="large" />
       </IconButton>
       {selected && (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete" onClick={handleEditSelected}>
+          <IconButton aria-label="edit" onClick={handleEditSelected}>
             <EditIcon />
           </IconButton>
         </Tooltip>
