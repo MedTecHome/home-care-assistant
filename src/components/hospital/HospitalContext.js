@@ -35,7 +35,12 @@ const HospitalContextProvider = ({ children }) => {
         return null;
       });
     }
-    const result = (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+    const result = (await ref.get()).docs().map(({ doc }) => ({
+      id: doc.id,
+      createdAt: doc.createTime,
+      updatedAt: doc.updateTime,
+      ...doc.data(),
+    }));
     dispatch(setListHospitalAction(result));
     dispatch(setListHospitalLoadingAction(false));
   }, []);

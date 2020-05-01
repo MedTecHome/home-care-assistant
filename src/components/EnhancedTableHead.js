@@ -17,6 +17,7 @@ export default function EnhancedTableHead(props) {
             {headCell.label}
           </TableCell>
         ))}
+        <TableCell align="center">acciones</TableCell>
       </TableRow>
     </TableHead>
   );

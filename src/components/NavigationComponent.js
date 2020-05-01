@@ -52,6 +52,11 @@ export default function NavigationComponent() {
                 Pacientes
               </Button>
             )}
+            {currentUserProfile && ['doctor'].includes(currentUserProfile.role.id) && (
+              <Button color="inherit" component={NavLink} to="/medicamentos">
+                Medicamentos
+              </Button>
+            )}
             {currentUserProfile && ['admin'].includes(currentUserProfile.role.id) && (
               <>
                 <Button color="inherit" component={NavLink} to="/perfiles">
