@@ -26,8 +26,18 @@ export const selectHospitalsFromListAction = selected => ({
   selected,
 });
 
-export const fetchHospitalsAction = () => {
-  return hospitalRef;
+export const fetchHospitalsAction = async ({ filters }) => {
+  let ref = hospitalRef.collection('hospitals').orderBy('name');
+  if (filters && !isEmpty(filters)) {
+    Object.keys(filters).map(k => {
+      ref = ref.where(k, '>=', filters[k]);
+      return null;
+    });
+  }
+  return (await ref.get()).docChanges().map(({ doc }) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
 export const getHospitalByIdAction = async (id, fields = []) => {

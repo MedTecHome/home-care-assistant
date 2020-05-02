@@ -31,13 +31,13 @@ function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
   const classes = useStyles();
 
-  const onSubmit = async values => {
-    await saveMedicineValues(values, formType);
-    setModalVisible(false, true);
+  const handleCloseForm = () => {
+    setModalVisible(false, null);
   };
 
-  const handleCloseForm = () => {
-    setModalVisible(false, true);
+  const onSubmit = async values => {
+    await saveMedicineValues(values, formType);
+    handleCloseForm();
   };
 
   return (

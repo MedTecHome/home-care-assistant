@@ -11,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
+import validateHospital from './validateHospital';
 
 const useStyles = makeStyles({
   formControl: {
@@ -53,6 +54,7 @@ export default function AddOrEditHospitalComponent() {
       </DialogTitleComponent>
       <Form
         initialValues={formType === EDIT_FORM_TEXT && hospitalSelected && hospitalSelected}
+        validate={validateHospital}
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form
@@ -65,11 +67,13 @@ export default function AddOrEditHospitalComponent() {
           >
             <DialogContent dividers>
               {hospitalSelected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
-              <Grid container spacing={3}>
+              <Grid container item spacing={3}>
                 <Grid item xs={12}>
                   <TextField
                     label="Nombre hospital"
-                    required
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     className={classes.formControl}
                     variant="outlined"
                     size="small"
@@ -79,7 +83,6 @@ export default function AddOrEditHospitalComponent() {
                 <Grid item xs={12}>
                   <TextField
                     label="Direccion del hospital"
-                    required
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -93,7 +96,6 @@ export default function AddOrEditHospitalComponent() {
                   <TextField
                     type="number"
                     label="Telefono"
-                    required
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -107,7 +109,6 @@ export default function AddOrEditHospitalComponent() {
                   <TextField
                     type="number"
                     label="Limite de doctores"
-                    required
                     inputProps={{
                       min: 0,
                     }}
@@ -124,7 +125,6 @@ export default function AddOrEditHospitalComponent() {
                   <TextField
                     type="number"
                     label="Limite de pacientes"
-                    required
                     inputProps={{
                       min: 0,
                     }}

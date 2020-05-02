@@ -3,7 +3,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
 import { TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircleOutline';
@@ -44,16 +43,14 @@ function FiltersMedicineComponent() {
     <List>
       <ListItem>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormControl size="small">
-              <TextField
-                size="small"
-                label="Nombre"
-                name="name"
-                value={name}
-                onChange={event => setName(event.target.value)}
-              />
-            </FormControl>
+          <Grid item xs={12} container>
+            <TextField
+              size="small"
+              label="Nombre"
+              name="name"
+              value={name}
+              onChange={event => setName(event.target.value)}
+            />
             <IconButton onClick={handleSearch}>
               <SearchIcon fontVariant={66} color="primary" />
             </IconButton>
