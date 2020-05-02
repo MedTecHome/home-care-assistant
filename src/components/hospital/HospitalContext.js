@@ -18,29 +18,9 @@ const HospitalContextProvider = ({ children }) => {
   const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   // eslint-disable-next-line no-unused-vars
-  const getListHospitals = useCallback(async ({ limit = 5, next, prev, filters }) => {
+  const getListHospitals = useCallback(async params => {
     dispatch(setListHospitalLoadingAction(true));
-    let ref = fetchHospitalsAction().collection('hospitals').orderBy('name');
-    /* if (next) {
-      ref = ref.startAfter(next.name).limit(limit);
-    } else if (prev) {
-      ref = ref.endBefore(prev.name).limitToLast(limit);
-    } else {
-      ref = ref.limit(limit);
-    } */
-
-    if (filters && !isEmpty(filters)) {
-      Object.keys(filters).map(k => {
-        ref = ref.where(k, '>=', filters[k]);
-        return null;
-      });
-    }
-    const result = (await ref.get()).docs().map(({ doc }) => ({
-      id: doc.id,
-      createdAt: doc.createTime,
-      updatedAt: doc.updateTime,
-      ...doc.data(),
-    }));
+    const result = await fetchHospitalsAction(params);
     dispatch(setListHospitalAction(result));
     dispatch(setListHospitalLoadingAction(false));
   }, []);

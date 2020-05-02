@@ -1,27 +1,69 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import uuid from 'uuid4';
 import { useHospitalContext, withHospitalContext } from './HospitalContext';
-import HospitalListComponent from './HospitalListComponent';
 import HospitalForms from './forms/HospitalForms';
 import ModalComponent from '../ModalComponent';
+import TableComponent from '../table/TableComponent';
+import hospitalHeadCells from './hospitalHeadCells';
+import RowTableHospitalComponent from './RowTableHospitalComponent';
 
 function HospitalComponent() {
-  const { modalVisible, setModalVisible, formType, getListHospitals, selectHospital } = useHospitalContext();
+  const {
+    hospitalSelected,
+    listLoading,
+    hospitals,
+    modalVisible,
+    setModalVisible,
+    formType,
+    getListHospitals,
+    selectHospital,
+  } = useHospitalContext();
+
+  const handleReloadList = useCallback(() => {
+    getListHospitals({});
+  }, [getListHospitals]);
+
+  useEffect(() => {
+    handleReloadList();
+  }, [handleReloadList]);
 
   const handleBackdrop = () => {
-    setModalVisible(false, true);
+    setModalVisible(false, null);
   };
 
   const handleFormClose = useCallback(() => {
-    getListHospitals({});
+    handleReloadList();
     selectHospital(null);
-  }, [getListHospitals, selectHospital]);
+  }, [handleReloadList, selectHospital]);
+
+  const handleShowModal = fType => {
+    setModalVisible(true, fType);
+  };
 
   return (
     <>
       <ModalComponent visible={modalVisible} handleBackdropClick={handleBackdrop}>
         <HospitalForms formType={formType} onFormClose={handleFormClose} />
       </ModalComponent>
-      <HospitalListComponent />
+      <TableComponent
+        filters={<></>}
+        title="Lista de hospitales"
+        selected={hospitalSelected}
+        headCells={hospitalHeadCells}
+        loadingList={listLoading}
+        list={hospitals}
+        setModalVisible={setModalVisible}
+        render={(row, index) => (
+          <RowTableHospitalComponent
+            key={uuid()}
+            row={row}
+            index={index}
+            selected={hospitalSelected}
+            selectRow={selectHospital}
+            onModalVisible={handleShowModal}
+          />
+        )}
+      />
     </>
   );
 }

@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   dialogRoot: {
     '& .MuiDialog-paperWidthSm': {
+      maxWidth: 450,
       width: '80%',
     },
   },

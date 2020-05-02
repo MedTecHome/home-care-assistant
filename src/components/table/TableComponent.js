@@ -4,8 +4,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import EnhancedTableHead from '../EnhancedTableHead';
-import EnhancedTableToolbar from '../EnhancedTableToolbar';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import EnhancedTableHead from './EnhancedTableHead';
+import EnhancedTableToolbar from './EnhancedTableToolbar';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -47,37 +50,41 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-function ListMedicinesComponent({ filters, list, loadingList, headCells, selected, setModalVisible, render }) {
+function TableComponent({ title, filters, list, loadingList, headCells, selected, setModalVisible, render }) {
   const classes = useStyles();
-  const handleMedicineModalVisible = formType => {
+
+  const handleModalVisible = formType => {
     setModalVisible(true, formType);
   };
 
   return (
-    <div className={classes.root}>
+    <Card elevation={0} className={classes.root}>
+      <CardHeader title={title} />
       <EnhancedTableToolbar
         filters={filters}
         selected={selected && selected.id}
-        onAdd={handleMedicineModalVisible}
-        onEdit={handleMedicineModalVisible}
-        onDelete={handleMedicineModalVisible}
+        onAdd={handleModalVisible}
+        onEdit={handleModalVisible}
+        onDelete={handleModalVisible}
       />
       {loadingList ? (
         <CircularProgress size={25} />
       ) : (
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
-            <EnhancedTableHead headCells={headCells} />
-            <TableBody>
-              {list.map((row, index) => {
-                return render(row, index);
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <CardContent>
+          <TableContainer>
+            <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
+              <EnhancedTableHead headCells={headCells} />
+              <TableBody>
+                {list.map((row, index) => {
+                  return render(row, index);
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
       )}
-    </div>
+    </Card>
   );
 }
 
-export default ListMedicinesComponent;
+export default TableComponent;
