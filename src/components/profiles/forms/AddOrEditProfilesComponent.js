@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import { Field, Form } from 'react-final-form';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -15,13 +15,15 @@ import NameFieldComponent from '../../fields/NameFieldComponent';
 import LastNameFieldComponent from '../../fields/LastNameFieldComponent';
 import PhoneFieldComponent from '../../fields/PhoneFieldComponent';
 import PatientsFieldComponent from '../../fields/PatientFieldsComponent';
-import RoleFieldComponent from '../../fields/RoleFieldComponent';
-import { getDoctorByIdAction } from '../reducers/ProfileActions';
+import RoleFieldComponent from '../../fields/roles/RoleFieldComponent';
+import { getProfileByIdAction } from '../reducers/ProfileActions';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
 import EmailFieldComponent from '../../fields/EmailFieldComponent';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/AuthContext';
 import { DialogTitleComponent } from '../../ModalComponent';
+import { useRolesContext, withRolesContext } from '../../fields/roles/RolesContext';
+import { validateHospital, validateProfile } from './valdiateProfile';
 
 const useStyles = makeStyles({
   root: {
@@ -47,16 +49,21 @@ const useStyles = makeStyles({
 });
 
 function AddOrEditProfilesComponent({ title }) {
-  const { currentUserProfile } = useContext(AuthContext);
+  const { currentUserProfile } = useAuthContext();
   const { profileSelected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
+  const { roles, getRoles } = useRolesContext();
   const classes = useStyles();
+
+  useEffect(() => {
+    getRoles();
+  }, [getRoles]);
 
   const onSubmit = async ({ user, ...values }) => {
     await saveProfileValues(
       {
         ...values,
         ...(values.birthday ? { birthday: moment(values.birthday).toDate() } : {}),
-        ...(values.doctor ? { doctor: await getDoctorByIdAction(values.doctor, ['fullname']) } : {}),
+        ...(values.doctor ? { doctor: await getProfileByIdAction(values.doctor, ['fullname']) } : {}),
         ...(values.role ? { role: await getRoleByIdAction(values.role) } : {}),
         ...(values.hospital ? { hospital: await getHospitalByIdAction(values.hospital, ['name']) } : {}),
       },
@@ -78,23 +85,25 @@ function AddOrEditProfilesComponent({ title }) {
             ? {
                 ...profileSelected,
                 ...(profileSelected.user ? { email: profileSelected.user.email } : {}),
-                ...(profileSelected.role ? { role: profileSelected.role.id } : {}),
+                ...(profileSelected.role && roles.length > 0 ? { role: profileSelected.role.id } : { role: '' }),
                 ...(profileSelected.doctor ? { doctor: profileSelected.doctor.id } : {}),
                 ...(profileSelected.hospital ? { hospital: profileSelected.hospital.id } : {}),
                 ...(profileSelected.birthday ? { birthday: profileSelected.birthday.toDate() } : {}),
               }
             : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id }
         }
+        validate={validateProfile}
         onSubmit={onSubmit}
-        // validate={ValidateDoctorForm}
-        render={({ handleSubmit, values, form, submitting, pristine }) => {
+        render={({ handleSubmit, values, form, submitting, pristine, invalid, hasValidationErrors }) => {
           return (
             <form
               autoComplete="off"
               onSubmit={event => {
-                handleSubmit(event).then(() => {
-                  form.reset();
-                });
+                if (!hasValidationErrors) {
+                  handleSubmit(event).then(() => {
+                    form.reset();
+                  });
+                }
               }}
             >
               <DialogContent dividers>
@@ -109,17 +118,17 @@ function AddOrEditProfilesComponent({ title }) {
                   <Grid item xs={12}>
                     <PhoneFieldComponent classes={classes} />
                   </Grid>
+                  <Grid item xs={12}>
+                    <RoleFieldComponent source={roles} classes={classes} userRole={currentUserProfile.role} />
+                  </Grid>
                   {values && values.role === 'patient' && (
                     <PatientsFieldComponent classes={classes} userRole={currentUserProfile.role} />
                   )}
                   {values && values.role === 'doctor' && (
                     <Grid item xs={12}>
-                      <HospitalFieldComponent classes={classes} />
+                      <HospitalFieldComponent classes={classes} validate={validateHospital} />
                     </Grid>
                   )}
-                  <Grid item xs={12}>
-                    <RoleFieldComponent classes={classes} userRole={currentUserProfile.role} />
-                  </Grid>
                   <Grid item xs={12}>
                     <EmailFieldComponent disabled={formType === EDIT_FORM_TEXT} classes={classes} />
                   </Grid>
@@ -131,7 +140,7 @@ function AddOrEditProfilesComponent({ title }) {
                 </Button>
                 <div className={classes.wrapper}>
                   <Button
-                    disabled={submitting || pristine}
+                    disabled={submitting || pristine || invalid}
                     disableElevation
                     variant="contained"
                     type="submit"
@@ -150,4 +159,4 @@ function AddOrEditProfilesComponent({ title }) {
   );
 }
 
-export default AddOrEditProfilesComponent;
+export default withRolesContext(AddOrEditProfilesComponent);

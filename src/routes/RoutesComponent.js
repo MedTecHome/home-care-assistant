@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import uuid from 'uuid4';
 import { Route, Switch } from 'react-router-dom';
 import { isEmpty, isNil } from 'ramda';
 import PrivateRoutes from './PrivateRoutes';
 import RouteListConfig from './RoutesListConfig';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 
 function RoutesComponent() {
-  const { currentUserProfile } = useContext(AuthContext);
+  const { currentUserProfile } = useAuthContext();
   return (
     <Switch>
       {RouteListConfig.filter(

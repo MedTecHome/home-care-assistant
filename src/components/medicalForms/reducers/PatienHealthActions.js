@@ -6,7 +6,7 @@ import {
   glucoseMutate,
   inrMutate,
   pressureMutate,
-  pulseMutate,
+  oxygenMutate,
   tempratureMutate,
   weightMutate,
 } from './mutations';
@@ -17,7 +17,7 @@ export const WeightRef = dbRef('health').collection('weight');
 export const GlucoseRef = dbRef('health').collection('glucose');
 export const BreathingRef = dbRef('health').collection('breathing');
 export const INRRef = dbRef('health').collection('inr');
-export const PulseRef = dbRef('health').collection('pulse');
+export const OxygenRef = dbRef('health').collection('oxygen');
 export const ExericesRef = dbRef('health').collection('exercises');
 
 export const saveHealthDataAction = async ({ user, ...values }) => {
@@ -51,8 +51,8 @@ export const saveHealthDataAction = async ({ user, ...values }) => {
   if (!isEmpty(inrMutate(values))) {
     await INRRef.add({ ...inrMutate(values), user });
   }
-  if (!isEmpty(pulseMutate(values))) {
-    await PulseRef.add({ ...pulseMutate(values), user });
+  if (!isEmpty(oxygenMutate(values))) {
+    await OxygenRef.add({ ...oxygenMutate(values), user });
   }
   if (!isEmpty(exercicesMutate(values))) {
     await ExericesRef.add({ ...exercicesMutate(values), user });
@@ -118,15 +118,13 @@ export const getINRAction = async ({ limit = 1, ...params }) => {
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'inr' }));
 };
 
-export const getPulseAction = async ({ limit = 1, ...params }) => {
-  let ref = PulseRef;
+export const getOxygenAction = async ({ limit = 1, ...params }) => {
+  let ref = OxygenRef;
   Object.keys(params).map(k => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  return (await ref.limit(limit).get())
-    .docChanges()
-    .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'heartbeat' }));
+  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'oxygen' }));
 };
 
 export const getExercisesAction = async ({ limit = 1, ...params }) => {
@@ -140,45 +138,45 @@ export const getExercisesAction = async ({ limit = 1, ...params }) => {
     .map(({ doc }) => ({ id: doc.id, ...doc.data(), type: 'exercises' }));
 };
 
+const isPressureOrAll = type => type === 'all' || type === 'pressure';
+const isTemperatureOrAll = type => type === 'all' || type === 'temperature';
+const isWeightOrAll = type => type === 'all' || type === 'weight';
+const isGlucoseOrAll = type => type === 'all' || type === 'glucose';
+const isBreathingOrAll = type => type === 'all' || type === 'breathing';
+const isINROrAll = type => type === 'all' || type === 'inr';
+const isOxygenOrAll = type => type === 'all' || type === 'oxygen';
+const isExercisesOrAll = type => type === 'all' || type === 'exercises';
+
 export const getAllPatientHistoryAction = async ({ filters }) => {
   const { type, ...rest } = filters;
   const params = { ...rest, limit: type === 'all' ? 1 : 1000 };
-  try {
-    let result = [];
-    if ((filters && type === 'all') || type === 'pressure') {
-      const pressures = await getBloodPressureAction(params);
-      result = [...result, ...pressures];
-    }
-    if ((filters && type === 'all') || type === 'temperature') {
-      const temperature = await getTemperatureAction(params);
-      result = [...result, ...temperature];
-    }
-    if ((filters && type === 'all') || type === 'weight') {
-      const weight = await getWeightAction(params);
-      result = [...result, ...weight];
-    }
-    if ((filters && type === 'all') || type === 'glucose') {
-      const glucose = await getGlucoseAction(params);
-      result = [...result, ...glucose];
-    }
-    if ((filters && type === 'all') || type === 'breathing') {
-      const breathing = await getBreathingAction(params);
-      result = [...result, ...breathing];
-    }
-    if ((filters && type === 'all') || type === 'inr') {
-      const inr = await getINRAction(params);
-      result = [...result, ...inr];
-    }
-    if ((filters && type === 'all') || type === 'pulse') {
-      const pulse = await getPulseAction(params);
-      result = [...result, ...pulse];
-    }
-    if ((filters && type === 'all') || type === 'exercises') {
-      const pulse = await getExercisesAction(params);
-      result = [...result, ...pulse];
-    }
-    return result;
-  } catch (e) {
-    throw new Error(e);
+  const promises = [];
+  if (isPressureOrAll(type)) {
+    promises.push(await getBloodPressureAction(params));
   }
+  if (isTemperatureOrAll(type)) {
+    promises.push(await getTemperatureAction(params));
+  }
+  if (isWeightOrAll(type)) {
+    promises.push(await getWeightAction(params));
+  }
+  if (isGlucoseOrAll(type)) {
+    promises.push(await getGlucoseAction(params));
+  }
+  if (isBreathingOrAll(type)) {
+    promises.push(await getBreathingAction(params));
+  }
+  if (isINROrAll(type)) {
+    promises.push(await getINRAction(params));
+  }
+  if (isOxygenOrAll(type)) {
+    promises.push(await getOxygenAction(params));
+  }
+  if (isExercisesOrAll(type)) {
+    promises.push(await getExercisesAction(params));
+  }
+  const result = await Promise.all(promises);
+  return result.reduce((previousValue, currentValue) => {
+    return [...previousValue, ...currentValue];
+  }, []);
 };

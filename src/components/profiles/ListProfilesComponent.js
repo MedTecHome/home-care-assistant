@@ -9,28 +9,29 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import clsx from 'clsx';
 import moment from 'moment';
-import Grid from '@material-ui/core/Grid';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNotesMedical } from '@fortawesome/free-solid-svg-icons';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useMediaQuery } from '@material-ui/core';
 import { useProfilesContext } from './ProfilesContext';
+import EditButtonIcon from '../buttons/EditButtonIcon';
+import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
+import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: '100%',
-    backgroundColor: theme.palette.background.paper,
   },
   inline: {
     display: 'inline',
+    lineHeight: '250%',
   },
   itemList: {
     cursor: 'pointer',
+    backgroundColor: theme.palette.background.paper,
+    marginBottom: 5,
     '&:hover': {
       background: '#f5f5f6',
     },
@@ -40,9 +41,9 @@ const useStyles = makeStyles(theme => ({
   },
   itemListContentPrimary: {
     maxWidth: '100%',
-    lineHeight: 2,
-    fontSize: 10,
-    color: '#6f6f6f',
+    lineHeight: '250%',
+    fontSize: 12,
+    color: '#666',
   },
   footerList: {
     height: 120,
@@ -67,6 +68,8 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   } = useProfilesContext();
   const [page, setPage] = React.useState({});
   const classes = useStyles();
+  const up500 = useMediaQuery(theme => theme.breakpoints.up(500));
+  const up400 = useMediaQuery(theme => theme.breakpoints.up(400));
 
   useEffect(() => {
     getProfilesList({ filters, ...page });
@@ -97,58 +100,79 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
 
   return (
     <List className={classes.root}>
-      {loadingList && <CircularProgress size={50} />}
-      {profiles.map(profile => {
-        const isSelected = profileSelected && profileSelected.id === profile.id;
-        return (
-          <ListItem
-            key={profile.id}
-            onClick={() => handleSelectItemOnClick(profile.id)}
-            alignItems="flex-start"
-            className={clsx(classes.itemList, isSelected && classes.selectedItemList)}
-            divider
-          >
-            <ListItemAvatar>
-              <Avatar alt={profile.name} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={
-                <Grid container spacing={5}>
-                  <Grid item xs={3} container>
-                    <Typography>{profile.fullname}</Typography>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Typography className={classes.itemListContentPrimary}>
-                      Nacio: {profile.birthday && moment(profile.birthday.toDate()).format('DD/MM/YYYYY')}
+      {loadingList ? (
+        <CircularProgress size={50} />
+      ) : (
+        profiles.map(profile => {
+          const isSelected = profileSelected && profileSelected.id === profile.id;
+          return (
+            <ListItem
+              key={profile.id}
+              onClick={() => handleSelectItemOnClick(profile.id)}
+              alignItems="flex-start"
+              className={clsx(classes.itemList, isSelected && classes.selectedItemList)}
+              divider
+            >
+              <ListItemAvatar>
+                <Avatar alt={profile.name} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={<Typography>{profile.fullname}</Typography>}
+                secondary={
+                  <>
+                    <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                      Tipo: <strong>{profile.role ? profile.role.name : '?'}</strong>
                     </Typography>
-                    <Typography className={classes.itemListContentPrimary}>Estatura: {profile.height}</Typography>
-                  </Grid>
-                </Grid>
-              }
-              secondary={
-                <>
-                  <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
-                    Tipo: {profile.role ? profile.role.id : '?'}
-                  </Typography>
-                </>
-              }
-            />
-            <ListItemSecondaryAction>
-              {profile.role && profile.role.id === 'patient' && (
-                <IconButton edge="end" aria-label="edit" onClick={() => handleOnClickMedicalHistory(profile.id)}>
-                  <FontAwesomeIcon icon={faNotesMedical} />
-                </IconButton>
+                  </>
+                }
+              />
+              {up500 && (
+                <ListItemText
+                  primary={
+                    <>
+                      <Typography className={classes.itemListContentPrimary}>
+                        {profile.role && profile.role.id === 'patient' && profile.birthday && (
+                          <>
+                            Nacio: <strong>{moment(profile.birthday.toDate()).format('DD/MM/YYYYY')}</strong>
+                          </>
+                        )}
+                        {profile.role && profile.role.id === 'doctor' && (
+                          <>Hospital: {profile.hospital && <strong>{profile.hospital.name}</strong>}</>
+                        )}
+                      </Typography>
+                    </>
+                  }
+                  secondary={
+                    <Typography className={classes.itemListContentPrimary}>
+                      {profile.role && profile.role.id === 'patient' && (
+                        <>
+                          Estatura: <strong>{profile.height}</strong>
+                        </>
+                      )}
+                    </Typography>
+                  }
+                />
               )}
-              <IconButton edge="end" aria-label="edit" onClick={() => handleOnClickEdit(profile.id)}>
-                <EditIcon />
-              </IconButton>
-              <IconButton edge="end" aria-label="delete" onClick={() => handleOnClickDelete(profile.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
+              {up400 && (
+                <ListItemText
+                  primary={
+                    <Typography className={classes.itemListContentPrimary}>
+                      Correo: {profile.user && <strong>{profile.user.email}</strong>}
+                    </Typography>
+                  }
+                />
+              )}
+              <ListItemSecondaryAction>
+                {profile.role && profile.role.id === 'patient' && (
+                  <MedicalDetailButtonIcon onClick={() => handleOnClickMedicalHistory(profile.id)} />
+                )}
+                <EditButtonIcon onClick={() => handleOnClickEdit(profile.id)} />
+                <DeleteButtonIcon onClick={() => handleOnClickDelete(profile.id)} />
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })
+      )}
       <ListItem className={classes.footerList}>
         <div className={classes.pagination}>
           {!loadingList && (

@@ -4,6 +4,7 @@ import { TextField } from 'mui-rff';
 import Typography from '@material-ui/core/Typography';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
+import { validateDistance, validateSteps, validateTime2 } from './validateMedicalForms';
 
 function ExercisesForm({ classStyle }) {
   return (
@@ -23,6 +24,9 @@ function ExercisesForm({ classStyle }) {
             }}
             className={classStyle.formControl}
             name="distance"
+            fieldProps={{
+              validate: validateDistance,
+            }}
           />
         </Grid>
         <Grid item xs={4}>
@@ -36,6 +40,9 @@ function ExercisesForm({ classStyle }) {
             }}
             className={classStyle.formControl}
             name="time"
+            fieldProps={{
+              validate: validateTime2,
+            }}
           />
         </Grid>
         <Grid item xs={4}>
@@ -49,6 +56,9 @@ function ExercisesForm({ classStyle }) {
             }}
             className={classStyle.formControl}
             name="steps"
+            fieldProps={{
+              validate: validateSteps,
+            }}
           />
         </Grid>
         <DateFieldComponent classes={classStyle} name="exercisesDate" label="Dia" />
@@ -62,7 +72,7 @@ function ExercisesForm({ classStyle }) {
               shrink: true,
             }}
             multiline
-            rows={4}
+            rows={3}
             label="Nota"
             name="exercisesNote"
           />

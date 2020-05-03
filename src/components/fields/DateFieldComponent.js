@@ -2,6 +2,8 @@ import React from 'react';
 import { KeyboardDatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
+import moment from 'moment';
+import { validateDate } from '../medicalForms/validateMedicalForms';
 
 export default function DateFieldComponent({ classes, name, label }) {
   return (
@@ -15,10 +17,13 @@ export default function DateFieldComponent({ classes, name, label }) {
         variant="inline"
         label={label}
         autoOk
-        placeholder="DD/MM/YYYY"
+        placeholder={moment().format('DD/MM/YYYY')}
         format="DD/MM/YYYY"
         inputVariant="outlined"
         name={name}
+        fieldProps={{
+          validate: validateDate,
+        }}
       />
     </Grid>
   );

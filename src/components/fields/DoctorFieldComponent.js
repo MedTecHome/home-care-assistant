@@ -3,14 +3,16 @@ import React, { useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
 import { getDoctorsListAction } from '../profiles/reducers/ProfileActions';
 
-function DoctorFieldComponent({ classes, userRole }) {
+function DoctorFieldComponent({ classes, userRole, validate }) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
 
   const filterNameMemoize = useMemo(() => filterName, [filterName]);
   useEffect(() => {
-    getDoctorsListAction({ name: filterNameMemoize }).then(res => setDoctors(res));
+    getDoctorsListAction({ filters: { ...(filterNameMemoize ? { name: filterNameMemoize } : {}) } }).then(res =>
+      setDoctors(res)
+    );
   }, [filterNameMemoize]);
 
   const handleInputChange = event => {
@@ -19,14 +21,17 @@ function DoctorFieldComponent({ classes, userRole }) {
 
   return (
     <Autocomplete
-      className={classes.formControl}
       required
+      className={classes.formControl}
       autoHighlight
       blurOnSelect
       size="small"
       label="Doctor"
       name="doctor"
       disabled={userRole.id === 'doctor'}
+      fieldProps={{
+        validate,
+      }}
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',

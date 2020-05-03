@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,7 @@ import ProfilesFormComponent from '../forms/ProfilesFormsComponent';
 import ListProfilesComponent from '../ListProfilesComponent';
 import ToolbarProfileComponent from '../ToolbarProfilesComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 const useStyles = makeStyles({
   pageHeader: {
@@ -26,7 +26,7 @@ function PatientsComponent() {
     setProfileFilter,
     filters,
   } = useProfilesContext();
-  const { currentUserProfile } = useContext(AuthContext);
+  const { currentUserProfile } = useAuthContext();
   const classes = useStyles();
 
   useEffect(() => {

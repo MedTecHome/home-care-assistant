@@ -1,10 +1,10 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { isNil } from 'ramda';
 import { authFirebase, dbRef } from '../firebaseConfig';
 import { saveProfileValuesAction } from '../components/profiles/reducers/ProfileActions';
 import { ADD_FORM_TEXT } from '../commons/globalText';
 
-export const AuthContext = createContext({});
+const AuthContext = createContext({});
 
 export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -21,12 +21,12 @@ export function AuthContextProvider({ children }) {
         }
       } else
         setCurrentUserProfile({
-          id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
+          // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
           // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
-          //          id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
+          id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
           fullname: 'jajaja',
           role: {
-            id: 'admin',
+            id: 'doctor',
           },
         });
     });
@@ -80,3 +80,16 @@ export function AuthContextProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+export const useAuthContext = () => {
+  const values = useContext(AuthContext);
+  if (!values) throw new Error('This only works iside AuthContextProvider');
+  return {
+    currentUser: values.currentUser,
+    currentUserProfile: values.currentUserProfile,
+    signInUser: values.signInUser,
+    signOutUser: values.signOutUser,
+    signUpUser: values.signUpUser,
+    errorState: values.errorState,
+  };
+};

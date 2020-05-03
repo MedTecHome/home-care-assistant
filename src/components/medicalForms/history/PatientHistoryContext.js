@@ -9,15 +9,14 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [list, setHistoryList] = useState([]);
   const [slcted, setSelected] = useState(null);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const [loadingList, setLoadingList] = useState(false);
 
   const historyList = useMemo(() => list, [list]);
   const selected = useMemo(() => slcted, [slcted]);
 
-  const [loadingList, setLoadingList] = useState(false);
-
   const getPatientHistory = useCallback(async params => {
-    setLoadingList(true);
     try {
+      setLoadingList(true);
       const response = await getAllPatientHistoryAction(params);
       const result = response.sort((a, b) => {
         const c = a.date.toDate().getTime();
@@ -27,8 +26,9 @@ const PatientHistoryContextProvider = ({ children }) => {
       setHistoryList(result);
     } catch (e) {
       // /handle error
+    } finally {
+      setLoadingList(false);
     }
-    setLoadingList(false);
   }, []);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);

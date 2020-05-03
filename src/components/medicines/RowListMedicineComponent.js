@@ -3,13 +3,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import InfoIcon from '@material-ui/icons/Info';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Button from '@material-ui/core/Button';
 import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
+import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
+import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
+import EditButtonIcon from '../buttons/EditButtonIcon';
 
 const useStyles = makeStyles(theme => ({
   tableRows: {
@@ -44,15 +43,9 @@ function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisi
       <TableCell align="center">{row.frequency}</TableCell>
       <TableCell align="center">
         <ButtonGroup variant="text" aria-label="outlined primary button group">
-          <Button color="primary" onClick={() => onModalVisible(DETAILS_FORM_TEXT)}>
-            <InfoIcon fontSize="small" />
-          </Button>
-          <Button color="primary" onClick={() => onModalVisible(EDIT_FORM_TEXT)}>
-            <EditIcon fontSize="small" />
-          </Button>
-          <Button color="secondary" onClick={() => onModalVisible(DELETE_FORM_TEXT)}>
-            <DeleteIcon fontSize="small" />
-          </Button>
+          <StandarDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />
+          <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />
+          <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />
         </ButtonGroup>
       </TableCell>
     </TableRow>

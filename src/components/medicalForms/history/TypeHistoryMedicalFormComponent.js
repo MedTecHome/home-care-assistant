@@ -59,7 +59,7 @@ function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
           <Typography className={classes.listItem}>{`INR: ${data.INR}`}</Typography>
         </>
       )}
-      {idType === 'heartbeat' && (
+      {idType === 'oxygen' && (
         <>
           <Typography className={classes.listItem}>{`Puso: ${data.heartbeat} LPM`}</Typography>
           <Typography className={classes.listItem}>{`SpO2: ${data.SpO2}%`}</Typography>

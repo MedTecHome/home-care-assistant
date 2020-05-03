@@ -5,6 +5,7 @@ import MomentUtils from '@date-io/moment';
 import HeightFieldComponent from './HeightFieldComponent';
 import AddressFieldComponent from './AddressFieldComponent';
 import DoctorFieldComponent from './DoctorFieldComponent';
+import { validateBirthday, validateDoctor, validateHeight } from '../profiles/forms/valdiateProfile';
 
 function PatientsFieldComponent({ classes, userRole }) {
   return (
@@ -23,16 +24,19 @@ function PatientsFieldComponent({ classes, userRole }) {
           format="DD/MM/YYYY"
           inputVariant="outlined"
           name="birthday"
+          fieldProps={{
+            validate: validateBirthday,
+          }}
         />
       </Grid>
       <Grid item xs={4} sm={4} md={4}>
-        <HeightFieldComponent classes={classes} />
+        <HeightFieldComponent validate={validateHeight} classes={classes} />
       </Grid>
       <Grid item xs={12}>
         <AddressFieldComponent classes={classes} />
       </Grid>
       <Grid item xs={12} md={12}>
-        <DoctorFieldComponent classes={classes} userRole={userRole} />
+        <DoctorFieldComponent validate={validateDoctor} classes={classes} userRole={userRole} />
       </Grid>
     </>
   );

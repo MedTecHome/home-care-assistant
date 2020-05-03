@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, withRouter } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const PrivateRoutes = ({ location, history, path, component, exact }) => {
-  const { currentUser } = useContext(AuthContext);
-
+  const { currentUser } = useAuthContext();
   useEffect(() => {
     if (!currentUser) {
       const urlSearchParams = new URLSearchParams();

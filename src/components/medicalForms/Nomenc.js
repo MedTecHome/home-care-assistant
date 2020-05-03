@@ -4,9 +4,8 @@ const optionsTypesFormsPatientHealth = [
   { name: 'Peso', id: 'weight' },
   { name: 'Glucosa', id: 'glucose' },
   { name: 'Respiracion', id: 'breathing' },
-  { name: 'Oxígeno', id: 'oxygeno' },
   { name: 'INR', id: 'inr' },
-  { name: 'Pulso', id: 'heartbeat' },
+  { name: 'Oxigeno', id: 'oxygen' },
   { name: 'Actividad fisica', id: 'exercises' },
 ];
 

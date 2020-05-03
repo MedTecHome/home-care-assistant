@@ -6,6 +6,7 @@ import { TextField } from 'mui-rff';
 import Typography from '@material-ui/core/Typography';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import DateFieldComponent from '../fields/DateFieldComponent';
+import { validateDiastolica, validateHeartrate, validateSistolica } from './validateMedicalForms';
 
 function PresionForm({ classStyle }) {
   const theme = useTheme();
@@ -29,6 +30,9 @@ function PresionForm({ classStyle }) {
             type="number"
             label="Sistolica"
             name="sistolica"
+            fieldProps={{
+              validate: validateSistolica,
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -43,6 +47,9 @@ function PresionForm({ classStyle }) {
             type="number"
             label="Diastolica"
             name="diastolica"
+            fieldProps={{
+              validate: validateDiastolica,
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -57,6 +64,9 @@ function PresionForm({ classStyle }) {
             type="number"
             label={`${matches ? 'Frec.' : 'Frecuencia'} Cardiaca`}
             name="heartrate"
+            fieldProps={{
+              validate: validateHeartrate,
+            }}
           />
         </Grid>
         <DateFieldComponent classes={classStyle} name="bloodPressureDate" label="Dia" />
@@ -69,7 +79,7 @@ function PresionForm({ classStyle }) {
             InputLabelProps={{
               shrink: true,
             }}
-            rows={4}
+            rows={3}
             multiline
             label="Nota"
             name="bloodPressureNote"

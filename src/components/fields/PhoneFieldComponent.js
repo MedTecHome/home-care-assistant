@@ -4,7 +4,6 @@ import { TextField } from 'mui-rff';
 export default function PhoneFieldComponent({ classes }) {
   return (
     <TextField
-      required
       type="number"
       className={classes.formControl}
       InputLabelProps={{

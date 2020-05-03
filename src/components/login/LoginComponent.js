@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,7 +6,7 @@ import { Form } from 'react-final-form';
 import { TextField } from 'mui-rff';
 import { green } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 import { LoginFormValidation } from './AuthFormValidation';
 import AuthFormsTitleComponent from './AuthFormsTitleComponent';
 import ErrorMessageComponent from './ErrorMessageComponent';
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 });
 
 function LoginComponent() {
-  const { signInUser, errorState } = useContext(AuthContext);
+  const { signInUser, errorState } = useAuthContext();
 
   const classes = useStyles();
 
