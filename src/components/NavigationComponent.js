@@ -34,7 +34,7 @@ export default function NavigationComponent() {
 
   return (
     <>
-      {true && (
+      {currentUser && (
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
