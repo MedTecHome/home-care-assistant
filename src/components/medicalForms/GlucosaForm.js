@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
+import { validateHorario, validateSugarConcentration } from './validateMedicalForms';
 
 function GlucosaForm({ classStyle }) {
   const theme = useTheme();
@@ -31,6 +32,9 @@ function GlucosaForm({ classStyle }) {
             }}
             label={`${matches ? 'Concent.' : 'Concentracion'} de azucar`}
             name="sugarConcentration"
+            fieldProps={{
+              validate: validateSugarConcentration,
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -47,6 +51,7 @@ function GlucosaForm({ classStyle }) {
               InputLabelProps: {
                 shrink: true,
               },
+              validate: validateHorario,
             }}
           >
             <MenuItem value={10}>Ten</MenuItem>
@@ -65,7 +70,7 @@ function GlucosaForm({ classStyle }) {
               shrink: true,
             }}
             multiline
-            rows={4}
+            rows={3}
             label="Nota"
             name="glucoseNote"
           />

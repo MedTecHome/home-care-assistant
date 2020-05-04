@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 
 import { useHospitalContext, withHospitalContext } from '../hospital/HospitalContext';
 
-function HospitalFieldComponent({ classes }) {
+function HospitalFieldComponent({ classes, validate }) {
   const { getListHospitals, listLoading, hospitals } = useHospitalContext();
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
@@ -20,11 +20,10 @@ function HospitalFieldComponent({ classes }) {
   const handleInputChange = event => {
     setFilterNameDebounced(event.target.value);
   };
-
   return (
     <Autocomplete
-      className={classes.formControl}
       required
+      className={classes.formControl}
       autoHighlight
       blurOnSelect
       size="small"
@@ -38,6 +37,9 @@ function HospitalFieldComponent({ classes }) {
         InputLabelProps: { shrink: true },
         onChange: handleInputChange,
       }}
+      fieldProps={{
+        validate,
+      }}
       openOnFocus={false}
       options={hospitals}
       getOptionValue={option => option.id}
@@ -46,4 +48,4 @@ function HospitalFieldComponent({ classes }) {
   );
 }
 
-export default withHospitalContext(HospitalFieldComponent);
+export default memo(withHospitalContext(HospitalFieldComponent));

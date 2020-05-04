@@ -6,6 +6,8 @@ import uuid from 'uuid4';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useLocation, useHistory } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import optionsTypesFormsPatientHealth from '../Nomenc';
 
 const useStyles = makeStyles({
@@ -47,21 +49,37 @@ function FiltersPatientHistoryComponent() {
   return (
     <List>
       <ListItem divider>
-        <div className={classes.containerFilters}>
-          <Select
-            className={classes.formControl}
-            defaultValue="all"
-            label="tipos historial"
-            onChange={handleSetTypeHistory}
-          >
-            <MenuItem value="all">Todos</MenuItem>
-            {optionsTypesFormsPatientHealth.map(types => (
-              <MenuItem key={uuid()} value={types.id}>
-                {types.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
+        <Grid container spacing={2} justify="space-between" className={classes.containerFilters}>
+          <Grid item xs={12} sm={6}>
+            <Typography
+              variant="h5"
+              style={{
+                flex: '1 1 100%',
+                color: '#666',
+              }}
+            >
+              Historial de pruebas
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6} container alignContent="flex-end">
+            <Select
+              style={{
+                flex: '1 1 100%',
+              }}
+              className={classes.formControl}
+              defaultValue="all"
+              label="tipos historial"
+              onChange={handleSetTypeHistory}
+            >
+              <MenuItem value="all">Todos</MenuItem>
+              {optionsTypesFormsPatientHealth.map(types => (
+                <MenuItem key={uuid()} value={types.id}>
+                  {types.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+        </Grid>
       </ListItem>
     </List>
   );

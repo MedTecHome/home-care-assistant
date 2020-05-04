@@ -1,6 +1,6 @@
-import React, { memo, useContext, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import uuid from 'uuid4';
 import IconButton from '@material-ui/core/IconButton';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import List from '@material-ui/core/List';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -13,9 +13,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
 import { useMediaQuery } from '@material-ui/core';
 import useTheme from '@material-ui/core/styles/useTheme';
+import ListItem from '@material-ui/core/ListItem';
 import { useRolesContext, withRolesContext } from '../fields/roles/RolesContext';
 import { useProfilesContext } from './ProfilesContext';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
+import AddButtonIcon from '../buttons/AddButtonIcon';
 
 const useStyles = makeStyles({
   formControl: {
@@ -23,10 +25,6 @@ const useStyles = makeStyles({
   },
   listRoot: {
     position: 'inherit',
-    background: '#fff',
-  },
-  addButtonIcon: {
-    fontSize: 48,
     background: '#fff',
   },
   addFloatingButton: {
@@ -37,8 +35,14 @@ const useStyles = makeStyles({
   },
 });
 
+const listAccess = {
+  doctor: ['patient'],
+  admin: ['doctor'],
+  developer: ['patient', 'doctor', 'admin'],
+};
+
 function ToolbarProfileComponent({ onClickAdd }) {
-  const { currentUserProfile } = useContext(AuthContext);
+  const { currentUserProfile } = useAuthContext();
   const { roles, getRoles } = useRolesContext();
   const { filters, setProfileFilter } = useProfilesContext();
   const [fullname, setFullName] = useState('');
@@ -59,47 +63,49 @@ function ToolbarProfileComponent({ onClickAdd }) {
 
   return (
     <List className={classes.listRoot}>
-      <Grid container spacing={3} justify="space-between">
-        <Grid item xs={12} sm={3} md={3} className={match ? classes.addFloatingButton : ''}>
-          <IconButton color="primary" onClick={onClickAdd}>
-            <AddCircleIcon fontSize="large" className={classes.addButtonIcon} />
-          </IconButton>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <FormControl className={classes.formControl}>
-            <InputLabel>buscar por nombre</InputLabel>
-            <Input
-              value={fullname}
-              onChange={event => setFullName(event.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={handleSearchClick}>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-        </Grid>
-        {currentUserProfile && currentUserProfile.role.id === 'admin' && (
-          <Grid item xs={12} sm={3} md={3}>
+      <ListItem>
+        <Grid container spacing={3} justify="space-between">
+          <Grid item xs={12} sm={3} md={3} className={match ? classes.addFloatingButton : ''}>
+            <AddButtonIcon onClick={onClickAdd} size={match ? '2x' : 'lg'} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
             <FormControl className={classes.formControl}>
-              <InputLabel>Tipo de perfile</InputLabel>
-              <Select
-                name="filter-roles"
-                value={filters['role.id'] || ''}
-                onChange={event => setProfileFilter({ ...filters, 'role.id': event.target.value })}
-              >
-                {roles.map(role => (
-                  <MenuItem key={role.id} value={role.id}>
-                    {role.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <InputLabel>buscar por nombre</InputLabel>
+              <Input
+                value={fullname}
+                onChange={event => setFullName(event.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleSearchClick}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
             </FormControl>
           </Grid>
-        )}
-      </Grid>
+          {currentUserProfile && currentUserProfile.role.id === 'admin' && (
+            <Grid item xs={12} sm={3} md={3}>
+              <FormControl className={classes.formControl}>
+                <InputLabel>Tipo de perfile</InputLabel>
+                <Select
+                  name="filter-roles"
+                  value={roles.length > 0 ? filters['role.id'] || '' : ''}
+                  onChange={event => setProfileFilter({ ...filters, 'role.id': event.target.value })}
+                >
+                  {roles
+                    .filter(rl => listAccess[currentUserProfile.role.id].includes(rl.id))
+                    .map(role => (
+                      <MenuItem key={uuid()} value={role.id}>
+                        {role.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+        </Grid>
+      </ListItem>
     </List>
   );
 }

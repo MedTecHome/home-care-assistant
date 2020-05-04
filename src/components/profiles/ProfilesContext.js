@@ -22,18 +22,10 @@ export const withProfileContext = WrapperComponent => () => {
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   // eslint-disable-next-line no-unused-vars
-  const getProfilesList = useCallback(async ({ filters }) => {
+  const getProfilesList = useCallback(async params => {
     dispatch(setProfileListLoadingAction(true));
-    let ref = getRefProfiles();
-    if (filters) {
-      Object.keys(filters).map(k => {
-        ref = ref.where(k, '==', filters[k]);
-        return null;
-      });
-    }
-
     try {
-      const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const result = await getRefProfiles(params);
       dispatch(setListProfilesAction(result));
     } catch (e) {
       // handle error
@@ -56,15 +48,8 @@ export const withProfileContext = WrapperComponent => () => {
     []
   );
 
-  const getDoctorsNomenclador = useCallback(async ({ filters }) => {
-    let ref = getRefProfiles();
-    if (filters) {
-      Object.keys(filters).map(k => {
-        ref = ref.where(k, '==', filters[k]);
-        return null;
-      });
-    }
-    const result = (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const getDoctorsNomenclador = useCallback(async params => {
+    const result = await getRefProfiles(params);
     dispatch(getDoctorsNomencladorAction(result));
   }, []);
 

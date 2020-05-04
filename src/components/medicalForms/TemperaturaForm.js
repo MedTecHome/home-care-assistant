@@ -4,6 +4,7 @@ import { TextField } from 'mui-rff';
 import Typography from '@material-ui/core/Typography';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
+import { validateCelsiusDegree } from './validateMedicalForms';
 
 function TemperaturaForm({ classStyle }) {
   return (
@@ -23,6 +24,9 @@ function TemperaturaForm({ classStyle }) {
             }}
             label="Grados Celcius"
             name="celsiusDegree"
+            fieldProps={{
+              validate: validateCelsiusDegree,
+            }}
           />
         </Grid>
         <DateFieldComponent classes={classStyle} name="temperatureDate" label="Dia" />
@@ -36,7 +40,7 @@ function TemperaturaForm({ classStyle }) {
               shrink: true,
             }}
             multiline
-            rows={4}
+            rows={3}
             label="Nota"
             name="temperatureNote"
           />

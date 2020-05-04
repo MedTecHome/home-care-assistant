@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,7 +11,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 import NavigationComponent from './NavigationComponent';
 
 const useStyles = makeStyles({
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 function HeaderComponent({ history }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { currentUser, currentUserProfile, signOutUser } = useContext(AuthContext);
+  const { currentUser, currentUserProfile, signOutUser } = useAuthContext();
   const handleClickLogin = () => {
     history.push('/login');
   };

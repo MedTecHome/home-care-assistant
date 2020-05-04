@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -12,12 +12,11 @@ import TemperaturaForm from './TemperaturaForm';
 import GlucosaForm from './GlucosaForm';
 import PesoForm from './PesoForm';
 import RespiracionForm from './RespiracionForm';
-import OxygenoForm from './OxygenoForm';
 import CoagulacionForm from './CoagulacionForm';
 import SelectedChecboxForm from './SelectedCheckboxForm';
-import PulsoForm from './PulsoForm';
+import OxygenForm from './OxygenForm';
 import { saveHealthDataAction } from './reducers/PatienHealthActions';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 import ExercisesForm from './ExercisesForm';
 
 const useStyles = makeStyles(theme => ({
@@ -49,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 const PatientMedicalForm = ({ location }) => {
   const {
     currentUserProfile: { id, fullname },
-  } = useContext(AuthContext);
+  } = useAuthContext();
   const urlSearchParams = new URLSearchParams(location.search);
   const selectedCheckbox = urlSearchParams.getAll('formulario');
   const classes = useStyles();
@@ -82,88 +81,86 @@ const PatientMedicalForm = ({ location }) => {
         >
           <SelectedChecboxForm defaultValues={selectedCheckbox} />
         </Grid>
-        <Grid item xs={12} sm={6} container>
-          <Form
-            onSubmit={onSubmit}
-            render={({ handleSubmit, form, submitting, pristine }) => (
-              <form
-                noValidate
-                autoComplete="off"
-                onSubmit={event => {
-                  handleSubmit(event).then(() => {
-                    form.reset();
-                  });
-                }}
-              >
-                <Grid container spacing={2}>
-                  {selectedCheckbox.includes('pressure') && (
-                    <Grid item xs={12}>
-                      <PresionForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('temperature') && (
-                    <Grid item xs={12}>
-                      <TemperaturaForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('glucose') && (
-                    <Grid item xs={12}>
-                      <GlucosaForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('weight') && (
-                    <Grid item xs={12}>
-                      <PesoForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('breathing') && (
-                    <Grid item xs={12}>
-                      <RespiracionForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('oxygeno') && (
-                    <Grid item xs={12}>
-                      <OxygenoForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('inr') && (
-                    <Grid item xs={12}>
-                      <CoagulacionForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('heartbeat') && (
-                    <Grid item xs={12}>
-                      <PulsoForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.includes('exercises') && (
-                    <Grid item xs={12}>
-                      <ExercisesForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedCheckbox.length > 0 && (
-                    <Grid item container justify="space-between">
-                      <Button disableElevation variant="contained" onClick={() => form.reset()}>
-                        Cancelar
-                      </Button>
-                      <div className={classes.wrapper}>
-                        <Button
-                          disabled={submitting || pristine}
-                          disableElevation
-                          type="submit"
-                          variant="contained"
-                          color="primary"
-                        >
-                          Guardar
+        <Grid item xs={12} sm={9} container>
+          <Container maxWidth="xs">
+            <Form
+              onSubmit={onSubmit}
+              render={({ handleSubmit, form, submitting, pristine, hasValidationErrors, invalid }) => (
+                <form
+                  noValidate
+                  autoComplete="off"
+                  onSubmit={event => {
+                    if (!hasValidationErrors)
+                      handleSubmit(event).then(() => {
+                        form.reset();
+                      });
+                  }}
+                >
+                  <Grid container spacing={2}>
+                    {selectedCheckbox.includes('pressure') && (
+                      <Grid item xs={12}>
+                        <PresionForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('temperature') && (
+                      <Grid item xs={12}>
+                        <TemperaturaForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('glucose') && (
+                      <Grid item xs={12}>
+                        <GlucosaForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('weight') && (
+                      <Grid item xs={12}>
+                        <PesoForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('breathing') && (
+                      <Grid item xs={12}>
+                        <RespiracionForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('inr') && (
+                      <Grid item xs={12}>
+                        <CoagulacionForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('oxygen') && (
+                      <Grid item xs={12}>
+                        <OxygenForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.includes('exercises') && (
+                      <Grid item xs={12}>
+                        <ExercisesForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedCheckbox.length > 0 && (
+                      <Grid item container justify="space-between">
+                        <Button disableElevation variant="contained" onClick={() => form.reset()}>
+                          Cancelar
                         </Button>
-                        {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-                      </div>
-                    </Grid>
-                  )}
-                </Grid>
-              </form>
-            )}
-          />
+                        <div className={classes.wrapper}>
+                          <Button
+                            disabled={submitting || pristine || invalid}
+                            disableElevation
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                          >
+                            Guardar
+                          </Button>
+                          {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+                        </div>
+                      </Grid>
+                    )}
+                  </Grid>
+                </form>
+              )}
+            />
+          </Container>
         </Grid>
       </Grid>
     </Container>

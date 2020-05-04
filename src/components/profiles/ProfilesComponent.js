@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,10 +36,10 @@ function ProfilesComponent() {
     setModalVisible(false, null);
   };
 
-  const handleClosedForms = () => {
+  const handleLoadList = useCallback(() => {
     getProfilesList({ filters });
     selectProfileFromList(null);
-  };
+  }, [filters, getProfilesList, selectProfileFromList]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -56,7 +56,7 @@ function ProfilesComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible} onBackdropClick={handleBackdropClick}>
-        <ProfilesFormComponent formType={formType} handleModalClose={handleClosedForms} />
+        <ProfilesFormComponent formType={formType} handleModalClose={handleLoadList} />
       </ModalComponent>
       <Breadcrumbs aria-label="breadcrumb">
         <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>

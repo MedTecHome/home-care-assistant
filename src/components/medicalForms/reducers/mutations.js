@@ -64,13 +64,13 @@ export const inrMutate = ({ user, INR, coagulationInrNota, coagulationInrDate, c
   ...(coagulationInrNota ? { nota: coagulationInrNota } : {}),
   ...(coagulationInrDate && coagulationInrTime ? { date: formatDate(coagulationInrDate, coagulationInrTime) } : {}),
 });
-export const pulseMutate = ({ user, SpO2, heartbeat, heartbeatPI, heartbeatDate, heartbeatTime, heartbeatNote }) => ({
+export const oxygenMutate = ({ user, SpO2, heartbeat, oxygenPI, oxygenDate, oxygenTime, oxygenNote }) => ({
   ...(user ? { user } : {}),
   ...(SpO2 ? { SpO2 } : {}),
   ...(heartbeat ? { heartbeat } : {}),
-  ...(heartbeatPI ? { PI: heartbeatPI } : {}),
-  ...(heartbeatDate && heartbeatTime ? { date: formatDate(heartbeatDate, heartbeatTime) } : {}),
-  ...(heartbeatNote ? { note: heartbeatNote } : {}),
+  ...(oxygenPI ? { PI: oxygenPI } : {}),
+  ...(oxygenDate && oxygenTime ? { date: formatDate(oxygenDate, oxygenTime) } : {}),
+  ...(oxygenNote ? { note: oxygenNote } : {}),
 });
 
 export const exercicesMutate = ({ distance, time, steps, exercisesDate, exercisesTime, exercisesNote }) => ({

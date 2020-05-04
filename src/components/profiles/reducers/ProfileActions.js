@@ -38,16 +38,22 @@ export const setProfileSelected = selected => ({
   selected,
 });
 
-export const getRefProfiles = () => profilesRef.collection('profiles');
-
-export const getDoctorsListAction = async ({ filters }) => {
-  // eslint-disable-next-line no-console
-  console.log(filters);
-  const ref = getRefProfiles().where('role.id', '==', 'doctor');
-  return (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+export const getRefProfiles = async ({ filters }) => {
+  let ref = profilesRef.collection('profiles');
+  if (filters) {
+    Object.keys(filters).map(k => {
+      ref = ref.where(k, '==', filters[k]);
+      return null;
+    });
+  }
+  return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getDoctorByIdAction = async (id, fields = []) => {
+export const getDoctorsListAction = async ({ filters }) => {
+  return getRefProfiles({ filters: { 'role.id': 'doctor', ...filters } });
+};
+
+export const getProfileByIdAction = async (id, fields = []) => {
   const ref = await getRefProfiles().doc(id).get();
   const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
@@ -55,7 +61,6 @@ export const getDoctorByIdAction = async (id, fields = []) => {
 
 export const saveProfileValuesAction = async ({ id, email, ...values }, formType) => {
   const ref = profilesRef.collection('profiles');
-
   if (formType === ADD_FORM_TEXT) {
     try {
       // const user = await authFirebase.createUserWithEmailAndPassword(email, uuid());

@@ -4,7 +4,6 @@ import { TextField } from 'mui-rff';
 export default function AddressFieldComponent({ classes }) {
   return (
     <TextField
-      required
       className={classes.formControl}
       InputLabelProps={{
         shrink: true,

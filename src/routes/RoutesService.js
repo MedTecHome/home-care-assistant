@@ -1,12 +1,12 @@
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 
 /**
  * @return {null}
  */
 function RouteService({ location, history }) {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useAuthContext();
 
   useEffect(() => {
     if (location.pathname === '/login' && currentUser) {

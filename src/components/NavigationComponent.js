@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   navigation: {
@@ -28,13 +28,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function NavigationComponent() {
-  const { currentUser, currentUserProfile } = useContext(AuthContext);
+  const { currentUser, currentUserProfile } = useAuthContext();
 
   const classes = useStyles();
 
   return (
     <>
-      {currentUser && (
+      {true && (
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (

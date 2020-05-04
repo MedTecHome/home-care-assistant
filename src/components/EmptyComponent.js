@@ -1,6 +1,6 @@
 import React from 'react';
 
-function NotFoundComponent() {
+function EmptyComponent() {
   return (
     <h2
       style={{
@@ -9,9 +9,9 @@ function NotFoundComponent() {
         marginTop: '5%',
       }}
     >
-      Pagina no encontrada
+      No hay datos a mostrar
     </h2>
   );
 }
 
-export default NotFoundComponent;
+export default EmptyComponent;

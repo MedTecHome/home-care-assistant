@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
@@ -6,13 +6,13 @@ import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 function PatientHistoryComponent() {
   const { search, pathname } = useLocation();
   const history = useHistory();
   const { getPatientHistory, modalVisible, setModalVisible } = usePatientHistoryContext();
-  const { currentUserProfile } = useContext(AuthContext);
+  const { currentUserProfile } = useAuthContext();
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams();

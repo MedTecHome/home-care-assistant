@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { TextField } from 'mui-rff';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
+import { validateBreathingFrecuency, validateEtCO, validatePI } from './validateMedicalForms';
 
 function RespiracionForm({ classStyle }) {
   // const { register, errors } = useFormContext();
@@ -25,11 +26,10 @@ function RespiracionForm({ classStyle }) {
             InputLabelProps={{
               shrink: true,
             }}
-            inputProps={{
-              min: 0,
-              max: 100,
-            }}
             placeholder="0 - 100 mmHg"
+            fieldProps={{
+              validate: validateEtCO,
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -44,11 +44,10 @@ function RespiracionForm({ classStyle }) {
             InputLabelProps={{
               shrink: true,
             }}
-            inputProps={{
-              min: 0,
-              max: 100,
-            }}
             placeholder="20RPM"
+            fieldProps={{
+              validate: validateBreathingFrecuency,
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -63,15 +62,28 @@ function RespiracionForm({ classStyle }) {
             InputLabelProps={{
               shrink: true,
             }}
-            inputProps={{
-              min: 0,
-              max: 100,
-            }}
             placeholder="5.5 %"
+            fieldProps={{
+              validate: validatePI,
+            }}
           />
         </Grid>
         <DateFieldComponent classes={classStyle} name="breathingtDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="breathingTime" classes={classStyle} />
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <TextField
+            className={classStyle.formControl}
+            size="small"
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            rows={3}
+            multiline
+            label="Nota"
+            name="breathingNote"
+          />
+        </Grid>
       </Grid>
     </div>
   );

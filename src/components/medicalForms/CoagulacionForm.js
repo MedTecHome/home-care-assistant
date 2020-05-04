@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { TextField } from 'mui-rff';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
+import { validateINR } from './validateMedicalForms';
 // import { useFormContext } from 'react-hook-form';
 
 function CoagulacionForm({ classStyle }) {
@@ -26,6 +27,9 @@ function CoagulacionForm({ classStyle }) {
             InputLabelProps={{
               shrink: true,
             }}
+            fieldProps={{
+              validate: validateINR,
+            }}
           />
         </Grid>
         <DateFieldComponent classes={classStyle} name="coagulationInrDate" label="Dia" />
@@ -43,7 +47,7 @@ function CoagulacionForm({ classStyle }) {
               shrink: true,
             }}
             multiline
-            rows={4}
+            rows={3}
           />
         </Grid>
       </Grid>
