@@ -5,9 +5,15 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Image from 'material-ui-image';
+import ImageIcon from '@material-ui/icons/Image';
 import { makeStyles } from '@material-ui/core/styles';
-import { useMedicinesContext } from '../MedicinesContext';
+import moment from 'moment';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import { useTreatmentsContext } from '../TreatmentsContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 
 const useStyles = makeStyles({
@@ -21,8 +27,8 @@ const useStyles = makeStyles({
   },
 });
 
-function DetailsMedicineComponent() {
-  const { selected, setModalVisible } = useMedicinesContext();
+function DetailsTreatmentComponent() {
+  const { selected, setModalVisible } = useTreatmentsContext();
   const classes = useStyles();
 
   const handleCloseForm = () => {
@@ -30,36 +36,52 @@ function DetailsMedicineComponent() {
   };
   return (
     <>
-      <DialogTitleComponent onClose={handleCloseForm}>Detalles del medicamento</DialogTitleComponent>
+      <DialogTitleComponent onClose={handleCloseForm}>Detalles del tratamiento</DialogTitleComponent>
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} container justify="center" alignItems="center">
-            <Image src="#" aspectRatio={4 / 3} />
+          <Grid item xs={12}>
+            <List>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <ImageIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Typography>
+                      Paciente:
+                      {selected ? (
+                        <strong>{selected.patient && selected.patient.fullname}</strong>
+                      ) : (
+                        <CircularProgress />
+                      )}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            </List>
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textStyle}>
-            <Typography>Nombre: {selected ? <strong>{selected.name}</strong> : <CircularProgress />}</Typography>
             <Typography>
-              Cantidad Concentracion: {selected ? <strong>{selected.concentrationCant}</strong> : <CircularProgress />}
+              Medicamento:{' '}
+              {selected ? <strong>{selected.medicine && selected.medicine.name}</strong> : <CircularProgress />}
             </Typography>
             <Typography>
-              Tipo Concentracion: {selected ? <strong>{selected.concentrationType}</strong> : <CircularProgress />}
-            </Typography>
-            <Typography>Dosis: {selected ? <strong>{selected.dose}</strong> : <CircularProgress />}</Typography>
-            <Typography>
-              Tipo dosis: {selected ? <strong>{selected.doseType}</strong> : <CircularProgress />}
-            </Typography>
-            <Typography>
-              Via administracion: {selected ? <strong>{selected.administrationRoute}</strong> : <CircularProgress />}
+              Fecha inicio:{' '}
+              {selected ? (
+                <strong>{selected.startDate && moment(selected.startDate.toDate()).format('DD/MM/YYYY')}</strong>
+              ) : (
+                <CircularProgress />
+              )}
             </Typography>
             <Typography>
-              Motivo administracion:{' '}
-              {selected ? <strong>{selected.administrationReason}</strong> : <CircularProgress />}
-            </Typography>
-            <Typography>
-              Frecuencia: {selected ? <strong>{selected.frequency}</strong> : <CircularProgress />}
-            </Typography>
-            <Typography>
-              Observaciones: {selected ? <strong>{selected.observations}</strong> : <CircularProgress />}
+              Fecha fin:{' '}
+              {selected ? (
+                <strong>{selected.endDate && moment(selected.endDate.toDate()).format('DD/MM/YYYY')}</strong>
+              ) : (
+                <CircularProgress />
+              )}
             </Typography>
           </Grid>
         </Grid>
@@ -72,4 +94,4 @@ function DetailsMedicineComponent() {
     </>
   );
 }
-export default DetailsMedicineComponent;
+export default DetailsTreatmentComponent;

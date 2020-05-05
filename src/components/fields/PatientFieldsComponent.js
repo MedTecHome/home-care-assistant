@@ -4,7 +4,7 @@ import { KeyboardDatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import HeightFieldComponent from './HeightFieldComponent';
 import AddressFieldComponent from './AddressFieldComponent';
-import DoctorFieldComponent from './DoctorFieldComponent';
+import ProfileFieldComponent from './ProfileFieldComponent';
 import { validateBirthday, validateDoctor, validateHeight } from '../profiles/forms/valdiateProfile';
 
 function PatientsFieldComponent({ classes, userRole }) {
@@ -36,7 +36,14 @@ function PatientsFieldComponent({ classes, userRole }) {
         <AddressFieldComponent classes={classes} />
       </Grid>
       <Grid item xs={12} md={12}>
-        <DoctorFieldComponent validate={validateDoctor} classes={classes} userRole={userRole} />
+        <ProfileFieldComponent
+          name="doctor"
+          label="Doctor"
+          filterRole="doctor"
+          validate={validateDoctor}
+          classes={classes}
+          userRole={userRole}
+        />
       </Grid>
     </>
   );

@@ -14,7 +14,7 @@ import { useProfilesContext } from '../ProfilesContext';
 import NameFieldComponent from '../../fields/NameFieldComponent';
 import LastNameFieldComponent from '../../fields/LastNameFieldComponent';
 import PhoneFieldComponent from '../../fields/PhoneFieldComponent';
-import PatientsFieldComponent from '../../fields/PatientFieldsComponent';
+import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
 import RoleFieldComponent from '../../fields/roles/RoleFieldComponent';
 import { getProfileByIdAction } from '../reducers/ProfileActions';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
@@ -122,7 +122,7 @@ function AddOrEditProfilesComponent({ title }) {
                     <RoleFieldComponent source={roles} classes={classes} userRole={currentUserProfile.role} />
                   </Grid>
                   {values && values.role === 'patient' && (
-                    <PatientsFieldComponent classes={classes} userRole={currentUserProfile.role} />
+                    <PatientsBlockFieldComponent classes={classes} userRole={currentUserProfile.role} />
                   )}
                   {values && values.role === 'doctor' && (
                     <Grid item xs={12}>

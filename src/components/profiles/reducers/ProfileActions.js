@@ -16,7 +16,7 @@ const actionCodeSettings = {
   handleCodeInApp: true,
 };
 
-const profilesRef = dbRef('profile');
+const profilesRef = dbRef('profile').collection('profiles');
 
 export const setListProfilesAction = list => ({
   type: LIST_PROFILES,
@@ -38,35 +38,34 @@ export const setProfileSelected = selected => ({
   selected,
 });
 
-export const getRefProfiles = async ({ filters }) => {
-  let ref = profilesRef.collection('profiles');
+export const getProfilesAction = async ({ filters }) => {
+  let ref = profilesRef;
   if (filters) {
     Object.keys(filters).map(k => {
-      ref = ref.where(k, '==', filters[k]);
+      if (k === 'fullname') {
+        ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
+      } else {
+        ref = ref.where(k, '==', filters[k]);
+      }
       return null;
     });
   }
   return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getDoctorsListAction = async ({ filters }) => {
-  return getRefProfiles({ filters: { 'role.id': 'doctor', ...filters } });
-};
-
 export const getProfileByIdAction = async (id, fields = []) => {
-  const ref = await getRefProfiles().doc(id).get();
+  const ref = await profilesRef.doc(id).get();
   const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
 };
 
 export const saveProfileValuesAction = async ({ id, email, ...values }, formType) => {
-  const ref = profilesRef.collection('profiles');
   if (formType === ADD_FORM_TEXT) {
     try {
       // const user = await authFirebase.createUserWithEmailAndPassword(email, uuid());
       const user = await authFirebase.createUserWithEmailAndPassword(email, 'Test*123');
       await authFirebase.sendPasswordResetEmail(user.user.email, actionCodeSettings);
-      return ref.add({
+      return profilesRef.add({
         ...values,
         user: { id: user.user.uid, email: user.user.email },
         fullname: `${values.name} ${values.lastName}`,
@@ -77,14 +76,14 @@ export const saveProfileValuesAction = async ({ id, email, ...values }, formType
     }
   }
   if (formType === EDIT_FORM_TEXT) {
-    return ref.doc(id).update({
+    return profilesRef.doc(id).update({
       ...values,
       fullname: `${values.name} ${values.lastName}`,
       updatedAt: Date.now(),
     });
   }
   if (formType === DELETE_FORM_TEXT) {
-    return ref.doc(id).delete();
+    return profilesRef.doc(id).delete();
   }
   return Promise;
 };

@@ -1,13 +1,18 @@
 import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import mutateTreatmentValues from './mutations';
 
 const TreatmentRef = dbRef('treatment').collection('treatments');
 
-export const getListTreatmentAction = async ({ filters = {} }) => {
+export const getListTreatmentsAction = async ({ filters = {} }) => {
   let ref = TreatmentRef;
   Object.keys(filters).map(k => {
-    ref = ref.where(k, '==', filters[k]);
+    if (k === 'name') {
+      ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
+    } else {
+      ref = ref.where(k, '==', filters[k]);
+    }
     return null;
   });
 
@@ -21,10 +26,11 @@ export const findByIdAction = async (id, fields = []) => {
 };
 
 export const saveValuesAction = async ({ id, ...values }, formType) => {
+  const result = await mutateTreatmentValues(values);
   if (formType === ADD_FORM_TEXT) {
-    await TreatmentRef.add(values);
+    await TreatmentRef.add(result);
   } else if (formType === EDIT_FORM_TEXT) {
-    await TreatmentRef.doc(id).update(values);
+    await TreatmentRef.doc(id).update(result);
   } else if (formType === DELETE_FORM_TEXT) {
     await TreatmentRef.doc(id).delete();
   }

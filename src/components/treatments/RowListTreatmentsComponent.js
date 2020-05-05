@@ -1,10 +1,10 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import moment from 'moment';
 import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisible }) {
+function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVisible }) {
   const classes = useStyles();
   return (
     <TableRow
@@ -31,16 +31,10 @@ function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisi
     >
       <TableCell>{index + 1}</TableCell>
       <TableCell>
-        <Tooltip title={row.name} arrow placement="top">
-          <Typography>{row.name}</Typography>
-        </Tooltip>
+        <Typography>{row.medicine && row.medicine.name}</Typography>
       </TableCell>
-      <TableCell>
-        <Typography align="center">{row.concentrationCant}</Typography>
-      </TableCell>
-      <TableCell align="center">{row.dose}</TableCell>
-      <TableCell align="center">{row.administrationRoute}</TableCell>
-      <TableCell align="center">{row.frequency}</TableCell>
+      <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
+      <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
       <TableCell align="center">
         <ButtonGroup variant="text" aria-label="outlined primary button group">
           <StandarDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />
@@ -51,4 +45,4 @@ function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisi
     </TableRow>
   );
 }
-export default RowListMedicineComponent;
+export default RowListTreatmentsComponent;

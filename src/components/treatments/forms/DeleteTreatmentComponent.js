@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { DialogTitleComponent } from '../ModalComponent';
-import { useTreatmentsContext } from './TreatmentsContext';
+import { DialogTitleComponent } from '../../ModalComponent';
+import { useTreatmentsContext } from '../TreatmentsContext';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -41,11 +41,9 @@ function DeleteTreatmentComponent() {
 
   return (
     <>
-      <DialogTitleComponent onClose={handleCancel}>Eliminar medicamento</DialogTitleComponent>
+      <DialogTitleComponent onClose={handleCancel}>Eliminar Tratamiento</DialogTitleComponent>
       <DialogContent dividers>
-        <Typography>
-          Esta seguro que desea eliminar el medicamento:<strong> {selected.name}</strong>.
-        </Typography>
+        <Typography>Esta seguro que desea eliminar el tratamiento.</Typography>
       </DialogContent>
       <DialogActions>
         <Button disableElevation variant="contained" size="small" onClick={handleCancel}>

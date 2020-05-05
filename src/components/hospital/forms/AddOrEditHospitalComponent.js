@@ -4,14 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
 import { TextField } from 'mui-rff';
-import { green } from '@material-ui/core/colors';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import validateHospital from './validateHospital';
+import SaveButton from '../../buttons/SaveButton';
 
 const useStyles = makeStyles({
   formControl: {
@@ -20,17 +19,6 @@ const useStyles = makeStyles({
   buttonActions: {
     display: 'flex',
     justifyContent: 'space-around',
-  },
-  wrapper: {
-    position: 'relative',
-  },
-  buttonProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
   },
 });
 
@@ -56,13 +44,15 @@ export default function AddOrEditHospitalComponent() {
         initialValues={formType === EDIT_FORM_TEXT && hospitalSelected && hospitalSelected}
         validate={validateHospital}
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine }) => (
+        render={({ handleSubmit, form, submitting, pristine, invalid }) => (
           <form
             autoComplete="off"
             onSubmit={event => {
-              handleSubmit(event).then(() => {
-                form.reset();
-              });
+              if (!invalid) {
+                handleSubmit(event).then(() => {
+                  form.reset();
+                });
+              }
             }}
           >
             <DialogContent dividers>
@@ -143,18 +133,7 @@ export default function AddOrEditHospitalComponent() {
               <Button disableElevation variant="contained" onClick={handleCancel}>
                 cancelar
               </Button>
-              <div className={classes.wrapper}>
-                <Button
-                  disabled={submitting || pristine}
-                  disableElevation
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                >
-                  guardar
-                </Button>
-                {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-              </div>
+              <SaveButton submitting={submitting} pristine={pristine} invalid={invalid} />
             </DialogActions>
           </form>
         )}
