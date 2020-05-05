@@ -1,7 +1,7 @@
 import { Autocomplete } from 'mui-rff';
 import React, { useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
-import { getDoctorsListAction } from '../profiles/reducers/ProfileActions';
+import { getDoctorsListAction, getProfilesAction } from '../profiles/reducers/ProfileActions';
 
 function DoctorFieldComponent({ classes, userRole, validate }) {
   const [doctors, setDoctors] = useState([]);
@@ -10,7 +10,7 @@ function DoctorFieldComponent({ classes, userRole, validate }) {
 
   const filterNameMemoize = useMemo(() => filterName, [filterName]);
   useEffect(() => {
-    getDoctorsListAction({ filters: { ...(filterNameMemoize ? { name: filterNameMemoize } : {}) } }).then(res =>
+    getProfilesAction({ filters: { ...(filterNameMemoize ? { name: filterNameMemoize } : {}) } }).then(res =>
       setDoctors(res)
     );
   }, [filterNameMemoize]);
