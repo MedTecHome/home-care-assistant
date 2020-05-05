@@ -1,5 +1,7 @@
 // import _ from 'lodash';
 
+import moment from 'moment';
+
 export default function addOrReplace(array, item) {
   const result = array;
   const i = result.findIndex(_item => _item.id === item.id);
@@ -7,6 +9,8 @@ export default function addOrReplace(array, item) {
   else result.push(item);
   return result;
 }
+
+export const returnIfExiste = value => value || {};
 
 /* export const differenceTwoObjects = function difference(object, base) {
   function changes(object, base) {
@@ -18,3 +22,13 @@ export default function addOrReplace(array, item) {
   }
   return changes(object, base);
 }; */
+
+export const formatMomentToDate = date => {
+  return moment(date, 'DD/MM/YYYY').toDate();
+};
+
+export const formatDateWithTime = (date, time) => {
+  const m1 = moment(time).format('hh:mm:ss a');
+  const m2 = moment(date, 'DD/MM/YYYY').format('YYYY/MM/DD');
+  return moment(`${m2} ${m1}`, 'YYYY/MM/DD hh:mm:ss a').toDate();
+};

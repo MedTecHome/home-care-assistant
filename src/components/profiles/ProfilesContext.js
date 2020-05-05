@@ -4,7 +4,7 @@ import { initialProfilesState, ProfilesReducer } from './reducers/ProfileReducer
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import {
   getDoctorsNomencladorAction,
-  getRefProfiles,
+  getProfilesAction,
   saveProfileValuesAction,
   setListProfilesAction,
   setProfileListLoadingAction,
@@ -25,7 +25,7 @@ export const withProfileContext = WrapperComponent => () => {
   const getProfilesList = useCallback(async params => {
     dispatch(setProfileListLoadingAction(true));
     try {
-      const result = await getRefProfiles(params);
+      const result = await getProfilesAction(params);
       dispatch(setListProfilesAction(result));
     } catch (e) {
       // handle error
@@ -49,7 +49,7 @@ export const withProfileContext = WrapperComponent => () => {
   );
 
   const getDoctorsNomenclador = useCallback(async params => {
-    const result = await getRefProfiles(params);
+    const result = await getProfilesAction(params);
     dispatch(getDoctorsNomencladorAction(result));
   }, []);
 

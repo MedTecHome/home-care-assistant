@@ -1,19 +1,19 @@
 import { Autocomplete } from 'mui-rff';
 import React, { useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
-import { getDoctorsListAction } from '../profiles/reducers/ProfileActions';
+import { getProfilesAction } from '../profiles/reducers/ProfileActions';
 
-function DoctorFieldComponent({ classes, userRole, validate }) {
+function ProfileFieldComponent({ label, name, classes, userRole, validate, filterRole = '' }) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
 
   const filterNameMemoize = useMemo(() => filterName, [filterName]);
   useEffect(() => {
-    getDoctorsListAction({ filters: { ...(filterNameMemoize ? { name: filterNameMemoize } : {}) } }).then(res =>
-      setDoctors(res)
-    );
-  }, [filterNameMemoize]);
+    getProfilesAction({
+      filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) },
+    }).then(res => setDoctors(res));
+  }, [filterRole, filterNameMemoize]);
 
   const handleInputChange = event => {
     setFilterNameDebounced(event.target.value);
@@ -26,8 +26,8 @@ function DoctorFieldComponent({ classes, userRole, validate }) {
       autoHighlight
       blurOnSelect
       size="small"
-      label="Doctor"
-      name="doctor"
+      label={label}
+      name={name}
       disabled={userRole.id === 'doctor'}
       fieldProps={{
         validate,
@@ -42,9 +42,9 @@ function DoctorFieldComponent({ classes, userRole, validate }) {
       openOnFocus={false}
       options={doctors}
       getOptionValue={option => option.id}
-      getOptionLabel={option => option.name}
+      getOptionLabel={option => `${option.name} ${option.lastName}`}
     />
   );
 }
 
-export default DoctorFieldComponent;
+export default ProfileFieldComponent;

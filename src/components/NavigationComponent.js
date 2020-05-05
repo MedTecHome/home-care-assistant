@@ -34,7 +34,7 @@ export default function NavigationComponent() {
 
   return (
     <>
-      {currentUser && (
+      {true && (
         <Container className={classes.navigation}>
           <div>
             {currentUserProfile && ['patient'].includes(currentUserProfile.role.id) && (
@@ -50,6 +50,11 @@ export default function NavigationComponent() {
             {currentUserProfile && ['doctor'].includes(currentUserProfile.role.id) && (
               <Button color="inherit" component={NavLink} to="/pacientes">
                 Pacientes
+              </Button>
+            )}
+            {currentUserProfile && ['doctor'].includes(currentUserProfile.role.id) && (
+              <Button color="inherit" component={NavLink} to="/tratamientos">
+                Tratamientos
               </Button>
             )}
             {currentUserProfile && ['doctor'].includes(currentUserProfile.role.id) && (
