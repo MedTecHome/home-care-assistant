@@ -9,6 +9,7 @@ export const withTreatmentsContext = WrapperComponent => () => {
   const [list, setList] = useState([]);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
+  const [filters, setFilters] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const selected = useMemo(() => slected, [slected]);
   const listTreatments = useMemo(() => list, [list]);
@@ -47,10 +48,12 @@ export const withTreatmentsContext = WrapperComponent => () => {
         listTreatments,
         selected,
         loadingList,
+        filters,
         ...globalState,
         getListOfTreatments,
         selectFromList,
         saveValues,
+        setFilters,
         setModalVisible,
       }}
     >
@@ -67,11 +70,13 @@ export const useTreatmentsContext = () => {
     listTreatments: values.listTreatments,
     selected: values.selected,
     loadingList: values.loadingList,
+    filters: values.filters,
     formType: values.formType,
     modalVisible: values.modalVisible,
     getListOfTreatments: values.getListOfTreatments,
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
+    setFilters: values.setFilters,
     setModalVisible: values.setModalVisible,
   };
 };

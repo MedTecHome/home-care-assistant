@@ -1,20 +1,14 @@
 import React, { useCallback, useEffect } from 'react';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import ModalComponent from '../../ModalComponent';
 import { useProfilesContext, withProfileContext } from '../ProfilesContext';
 import ProfilesFormComponent from '../forms/ProfilesFormsComponent';
 import ListProfilesComponent from '../ListProfilesComponent';
-import ToolbarProfileComponent from '../ToolbarProfilesComponent';
+import ToolbarProfileComponent from '../FiltersProfilesComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useAuthContext } from '../../../contexts/AuthContext';
-
-const useStyles = makeStyles({
-  pageHeader: {
-    color: '#6d6d6d',
-  },
-});
+import useCustomStyles from '../../../jss/globalStyles';
 
 function PatientsComponent() {
   const {
@@ -23,18 +17,18 @@ function PatientsComponent() {
     formType,
     getProfilesList,
     selectProfileFromList,
-    setProfileFilter,
+    setFilters,
     filters,
   } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   useEffect(() => {
-    setProfileFilter({
+    setFilters({
       'role.id': 'patient',
       ...(currentUserProfile ? { 'doctor.id': currentUserProfile.id } : {}),
     });
-  }, [setProfileFilter, currentUserProfile]);
+  }, [setFilters, currentUserProfile]);
 
   const onFormsClose = () => {
     getProfilesList({ filters });

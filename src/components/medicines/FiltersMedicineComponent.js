@@ -1,68 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Grid from '@material-ui/core/Grid';
-import { TextField } from '@material-ui/core';
+import React, { useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
-import { isEmpty } from 'ramda';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import useCustomStyles from '../../jss/globalStyles';
+import { useMedicinesContext } from './MedicinesContext';
 
 function FiltersMedicineComponent() {
   const [name, setName] = useState('');
-  const history = useHistory();
-  const { pathname, search } = useLocation();
-
-  useEffect(() => {
-    const urlSearchParams = new URLSearchParams(search);
-    if (urlSearchParams.has('nM')) {
-      setName(urlSearchParams.get('nM'));
-    }
-  }, [search]);
+  const { setFilters } = useMedicinesContext();
+  const classes = useCustomStyles();
 
   const handleSearch = () => {
-    const urlSearchParams = new URLSearchParams();
-    urlSearchParams.set('nM', name);
-    history.push({
-      pathname,
-      search: urlSearchParams.toString(),
-    });
-  };
-
-  const clearFilters = () => {
-    const urlSearchParams = new URLSearchParams();
-    setName('');
-    history.push({
-      pathname,
-      search: urlSearchParams.toString(),
-    });
+    setFilters({ name });
   };
 
   return (
-    <List>
-      <ListItem>
-        <Grid container spacing={2}>
-          <Grid item xs={12} container>
-            <TextField
-              size="small"
-              label="Nombre"
-              name="name"
-              value={name}
-              onChange={event => setName(event.target.value)}
-            />
+    <FormControl className={classes.formControl}>
+      <InputLabel>buscar por nombre</InputLabel>
+      <Input
+        type="search"
+        value={name}
+        onChange={event => setName(event.target.value)}
+        endAdornment={
+          <InputAdornment position="end">
             <IconButton onClick={handleSearch}>
-              <SearchIcon fontVariant={66} color="primary" />
+              <SearchIcon />
             </IconButton>
-            {!isEmpty(name) && (
-              <IconButton onClick={clearFilters}>
-                <RemoveCircleIcon fontVariant={66} />
-              </IconButton>
-            )}
-          </Grid>
-        </Grid>
-      </ListItem>
-    </List>
+          </InputAdornment>
+        }
+      />
+    </FormControl>
   );
 }
 export default FiltersMedicineComponent;

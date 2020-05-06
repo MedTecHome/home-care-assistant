@@ -1,10 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField } from 'mui-rff';
 import Typography from '@material-ui/core/Typography';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import { validateDistance, validateSteps, validateTime2 } from './validateMedicalForms';
+import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 
 function ExercisesForm({ classStyle }) {
   return (
@@ -14,68 +14,18 @@ function ExercisesForm({ classStyle }) {
       </Typography>
       <Grid item xs={12} container spacing={2}>
         <Grid item xs={4}>
-          <TextField
-            type="number"
-            label="Distancia"
-            size="small"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            className={classStyle.formControl}
-            name="distance"
-            fieldProps={{
-              validate: validateDistance,
-            }}
-          />
+          <CustomTextFieldComponent type="number" label="Distancia" name="distance" validate={validateDistance} />
         </Grid>
         <Grid item xs={4}>
-          <TextField
-            type="number"
-            label="Tiempo"
-            size="small"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            className={classStyle.formControl}
-            name="time"
-            fieldProps={{
-              validate: validateTime2,
-            }}
-          />
+          <CustomTextFieldComponent type="number" label="Tiempo" name="time" validate={validateTime2} />
         </Grid>
         <Grid item xs={4}>
-          <TextField
-            type="number"
-            label="Pasos"
-            variant="outlined"
-            size="small"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            className={classStyle.formControl}
-            name="steps"
-            fieldProps={{
-              validate: validateSteps,
-            }}
-          />
+          <CustomTextFieldComponent type="number" label="Pasos" name="steps" validate={validateSteps} />
         </Grid>
         <DateFieldComponent classes={classStyle} name="exercisesDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="exercisesTime" classes={classStyle} />
         <Grid item xs={12}>
-          <TextField
-            className={classStyle.formControl}
-            size="small"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            multiline
-            rows={3}
-            label="Nota"
-            name="exercisesNote"
-          />
+          <CustomTextFieldComponent multiline rows={3} label="Nota" name="exercisesNote" />
         </Grid>
       </Grid>
     </div>

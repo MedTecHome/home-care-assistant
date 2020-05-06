@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVisible }) {
+function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVisible, editRole, delRole }) {
   const classes = useStyles();
   return (
     <TableRow
@@ -27,7 +27,7 @@ function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVi
       onClick={() => selectRow(row.id)}
       tabIndex={-1}
       key={row.id}
-      selected={!!selected}
+      selected={selected && selected.id === row.id}
     >
       <TableCell>{index + 1}</TableCell>
       <TableCell>
@@ -38,8 +38,8 @@ function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVi
       <TableCell align="center">
         <ButtonGroup variant="text" aria-label="outlined primary button group">
           <StandarDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />
-          <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />
-          <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />
+          {editRole && <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />}
+          {delRole && <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />}
         </ButtonGroup>
       </TableCell>
     </TableRow>

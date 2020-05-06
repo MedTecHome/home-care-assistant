@@ -1,13 +1,13 @@
 import React from 'react';
-import { Select, TextField } from 'mui-rff';
 import Grid from '@material-ui/core/Grid';
 import { useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import { validateHorario, validateSugarConcentration } from './validateMedicalForms';
+import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
 
 function GlucosaForm({ classStyle }) {
   const theme = useTheme();
@@ -20,55 +20,20 @@ function GlucosaForm({ classStyle }) {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TextField
-            className={classStyle.formControl}
-            type="number"
-            required
-            variant="outlined"
-            size="small"
-            InputLabelProps={{
-              color: 'primary',
-              shrink: true,
-            }}
+          <CustomTextFieldComponent
             label={`${matches ? 'Concent.' : 'Concentracion'} de azucar`}
             name="sugarConcentration"
-            fieldProps={{
-              validate: validateSugarConcentration,
-            }}
+            validate={validateSugarConcentration}
           />
         </Grid>
         <Grid item xs={12}>
-          <Select
-            defaultValue={undefined}
-            className={classStyle.formControl}
-            label="Horario"
-            name="schedule"
-            variant="outlined"
-            formControlProps={{
-              size: 'small',
-            }}
-            fieldProps={{
-              InputLabelProps: {
-                shrink: true,
-              },
-              validate: validateHorario,
-            }}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+          <CustomSelectFieldComponent source={[]} label="Horario" name="schedule" validate={validateHorario} />
         </Grid>
         <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />
         <Grid item xs={12}>
-          <TextField
+          <CustomTextFieldComponent
             className={classStyle.formControl}
-            size="small"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
             multiline
             rows={3}
             label="Nota"

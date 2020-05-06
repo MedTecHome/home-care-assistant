@@ -24,7 +24,8 @@ export function AuthContextProvider({ children }) {
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
           // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
           id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
-          fullname: 'jajaja',
+          user: { email: 'localhost@local' },
+          fullname: 'bla bla bla',
           role: {
             id: 'doctor',
           },

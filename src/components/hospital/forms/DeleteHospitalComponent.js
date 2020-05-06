@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
+import SaveButton from '../../buttons/SaveButton';
 
 export default function DeleteHospitalComponent() {
-  const { setModalVisible, hospitalSelected, saveHospitalValues, formType } = useHospitalContext();
+  const { setModalVisible, selected, saveHospitalValues, formType } = useHospitalContext();
+  const [saving, setSaving] = useState(false);
 
   const handleCancel = () => {
     setModalVisible(false, null);
   };
 
-  const onDelete = () => {
-    saveHospitalValues(hospitalSelected, formType);
+  const onDelete = async () => {
+    setSaving(true);
+    await saveHospitalValues(selected, formType);
+    setSaving(false);
     handleCancel();
   };
 
@@ -28,9 +32,15 @@ export default function DeleteHospitalComponent() {
         <Button disableElevation variant="contained" size="small" onClick={handleCancel}>
           cancelar
         </Button>
-        <Button disableElevation size="small" variant="contained" color="secondary" onClick={onDelete}>
-          eliminar
-        </Button>
+        <SaveButton
+          onClick={onDelete}
+          size="small"
+          color="secondary"
+          pristine={false}
+          submitting={saving}
+          invalid={false}
+          title="eliminar"
+        />
       </DialogActions>
     </>
   );

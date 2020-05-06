@@ -1,19 +1,14 @@
 import React, { useCallback, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import { makeStyles } from '@material-ui/core/styles';
 import { useProfilesContext, withProfileContext } from './ProfilesContext';
 import ListProfilesComponent from './ListProfilesComponent';
-import ToolbarProfileComponent from './ToolbarProfilesComponent';
+import ToolbarProfileComponent from './FiltersProfilesComponent';
 import ModalComponent from '../ModalComponent';
 import ProfilesFormComponent from './forms/ProfilesFormsComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
+import useCustomStyles from '../../jss/globalStyles';
 
-const useStyles = makeStyles({
-  pageHeader: {
-    color: '#6d6d6d',
-  },
-});
 function ProfilesComponent() {
   const {
     formType,
@@ -22,15 +17,15 @@ function ProfilesComponent() {
     selectProfileFromList,
     getProfilesList,
     filters,
-    setProfileFilter,
+    setFilters,
   } = useProfilesContext();
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   useEffect(() => {
-    setProfileFilter({
+    setFilters({
       'role.id': 'doctor',
     });
-  }, [setProfileFilter]);
+  }, [setFilters]);
 
   const handleBackdropClick = () => {
     setModalVisible(false, null);

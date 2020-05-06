@@ -1,33 +1,36 @@
-import React, { createContext, useCallback, useContext, useReducer } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
 import { isEmpty, isNil } from 'ramda';
-import { HospitalReducers, initialHispitalState } from './reducers/HospitalReducers';
-import {
-  fetchHospitalsAction,
-  saveHospitalValuesAction,
-  selectHospitalsFromListAction,
-  setListHospitalAction,
-  setListHospitalLoadingAction,
-} from './reducers/HospitalActions';
+import { fetchHospitalsAction, saveHospitalValuesAction } from './reducers/HospitalActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 
 const HospitalContext = createContext({});
 
 const HospitalContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(HospitalReducers, initialHispitalState, init => init);
+  const [hospitals, setHospitals] = useState([]);
+  const [loadingList, setLoadingList] = useState(false);
+  const [slected, setSelected] = useState(null);
+  const [filters, setFilters] = useState({});
   const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
+
+  const hospitalsList = useMemo(() => hospitals, [hospitals]);
+  const selected = useMemo(() => slected, [slected]);
 
   // eslint-disable-next-line no-unused-vars
   const getListHospitals = useCallback(async params => {
-    dispatch(setListHospitalLoadingAction(true));
+    setLoadingList(true);
     const result = await fetchHospitalsAction(params);
-    dispatch(setListHospitalAction(result));
-    dispatch(setListHospitalLoadingAction(false));
+    setHospitals(result);
+    setLoadingList(false);
   }, []);
 
-  const selectHospital = useCallback(selected => {
-    dispatch(selectHospitalsFromListAction(selected));
-  }, []);
+  const selectHospital = useCallback(
+    id => {
+      const result = hospitalsList.find(item => item.id === id) || null;
+      setSelected(result);
+    },
+    [hospitalsList]
+  );
 
   const saveHospitalValues = useCallback(async (values, formType) => {
     await saveHospitalValuesAction(values, formType);
@@ -40,12 +43,16 @@ const HospitalContextProvider = ({ children }) => {
   return (
     <HospitalContext.Provider
       value={{
-        ...state,
+        hospitalsList,
+        loadingList,
+        selected,
+        filters,
         ...modalState,
         getListHospitals,
         selectHospital,
         saveHospitalValues,
         setModalVisible,
+        setFilters,
       }}
     >
       {children}
@@ -57,17 +64,17 @@ export const useHospitalContext = () => {
   const values = useContext(HospitalContext);
   if (isEmpty(values) || isNil(values)) throw new Error('This hooks only works inside HospitalContextProvider');
   return {
-    hospitals: values.hospitals,
-    total: values.total,
-    hospitalSelected: values.hospitalSelected,
-    listLoading: values.listLoading,
-    saveLoading: values.saveLoading,
+    hospitalsList: values.hospitalsList,
+    selected: values.selected,
+    loadingList: values.loadingList,
+    filters: values.filters,
     modalVisible: values.modalVisible,
     formType: values.formType,
     getListHospitals: values.getListHospitals,
     selectHospital: values.selectHospital,
     saveHospitalValues: values.saveHospitalValues,
     setModalVisible: values.setModalVisible,
+    setFilters: values.setFilters,
   };
 };
 

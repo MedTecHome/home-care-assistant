@@ -7,9 +7,9 @@ import Typography from '@material-ui/core/Typography';
 export default function EnhancedTableHead(props) {
   const { headCells } = props;
   return (
-    <TableHead>
+    <TableHead color="primary">
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" color="primary">
           <Typography>No.</Typography>
         </TableCell>
         {headCells.map(headCell => (

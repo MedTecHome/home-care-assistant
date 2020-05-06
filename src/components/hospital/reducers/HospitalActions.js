@@ -1,39 +1,28 @@
 import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
-import {
-  ADD_FORM_TEXT,
-  DELETE_FORM_TEXT,
-  EDIT_FORM_TEXT,
-  LIST_HOSPITAL,
-  LIST_HOSPITAL_LOADING,
-  SELECTED_HOSPITAL,
-} from '../../../commons/globalText';
+import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 
 const hospitalRef = dbRef('hospital');
 
-export const setListHospitalAction = list => ({
-  type: LIST_HOSPITAL,
-  list,
-});
-
-export const setListHospitalLoadingAction = flag => ({
-  type: LIST_HOSPITAL_LOADING,
-  flag,
-});
-
-export const selectHospitalsFromListAction = selected => ({
-  type: SELECTED_HOSPITAL,
-  selected,
-});
-
-export const fetchHospitalsAction = async ({ filters }) => {
+export const fetchHospitalsAction = async ({ limit = 2, next, prev, filters }) => {
   let ref = hospitalRef.collection('hospitals').orderBy('name');
-  if (filters && !isEmpty(filters)) {
+  if (next) {
+    ref = ref.startAfter(next.name);
+  } else if (prev) {
+    ref = ref.endBefore(prev.name);
+  }
+  if (filters) {
     Object.keys(filters).map(k => {
-      ref = ref.where(k, '>=', filters[k]);
+      if (k === 'name') {
+        ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
+      } else {
+        ref = ref.where(k, '==', filters[k]);
+      }
       return null;
     });
   }
+  if (prev) ref = ref.limitToLast(limit);
+  else ref = ref.limit(limit);
   return (await ref.get()).docChanges().map(({ doc }) => ({
     id: doc.id,
     ...doc.data(),

@@ -4,33 +4,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { TextField } from 'mui-rff';
-import { makeStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useMedicinesContext } from '../MedicinesContext';
 import { EDIT_FORM_TEXT } from '../../../commons/globalText';
 import formValidate from './formValidate';
-
-const useStyles = makeStyles({
-  wrapper: {
-    position: 'relative',
-  },
-  buttonProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
-});
+import SaveButton from '../../buttons/SaveButton';
+import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
-  const classes = useStyles();
-
   const handleCloseForm = () => {
     setModalVisible(false, null);
   };
@@ -47,112 +29,60 @@ function AddOrEditMedicineComponent({ title }) {
         initialValues={formType === EDIT_FORM_TEXT && selected && selected}
         validate={formValidate}
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine }) => (
-          <form onSubmit={handleSubmit} autoComplete="off">
+        render={({ handleSubmit, form, submitting, pristine, invalid }) => (
+          <form
+            noValidate
+            onSubmit={event =>
+              !invalid &&
+              handleSubmit(event).then(() => {
+                form.reset();
+              })
+            }
+            autoComplete="off"
+          >
             {formType === EDIT_FORM_TEXT && selected && <input type="hidden" name="id" />}
             <DialogContent dividers>
-              <Grid container spacing={2}>
+              <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Nombre del medicamento"
-                    name="name"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+                  <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Canctidad de Concentracion"
+                <Grid item xs={8} sm={8}>
+                  <CustomTextFieldComponent required label="Tipo Concentracion" name="concentrationType" />
+                </Grid>
+                <Grid item xs={4} sm={4}>
+                  <CustomTextFieldComponent
+                    required
+                    label="Cant. Concentracion"
                     name="concentrationCant"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
+                    labelStyle={{
+                      fontSize: 12,
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Tipo de Concentracion"
-                    name="concentrationType"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+                <Grid item xs={8}>
+                  <CustomTextFieldComponent required label="Tipo dosis" name="doseType" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Dosis"
-                    name="dose"
-                    typo="number"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+                <Grid item xs={4}>
+                  <CustomTextFieldComponent required label="Dosis" name="dose" type="number" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Tipo de dosis"
-                    name="doseType"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+
+                <Grid item xs={8}>
+                  <CustomTextFieldComponent required label="Via administracion" name="administrationRoute" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Via de administracion"
-                    name="administrationRoute"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Frecuencia"
-                    name="frequency"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+                <Grid item xs={4}>
+                  <CustomTextFieldComponent required label="Frecuencia" name="frequency" />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Motivo de administracion"
-                    name="administrationReason"
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+                  <CustomTextFieldComponent required label="Motivo administracion" name="administrationReason" />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <CustomTextFieldComponent
+                    required
                     label="Observaciones"
                     name="observations"
-                    variant="outlined"
-                    size="small"
                     multiline
                     rows={3}
                     rowsMax={5}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
                   />
                 </Grid>
               </Grid>
@@ -168,18 +98,7 @@ function AddOrEditMedicineComponent({ title }) {
               >
                 cancel
               </Button>
-              <div className={classes.wrapper}>
-                <Button
-                  disabled={submitting || pristine}
-                  disableElevation
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
-                  guardar
-                </Button>
-                {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-              </div>
+              <SaveButton submitting={submitting} invalid={invalid} pristine={pristine} />
             </DialogActions>
           </form>
         )}

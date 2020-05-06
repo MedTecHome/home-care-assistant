@@ -4,9 +4,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ImageIcon from '@material-ui/icons/Image';
-import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,21 +13,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { useTreatmentsContext } from '../TreatmentsContext';
 import { DialogTitleComponent } from '../../ModalComponent';
-
-const useStyles = makeStyles({
-  textStyle: {
-    '&>*': {
-      fontSize: 12,
-      lineHeight: '200%',
-      fontWeight: 400,
-      color: '#000',
-    },
-  },
-});
+import useCustomStyles from '../../../jss/globalStyles';
 
 function DetailsTreatmentComponent() {
   const { selected, setModalVisible } = useTreatmentsContext();
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   const handleCloseForm = () => {
     setModalVisible(false, null);
@@ -51,28 +39,23 @@ function DetailsTreatmentComponent() {
                   primary={
                     <Typography>
                       Paciente:
-                      {selected ? (
-                        <strong>{selected.patient && selected.patient.fullname}</strong>
-                      ) : (
-                        <CircularProgress />
-                      )}
+                      {selected ? <strong>{selected.patient && selected.patient.fullname}</strong> : '-'}
                     </Typography>
                   }
                 />
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textStyle}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
             <Typography>
-              Medicamento:{' '}
-              {selected ? <strong>{selected.medicine && selected.medicine.name}</strong> : <CircularProgress />}
+              Medicamento: {selected ? <strong>{selected.medicine && selected.medicine.name}</strong> : '?'}
             </Typography>
             <Typography>
               Fecha inicio:{' '}
               {selected ? (
                 <strong>{selected.startDate && moment(selected.startDate.toDate()).format('DD/MM/YYYY')}</strong>
               ) : (
-                <CircularProgress />
+                '?'
               )}
             </Typography>
             <Typography>
@@ -80,7 +63,7 @@ function DetailsTreatmentComponent() {
               {selected ? (
                 <strong>{selected.endDate && moment(selected.endDate.toDate()).format('DD/MM/YYYY')}</strong>
               ) : (
-                <CircularProgress />
+                '?'
               )}
             </Typography>
           </Grid>

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Select } from 'mui-rff';
-import uuid from 'uuid4';
-import MenuItem from '@material-ui/core/MenuItem';
 import { withRolesContext } from './RolesContext';
+import CustomSelectFieldComponent from '../../inputs/CustomSelectFieldComponent';
+import useCustomStyles from '../../../jss/globalStyles';
 
 const listAccess = {
   doctor: ['patient'],
@@ -10,32 +9,16 @@ const listAccess = {
   developer: ['patient', 'doctor', 'admin'],
 };
 
-function RoleFieldComponent({ source, classes, userRole }) {
+function RoleFieldComponent({ source, userRole }) {
+  const classes = useCustomStyles();
   return (
-    <Select
+    <CustomSelectFieldComponent
       required
       className={classes.formControl}
       label="Tipo"
       name="role"
-      variant="outlined"
-      formControlProps={{
-        size: 'small',
-      }}
-      fieldProps={{
-        InputLabelProps: {
-          shrink: true,
-        },
-      }}
-    >
-      <MenuItem key={uuid()} value="" />
-      {source
-        .filter(rl => listAccess[userRole.id].includes(rl.id))
-        .map(role => (
-          <MenuItem key={uuid()} value={role.id}>
-            {role.name}
-          </MenuItem>
-        ))}
-    </Select>
+      source={source.filter(rl => listAccess[userRole.id].includes(rl.id))}
+    />
   );
 }
 

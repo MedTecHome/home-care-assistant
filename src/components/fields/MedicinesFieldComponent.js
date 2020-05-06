@@ -27,7 +27,6 @@ function MedicinesFieldComponent({ classes }) {
       className={classes.formControl}
       autoHighlight
       blurOnSelect
-      size="small"
       label="Medicamentos"
       name="medicine"
       fieldProps={{
@@ -36,9 +35,8 @@ function MedicinesFieldComponent({ classes }) {
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',
-        variant: 'outlined',
-        InputLabelProps: { shrink: true },
         onChange: handleInputChange,
+        color: 'primary',
       }}
       openOnFocus={false}
       options={medicines}

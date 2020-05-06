@@ -1,34 +1,33 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
+import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import { useMediaQuery } from '@material-ui/core';
+import useCustomStyles from '../../jss/globalStyles';
 import { ADD_FORM_TEXT } from '../../commons/globalText';
 import AddButtonIcon from '../buttons/AddButtonIcon';
 
-const useToolbarStyles = makeStyles(theme => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  buttons: {
-    flex: '1',
-  },
-}));
-
 const EnhancedTableToolbar = props => {
-  const classes = useToolbarStyles();
   const { filters, onAdd } = props;
+  const classes = useCustomStyles();
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   const handleAddItem = () => {
     onAdd(ADD_FORM_TEXT);
   };
-
   return (
-    <Toolbar>
-      <div className={classes.buttons}>
-        <AddButtonIcon onClick={handleAddItem} size="lg" />
-      </div>
-      <div className={classes.filters}>{filters}</div>
-    </Toolbar>
+    <List>
+      <ListItem>
+        <Grid container spacing={3} justify="space-between" alignItems="flex-end">
+          <Grid item xs={12} sm={3} md={3} className={match ? classes.addFloatingButton : ''}>
+            <AddButtonIcon onClick={handleAddItem} size={match ? '2x' : 'lg'} />
+          </Grid>
+          <Grid item xs={12} sm={5} md={4} container justify="flex-end">
+            {filters}
+          </Grid>
+        </Grid>
+      </ListItem>
+    </List>
   );
 };
 

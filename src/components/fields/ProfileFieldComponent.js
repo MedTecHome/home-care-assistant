@@ -3,7 +3,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
 import { getProfilesAction } from '../profiles/reducers/ProfileActions';
 
-function ProfileFieldComponent({ label, name, classes, userRole, validate, filterRole = '' }) {
+function ProfileFieldComponent({
+  required,
+  disabled,
+  size = 'small',
+  variant = 'standard',
+  label,
+  name,
+  validate,
+  filterRole = '',
+  placeholder,
+}) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
@@ -21,22 +31,20 @@ function ProfileFieldComponent({ label, name, classes, userRole, validate, filte
 
   return (
     <Autocomplete
-      required
-      className={classes.formControl}
+      required={required}
       autoHighlight
       blurOnSelect
       size="small"
       label={label}
       name={name}
-      disabled={userRole.id === 'doctor'}
+      disabled={disabled}
       fieldProps={{
         validate,
       }}
       textFieldProps={{
-        size: 'small',
-        placeholder: 'busque y seleccione',
-        variant: 'outlined',
-        InputLabelProps: { shrink: true },
+        size,
+        placeholder,
+        variant,
         onChange: handleInputChange,
       }}
       openOnFocus={false}

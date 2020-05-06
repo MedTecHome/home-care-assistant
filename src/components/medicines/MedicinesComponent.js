@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import uuid from 'uuid4';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
@@ -8,6 +7,7 @@ import FormsMedicineComponent from './forms/FormsMedicineComponent';
 import FiltersMedicineComponent from './FiltersMedicineComponent';
 import RowListMedicineComponent from './RowListMedicineComponent';
 import TableComponent from '../table/TableComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 function MedicinesComponent() {
   const {
@@ -19,17 +19,13 @@ function MedicinesComponent() {
     modalVisible,
     setModalVisible,
     formType,
+    filters,
   } = useMedicinesContext();
-  const { search } = useLocation();
+  const { currentUserProfile } = useAuthContext();
 
   const handleReloadList = useCallback(() => {
-    let filters = {};
-    const urlSearchParams = new URLSearchParams(search);
-    if (urlSearchParams.has('nM')) {
-      filters = { ...filters, name: urlSearchParams.get('nM') };
-    }
     getMedicinesList({ filters });
-  }, [getMedicinesList, search]);
+  }, [getMedicinesList, filters]);
 
   useEffect(() => {
     handleReloadList();
@@ -56,6 +52,7 @@ function MedicinesComponent() {
         loadingList={loadingList}
         setModalVisible={setModalVisible}
         selected={selected}
+        addRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}
         render={(row, index) => (
           <RowListMedicineComponent
             key={uuid()}
