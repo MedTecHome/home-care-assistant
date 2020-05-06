@@ -73,23 +73,23 @@ function HeaderComponent({ history }) {
           )}
           {currentUser && !match && <NavigationLargeComponent />}
           {currentUser && (
-            <Typography className={classes.currentUser}>
-              {currentUserProfile ? currentUserProfile.fullname : currentUser.email}
-            </Typography>
-          )}
-          {currentUser && (
             <div>
               <IconButton aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
                 {!match ? <AccountCircle /> : <IconMenu />}
               </IconButton>
               <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                <MenuItem disabled>
+                  <Typography aria-setsize={8} className={classes.currentUser}>
+                    {currentUserProfile ? currentUserProfile.fullname : currentUser && currentUser.email}
+                  </Typography>
+                </MenuItem>
+                {match && <NavigationMenuComponent onClick={handleClose} />}
                 <MenuItem onClick={handleClickLogout}>
                   <ListItemIcon>
                     <ExitToAppIcon fontSize="small" />
                   </ListItemIcon>
                   Salir
                 </MenuItem>
-                {match && <NavigationMenuComponent onClick={handleClose} />}
               </Menu>
             </div>
           )}

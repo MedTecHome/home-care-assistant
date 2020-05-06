@@ -19,7 +19,7 @@ function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisi
       onClick={() => selectRow(row.id)}
       tabIndex={-1}
       key={row.id}
-      selected={!!selected}
+      selected={selected && selected.id === row.id}
     >
       <TableCell>{index + 1}</TableCell>
       <TableCell>

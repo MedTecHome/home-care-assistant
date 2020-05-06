@@ -41,13 +41,7 @@ function AddOrEditMedicineComponent({ title }) {
             autoComplete="off"
           >
             {formType === EDIT_FORM_TEXT && selected && <input type="hidden" name="id" />}
-            <DialogContent
-              dividers
-              style={{
-                maxHeight: 400,
-                overflowY: 'scroll',
-              }}
-            >
+            <DialogContent dividers>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <CustomTextFieldComponent required label="Nombre medicamento" name="name" />

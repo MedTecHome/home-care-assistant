@@ -6,7 +6,6 @@ import { Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { isEmpty, isNil } from 'ramda';
 import { green } from '@material-ui/core/colors';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PresionForm from './PresionForm';
 import TemperaturaForm from './TemperaturaForm';
 import GlucosaForm from './GlucosaForm';
@@ -18,6 +17,7 @@ import OxygenForm from './OxygenForm';
 import { saveHealthDataAction } from './reducers/PatienHealthActions';
 import { useAuthContext } from '../../contexts/AuthContext';
 import ExercisesForm from './ExercisesForm';
+import SaveButton from '../buttons/SaveButton';
 
 const useStyles = makeStyles(theme => ({
   formContainer: {
@@ -142,18 +142,7 @@ const PatientMedicalForm = ({ location }) => {
                         <Button disableElevation variant="contained" onClick={() => form.reset()}>
                           Cancelar
                         </Button>
-                        <div className={classes.wrapper}>
-                          <Button
-                            disabled={submitting || pristine || invalid}
-                            disableElevation
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                          >
-                            Guardar
-                          </Button>
-                          {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-                        </div>
+                        <SaveButton invalid={invalid} pristine={pristine} submitting={submitting} />
                       </Grid>
                     )}
                   </Grid>

@@ -7,7 +7,7 @@ import { validateBirthday, validateDoctor, validateHeight } from '../profiles/fo
 import useCustomStyles from '../../jss/globalStyles';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 
-function PatientsFieldComponent({ userRole }) {
+function PatientsFieldComponent({ role }) {
   const classes = useCustomStyles();
   return (
     <>
@@ -42,7 +42,7 @@ function PatientsFieldComponent({ userRole }) {
           filterRole="doctor"
           validate={validateDoctor}
           classes={classes}
-          userRole={userRole}
+          disabled={role.id === 'doctor'}
         />
       </Grid>
     </>

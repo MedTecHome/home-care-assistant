@@ -11,11 +11,11 @@ import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
 import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../profiles/forms/valdiateProfile';
-import { EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
 
 function AddOrEditFormComponent({ title }) {
-  const { setModalVisible, selected, saveValues, formType } = useTreatmentsContext();
+  const { setModalVisible, selected, saveValues, formType, filters } = useTreatmentsContext();
   const classes = useCustomStyles();
   const handleCloseModal = () => {
     setModalVisible(false, null);
@@ -31,14 +31,15 @@ function AddOrEditFormComponent({ title }) {
       <DialogTitleComponent onClose={handleCloseModal}>{title}</DialogTitleComponent>
       <Form
         initialValues={
-          formType === EDIT_FORM_TEXT &&
-          selected && {
-            ...selected,
-            medicine: selected.medicine.id,
-            patient: selected.patient.id,
-            startDate: selected.startDate.toDate(),
-            endDate: selected.endDate.toDate(),
-          }
+          formType === EDIT_FORM_TEXT && selected
+            ? {
+                ...selected,
+                medicine: selected.medicine.id,
+                patient: selected.patient.id,
+                startDate: selected.startDate.toDate(),
+                endDate: selected.endDate.toDate(),
+              }
+            : formType === ADD_FORM_TEXT && filters && filters['patient.id'] && { patient: filters['patient.id'] }
         }
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {

@@ -8,6 +8,7 @@ const PatientHistoryContext = createContext({});
 const PatientHistoryContextProvider = ({ children }) => {
   const [list, setHistoryList] = useState([]);
   const [slcted, setSelected] = useState(null);
+  const [filters, setFilters] = useState({});
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const [loadingList, setLoadingList] = useState(false);
 
@@ -41,9 +42,11 @@ const PatientHistoryContextProvider = ({ children }) => {
         historyList,
         loadingList,
         selected,
+        filters,
         ...modalState,
         selectMedicalForm,
         getPatientHistory,
+        setFilters,
         setModalVisible,
       }}
     >
@@ -67,11 +70,13 @@ export const usePatientHistoryContext = () => {
   return {
     historyList: values.historyList,
     loadingList: values.loadingList,
+    filters: values.filters,
     modalVisible: values.modalVisible,
     selected: values.selected,
     selectMedicalForm: values.selectMedicalForm,
     formType: values.formType,
     getPatientHistory: values.getPatientHistory,
     setModalVisible: values.setModalVisible,
+    setFilters: values.setFilters,
   };
 };

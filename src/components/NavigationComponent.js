@@ -18,15 +18,11 @@ const useStyles = makeStyles(theme => ({
     },
     '& > *': {
       textTransform: 'none',
-      background: 'rgba(0,0,0,0.1)',
       padding: 2,
       fontSize: '0.7rem',
     },
-    defaultLink: {
-      color: 'red',
-    },
     activeLink: {
-      textDecoration: 'none',
+      color: 'red',
     },
   },
 }));
@@ -35,15 +31,24 @@ export function NavigationMenuComponent({ onClick }) {
   const { currentUserProfile } = useAuthContext();
   return (
     <>
-      <Divider />
       {currentUserProfile &&
         RouteListConfig.filter(route => route.navegation)
           .filter(route => route.roles.includes(currentUserProfile.role.id))
           .map(route => (
-            <MenuItem color="inherit" key={uuid()} component={NavLink} to={route.path} onClick={onClick}>
+            <MenuItem
+              color="inherit"
+              key={uuid()}
+              component={NavLink}
+              to={route.path}
+              onClick={onClick}
+              activeStyle={{
+                background: 'rgba(0,0,0,0.1)',
+              }}
+            >
               {route.label}
             </MenuItem>
           ))}
+      <Divider />
     </>
   );
 }
@@ -59,7 +64,15 @@ export function NavigationLargeComponent() {
             RouteListConfig.filter(route => route.navegation)
               .filter(route => route.roles.includes(currentUserProfile.role.id))
               .map(route => (
-                <Button color="inherit" key={uuid()} component={NavLink} to={route.path}>
+                <Button
+                  color="inherit"
+                  key={uuid()}
+                  component={NavLink}
+                  to={route.path}
+                  activeStyle={{
+                    background: 'rgba(255,255,255,0.5)',
+                  }}
+                >
                   {route.label}
                 </Button>
               ))}

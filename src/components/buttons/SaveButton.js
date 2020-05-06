@@ -27,6 +27,7 @@ function SaveButton({
   className,
   size,
   disableElevation = true,
+  onClick,
 }) {
   const classes = useStyles();
   return (
@@ -35,10 +36,11 @@ function SaveButton({
         disabled={submitting || pristine || invalid}
         disableElevation={disableElevation}
         variant="contained"
-        type="submit"
+        type={onClick ? 'button' : 'submit'}
         color={color}
         size={size}
         className={className}
+        onClick={onClick}
       >
         {title}
       </Button>

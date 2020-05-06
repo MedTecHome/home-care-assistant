@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect } from 'react';
 import uuid from 'uuid4';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ListItem from '@material-ui/core/ListItem';
 import { useHospitalContext, withHospitalContext } from './HospitalContext';
 import HospitalForms from './forms/HospitalForms';
 import ModalComponent from '../ModalComponent';
 import TableComponent from '../table/TableComponent';
 import hospitalHeadCells from './hospitalHeadCells';
 import RowTableHospitalComponent from './RowTableHospitalComponent';
+import useCustomStyles from '../../jss/globalStyles';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 function HospitalComponent() {
   const {
@@ -18,10 +24,13 @@ function HospitalComponent() {
     getListHospitals,
     selectHospital,
   } = useHospitalContext();
+  const { currentUserProfile } = useAuthContext();
+  const [page, setPage] = React.useState({});
+  const classes = useCustomStyles();
 
   const handleReloadList = useCallback(() => {
-    getListHospitals({});
-  }, [getListHospitals]);
+    getListHospitals(page);
+  }, [getListHospitals, page]);
 
   useEffect(() => {
     handleReloadList();
@@ -47,6 +56,7 @@ function HospitalComponent() {
       </ModalComponent>
       <TableComponent
         filters={<></>}
+        addRole={currentUserProfile && currentUserProfile.role.id === 'admin'}
         title="Lista de hospitales"
         selected={selected}
         headCells={hospitalHeadCells}
@@ -64,6 +74,20 @@ function HospitalComponent() {
           />
         )}
       />
+      <ListItem className={classes.footerList}>
+        <div className={classes.pagination}>
+          {!loadingList && (
+            <>
+              <IconButton onClick={() => setPage({ prev: hospitalsList[0] })}>
+                <ArrowBackIosIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => setPage({ next: hospitalsList[hospitalsList.length - 1] })}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </>
+          )}
+        </div>
+      </ListItem>
     </>
   );
 }

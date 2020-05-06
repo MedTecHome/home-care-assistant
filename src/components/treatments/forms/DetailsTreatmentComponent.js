@@ -4,7 +4,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ImageIcon from '@material-ui/icons/Image';
 import moment from 'moment';
 import List from '@material-ui/core/List';
@@ -40,11 +39,7 @@ function DetailsTreatmentComponent() {
                   primary={
                     <Typography>
                       Paciente:
-                      {selected ? (
-                        <strong>{selected.patient && selected.patient.fullname}</strong>
-                      ) : (
-                        <CircularProgress />
-                      )}
+                      {selected ? <strong>{selected.patient && selected.patient.fullname}</strong> : '-'}
                     </Typography>
                   }
                 />
@@ -53,15 +48,14 @@ function DetailsTreatmentComponent() {
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
             <Typography>
-              Medicamento:{' '}
-              {selected ? <strong>{selected.medicine && selected.medicine.name}</strong> : <CircularProgress />}
+              Medicamento: {selected ? <strong>{selected.medicine && selected.medicine.name}</strong> : '?'}
             </Typography>
             <Typography>
               Fecha inicio:{' '}
               {selected ? (
                 <strong>{selected.startDate && moment(selected.startDate.toDate()).format('DD/MM/YYYY')}</strong>
               ) : (
-                <CircularProgress />
+                '?'
               )}
             </Typography>
             <Typography>
@@ -69,7 +63,7 @@ function DetailsTreatmentComponent() {
               {selected ? (
                 <strong>{selected.endDate && moment(selected.endDate.toDate()).format('DD/MM/YYYY')}</strong>
               ) : (
-                <CircularProgress />
+                '?'
               )}
             </Typography>
           </Grid>

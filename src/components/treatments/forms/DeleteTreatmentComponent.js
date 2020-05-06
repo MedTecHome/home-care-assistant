@@ -3,15 +3,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useTreatmentsContext } from '../TreatmentsContext';
-import useCustomStyles from '../../../jss/globalStyles';
+import SaveButton from '../../buttons/SaveButton';
 
 function DeleteTreatmentComponent() {
   const { setModalVisible, selected, saveValues, formType } = useTreatmentsContext();
   const [saving, setSaving] = useState(false);
-  const classes = useCustomStyles();
 
   const handleCancel = () => {
     setModalVisible(false, null);
@@ -19,7 +17,7 @@ function DeleteTreatmentComponent() {
 
   const onDelete = async () => {
     setSaving(true);
-    await saveValues(selected, formType);
+    await saveValues({ ...selected, patient: selected.patient.id, medicine: selected.medicine.id }, formType);
     setSaving(false);
     handleCancel();
   };
@@ -34,19 +32,15 @@ function DeleteTreatmentComponent() {
         <Button disableElevation variant="contained" size="small" onClick={handleCancel}>
           cancelar
         </Button>
-        <div className={classes.wrapper}>
-          <Button
-            disabled={saving}
-            disableElevation
-            size="small"
-            variant="contained"
-            color="secondary"
-            onClick={onDelete}
-          >
-            eliminar
-          </Button>
-          {saving && <CircularProgress size={24} className={classes.buttonProgress} />}
-        </div>
+        <SaveButton
+          onClick={onDelete}
+          size="small"
+          color="secondary"
+          pristine={false}
+          submitting={saving}
+          invalid={false}
+          title="eliminar"
+        />
       </DialogActions>
     </>
   );

@@ -5,10 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import uuid from 'uuid4';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useLocation, useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import optionsTypesFormsPatientHealth from '../Nomenc';
+import { usePatientHistoryContext } from './PatientHistoryContext';
 
 const useStyles = makeStyles({
   formControl: {
@@ -21,29 +21,15 @@ const useStyles = makeStyles({
 });
 
 function FiltersPatientHistoryComponent() {
-  const { search, pathname } = useLocation();
-  const history = useHistory();
+  const { filters, setFilters } = usePatientHistoryContext();
   const classes = useStyles();
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(search);
-    if (!urlSearchParams.has('tipoPrueba')) {
-      urlSearchParams.set('tipoPrueba', 'all');
-      history.push({
-        pathname,
-        search: urlSearchParams.toString(),
-      });
-    }
-  }, [search, pathname, history]);
+    if (!filters.type) setFilters({ ...filters, type: 'all' });
+  }, [filters, setFilters]);
 
   const handleSetTypeHistory = event => {
-    const medicalForm = event.target.value;
-    const urlSearchParams = new URLSearchParams(search);
-    urlSearchParams.set('tipoPrueba', medicalForm);
-    history.push({
-      pathname,
-      search: urlSearchParams.toString(),
-    });
+    setFilters({ ...filters, type: event.target.value });
   };
 
   return (
@@ -67,7 +53,7 @@ function FiltersPatientHistoryComponent() {
                 flex: '1 1 100%',
               }}
               className={classes.formControl}
-              defaultValue="all"
+              value={(filters && filters.type) || 'all'}
               label="tipos historial"
               onChange={handleSetTypeHistory}
             >

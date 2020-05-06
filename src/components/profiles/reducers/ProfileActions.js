@@ -10,8 +10,13 @@ const actionCodeSettings = {
 
 const profilesRef = dbRef('profile').collection('profiles');
 
-export const getProfilesAction = async ({ filters }) => {
-  let ref = profilesRef;
+export const getProfilesAction = async ({ limit = 2, next, prev, filters }) => {
+  let ref = profilesRef.orderBy('fullname');
+  if (next) {
+    ref = ref.startAfter(next.fullname);
+  } else if (prev) {
+    ref = ref.endBefore(prev.fullname);
+  }
   if (filters) {
     Object.keys(filters).map(k => {
       if (k === 'fullname') {
@@ -22,6 +27,8 @@ export const getProfilesAction = async ({ filters }) => {
       return null;
     });
   }
+  if (prev) ref = ref.limitToLast(limit);
+  else ref = ref.limit(limit);
   return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 

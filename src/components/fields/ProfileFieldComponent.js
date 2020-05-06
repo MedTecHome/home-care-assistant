@@ -5,13 +5,14 @@ import { getProfilesAction } from '../profiles/reducers/ProfileActions';
 
 function ProfileFieldComponent({
   required,
+  disabled,
   size = 'small',
   variant = 'standard',
   label,
   name,
-  userRole,
   validate,
   filterRole = '',
+  placeholder,
 }) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
@@ -36,13 +37,13 @@ function ProfileFieldComponent({
       size="small"
       label={label}
       name={name}
-      disabled={userRole.id === 'doctor'}
+      disabled={disabled}
       fieldProps={{
         validate,
       }}
       textFieldProps={{
         size,
-        placeholder: 'busque y seleccione',
+        placeholder,
         variant,
         onChange: handleInputChange,
       }}

@@ -92,7 +92,7 @@ function AddOrEditProfilesComponent({ title }) {
                     <RoleFieldComponent source={roles} userRole={currentUserProfile.role} />
                   </Grid>
                   {values && values.role === 'patient' && (
-                    <PatientsBlockFieldComponent userRole={currentUserProfile.role} />
+                    <PatientsBlockFieldComponent role={currentUserProfile.role} />
                   )}
                   {values && values.role === 'doctor' && (
                     <Grid item xs={12}>

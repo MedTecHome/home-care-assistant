@@ -5,17 +5,25 @@ import mutateTreatmentValues from './mutations';
 
 const TreatmentRef = dbRef('treatment').collection('treatments');
 
-export const getListTreatmentsAction = async ({ filters = {} }) => {
-  let ref = TreatmentRef;
-  Object.keys(filters).map(k => {
-    if (k === 'name') {
-      ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
-    } else {
-      ref = ref.where(k, '==', filters[k]);
-    }
-    return null;
-  });
-
+export const getListTreatmentsAction = async ({ limit = 2, next, prev, filters }) => {
+  let ref = TreatmentRef.orderBy('startDate');
+  if (next) {
+    ref = ref.startAfter(next.statDate);
+  } else if (prev) {
+    ref = ref.endBefore(prev.statDate);
+  }
+  if (filters) {
+    Object.keys(filters).map(k => {
+      if (k === 'name') {
+        ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
+      } else {
+        ref = ref.where(k, '==', filters[k]);
+      }
+      return null;
+    });
+  }
+  if (prev) ref = ref.limitToLast(limit);
+  else ref = ref.limit(limit);
   return (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
 };
 
