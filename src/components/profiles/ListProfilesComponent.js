@@ -1,6 +1,5 @@
 import React, { memo, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,53 +12,19 @@ import clsx from 'clsx';
 import moment from 'moment';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { useMediaQuery } from '@material-ui/core';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { useProfilesContext } from './ProfilesContext';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: '100%',
-  },
-  inline: {
-    display: 'inline',
-    lineHeight: '250%',
-  },
-  itemList: {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 5,
-    '&:hover': {
-      background: '#f5f5f6',
-    },
-  },
-  selectedItemList: {
-    background: '#dddddd',
-  },
-  itemListContentPrimary: {
-    maxWidth: '100%',
-    lineHeight: '250%',
-    fontSize: 12,
-    color: '#666',
-  },
-  footerList: {
-    height: 120,
-  },
-  pagination: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    padding: 10,
-  },
-}));
+import useCustomStyles from '../../jss/globalStyles';
+import AsignTreatmentButtonIcon from '../buttons/AsignTreatmentButtonIcon';
+import { ADD_FORM_TEXT } from '../../commons/globalText';
 
 function ListProfilesComponent({ onClickDelete, onClickEdit }) {
-  const history = useHistory();
   const {
-    profiles,
+    profileList,
     getProfilesList,
     selectProfileFromList,
     profileSelected,
@@ -67,7 +32,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
     loadingList,
   } = useProfilesContext();
   const [page, setPage] = React.useState({});
-  const classes = useStyles();
+  const classes = useCustomStyles();
   const up500 = useMediaQuery(theme => theme.breakpoints.up(500));
   const up400 = useMediaQuery(theme => theme.breakpoints.up(400));
 
@@ -89,21 +54,14 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
     onClickEdit();
   };
 
-  const handleOnClickMedicalHistory = id => {
-    const urlSearchParams = new URLSearchParams();
-    urlSearchParams.set('pId', id);
-    history.push({
-      pathname: '/doctor/paciente/historial',
-      search: urlSearchParams.toString(),
-    });
-  };
-
   return (
     <List className={classes.root}>
       {loadingList ? (
-        <CircularProgress size={50} />
+        <div className={classes.root}>
+          <LinearProgress />
+        </div>
       ) : (
-        profiles.map(profile => {
+        profileList.map(profile => {
           const isSelected = profileSelected && profileSelected.id === profile.id;
           return (
             <ListItem
@@ -163,11 +121,20 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                 />
               )}
               <ListItemSecondaryAction>
-                {profile.role && profile.role.id === 'patient' && (
-                  <MedicalDetailButtonIcon onClick={() => handleOnClickMedicalHistory(profile.id)} />
-                )}
-                <EditButtonIcon onClick={() => handleOnClickEdit(profile.id)} />
-                <DeleteButtonIcon onClick={() => handleOnClickDelete(profile.id)} />
+                <div>
+                  {profile.role && profile.role.id === 'patient' && (
+                    <>
+                      <NavLink to={{ pathname: '/tratamientos', state: { profile, formType: ADD_FORM_TEXT } }}>
+                        <AsignTreatmentButtonIcon />
+                      </NavLink>
+                      <NavLink to={{ pathname: '/paciente/historial', state: { profile } }}>
+                        <MedicalDetailButtonIcon />
+                      </NavLink>
+                    </>
+                  )}
+                  <EditButtonIcon onClick={() => handleOnClickEdit(profile.id)} />
+                  <DeleteButtonIcon onClick={() => handleOnClickDelete(profile.id)} />
+                </div>
               </ListItemSecondaryAction>
             </ListItem>
           );
@@ -177,20 +144,12 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
         <div className={classes.pagination}>
           {!loadingList && (
             <>
-              <IconButton onClick={() => setPage({ prev: profiles[0] })}>
+              <IconButton onClick={() => setPage({ prev: profileList[0] })}>
                 <ArrowBackIosIcon fontSize="small" />
               </IconButton>
-              <IconButton onClick={() => setPage({ next: profiles[profiles.length - 1] })}>
+              <IconButton onClick={() => setPage({ next: profileList[profileList.length - 1] })}>
                 <ArrowForwardIosIcon fontSize="small" />
               </IconButton>
-              <Typography
-                style={{
-                  padding: 10,
-                  color: '#666',
-                }}
-              >
-                total: {0}
-              </Typography>
             </>
           )}
         </div>

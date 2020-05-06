@@ -8,9 +8,6 @@ const PatientsComponent = lazy(() => import('../components/profiles/patients/Pat
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const PatientHealthForm = lazy(() => import('../components/medicalForms/PatientMedicalForm'));
 const PatientHistoryComponent = lazy(() => import('../components/medicalForms/history/PatientHistoryComponent'));
-const DoctorPatientHistoryComponent = lazy(() =>
-  import('../components/profiles/doctors/DoctorPatientsMedicalHistoryComponent')
-);
 
 const TreatmentComponent = lazy(() => import('../components/treatments/TreatmentsComponent'));
 const MedicinesComponent = lazy(() => import('../components/medicines/MedicinesComponent'));
@@ -19,55 +16,74 @@ const RouteListConfig = [
   {
     path: '/',
     component: HomeComponent,
+    label: 'Home',
   },
   {
     path: '/inicio',
     component: HomeComponent,
+    label: 'Inicio',
   },
   {
     path: '/login',
     component: LoginComponent,
-  },
-  {
-    path: '/doctor/paciente/historial',
-    component: DoctorPatientHistoryComponent,
-    roles: ['doctor'],
-  },
-  {
-    path: '/tratamientos',
-    component: TreatmentComponent,
-    roles: ['doctor'],
-  },
-  {
-    path: '/medicamentos',
-    component: MedicinesComponent,
-    roles: ['doctor'],
-  },
-  {
-    path: '/paciente/historial',
-    component: PatientHistoryComponent,
-    roles: ['patient'],
-  },
-  {
-    path: '/paciente/form',
-    component: PatientHealthForm,
-    roles: ['patient'],
-  },
-  {
-    path: '/pacientes',
-    component: PatientsComponent,
-    roles: ['doctor'],
+    label: 'Login',
   },
   {
     path: '/perfiles',
     component: ProfilesComponent,
     roles: ['admin'],
+    label: 'Perfiles',
+    navegation: true,
   },
   {
     path: '/hospitales',
     component: HospitalComponent,
+    label: 'Hospitales',
     roles: ['admin'],
+    navegation: true,
   },
+  {
+    path: '/pacientes',
+    component: PatientsComponent,
+    label: 'Pacientes',
+    roles: ['doctor'],
+    navegation: true,
+  },
+  {
+    path: '/tratamientos',
+    component: TreatmentComponent,
+    label: 'Tratamientos',
+    roles: ['doctor', 'patient'],
+    navegation: true,
+  },
+  {
+    path: '/medicamentos',
+    component: MedicinesComponent,
+    label: 'Medicamentos',
+    roles: ['doctor'],
+    navegation: true,
+  },
+  {
+    path: '/prueba/medica',
+    component: PatientHealthForm,
+    label: 'Pruebas',
+    roles: ['patient'],
+    navegation: true,
+  },
+  {
+    path: '/historial',
+    component: PatientHistoryComponent,
+    label: 'Historial',
+    roles: ['patient'],
+    navegation: true,
+  },
+  {
+    path: '/paciente/historial',
+    component: PatientHistoryComponent,
+    label: 'Historial',
+    roles: ['doctor'],
+  },
+
   {
     component: PageNotFound,
   },

@@ -1,15 +1,7 @@
 // import uuid from 'uuid4';
 import { isEmpty } from 'ramda';
 import { authFirebase, dbRef } from '../../../firebaseConfig';
-import {
-  LIST_PROFILES,
-  LIST_PROFILES_LOADING,
-  SELECTED_PROFILE,
-  ADD_FORM_TEXT,
-  EDIT_FORM_TEXT,
-  DELETE_FORM_TEXT,
-  LIST_PROFILES_NOMENCLADOR,
-} from '../../../commons/globalText';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../commons/globalText';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
@@ -18,28 +10,13 @@ const actionCodeSettings = {
 
 const profilesRef = dbRef('profile').collection('profiles');
 
-export const setListProfilesAction = list => ({
-  type: LIST_PROFILES,
-  list,
-});
-
-export const getDoctorsNomencladorAction = list => ({
-  type: LIST_PROFILES_NOMENCLADOR,
-  list,
-});
-
-export const setProfileListLoadingAction = flag => ({
-  type: LIST_PROFILES_LOADING,
-  flag,
-});
-
-export const setProfileSelected = selected => ({
-  type: SELECTED_PROFILE,
-  selected,
-});
-
-export const getProfilesAction = async ({ filters }) => {
-  let ref = profilesRef;
+export const getProfilesAction = async ({ limit = 2, next, prev, filters }) => {
+  let ref = profilesRef.orderBy('fullname');
+  if (next) {
+    ref = ref.startAfter(next.fullname);
+  } else if (prev) {
+    ref = ref.endBefore(prev.fullname);
+  }
   if (filters) {
     Object.keys(filters).map(k => {
       if (k === 'fullname') {
@@ -50,6 +27,8 @@ export const getProfilesAction = async ({ filters }) => {
       return null;
     });
   }
+  if (prev) ref = ref.limitToLast(limit);
+  else ref = ref.limit(limit);
   return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 

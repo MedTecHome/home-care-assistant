@@ -18,18 +18,31 @@ const useStyles = makeStyles({
   },
 });
 
-function SaveButton({ submitting, pristine, invalid }) {
+function SaveButton({
+  submitting,
+  pristine,
+  invalid,
+  title = 'guardar',
+  color = 'primary',
+  className,
+  size,
+  disableElevation = true,
+  onClick,
+}) {
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
       <Button
         disabled={submitting || pristine || invalid}
-        disableElevation
+        disableElevation={disableElevation}
         variant="contained"
-        type="submit"
-        color="primary"
+        type={onClick ? 'button' : 'submit'}
+        color={color}
+        size={size}
+        className={className}
+        onClick={onClick}
       >
-        guardar
+        {title}
       </Button>
       {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
     </div>

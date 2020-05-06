@@ -1,103 +1,95 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
-import { TextField } from 'mui-rff';
-import { green } from '@material-ui/core/colors';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { LoginFormValidation } from './AuthFormValidation';
+import loginValidate from './AuthFormValidation';
 import AuthFormsTitleComponent from './AuthFormsTitleComponent';
 import ErrorMessageComponent from './ErrorMessageComponent';
+import SaveButton from '../buttons/SaveButton';
+import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import useCustomStyles from '../../jss/globalStyles';
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 360,
-    background: '#f5f5f6',
-    boxShadow: '0px 0px 3px 0px #ccc',
-    margin: '3% auto',
-    padding: 20,
-  },
-  formControl: {
-    width: '100%',
-  },
-  wrapper: {
-    position: 'relative',
-  },
-  buttonProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
-});
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="http://localhost:3000/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 function LoginComponent() {
   const { signInUser, errorState } = useAuthContext();
 
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   const onSubmit = async value => {
     await signInUser(value);
   };
 
   return (
-    <Form
-      onSubmit={onSubmit}
-      validate={LoginFormValidation}
-      render={({ handleSubmit, form, submitting, pristine }) => (
-        <form
-          onSubmit={event => {
-            handleSubmit(event).then(() => {
-              form.reset();
-            });
-          }}
-        >
-          <Grid className={classes.root} item container spacing={2}>
-            <ErrorMessageComponent errorState={errorState} />
-            <AuthFormsTitleComponent title="Acceso" />
-            <Grid item xs={12}>
-              <TextField
-                className={classes.formControl}
-                type="email"
-                size="small"
-                variant="outlined"
-                label="Correo"
-                name="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.formControl}
-                type="password"
-                size="small"
-                variant="outlined"
-                label="Contraseña"
-                name="password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <div className={classes.wrapper}>
-                <Button
-                  disableElevation
-                  disabled={submitting || pristine}
-                  className={classes.formControl}
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                >
-                  Acceder
-                </Button>
-                {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-              </div>
-            </Grid>
-          </Grid>
-        </form>
-      )}
-    />
+    <>
+      <Card className={classes.loginRoot}>
+        <CardHeader title={<ErrorMessageComponent errorState={errorState} />} />
+        <CardHeader title={<AuthFormsTitleComponent title="Acceder" />} />
+        <CardContent>
+          <Form
+            onSubmit={onSubmit}
+            validate={loginValidate}
+            render={({ handleSubmit, form, submitting, pristine }) => (
+              <form
+                autoComplete="off"
+                noValidate
+                onSubmit={event => {
+                  handleSubmit(event).then(() => {
+                    form.reset();
+                  });
+                }}
+              >
+                <Grid item container spacing={3}>
+                  <Grid item xs={12}>
+                    <CustomTextFieldComponent required type="email" label="Correo" name="email" variant="outlined" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomTextFieldComponent
+                      required
+                      variant="outlined"
+                      type="password"
+                      label="Contraseña"
+                      name="password"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SaveButton
+                      size="medium"
+                      disableElevation={false}
+                      className={classes.formControl}
+                      invalid={false}
+                      submitting={submitting}
+                      pristine={pristine}
+                      title="acceder"
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+            )}
+          />
+        </CardContent>
+      </Card>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </>
   );
 }
 

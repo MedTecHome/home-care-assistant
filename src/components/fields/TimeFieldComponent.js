@@ -11,12 +11,10 @@ export default function TimeFieldComponent({ classes, name, label }) {
         required
         dateFunsUtils={MomentUtils}
         className={classes.formControl}
-        InputLabelProps={{ shrink: true }}
         size="small"
         variant="inline"
         label={label}
         autoOk
-        inputVariant="outlined"
         placeholder="04:25 AM"
         name={name}
         fieldProps={{

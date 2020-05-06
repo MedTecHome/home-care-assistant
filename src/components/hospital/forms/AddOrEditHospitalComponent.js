@@ -1,9 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
-import { TextField } from 'mui-rff';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
@@ -11,21 +9,10 @@ import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import validateHospital from './validateHospital';
 import SaveButton from '../../buttons/SaveButton';
-
-const useStyles = makeStyles({
-  formControl: {
-    width: '100%',
-  },
-  buttonActions: {
-    display: 'flex',
-    justifyContent: 'space-around',
-  },
-});
+import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 
 export default function AddOrEditHospitalComponent() {
-  const { formType, hospitalSelected, saveHospitalValues, setModalVisible } = useHospitalContext();
-  const classes = useStyles();
-
+  const { formType, selected, saveHospitalValues, setModalVisible } = useHospitalContext();
   const handleCancel = () => {
     setModalVisible(false, null);
   };
@@ -41,7 +28,7 @@ export default function AddOrEditHospitalComponent() {
         {formType === ADD_FORM_TEXT ? 'Adicionar' : 'Editar'} hospital
       </DialogTitleComponent>
       <Form
-        initialValues={formType === EDIT_FORM_TEXT && hospitalSelected && hospitalSelected}
+        initialValues={formType === EDIT_FORM_TEXT && selected && selected}
         validate={validateHospital}
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, invalid }) => (
@@ -56,81 +43,37 @@ export default function AddOrEditHospitalComponent() {
             }}
           >
             <DialogContent dividers>
-              {hospitalSelected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
+              {selected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
               <Grid container item spacing={3}>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Nombre hospital"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    className={classes.formControl}
-                    variant="outlined"
-                    size="small"
-                    name="name"
-                  />
+                  <CustomTextFieldComponent required label="Nombre hospital" name="name" />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Direccion del hospital"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    className={classes.formControl}
-                    variant="outlined"
-                    size="small"
-                    name="address"
-                  />
+                  <CustomTextFieldComponent label="Direccion del hospital" name="address" />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    type="number"
-                    label="Telefono"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    className={classes.formControl}
-                    variant="outlined"
-                    size="small"
-                    name="phone"
-                  />
+                  <CustomTextFieldComponent type="number" label="Telefono" name="phone" />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={4}>
-                  <TextField
+                <Grid item xs={12} sm={6} md={6}>
+                  <CustomTextFieldComponent
                     type="number"
                     label="Limite de doctores"
-                    inputProps={{
-                      min: 0,
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    className={classes.formControl}
-                    variant="outlined"
-                    size="small"
                     name="maxDoctors"
+                    textAlign="right"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} lg={4}>
-                  <TextField
+                <Grid item xs={12} sm={6} md={6}>
+                  <CustomTextFieldComponent
                     type="number"
                     label="Limite de pacientes"
-                    inputProps={{
-                      min: 0,
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    className={classes.formControl}
-                    variant="outlined"
-                    size="small"
                     name="maxPatients"
+                    textAlign="right"
                   />
                 </Grid>
               </Grid>
             </DialogContent>
             <DialogActions>
-              <Button disableElevation variant="contained" onClick={handleCancel}>
+              <Button disableElevation variant="contained" onClick={handleCancel} size="small">
                 cancelar
               </Button>
               <SaveButton submitting={submitting} pristine={pristine} invalid={invalid} />

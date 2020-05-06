@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import List from '@material-ui/core/List';
-import uuid from 'uuid4';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
@@ -14,7 +13,7 @@ import { useMediaQuery } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTemperatureHigh, faQuestionCircle, faWeight } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
-import Skeleton from '@material-ui/lab/Skeleton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import TypeMedicalFormComponent from './TypeHistoryMedicalFormComponent';
 import { findByIdePatientMedicalForm } from '../Nomenc';
@@ -40,27 +39,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function LoadingHistoryList({ cant = 1 }) {
-  return (
-    <>
-      {Array(cant)
-        .fill(0)
-        .map(() => (
-          <Skeleton
-            key={uuid()}
-            style={{
-              padding: 10,
-              marginBottom: 10,
-            }}
-            height={50}
-            variant="rect"
-            animation="wave"
-          />
-        ))}
-    </>
-  );
-}
-
 function ListPatientHistoryComponent() {
   const { historyList, loadingList, setModalVisible, selectMedicalForm, selected } = usePatientHistoryContext();
   const classes = useStyles();
@@ -74,7 +52,9 @@ function ListPatientHistoryComponent() {
   return (
     <>
       {loadingList ? (
-        <LoadingHistoryList />
+        <div className={classes.root}>
+          <LinearProgress />
+        </div>
       ) : (
         <List className={classes.root}>
           {historyList.length === 0 && <EmptyComponent />}

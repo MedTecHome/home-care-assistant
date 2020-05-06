@@ -9,6 +9,7 @@ export const withMedicinesContext = WrapperComponent => props => {
   const [medicList, setMedicinesList] = useState([]);
   const [loadList, setLoadingList] = useState(false);
   const [seletd, setSelected] = useState(null);
+  const [filters, setFilters] = useState({});
   const [globalState, globalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const medicineList = useMemo(() => medicList, [medicList]);
@@ -48,11 +49,13 @@ export const withMedicinesContext = WrapperComponent => props => {
         medicineList,
         loadingList,
         selected,
+        filters,
         ...globalState,
         getMedicinesList,
         selectMedicineFromList,
         saveMedicineValues,
         setModalVisible,
+        setFilters,
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -69,11 +72,13 @@ export const useMedicinesContext = () => {
     medicineList: values.medicineList,
     loadingList: values.loadingList,
     selected: values.selected,
+    filters: values.filters,
     formType: values.formType,
     modalVisible: values.modalVisible,
     getMedicinesList: values.getMedicinesList,
     selectMedicineFromList: values.selectMedicineFromList,
     saveMedicineValues: values.saveMedicineValues,
     setModalVisible: values.setModalVisible,
+    setFilters: values.setFilters,
   };
 };

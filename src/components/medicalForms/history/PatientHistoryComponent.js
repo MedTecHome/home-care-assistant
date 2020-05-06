@@ -1,39 +1,67 @@
-import React, { useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
+import { findByIdePatientMedicalForm } from '../Nomenc';
+
+const useStyles = makeStyles({
+  extraText: {
+    width: '100%',
+    display: 'flex',
+    color: '#666666',
+    '& > *': {
+      fontSize: '0.842rem',
+      marginRight: 60,
+    },
+  },
+});
 
 function PatientHistoryComponent() {
-  const { search, pathname } = useLocation();
-  const history = useHistory();
-  const { getPatientHistory, modalVisible, setModalVisible } = usePatientHistoryContext();
+  const { state } = useLocation();
+  const {
+    getPatientHistory,
+    historyList,
+    loadingList,
+    modalVisible,
+    setModalVisible,
+    filters,
+    setFilters,
+  } = usePatientHistoryContext();
+  const [page, setPage] = useState({});
+  const [currentPatient, setCurrentPatient] = useState(null);
   const { currentUserProfile } = useAuthContext();
+  const classes = useStyles();
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams();
-    urlSearchParams.set('pId', currentUserProfile.id);
-    history.push({
-      pathname,
-      search: urlSearchParams.toString(),
-    });
-  }, [pathname, history, currentUserProfile]);
+    if (state) {
+      if (state.profile) {
+        setFilters({ 'user.id': state.profile.id });
+        setCurrentPatient(state.profile);
+      }
+    }
+  }, [state, setFilters]);
 
   useEffect(() => {
-    let filters = {};
-    const urlSearchParams = new URLSearchParams(search);
-    if (urlSearchParams.has('tipoPrueba')) {
-      filters = { ...filters, type: urlSearchParams.get('tipoPrueba') };
+    if (currentUserProfile) {
+      if (currentUserProfile.role.id === 'patient') {
+        setCurrentPatient(currentUserProfile);
+      }
     }
-    if (urlSearchParams.has('pId')) {
-      filters = { ...filters, 'user.id': urlSearchParams.get('pId') };
-    }
-    getPatientHistory({ filters });
-  }, [getPatientHistory, search]);
+  }, [currentUserProfile]);
+
+  useEffect(() => {
+    getPatientHistory({ filters, ...page });
+  }, [setFilters, getPatientHistory, filters, page]);
 
   const handleClose = () => {
     setModalVisible(false, null);
@@ -46,7 +74,27 @@ function PatientHistoryComponent() {
       </ModalComponent>
       <Container maxWidth="md">
         <FiltersPatientHistoryComponent />
+        <div className={classes.extraText}>
+          <Typography>
+            Nombre: <strong>{currentPatient && currentPatient.fullname}</strong>
+          </Typography>
+          <Typography>
+            Prueba: <strong>{(currentPatient && findByIdePatientMedicalForm(filters.type).name) || ' - '}</strong>
+          </Typography>
+        </div>
         <ListPatientHistoryComponent />
+        <div className={classes.pagination}>
+          {!loadingList && (
+            <>
+              <IconButton onClick={() => setPage({ prev: historyList[0] })}>
+                <ArrowBackIosIcon fontSize="small" />
+              </IconButton>
+              <IconButton onClick={() => setPage({ next: historyList[historyList.length - 1] })}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </>
+          )}
+        </div>
       </Container>
     </>
   );

@@ -4,26 +4,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Image from 'material-ui-image';
-import { makeStyles } from '@material-ui/core/styles';
 import { useMedicinesContext } from '../MedicinesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
-
-const useStyles = makeStyles({
-  textStyle: {
-    '&>*': {
-      fontSize: 12,
-      lineHeight: '200%',
-      fontWeight: 400,
-      color: '#000',
-    },
-  },
-});
+import useCustomStyles from '../../../jss/globalStyles';
 
 function DetailsMedicineComponent() {
   const { selected, setModalVisible } = useMedicinesContext();
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   const handleCloseForm = () => {
     setModalVisible(false, null);
@@ -36,31 +24,24 @@ function DetailsMedicineComponent() {
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} container justify="center" alignItems="center">
             <Image src="#" aspectRatio={4 / 3} />
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textStyle}>
-            <Typography>Nombre: {selected ? <strong>{selected.name}</strong> : <CircularProgress />}</Typography>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
+            <Typography>Nombre: {selected ? <strong>{selected.name}</strong> : '?'}</Typography>
             <Typography>
-              Cantidad Concentracion: {selected ? <strong>{selected.concentrationCant}</strong> : <CircularProgress />}
+              Cantidad Concentracion: {selected ? <strong>{selected.concentrationCant}</strong> : '?'}
             </Typography>
             <Typography>
-              Tipo Concentracion: {selected ? <strong>{selected.concentrationType}</strong> : <CircularProgress />}
+              Tipo Concentracion: {selected ? <strong>{selected.concentrationType}</strong> : '?'}
             </Typography>
-            <Typography>Dosis: {selected ? <strong>{selected.dose}</strong> : <CircularProgress />}</Typography>
+            <Typography>Dosis: {selected ? <strong>{selected.dose}</strong> : '?'}</Typography>
+            <Typography>Tipo dosis: {selected ? <strong>{selected.doseType}</strong> : '?'}</Typography>
             <Typography>
-              Tipo dosis: {selected ? <strong>{selected.doseType}</strong> : <CircularProgress />}
-            </Typography>
-            <Typography>
-              Via administracion: {selected ? <strong>{selected.administrationRoute}</strong> : <CircularProgress />}
+              Via administracion: {selected ? <strong>{selected.administrationRoute}</strong> : '?'}
             </Typography>
             <Typography>
-              Motivo administracion:{' '}
-              {selected ? <strong>{selected.administrationReason}</strong> : <CircularProgress />}
+              Motivo administracion: {selected ? <strong>{selected.administrationReason}</strong> : '?'}
             </Typography>
-            <Typography>
-              Frecuencia: {selected ? <strong>{selected.frequency}</strong> : <CircularProgress />}
-            </Typography>
-            <Typography>
-              Observaciones: {selected ? <strong>{selected.observations}</strong> : <CircularProgress />}
-            </Typography>
+            <Typography>Frecuencia: {selected ? <strong>{selected.frequency}</strong> : '?'}</Typography>
+            <Typography>Observaciones: {selected ? <strong>{selected.observations}</strong> : '?'}</Typography>
           </Grid>
         </Grid>
       </DialogContent>

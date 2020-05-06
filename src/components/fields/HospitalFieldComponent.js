@@ -5,13 +5,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import debounce from 'lodash/debounce';
 
 import { useHospitalContext, withHospitalContext } from '../hospital/HospitalContext';
+import useCustomStyles from '../../jss/globalStyles';
 
-function HospitalFieldComponent({ classes, validate }) {
-  const { getListHospitals, listLoading, hospitals } = useHospitalContext();
+function HospitalFieldComponent({ validate }) {
+  const { getListHospitals, loadingList, hospitalsList } = useHospitalContext();
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
-
   const filterNameMemoize = useMemo(() => filterName, [filterName]);
+  const classes = useCustomStyles();
 
   useEffect(() => {
     getListHospitals({ limit: 5, filters: { name: filterNameMemoize } });
@@ -29,19 +30,17 @@ function HospitalFieldComponent({ classes, validate }) {
       size="small"
       label="Hospital"
       name="hospital"
-      popupIcon={listLoading ? <CircularProgress size={12} /> : <ExpandMoreIcon size={12} />}
+      popupIcon={loadingList ? <CircularProgress size={12} /> : <ExpandMoreIcon size={12} />}
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',
-        variant: 'outlined',
-        InputLabelProps: { shrink: true },
         onChange: handleInputChange,
       }}
       fieldProps={{
         validate,
       }}
       openOnFocus={false}
-      options={hospitals}
+      options={hospitalsList}
       getOptionValue={option => option.id}
       getOptionLabel={option => option.name}
     />
