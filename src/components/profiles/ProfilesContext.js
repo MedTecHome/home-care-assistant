@@ -1,36 +1,31 @@
-import React, { createContext, useCallback, useContext, useReducer } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
 import { isEmpty } from 'ramda';
-import { initialProfilesState, ProfilesReducer } from './reducers/ProfileReducer';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
-import {
-  getDoctorsNomencladorAction,
-  getProfilesAction,
-  saveProfileValuesAction,
-  setListProfilesAction,
-  setProfileListLoadingAction,
-  setProfileSelected,
-} from './reducers/ProfileActions';
+import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
-import { initialProfileFiltersState, ProfileFiltersReducer } from './reducers/ProfileFiltersReducer';
-import setProfileFilterAction from './reducers/ProfilesFiltersActions';
 
 const ProfilesContext = createContext({});
 
 export const withProfileContext = WrapperComponent => () => {
-  const [state, dispatch] = useReducer(ProfilesReducer, initialProfilesState, init => init);
-  const [filtersState, filtersDispatch] = useReducer(ProfileFiltersReducer, initialProfileFiltersState, init => init);
+  const [list, setProfileList] = useState([]);
+  const [loadingList, setLoadingList] = useState(false);
+  const [slected, setSelected] = useState(null);
+  const [filters, setFilters] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
+
+  const profileList = useMemo(() => list, [list]);
+  const selected = useMemo(() => slected, [slected]);
 
   // eslint-disable-next-line no-unused-vars
   const getProfilesList = useCallback(async params => {
-    dispatch(setProfileListLoadingAction(true));
+    setLoadingList(true);
     try {
       const result = await getProfilesAction(params);
-      dispatch(setListProfilesAction(result));
+      setProfileList(result);
     } catch (e) {
       // handle error
     }
-    dispatch(setProfileListLoadingAction(false));
+    setLoadingList(false);
   }, []);
 
   const saveProfileValues = useCallback(async (values, formType) => {
@@ -41,32 +36,32 @@ export const withProfileContext = WrapperComponent => () => {
     }
   }, []);
 
-  const selectProfileFromList = useCallback(selected => dispatch(setProfileSelected(selected)), []);
+  const selectProfileFromList = useCallback(
+    id => {
+      const result = profileList.find(item => item.id === id) || null;
+      setSelected(result);
+    },
+    [profileList]
+  );
 
   const setModalVisible = useCallback(
     (visible, formType) => globalDispatch(setModalVisibleAction(visible, formType)),
     []
   );
 
-  const getDoctorsNomenclador = useCallback(async params => {
-    const result = await getProfilesAction(params);
-    dispatch(getDoctorsNomencladorAction(result));
-  }, []);
-
-  const setProfileFilter = useCallback(filters => filtersDispatch(setProfileFilterAction(filters)), []);
-
   return (
     <ProfilesContext.Provider
       value={{
-        ...state,
+        profileList,
+        loadingList,
+        selected,
+        filters,
         ...globalState,
-        ...filtersState,
         getProfilesList,
         selectProfileFromList,
         saveProfileValues,
         setModalVisible,
-        setProfileFilter,
-        getDoctorsNomenclador,
+        setFilters,
       }}
     >
       <WrapperComponent />
@@ -78,9 +73,8 @@ export const useProfilesContext = () => {
   const values = useContext(ProfilesContext);
   if (!values || isEmpty(values)) throw new Error('This context only works inside ProfilesContextProvider');
   return {
-    profiles: values.profiles,
-    total: values.total,
-    profileSelected: values.profileSelected,
+    profileList: values.profileList,
+    selected: values.selected,
     loadingList: values.loadingList,
     formType: values.formType,
     modalVisible: values.modalVisible,
@@ -88,9 +82,7 @@ export const useProfilesContext = () => {
     selectProfileFromList: values.selectProfileFromList,
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
-    doctorsNomenclador: values.doctorsNomenclador,
-    getDoctorsNomenclador: values.getDoctorsNomenclador,
     filters: values.filters,
-    setProfileFilter: values.setProfileFilter,
+    setFilters: values.setFilters,
   };
 };

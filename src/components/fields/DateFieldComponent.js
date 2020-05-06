@@ -12,14 +12,12 @@ export default function DateFieldComponent({ minDate, classes, name, label }) {
         required
         dateFunsUtils={MomentUtils}
         className={classes.formControl}
-        InputLabelProps={{ shrink: true }}
         size="small"
         variant="inline"
         label={label}
         autoOk
         placeholder={moment().format('DD/MM/YYYY')}
         format="DD/MM/YYYY"
-        inputVariant="outlined"
         name={name}
         minDate={minDate}
         fieldProps={{

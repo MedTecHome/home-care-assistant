@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import uuid from 'uuid4';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
@@ -19,17 +18,12 @@ function MedicinesComponent() {
     modalVisible,
     setModalVisible,
     formType,
+    filters,
   } = useMedicinesContext();
-  const { search } = useLocation();
 
   const handleReloadList = useCallback(() => {
-    let filters = {};
-    const urlSearchParams = new URLSearchParams(search);
-    if (urlSearchParams.has('nM')) {
-      filters = { ...filters, name: urlSearchParams.get('nM') };
-    }
     getMedicinesList({ filters });
-  }, [getMedicinesList, search]);
+  }, [getMedicinesList, filters]);
 
   useEffect(() => {
     handleReloadList();

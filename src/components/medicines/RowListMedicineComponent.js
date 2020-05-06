@@ -3,23 +3,15 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
-
-const useStyles = makeStyles(theme => ({
-  tableRows: {
-    '&.Mui-selected': {
-      background: theme.palette.primary.light,
-    },
-  },
-}));
+import useCustomStyles from '../../jss/globalStyles';
 
 function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisible }) {
-  const classes = useStyles();
+  const classes = useCustomStyles();
   return (
     <TableRow
       className={classes.tableRow}

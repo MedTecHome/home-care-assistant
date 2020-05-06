@@ -7,14 +7,14 @@ import { useProfilesContext } from '../ProfilesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 
 export default function DeleteProfilesComponent() {
-  const { setModalVisible, profileSelected, saveProfileValues, formType } = useProfilesContext();
+  const { setModalVisible, selected, saveProfileValues, formType } = useProfilesContext();
 
   const handleCancel = () => {
     setModalVisible(false, null);
   };
 
   const onDelete = () => {
-    saveProfileValues(profileSelected, formType);
+    saveProfileValues(selected, formType);
     handleCancel();
   };
 

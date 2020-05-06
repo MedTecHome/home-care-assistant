@@ -1,13 +1,11 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import Button from '@material-ui/core/Button';
 
-function AddButtonIcon({ onClick, size }) {
+function AddButtonIcon({ onClick }) {
   return (
-    <IconButton color="primary" onClick={onClick} size="medium">
-      <FontAwesomeIcon icon={faPlusCircle} fontSize={2} size={size} />
-    </IconButton>
+    <Button variant="contained" color="primary" onClick={onClick} size="small">
+      Adicionar
+    </Button>
   );
 }
 

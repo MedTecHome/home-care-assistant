@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
@@ -7,59 +6,21 @@ import TableBody from '@material-ui/core/TableBody';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
+import Typography from '@material-ui/core/Typography';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
-
-const useStyles = makeStyles(theme => {
-  return {
-    root: {
-      width: '100%',
-    },
-    paper: {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-    table: {
-      minWidth: 750,
-    },
-    largeCells: {
-      maxWidth: 230,
-    },
-    textCells: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-    },
-    visuallyHidden: {
-      border: 0,
-      clip: 'rect(0 0 0 0)',
-      height: 1,
-      margin: -1,
-      overflow: 'hidden',
-      padding: 0,
-      position: 'absolute',
-      top: 20,
-      width: 1,
-    },
-    pagination: {
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      padding: 10,
-    },
-  };
-});
+import useCustomStyles from '../../jss/globalStyles';
 
 function TableComponent({ title, filters, list, loadingList, headCells, selected, setModalVisible, render }) {
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   const handleModalVisible = formType => {
     setModalVisible(true, formType);
   };
 
   return (
-    <Card elevation={0} className={classes.root}>
-      <CardHeader title={title} />
+    <>
+      <CardHeader className={classes.pageHeader} title={<Typography variant="h5">{title}</Typography>} />
       <EnhancedTableToolbar
         filters={filters}
         selected={selected && selected.id}
@@ -70,20 +31,22 @@ function TableComponent({ title, filters, list, loadingList, headCells, selected
       {loadingList ? (
         <CircularProgress size={25} />
       ) : (
-        <CardContent>
-          <TableContainer>
-            <Table className={classes.table} aria-labelledby="tableTitle" size="small" aria-label="enhanced table">
-              <EnhancedTableHead headCells={headCells} />
-              <TableBody>
-                {list.map((row, index) => {
-                  return render(row, index);
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
+        <Card elevation={1} className={classes.root}>
+          <CardContent>
+            <TableContainer>
+              <Table className={classes.table} aria-labelledby="tableTitle" size="medium" aria-label="enhanced table">
+                <EnhancedTableHead headCells={headCells} />
+                <TableBody>
+                  {list.map((row, index) => {
+                    return render(row, index);
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+        </Card>
       )}
-    </Card>
+    </>
   );
 }
 

@@ -6,24 +6,13 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Image from 'material-ui-image';
-import { makeStyles } from '@material-ui/core/styles';
 import { useMedicinesContext } from '../MedicinesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
-
-const useStyles = makeStyles({
-  textStyle: {
-    '&>*': {
-      fontSize: 12,
-      lineHeight: '200%',
-      fontWeight: 400,
-      color: '#000',
-    },
-  },
-});
+import useCustomStyles from '../../../jss/globalStyles';
 
 function DetailsMedicineComponent() {
   const { selected, setModalVisible } = useMedicinesContext();
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   const handleCloseForm = () => {
     setModalVisible(false, null);
@@ -36,7 +25,7 @@ function DetailsMedicineComponent() {
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} container justify="center" alignItems="center">
             <Image src="#" aspectRatio={4 / 3} />
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textStyle}>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
             <Typography>Nombre: {selected ? <strong>{selected.name}</strong> : <CircularProgress />}</Typography>
             <Typography>
               Cantidad Concentracion: {selected ? <strong>{selected.concentrationCant}</strong> : <CircularProgress />}

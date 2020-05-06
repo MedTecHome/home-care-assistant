@@ -11,8 +11,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { useMediaQuery } from '@material-ui/core';
+import IconMenu from '@material-ui/icons/Menu';
 import { useAuthContext } from '../contexts/AuthContext';
-import NavigationComponent from './NavigationComponent';
+import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -30,9 +32,10 @@ const useStyles = makeStyles({
 });
 
 function HeaderComponent({ history }) {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { currentUser, currentUserProfile, signOutUser } = useAuthContext();
+  const classes = useStyles();
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const handleClickLogin = () => {
     history.push('/login');
   };
@@ -68,6 +71,7 @@ function HeaderComponent({ history }) {
               Login
             </Button>
           )}
+          {currentUser && !match && <NavigationLargeComponent />}
           {currentUser && (
             <Typography className={classes.currentUser}>
               {currentUserProfile ? currentUserProfile.fullname : currentUser.email}
@@ -76,22 +80,20 @@ function HeaderComponent({ history }) {
           {currentUser && (
             <div>
               <IconButton aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
-                <AccountCircle />
+                {!match ? <AccountCircle /> : <IconMenu />}
               </IconButton>
               <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                <MenuItem>Perfil</MenuItem>
-                <MenuItem>Mi cuenta</MenuItem>
                 <MenuItem onClick={handleClickLogout}>
                   <ListItemIcon>
                     <ExitToAppIcon fontSize="small" />
                   </ListItemIcon>
                   Salir
                 </MenuItem>
+                {match && <NavigationMenuComponent onClick={handleClose} />}
               </Menu>
             </div>
           )}
         </Toolbar>
-        <NavigationComponent />
       </AppBar>
     </div>
   );

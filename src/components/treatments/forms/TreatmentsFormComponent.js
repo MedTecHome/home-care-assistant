@@ -12,8 +12,8 @@ function TreatmentsFormComponent({ formType, onCloseForms }) {
   }, [onCloseForms]);
   return (
     <>
-      {formType === ADD_FORM_TEXT && <AddOrEditFormComponent title="Adicionar" />}
-      {formType === EDIT_FORM_TEXT && <AddOrEditFormComponent title="Editar" />}
+      {formType === ADD_FORM_TEXT && <AddOrEditFormComponent title="Adicionar tratamiento" />}
+      {formType === EDIT_FORM_TEXT && <AddOrEditFormComponent title="Editar tratamiento" />}
       {formType === DELETE_FORM_TEXT && <DeleteTreatmentComponent />}
       {formType === DETAILS_FORM_TEXT && <DetailsTreatmentComponent />}
     </>

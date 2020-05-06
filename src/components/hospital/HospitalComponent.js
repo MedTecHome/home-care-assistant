@@ -9,9 +9,9 @@ import RowTableHospitalComponent from './RowTableHospitalComponent';
 
 function HospitalComponent() {
   const {
-    hospitalSelected,
-    listLoading,
-    hospitals,
+    selected,
+    loadingList,
+    hospitalsList,
     modalVisible,
     setModalVisible,
     formType,
@@ -48,17 +48,17 @@ function HospitalComponent() {
       <TableComponent
         filters={<></>}
         title="Lista de hospitales"
-        selected={hospitalSelected}
+        selected={selected}
         headCells={hospitalHeadCells}
-        loadingList={listLoading}
-        list={hospitals}
+        loadingList={loadingList}
+        list={hospitalsList}
         setModalVisible={setModalVisible}
         render={(row, index) => (
           <RowTableHospitalComponent
             key={uuid()}
             row={row}
             index={index}
-            selected={hospitalSelected}
+            selected={selected}
             selectRow={selectHospital}
             onModalVisible={handleShowModal}
           />

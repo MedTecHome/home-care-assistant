@@ -22,11 +22,11 @@ export function AuthContextProvider({ children }) {
       } else
         setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
-          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
-          id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
+          id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+          // id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
           fullname: 'jajaja',
           role: {
-            id: 'doctor',
+            id: 'patient',
           },
         });
     });

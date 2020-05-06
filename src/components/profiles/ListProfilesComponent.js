@@ -1,6 +1,5 @@
 import React, { memo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
@@ -19,47 +18,12 @@ import { useProfilesContext } from './ProfilesContext';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: '100%',
-  },
-  inline: {
-    display: 'inline',
-    lineHeight: '250%',
-  },
-  itemList: {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 5,
-    '&:hover': {
-      background: '#f5f5f6',
-    },
-  },
-  selectedItemList: {
-    background: '#dddddd',
-  },
-  itemListContentPrimary: {
-    maxWidth: '100%',
-    lineHeight: '250%',
-    fontSize: 12,
-    color: '#666',
-  },
-  footerList: {
-    height: 120,
-  },
-  pagination: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    padding: 10,
-  },
-}));
+import useCustomStyles from '../../jss/globalStyles';
 
 function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   const history = useHistory();
   const {
-    profiles,
+    profileList,
     getProfilesList,
     selectProfileFromList,
     profileSelected,
@@ -67,7 +31,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
     loadingList,
   } = useProfilesContext();
   const [page, setPage] = React.useState({});
-  const classes = useStyles();
+  const classes = useCustomStyles();
   const up500 = useMediaQuery(theme => theme.breakpoints.up(500));
   const up400 = useMediaQuery(theme => theme.breakpoints.up(400));
 
@@ -103,7 +67,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
       {loadingList ? (
         <CircularProgress size={50} />
       ) : (
-        profiles.map(profile => {
+        profileList.map(profile => {
           const isSelected = profileSelected && profileSelected.id === profile.id;
           return (
             <ListItem
@@ -177,10 +141,10 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
         <div className={classes.pagination}>
           {!loadingList && (
             <>
-              <IconButton onClick={() => setPage({ prev: profiles[0] })}>
+              <IconButton onClick={() => setPage({ prev: profileList[0] })}>
                 <ArrowBackIosIcon fontSize="small" />
               </IconButton>
-              <IconButton onClick={() => setPage({ next: profiles[profiles.length - 1] })}>
+              <IconButton onClick={() => setPage({ next: profileList[profileList.length - 1] })}>
                 <ArrowForwardIosIcon fontSize="small" />
               </IconButton>
               <Typography

@@ -7,14 +7,14 @@ import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 
 export default function DeleteHospitalComponent() {
-  const { setModalVisible, hospitalSelected, saveHospitalValues, formType } = useHospitalContext();
+  const { setModalVisible, selected, saveHospitalValues, formType } = useHospitalContext();
 
   const handleCancel = () => {
     setModalVisible(false, null);
   };
 
   const onDelete = () => {
-    saveHospitalValues(hospitalSelected, formType);
+    saveHospitalValues(selected, formType);
     handleCancel();
   };
 

@@ -1,30 +1,8 @@
 import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
-import {
-  ADD_FORM_TEXT,
-  DELETE_FORM_TEXT,
-  EDIT_FORM_TEXT,
-  LIST_HOSPITAL,
-  LIST_HOSPITAL_LOADING,
-  SELECTED_HOSPITAL,
-} from '../../../commons/globalText';
+import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 
 const hospitalRef = dbRef('hospital');
-
-export const setListHospitalAction = list => ({
-  type: LIST_HOSPITAL,
-  list,
-});
-
-export const setListHospitalLoadingAction = flag => ({
-  type: LIST_HOSPITAL_LOADING,
-  flag,
-});
-
-export const selectHospitalsFromListAction = selected => ({
-  type: SELECTED_HOSPITAL,
-  selected,
-});
 
 export const fetchHospitalsAction = async ({ filters }) => {
   let ref = hospitalRef.collection('hospitals').orderBy('name');
