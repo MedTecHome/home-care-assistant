@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import optionsTypesFormsPatientHealth from '../Nomenc';
+import { getListMedicalForms } from '../../../nomenc/NomMedicalHealth';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 
 const useStyles = makeStyles({
@@ -22,6 +22,14 @@ const useStyles = makeStyles({
 
 function FiltersPatientHistoryComponent() {
   const { filters, setFilters } = usePatientHistoryContext();
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    async function loadList() {
+      const result = await getListMedicalForms();
+      setOptions(result);
+    }
+    loadList();
+  }, []);
   const classes = useStyles();
 
   useEffect(() => {
@@ -58,7 +66,7 @@ function FiltersPatientHistoryComponent() {
               onChange={handleSetTypeHistory}
             >
               <MenuItem value="all">Todos</MenuItem>
-              {optionsTypesFormsPatientHealth.map(types => (
+              {options.map(types => (
                 <MenuItem key={uuid()} value={types.id}>
                   {types.name}
                 </MenuItem>

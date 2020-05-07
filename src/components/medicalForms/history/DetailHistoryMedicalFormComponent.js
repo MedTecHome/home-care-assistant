@@ -9,7 +9,6 @@ import Imagen from 'material-ui-image';
 import moment from 'moment';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import { DialogTitleComponent } from '../../ModalComponent';
-import { findByIdePatientMedicalForm } from '../Nomenc';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -33,7 +32,7 @@ function DetailHistoryMedicalFormComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleClose}>
-        {findByIdePatientMedicalForm(selected.type).name}
+        {selected && selected.type && selected.type.name}
       </DialogTitleComponent>
       <DialogContent dividers>
         <Grid container spacing={2}>

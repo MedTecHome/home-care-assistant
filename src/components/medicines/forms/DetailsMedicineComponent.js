@@ -8,6 +8,7 @@ import Image from 'material-ui-image';
 import { useMedicinesContext } from '../MedicinesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
+import { getPropValue } from '../../../commons/util';
 
 function DetailsMedicineComponent() {
   const { selected, setModalVisible } = useMedicinesContext();
@@ -25,23 +26,42 @@ function DetailsMedicineComponent() {
             <Image src="#" aspectRatio={4 / 3} />
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
-            <Typography>Nombre: {selected ? <strong>{selected.name}</strong> : '?'}</Typography>
             <Typography>
-              Cantidad Concentracion: {selected ? <strong>{selected.concentrationCant}</strong> : '?'}
+              {`Nombre: `}
+              <strong>{getPropValue(selected, 'name') || '?'}</strong>
             </Typography>
             <Typography>
-              Tipo Concentracion: {selected ? <strong>{selected.concentrationType}</strong> : '?'}
-            </Typography>
-            <Typography>Dosis: {selected ? <strong>{selected.dose}</strong> : '?'}</Typography>
-            <Typography>Tipo dosis: {selected ? <strong>{selected.doseType}</strong> : '?'}</Typography>
-            <Typography>
-              Via administracion: {selected ? <strong>{selected.administrationRoute}</strong> : '?'}
+              {`Cantidad Concentracion: `}
+              <strong>{getPropValue(selected, 'oncentrationCant') || '?'}</strong>
             </Typography>
             <Typography>
-              Motivo administracion: {selected ? <strong>{selected.administrationReason}</strong> : '?'}
+              {`Tipo Concentracion: `}
+              <strong>{getPropValue(selected, 'concentrationType.name') || '?'}</strong>
             </Typography>
-            <Typography>Frecuencia: {selected ? <strong>{selected.frequency}</strong> : '?'}</Typography>
-            <Typography>Observaciones: {selected ? <strong>{selected.observations}</strong> : '?'}</Typography>
+            <Typography>
+              {`Dosis: `}
+              <strong>{getPropValue(selected, 'dose') || '?'}</strong>
+            </Typography>
+            <Typography>
+              {`Tipo dosis: `}
+              <strong>{getPropValue(selected, 'doseType.name') || '?'}</strong>
+            </Typography>
+            <Typography>
+              {`Via administracion: `}
+              <strong>{getPropValue(selected, 'administrationType.name') || '?'}</strong>
+            </Typography>
+            <Typography>
+              {`Motivo administracion: `}
+              <strong>{getPropValue(selected, 'administrationReason') || '?'}</strong>
+            </Typography>
+            <Typography>
+              {`Frecuencia: `}
+              <strong>{getPropValue(selected, 'frequency') || '?'}</strong>
+            </Typography>
+            <Typography>
+              {`Observaciones: `}
+              <strong>{getPropValue(selected, 'observations') || '?'}</strong>
+            </Typography>
           </Grid>
         </Grid>
       </DialogContent>

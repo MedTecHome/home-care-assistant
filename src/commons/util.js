@@ -1,4 +1,5 @@
-// import _ from 'lodash';
+/* eslint-disable eqeqeq */
+import _ from 'lodash';
 
 import moment from 'moment';
 
@@ -12,16 +13,19 @@ export default function addOrReplace(array, item) {
 
 export const returnIfExiste = value => value || {};
 
-/* export const differenceTwoObjects = function difference(object, base) {
+export const getPropValue = (obj, key) => key.split('.').reduce((o, x) => (o == undefined ? o : o[x]), obj);
+
+export const differenceTwoObjects = function difference(object1, base1) {
   function changes(object, base) {
-    return _.transform(object, function (result, value, key) {
+    return _.transform(object, (result, value, key) => {
       if (!_.isEqual(value, base[key])) {
+        // eslint-disable-next-line no-param-reassign
         result[key] = _.isObject(value) && _.isObject(base[key]) ? changes(value, base[key]) : value;
       }
     });
   }
-  return changes(object, base);
-}; */
+  return changes(object1, base1);
+};
 
 export const formatMomentToDate = date => {
   return moment(date, 'DD/MM/YYYY').toDate();

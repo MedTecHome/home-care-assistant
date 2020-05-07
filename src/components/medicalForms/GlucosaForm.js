@@ -16,18 +16,19 @@ function GlucosaForm({ classStyle }) {
   return (
     <div className={classStyle.paper}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Glucosa:
+        Glucosa
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent
+            required
             label={`${matches ? 'Concent.' : 'Concentracion'} de azucar`}
             name="sugarConcentration"
             validate={validateSugarConcentration}
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomSelectFieldComponent source={[]} label="Horario" name="schedule" validate={validateHorario} />
+          <CustomSelectFieldComponent required source={[]} label="Horario" name="schedule" validate={validateHorario} />
         </Grid>
         <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />

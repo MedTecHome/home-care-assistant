@@ -102,6 +102,14 @@ const useCustomStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
+  justifyCheckbox: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
+    justifyItem: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+  },
 }));
 
 export default useCustomStyles;

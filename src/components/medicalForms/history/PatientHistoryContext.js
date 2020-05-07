@@ -9,8 +9,8 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [list, setHistoryList] = useState([]);
   const [slcted, setSelected] = useState(null);
   const [filters, setFilters] = useState({});
-  const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const [loadingList, setLoadingList] = useState(false);
+  const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const historyList = useMemo(() => list, [list]);
   const selected = useMemo(() => slcted, [slcted]);
