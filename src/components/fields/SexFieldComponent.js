@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
 import { validateSex } from '../medicalForms/validateMedicalForms';
-import { getLisSex } from '../../nomenc/NomSex';
+import { getListSex } from '../../nomenc/NomSex';
 
 function SexFieldComponent({ required, name, label }) {
   const [options, setOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  //  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function loadList() {
-      const result = await getLisSex();
+      const result = await getListSex();
       setOptions(result);
     }
     loadList();

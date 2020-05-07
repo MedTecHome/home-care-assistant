@@ -20,14 +20,14 @@ const formValidate = values => {
   if (!values.concentrationType) {
     errors.concentrationType = REQUIRED_FIELD;
   }
-  if (!values.dose) {
-    errors.dose = REQUIRED_FIELD;
+  if (!values.doseCant) {
+    errors.doseCant = REQUIRED_FIELD;
   }
   if (!values.doseType) {
     errors.doseType = REQUIRED_FIELD;
   }
-  if (!values.administrationRoute) {
-    errors.administrationRoute = REQUIRED_FIELD;
+  if (!values.administrationType) {
+    errors.administrationType = REQUIRED_FIELD;
   }
   if (!values.frequency) {
     errors.frequency = REQUIRED_FIELD;
@@ -38,8 +38,8 @@ const formValidate = values => {
   if (values.concentrationCant && !REGEX_POSITIVE_NUMBER.test(values.concentrationCant)) {
     errors.concentrationCant = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
   }
-  if (values.dose && !REGEX_POSITIVE_NUMBER.test(values.dose)) {
-    errors.dose = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
+  if (values.doseCant && !REGEX_POSITIVE_NUMBER.test(values.doseCant)) {
+    errors.doseCant = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
   }
   if (values.frequency && !REGEX_POSITIVE_NUMBER.test(values.frequency)) {
     errors.frequency = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;

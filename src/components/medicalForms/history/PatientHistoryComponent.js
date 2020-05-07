@@ -12,7 +12,6 @@ import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
-import { getMedicalFormById } from '../../../nomenc/NomMedicalHealth';
 
 const useStyles = makeStyles({
   extraText: {
@@ -36,7 +35,6 @@ function PatientHistoryComponent() {
     setModalVisible,
     filters,
     setFilters,
-    setLoadingList,
   } = usePatientHistoryContext();
   const [page, setPage] = useState({});
   const [currentPatient, setCurrentPatient] = useState(null);

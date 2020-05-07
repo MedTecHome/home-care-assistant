@@ -1,7 +1,10 @@
-// import uuid from 'uuid4';
 import { isEmpty } from 'ramda';
+import moment from 'moment';
 import { authFirebase, dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../commons/globalText';
+import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
+import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
+import { getSexById } from '../../../nomenc/NomSex';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
@@ -9,6 +12,12 @@ const actionCodeSettings = {
 };
 
 const profilesRef = dbRef('profile').collection('profiles');
+
+export const getProfileByIdAction = async (id, fields = []) => {
+  const ref = await profilesRef.doc(id).get();
+  const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
+  return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
+};
 
 export const getProfilesAction = async ({ limit = 2, next, prev, filters }) => {
   let ref = profilesRef.orderBy('fullname');
@@ -32,37 +41,46 @@ export const getProfilesAction = async ({ limit = 2, next, prev, filters }) => {
   return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getProfileByIdAction = async (id, fields = []) => {
-  const ref = await profilesRef.doc(id).get();
-  const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
-  return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
+const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
+  ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
+  ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
+  ...(role ? { role: await getRoleByIdAction(role) } : {}),
+  ...(hospital ? { hospital: await getHospitalByIdAction(hospital, ['name']) } : {}),
+  ...(sex ? { sex: await getSexById(sex) } : {}),
+});
+
+const addValuesAction = async ({ user, ...values }) => {
+  const result = { ...values, ...(await mutateValues(values)) };
+  const u = await authFirebase.createUserWithEmailAndPassword(user, 'Test*123');
+  await authFirebase.sendPasswordResetEmail(u.user.email, actionCodeSettings);
+  await profilesRef.add({
+    ...result,
+    user: { id: user.user.uid, email: user.user.email },
+    createdAt: Date.now(),
+  });
 };
 
-export const saveProfileValuesAction = async ({ id, email, ...values }, formType) => {
+const editValuesAction = async ({ id, ...values }) => {
+  const result = { ...values, ...(await mutateValues(values)) };
+  await profilesRef.doc(id).update({
+    ...result,
+    updatedAt: Date.now(),
+  });
+};
+
+const deleteValuesAction = async ({ id }) => {
+  await profilesRef.doc(id).delete();
+};
+
+export const saveProfileValuesAction = async (values, formType) => {
   if (formType === ADD_FORM_TEXT) {
-    try {
-      // const user = await authFirebase.createUserWithEmailAndPassword(email, uuid());
-      const user = await authFirebase.createUserWithEmailAndPassword(email, 'Test*123');
-      await authFirebase.sendPasswordResetEmail(user.user.email, actionCodeSettings);
-      return profilesRef.add({
-        ...values,
-        user: { id: user.user.uid, email: user.user.email },
-        fullname: `${values.name} ${values.lastName}`,
-        createdAt: Date.now(),
-      });
-    } catch (e) {
-      // handle error
-    }
+    await addValuesAction(values);
   }
   if (formType === EDIT_FORM_TEXT) {
-    return profilesRef.doc(id).update({
-      ...values,
-      fullname: `${values.name} ${values.lastName}`,
-      updatedAt: Date.now(),
-    });
+    await editValuesAction(values);
   }
   if (formType === DELETE_FORM_TEXT) {
-    return profilesRef.doc(id).delete();
+    await deleteValuesAction(values);
   }
   return Promise;
 };

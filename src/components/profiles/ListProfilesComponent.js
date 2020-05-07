@@ -75,7 +75,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                 <Avatar alt={profile.name} />
               </ListItemAvatar>
               <ListItemText
-                primary={<Typography>{profile.fullname}</Typography>}
+                primary={<Typography>{`${profile.name} ${profile.lastName}`}</Typography>}
                 secondary={
                   <>
                     <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">

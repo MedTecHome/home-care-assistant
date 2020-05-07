@@ -6,7 +6,7 @@ import ProfileFieldComponent from './ProfileFieldComponent';
 import { validateBirthday, validateDoctor, validateHeight } from '../profiles/forms/valdiateProfile';
 import useCustomStyles from '../../jss/globalStyles';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
-import SexFieldComponent from './SexFielComponent';
+import SexFieldComponent from './SexFieldComponent';
 
 function PatientsFieldComponent({ role }) {
   const classes = useCustomStyles();
