@@ -6,11 +6,15 @@ import ProfileFieldComponent from './ProfileFieldComponent';
 import { validateBirthday, validateDoctor, validateHeight } from '../profiles/forms/valdiateProfile';
 import useCustomStyles from '../../jss/globalStyles';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import SexFieldComponent from './SexFielComponent';
 
 function PatientsFieldComponent({ role }) {
   const classes = useCustomStyles();
   return (
     <>
+      <Grid item xs={6}>
+        <SexFieldComponent name="sex" label="Sexo" required />
+      </Grid>
       <Grid item xs={8} sm={8} md={8}>
         <KeyboardDatePicker
           required

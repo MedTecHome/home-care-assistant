@@ -19,6 +19,7 @@ import { useRolesContext, withRolesContext } from '../../fields/roles/RolesConte
 import { validateHospital, validateProfile } from './valdiateProfile';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
+import { getSexById } from '../../../nomenc/NomSex';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile } = useAuthContext();
@@ -36,6 +37,7 @@ function AddOrEditProfilesComponent({ title }) {
         ...(values.doctor ? { doctor: await getProfileByIdAction(values.doctor, ['fullname']) } : {}),
         ...(values.role ? { role: await getRoleByIdAction(values.role) } : {}),
         ...(values.hospital ? { hospital: await getHospitalByIdAction(values.hospital, ['name']) } : {}),
+        ...(values.sex ? { sex: await getSexById(values.sex) } : {}),
       },
       formType
     );
@@ -59,6 +61,7 @@ function AddOrEditProfilesComponent({ title }) {
                 ...(selected.doctor ? { doctor: selected.doctor.id } : {}),
                 ...(selected.hospital ? { hospital: selected.hospital.id } : {}),
                 ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {}),
+                ...(selected.sex ? { sex: selected.sex.id } : {}),
               }
             : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id }
         }
@@ -78,6 +81,9 @@ function AddOrEditProfilesComponent({ title }) {
             >
               <DialogContent dividers>
                 <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <RoleFieldComponent source={roles} userRole={currentUserProfile.role} />
+                  </Grid>
                   {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Nombre:" name="name" />
@@ -85,11 +91,8 @@ function AddOrEditProfilesComponent({ title }) {
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
-                  <Grid item xs={12}>
-                    <CustomTextFieldComponent type="tel" required label="Telefono:" name="phone" />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <RoleFieldComponent source={roles} userRole={currentUserProfile.role} />
+                  <Grid item xs={values.role === 'patient' ? 6 : 12}>
+                    <CustomTextFieldComponent type="tel" label="Telefono:" name="phone" />
                   </Grid>
                   {values && values.role === 'patient' && (
                     <PatientsBlockFieldComponent role={currentUserProfile.role} />
@@ -100,7 +103,12 @@ function AddOrEditProfilesComponent({ title }) {
                     </Grid>
                   )}
                   <Grid item xs={12}>
-                    <CustomTextFieldComponent name="email" label="Correo" disabled={formType === EDIT_FORM_TEXT} />
+                    <CustomTextFieldComponent
+                      required
+                      name="email"
+                      label="Correo"
+                      disabled={formType === EDIT_FORM_TEXT}
+                    />
                   </Grid>
                 </Grid>
               </DialogContent>

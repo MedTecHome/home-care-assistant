@@ -16,7 +16,6 @@ import clsx from 'clsx';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import TypeMedicalFormComponent from './TypeHistoryMedicalFormComponent';
-import { findByIdePatientMedicalForm } from '../Nomenc';
 import { DETAILS_FORM_TEXT } from '../../../commons/globalText';
 import EmptyComponent from '../../EmptyComponent';
 import StandarDetailButtonIcon from '../../buttons/StandarDetailButtonIcon';
@@ -59,7 +58,6 @@ function ListPatientHistoryComponent() {
         <List className={classes.root}>
           {historyList.length === 0 && <EmptyComponent />}
           {historyList.map(report => {
-            const typeMedicalForm = findByIdePatientMedicalForm(report.type);
             return (
               <ListItem
                 key={report.id}
@@ -79,7 +77,7 @@ function ListPatientHistoryComponent() {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={<Typography variant="h6">{report.type ? typeMedicalForm.name : '?'}</Typography>}
+                  primary={<Typography variant="h6">{report.type ? report.type.name : '?'}</Typography>}
                   secondary={
                     <>
                       <Typography component="span" variant="body2" color="textPrimary">
@@ -96,7 +94,7 @@ function ListPatientHistoryComponent() {
                   <ListItemText>
                     <Grid container spacing={5}>
                       <Grid item xs={12}>
-                        <TypeMedicalFormComponent data={report} type={typeMedicalForm} />
+                        <TypeMedicalFormComponent data={report} type={report.type} />
                       </Grid>
                     </Grid>
                   </ListItemText>
