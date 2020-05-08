@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getListConcentrations } from '../../nomenc/NomConcentration';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
+import { getNomList } from '../../nomenc/NomencAction';
 
 function ConcentrationFieldComponent({ required, name, label, validate }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function loadList() {
-      const result = await getListConcentrations();
+      const result = await getNomList('concentrations')();
       setOptions(result);
     }
     loadList();

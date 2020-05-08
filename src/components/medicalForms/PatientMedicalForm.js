@@ -56,7 +56,7 @@ const PatientMedicalForm = ({ location }) => {
   const onSubmit = async values => {
     if (!isNil(values) && !isEmpty(values)) {
       try {
-        await saveHealthDataAction({ ...values, user: { id, fullname } });
+        await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedCheckbox });
       } catch (e) {
         // handle error
       }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
-import { getListAdministrationRoute } from '../../nomenc/NomAdministrationRoute';
+import { getNomList } from '../../nomenc/NomencAction';
 
 function AdministrationRouteFielComponent({ required, name, label, validate }) {
   const [options, setOptions] = useState([]);
   // const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function loadList() {
-      const result = await getListAdministrationRoute();
+      const result = await getNomList('administrationroute');
       setOptions(result);
     }
     loadList();

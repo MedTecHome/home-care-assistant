@@ -7,8 +7,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { getListMedicalForms } from '../../../nomenc/NomMedicalHealth';
 import { usePatientHistoryContext } from './PatientHistoryContext';
+import { getNomList } from '../../../nomenc/NomencAction';
 
 const useStyles = makeStyles({
   formControl: {
@@ -25,7 +25,7 @@ function FiltersPatientHistoryComponent() {
   const [options, setOptions] = useState([]);
   useEffect(() => {
     async function loadList() {
-      const result = await getListMedicalForms();
+      const result = await getNomList('medicalforms')();
       setOptions(result);
     }
     loadList();

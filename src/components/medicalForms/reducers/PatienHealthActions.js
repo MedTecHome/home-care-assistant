@@ -1,16 +1,15 @@
-import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import {
-  breathingMutate,
-  exercicesMutate,
-  glucoseMutate,
-  inrMutate,
-  pressureMutate,
-  oxygenMutate,
-  tempratureMutate,
-  weightMutate,
-} from './mutations';
-import { getMedicalFormById } from '../../../nomenc/NomMedicalHealth';
+  breathingModel,
+  exercicesModel,
+  glucoseModel,
+  inrModel,
+  pressureModel,
+  oxygenModel,
+  tempratureModel,
+  weightModel,
+} from './models';
+import { getNomById } from '../../../nomenc/NomencAction';
 
 export const PessureRef = dbRef('health').collection('pressure');
 export const TemperatureRef = dbRef('health').collection('temperature');
@@ -21,42 +20,32 @@ export const INRRef = dbRef('health').collection('inr');
 export const OxygenRef = dbRef('health').collection('oxygen');
 export const ExericesRef = dbRef('health').collection('exercises');
 
-export const saveHealthDataAction = async ({ user, ...values }) => {
-  if (!isEmpty(pressureMutate(values))) {
-    await PessureRef.add({
-      ...pressureMutate(values),
-      user,
-    });
+export const saveHealthDataAction = async ({ forms, ...values }) => {
+  if (forms.includes('pressure')) {
+    await PessureRef.add(pressureModel(values));
   }
-  if (!isEmpty(tempratureMutate(values))) {
-    await TemperatureRef.add({
-      ...tempratureMutate(values),
-      user,
-    });
+  if (forms.includes('temperature')) {
+    await TemperatureRef.add(tempratureModel(values));
   }
-  if (!isEmpty(weightMutate(values))) {
-    await WeightRef.add({
-      ...weightMutate(values),
-      user,
-    });
+  if (forms.includes('weight')) {
+    await WeightRef.add(weightModel(values));
   }
-  if (!isEmpty(glucoseMutate(values))) {
-    await GlucoseRef.add({
-      ...glucoseMutate(values),
-      user,
-    });
+  if (forms.includes('glucose')) {
+    const result = await glucoseModel(values);
+    await GlucoseRef.add(result);
   }
-  if (!isEmpty(breathingMutate(values))) {
-    await BreathingRef.add({ ...breathingMutate(values), user });
+
+  if (forms.includes('breathing')) {
+    await BreathingRef.add(breathingModel(values));
   }
-  if (!isEmpty(inrMutate(values))) {
-    await INRRef.add({ ...inrMutate(values), user });
+  if (forms.includes('inr')) {
+    await INRRef.add(inrModel(values));
   }
-  if (!isEmpty(oxygenMutate(values))) {
-    await OxygenRef.add({ ...oxygenMutate(values), user });
+  if (forms.includes('oxygen')) {
+    await OxygenRef.add(oxygenModel(values));
   }
-  if (!isEmpty(exercicesMutate(values))) {
-    await ExericesRef.add({ ...exercicesMutate(values), user });
+  if (forms.includes('exercises')) {
+    await ExericesRef.add(exercicesModel(values));
   }
 };
 
@@ -66,7 +55,7 @@ export const getBloodPressureAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('pressure');
+  const type = await getNomById('medicalforms')('pressure');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
@@ -76,7 +65,7 @@ export const getTemperatureAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('temperature');
+  const type = await getNomById('medicalforms')('temperature');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
@@ -86,7 +75,7 @@ export const getWeightAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('weight');
+  const type = await getNomById('medicalforms')('weight');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
@@ -96,7 +85,7 @@ export const getGlucoseAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('glucose');
+  const type = await getNomById('medicalforms')('glucose');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
@@ -106,7 +95,7 @@ export const getBreathingAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('breathing');
+  const type = await getNomById('medicalforms')('breathing');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 export const getINRAction = async ({ limit = 1, ...params }) => {
@@ -115,7 +104,7 @@ export const getINRAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('inr');
+  const type = await getNomById('medicalforms')('inr');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
@@ -125,7 +114,7 @@ export const getOxygenAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('oxygen');
+  const type = await getNomById('medicalforms')('oxygen');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
@@ -135,7 +124,7 @@ export const getExercisesAction = async ({ limit = 1, ...params }) => {
     ref = ref.where(k, '==', params[k]);
     return null;
   });
-  const type = await getMedicalFormById('exercises');
+  const type = await getNomById('medicalforms')('exercises');
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
