@@ -6,8 +6,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withRouter } from 'react-router-dom';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { getListMedicalForms } from '../../nomenc/NomMedicalHealth';
 import useCustomStyles from '../../jss/globalStyles';
+import { getNomList } from '../../nomenc/NomencAction';
 
 function SelectedChecboxForm({ location, history, defaultValues }) {
   const [loadingList, setLoadingList] = useState(false);
@@ -18,7 +18,7 @@ function SelectedChecboxForm({ location, history, defaultValues }) {
   useEffect(() => {
     async function loadList() {
       setLoadingList(true);
-      const result = await getListMedicalForms();
+      const result = await getNomList('medicalforms')();
       setOptions(result);
       setLoadingList(false);
     }

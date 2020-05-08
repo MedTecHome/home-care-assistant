@@ -1,14 +1,12 @@
 import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { getConcentrationById } from '../../../nomenc/NomConcentration';
-import { getDosisById } from '../../../nomenc/NomDosis';
-import { getAdministrationRouteById } from '../../../nomenc/NomAdministrationRoute';
+import { getNomById } from '../../../nomenc/NomencAction';
 
 const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
-  ...(concentrationType ? { concentrationType: await getConcentrationById(concentrationType) } : {}),
-  ...(doseType ? { doseType: await getDosisById(doseType) } : {}),
-  ...(administrationType ? { administrationType: await getAdministrationRouteById(administrationType) } : {}),
+  ...(concentrationType ? { concentrationType: await getNomById('concentrations')(concentrationType) } : {}),
+  ...(doseType ? { doseType: await getNomById('dosis')(doseType) } : {}),
+  ...(administrationType ? { administrationType: await getNomById('administrationroute')(administrationType) } : {}),
 });
 
 const MedicinesRef = dbRef('medicine').collection('medicines');

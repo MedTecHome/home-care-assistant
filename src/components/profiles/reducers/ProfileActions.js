@@ -4,7 +4,7 @@ import { authFirebase, dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
-import { getSexById } from '../../../nomenc/NomSex';
+import { getNomById } from '../../../nomenc/NomencAction';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
@@ -46,7 +46,7 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
   ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
   ...(role ? { role: await getRoleByIdAction(role) } : {}),
   ...(hospital ? { hospital: await getHospitalByIdAction(hospital, ['name']) } : {}),
-  ...(sex ? { sex: await getSexById(sex) } : {}),
+  ...(sex ? { sex: await getNomById('sex')(sex) } : {}),
 });
 
 const addValuesAction = async ({ user, ...values }) => {

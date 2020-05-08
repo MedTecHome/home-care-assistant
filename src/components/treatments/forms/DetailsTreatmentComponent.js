@@ -14,6 +14,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { useTreatmentsContext } from '../TreatmentsContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
+import DetailTextComponent from '../../DetailTextComponent';
+import { getPropValue } from '../../../commons/util';
 
 function DetailsTreatmentComponent() {
   const { selected, setModalVisible } = useTreatmentsContext();
@@ -38,34 +40,23 @@ function DetailsTreatmentComponent() {
                 <ListItemText
                   primary={
                     <Typography>
-                      Paciente:
-                      {selected ? <strong>{selected.patient && selected.patient.fullname}</strong> : '-'}
+                      Paciente: <strong>{getPropValue(selected, 'patient.fullname') || '?'}</strong>
                     </Typography>
                   }
                 />
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
-            <Typography>
-              Medicamento: {selected ? <strong>{selected.medicine && selected.medicine.name}</strong> : '?'}
-            </Typography>
-            <Typography>
-              Fecha inicio:{' '}
-              {selected ? (
-                <strong>{selected.startDate && moment(selected.startDate.toDate()).format('DD/MM/YYYY')}</strong>
-              ) : (
-                '?'
-              )}
-            </Typography>
-            <Typography>
-              Fecha fin:{' '}
-              {selected ? (
-                <strong>{selected.endDate && moment(selected.endDate.toDate()).format('DD/MM/YYYY')}</strong>
-              ) : (
-                '?'
-              )}
-            </Typography>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle} container spacing={1}>
+            <DetailTextComponent label="Medicamento" value={getPropValue(selected, 'medicine.name') || '?'} />
+            <DetailTextComponent
+              label="Fecha inicio"
+              value={selected.startDate && moment(selected.startDate.toDate()).format('DD/MM/YYYY')}
+            />
+            <DetailTextComponent
+              label="Fecha fin"
+              value={selected.endDate && moment(selected.endDate.toDate()).format('DD/MM/YYYY')}
+            />
           </Grid>
         </Grid>
       </DialogContent>

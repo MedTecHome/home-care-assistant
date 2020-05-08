@@ -37,7 +37,7 @@ function RespiracionForm({ classStyle }) {
         <Grid item xs={12}>
           <CustomTextFieldComponent
             required
-            name="breathingtPI"
+            name="breathingPI"
             type="number"
             label="Indice Perfusion:"
             placeholder="5.5 %"
