@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import { validateDiastolica, validateHeartrate, validateSistolica } from './validateMedicalForms';
@@ -13,7 +14,12 @@ function PresionForm({ classStyle }) {
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
-    <div className={classStyle.paper}>
+    <Card
+      elevation={0}
+      style={{
+        padding: 15,
+      }}
+    >
       <Typography className={classStyle.titleForms} variant="subtitle1">
         Presion
       </Typography>
@@ -51,7 +57,7 @@ function PresionForm({ classStyle }) {
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="bloodPressureNote" />
         </Grid>
       </Grid>
-    </div>
+    </Card>
   );
 }
 
