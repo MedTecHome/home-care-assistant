@@ -14,6 +14,7 @@ function CustomSelectFieldComponent({
   size = 'small',
   validate,
   source,
+  disabled,
 }) {
   const classes = useCustomStyles();
   return (
@@ -24,6 +25,7 @@ function CustomSelectFieldComponent({
       name={name}
       variant={variant}
       formControlProps={{
+        disabled,
         size,
         color: 'primary',
       }}
