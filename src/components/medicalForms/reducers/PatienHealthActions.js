@@ -7,7 +7,7 @@ import {
   pressureModel,
   oxygenModel,
   tempratureModel,
-  weightModel,
+  weightModel
 } from './models';
 import { getNomById } from '../../../nomenc/NomencAction';
 

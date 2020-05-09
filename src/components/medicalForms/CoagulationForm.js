@@ -1,29 +1,28 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography, Paper } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
-import { validateINR } from './validateMedicalForms';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import { validateINR } from './validateMedicalForms';
 
-function CoagulacionForm({ classStyle }) {
+function CoagulationForm({ classStyle }) {
   return (
-    <div className={classStyle.paper}>
+    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Coagulacion - INR
+        Coagulación - INR
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent type="number" label="INR:" name="INR" required validate={validateINR} />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="coagulationInrDate" label="Dia" />
+        <DateFieldComponent classes={classStyle} name="coagulationInrDate" label="Día" />
         <TimeFieldComponent label="Hora" name="coagulationInrTime" classes={classStyle} />
         <Grid item xs={12}>
-          <CustomTextFieldComponent type="number" label="Nota:" name="coagulationInrNote" required multiline rows={3} />
+          <CustomTextFieldComponent type="number" label="Nota:" name="coagulationInrNote" multiline rows={3} />
         </Grid>
       </Grid>
-    </div>
+    </Paper>
   );
 }
 
-export default CoagulacionForm;
+export default CoagulationForm;

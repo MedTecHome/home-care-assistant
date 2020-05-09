@@ -10,14 +10,14 @@ function CustomTextFieldComponent({
   type = 'text',
   size = 'small',
   label,
-  variant = 'standard',
+  variant = 'outlined',
   name,
   validate,
   textAlign = 'normal',
   multiline,
   rows,
   rowsMax,
-  labelStyle,
+  labelStyle
 }) {
   const classes = useCustomStyles();
   return (
@@ -35,15 +35,15 @@ function CustomTextFieldComponent({
       rows={rows}
       rowsMax={rowsMax}
       fieldProps={{
-        validate,
+        validate
       }}
       InputLabelProps={{
-        ...(labelStyle ? { style: labelStyle } : {}),
+        ...(labelStyle ? { style: labelStyle } : {})
       }}
       inputProps={{
         style: {
-          textAlign,
-        },
+          textAlign
+        }
       }}
     />
   );

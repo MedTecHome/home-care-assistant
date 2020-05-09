@@ -8,28 +8,28 @@ export const pressureModel = ({
   heartrate,
   bloodPressureNota,
   bloodPressureDate,
-  bloodPressureTime,
+  bloodPressureTime
 }) => ({
   user,
   sistolica,
   diastolica,
   heartrate,
   date: formatDateWithTime(bloodPressureDate, bloodPressureTime),
-  ...(bloodPressureNota ? { note: bloodPressureNota } : {}),
+  ...(bloodPressureNota ? { note: bloodPressureNota } : {})
 });
 
 export const tempratureModel = ({ user, celsiusDegree, temperatureNote, temperatureDate, temperatureTime }) => ({
   user,
   celsiusDegree,
   date: formatDateWithTime(temperatureDate, temperatureTime),
-  ...(temperatureNote ? { note: temperatureNote } : {}),
+  ...(temperatureNote ? { note: temperatureNote } : {})
 });
 
 export const weightModel = ({ user, weight, weightDate, weightTime, weightNote }) => ({
   user,
   weight,
   date: formatDateWithTime(weightDate, weightTime),
-  ...(weightNote ? { note: weightNote } : {}),
+  ...(weightNote ? { note: weightNote } : {})
 });
 
 export const glucoseModel = async ({
@@ -44,7 +44,7 @@ export const glucoseModel = async ({
   breadUnity,
   glucoseNote,
   glucoseDate,
-  glucoseTime,
+  glucoseTime
 }) => ({
   user,
   sugarConcentration,
@@ -56,7 +56,7 @@ export const glucoseModel = async ({
   ...(insulinaFood ? { insulinaFood } : {}),
   ...(basal ? { basal } : {}),
   ...(breadUnity ? { breadUnity } : {}),
-  ...(glucoseNote ? { note: glucoseNote } : {}),
+  ...(glucoseNote ? { note: glucoseNote } : {})
 });
 
 export const breathingModel = ({
@@ -66,21 +66,21 @@ export const breathingModel = ({
   breathingtPI,
   breathingtDate,
   breathingTime,
-  breathingNote,
+  breathingNote
 }) => ({
   user,
   EtCO,
   breathingFrecuency,
   breathingtPI,
   date: formatDateWithTime(breathingtDate, breathingTime),
-  ...(breathingNote ? { note: breathingNote } : {}),
+  ...(breathingNote ? { note: breathingNote } : {})
 });
 
 export const inrModel = ({ user, INR, coagulationInrNote, coagulationInrDate, coagulationInrTime }) => ({
   user,
   INR,
   date: formatDateWithTime(coagulationInrDate, coagulationInrTime),
-  ...(coagulationInrNote ? { note: coagulationInrNote } : {}),
+  ...(coagulationInrNote ? { note: coagulationInrNote } : {})
 });
 export const oxygenModel = ({ user, SpO2, heartbeat, oxygenPI, oxygenDate, oxygenTime, oxygenNote }) => ({
   user,
@@ -88,7 +88,7 @@ export const oxygenModel = ({ user, SpO2, heartbeat, oxygenPI, oxygenDate, oxyge
   heartbeat,
   oxygenPI,
   ...(oxygenDate && oxygenTime ? { date: formatDateWithTime(oxygenDate, oxygenTime) } : {}),
-  ...(oxygenNote ? { note: oxygenNote } : {}),
+  ...(oxygenNote ? { note: oxygenNote } : {})
 });
 
 export const exercicesModel = ({ distance, time, steps, exercisesDate, exercisesTime, exercisesNote }) => ({
@@ -96,5 +96,5 @@ export const exercicesModel = ({ distance, time, steps, exercisesDate, exercises
   time,
   steps,
   date: formatDateWithTime(exercisesDate, exercisesTime),
-  ...(exercisesNote ? { note: exercisesNote } : {}),
+  ...(exercisesNote ? { note: exercisesNote } : {})
 });

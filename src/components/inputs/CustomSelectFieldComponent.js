@@ -10,10 +10,10 @@ function CustomSelectFieldComponent({
   className,
   name,
   label,
-  variant = 'standard',
+  variant = 'outlined',
   size = 'small',
   validate,
-  source,
+  source
 }) {
   const classes = useCustomStyles();
   return (
@@ -25,11 +25,11 @@ function CustomSelectFieldComponent({
       variant={variant}
       formControlProps={{
         size,
-        color: 'primary',
+        color: 'primary'
       }}
       fieldProps={{
         format: value => (source.length > 0 ? value || '' : ''),
-        validate,
+        validate
       }}
     >
       <MenuItem key={uuid()} value="" />

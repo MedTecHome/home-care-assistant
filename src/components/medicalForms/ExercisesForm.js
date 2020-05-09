@@ -1,16 +1,15 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography, Paper } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
-import { validateDistance, validateSteps, validateTime2 } from './validateMedicalForms';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import { validateDistance, validateSteps, validateTime2 } from './validateMedicalForms';
 
 function ExercisesForm({ classStyle }) {
   return (
-    <div>
+    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Actividad fisica
+        Actividad física
       </Typography>
       <Grid item xs={12} container spacing={2}>
         <Grid item xs={4}>
@@ -34,7 +33,7 @@ function ExercisesForm({ classStyle }) {
           <CustomTextFieldComponent multiline rows={3} label="Nota" name="exercisesNote" />
         </Grid>
       </Grid>
-    </div>
+    </Paper>
   );
 }
 
