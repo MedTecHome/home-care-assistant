@@ -15,21 +15,17 @@ import { withRolesContext } from '../../fields/roles/RolesContext';
 import { validateHospital, validateProfile } from './valdiateProfile';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
-import { differenceTwoObjects, getPropValue } from '../../../commons/util';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
+import { getPropValue } from '../../../commons/util';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile } = useAuthContext();
   const { selected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
   const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
-  const onSubmit = async values => {
-    const newValues = {
-      ...differenceTwoObjects(values, selected || {}),
-      ...(values.id ? { id: values.id } : {}),
-    };
-    await saveProfileValues(newValues, formType);
+  const onSubmit = async (values, forms) => {
+    await saveProfileValues({ ...forms.getState().dirtyFields, id: values.id }, formType);
     setModalVisible(false, null);
   };
 
@@ -88,7 +84,7 @@ function AddOrEditProfilesComponent({ title }) {
                     <CustomTextFieldComponent required label="Telefono:" name="phone" type="number" />
                   </Grid>
                   <Grid item xs={3} container alignContent="flex-end">
-                    <CheckboxesFieldComponent label="Visible" name="phoneVisible" />
+                    <CheckboxesFieldComponent label="Visible" namee="phoneVisible" />
                   </Grid>
                   {values && values.role === 'patient' && (
                     <PatientsBlockFieldComponent role={currentUserProfile.role} />

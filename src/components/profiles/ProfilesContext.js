@@ -1,8 +1,9 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { isEmpty } from 'ramda';
+
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
+import { isEmpty } from '../../commons/util';
 
 const ProfilesContext = createContext({});
 

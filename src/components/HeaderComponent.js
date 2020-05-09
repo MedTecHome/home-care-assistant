@@ -71,8 +71,8 @@ function HeaderComponent({ history }) {
               Login
             </Button>
           )}
-          {currentUser && !match && <NavigationLargeComponent />}
-          {currentUser && (
+          {true && !match && <NavigationLargeComponent />}
+          {true && (
             <div>
               <IconButton aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
                 {!match ? <AccountCircle /> : <IconMenu />}

@@ -1,17 +1,16 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import debounce from 'lodash/debounce';
-
+import { CircularProgress } from '@material-ui/core';
+import { ExpandMoreOutlined as ExpandMoreIcon } from '@material-ui/icons';
 import { useHospitalContext, withHospitalContext } from '../hospital/HospitalContext';
 import useCustomStyles from '../../jss/globalStyles';
+import useDebounceCustom from '../../commons/useDebounceCustom';
 
 function HospitalFieldComponent({ validate, disabled }) {
   const { getListHospitals, loadingList, hospitalsList } = useHospitalContext();
   const [filterName, setFilterName] = useState('');
-  const setFilterNameDebounced = debounce(setFilterName, 500);
-  const filterNameMemoize = useMemo(() => filterName, [filterName]);
+  const debounceValue = useDebounceCustom(filterName, 500);
+  const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
@@ -19,8 +18,9 @@ function HospitalFieldComponent({ validate, disabled }) {
   }, [getListHospitals, filterNameMemoize]);
 
   const handleInputChange = event => {
-    setFilterNameDebounced(event.target.value);
+    setFilterName(event.target.value);
   };
+
   return (
     <Autocomplete
       required

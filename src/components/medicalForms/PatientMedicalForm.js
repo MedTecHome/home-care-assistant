@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import { Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
-import { isEmpty, isNil } from 'ramda';
 import { green } from '@material-ui/core/colors';
 import PresionForm from './PresionForm';
 import TemperaturaForm from './TemperaturaForm';
@@ -54,12 +53,10 @@ const PatientMedicalForm = ({ location }) => {
   const classes = useStyles();
 
   const onSubmit = async values => {
-    if (!isNil(values) && !isEmpty(values)) {
-      try {
-        await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedCheckbox });
-      } catch (e) {
-        // handle error
-      }
+    try {
+      await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedCheckbox });
+    } catch (e) {
+      // handle error
     }
   };
 
@@ -85,12 +82,12 @@ const PatientMedicalForm = ({ location }) => {
           <Container maxWidth="md">
             <Form
               onSubmit={onSubmit}
-              render={({ handleSubmit, form, submitting, pristine, hasValidationErrors, invalid }) => (
+              render={({ handleSubmit, form, submitting, pristine, invalid }) => (
                 <form
                   noValidate
                   autoComplete="off"
                   onSubmit={event => {
-                    if (!hasValidationErrors)
+                    if (!invalid)
                       handleSubmit(event).then(() => {
                         form.reset();
                       });

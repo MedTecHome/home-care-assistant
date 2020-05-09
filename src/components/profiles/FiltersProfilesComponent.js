@@ -1,40 +1,66 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import uuid from 'uuid4';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
-import SearchIcon from '@material-ui/icons/Search';
-import Grid from '@material-ui/core/Grid';
-import { useMediaQuery } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
+import {
+  Grid,
+  List,
+  MenuItem,
+  Select,
+  useMediaQuery,
+  InputLabel,
+  FormControl,
+  InputAdornment,
+  Input,
+  ListItem,
+} from '@material-ui/core';
+import { Search as SearchIcon } from '@material-ui/icons/';
 import { useRolesContext, withRolesContext } from '../fields/roles/RolesContext';
 import { useProfilesContext } from './ProfilesContext';
 import { useAuthContext } from '../../contexts/AuthContext';
 import AddButtonIcon from '../buttons/AddButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
 import listAccess from '../../commons/access';
+import useDebounceCustom from '../../commons/useDebounceCustom';
+
+function InputSearchByFullname() {
+  const { filters, setFilters } = useProfilesContext();
+  const [filterName, setFilterName] = useState('');
+  const debounceValue = useDebounceCustom(filterName, 500);
+  const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
+  const classes = useCustomStyles();
+
+  useEffect(() => {
+    if (filters.fullname !== filterNameMemoize) setFilters({ ...filters, fullname: filterNameMemoize });
+  }, [setFilters, filterNameMemoize, filters]);
+
+  const handleInputChange = event => {
+    setFilterName(event.target.value);
+  };
+  return (
+    <FormControl className={classes.formControl}>
+      <InputLabel>buscar por nombre</InputLabel>
+      <Input
+        type="search"
+        onChange={handleInputChange}
+        endAdornment={
+          <InputAdornment position="end">
+            <SearchIcon />
+          </InputAdornment>
+        }
+      />
+    </FormControl>
+  );
+}
 
 function FiltersProfileComponent({ onClickAdd }) {
+  const { filters, setFilters } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
   const { roles, getRoles } = useRolesContext();
-  const { filters, setFilters } = useProfilesContext();
-  const [fullname, setFullName] = useState('');
-
   const classes = useCustomStyles();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   useEffect(() => {
     getRoles();
   }, [getRoles]);
-
-  const handleSearchClick = () => {
-    setFilters({ ...filters, fullname });
-  };
 
   return (
     <List>
@@ -44,21 +70,7 @@ function FiltersProfileComponent({ onClickAdd }) {
             <AddButtonIcon onClick={onClickAdd} size={match ? '2x' : 'lg'} />
           </Grid>
           <Grid item xs={12} sm={5} md={4} container justify="flex-end">
-            <FormControl className={classes.formControl}>
-              <InputLabel>buscar por nombre</InputLabel>
-              <Input
-                type="search"
-                value={fullname}
-                onChange={event => setFullName(event.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleSearchClick}>
-                      <SearchIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+            <InputSearchByFullname />
           </Grid>
           {currentUserProfile && currentUserProfile.role.id === 'admin' && (
             <Grid item xs={12} sm={4} md={3}>

@@ -1,10 +1,10 @@
-import { isEmpty } from 'ramda';
 import moment from 'moment';
 import { authFirebase, dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
 import { getNomById } from '../../../nomenc/NomencAction';
+import { isEmpty } from '../../../commons/util';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
@@ -49,7 +49,7 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
   ...(sex ? { sex: await getNomById('sex')(sex) } : {}),
 });
 
-const addValuesAction = async ({ user, ...values }) => {
+const addValuesAction = async ({ id, user, ...values }) => {
   const result = { ...values, ...(await mutateValues(values)) };
   const u = await authFirebase.createUserWithEmailAndPassword(user, 'Test*123');
   await authFirebase.sendPasswordResetEmail(u.user.email, actionCodeSettings);
@@ -61,7 +61,7 @@ const addValuesAction = async ({ user, ...values }) => {
   });
 };
 
-const editValuesAction = async ({ id, ...values }) => {
+const editValuesAction = async ({ id, user, ...values }) => {
   const result = { ...values, ...(await mutateValues(values)) };
   await profilesRef.doc(id).update({
     ...result,
