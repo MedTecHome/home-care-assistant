@@ -37,7 +37,7 @@ function AddOrEditMedicineComponent({ title }) {
             ...selected,
             concentrationType: getPropValue(selected, 'concentrationType.id') || '',
             doseType: getPropValue(selected, 'doseType.id') || '',
-            administrationType: getPropValue(selected, 'administrationType.id') || '',
+            administrationType: getPropValue(selected, 'administrationType.id') || ''
           }
         }
         validate={formValidate}
@@ -65,10 +65,11 @@ function AddOrEditMedicineComponent({ title }) {
                 <Grid item xs={4} sm={4}>
                   <CustomTextFieldComponent
                     required
+                    type="number"
                     label="Cant. Concentracion"
                     name="concentrationCant"
                     labelStyle={{
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   />
                 </Grid>
@@ -82,7 +83,7 @@ function AddOrEditMedicineComponent({ title }) {
                   <AdministrationRouteFielComponent required label="Via administracion" name="administrationType" />
                 </Grid>
                 <Grid item xs={4}>
-                  <CustomTextFieldComponent required label="Frecuencia" name="frequency" />
+                  <CustomTextFieldComponent required label="Frecuencia" name="frequency" type="number" />
                 </Grid>
                 <Grid item xs={12}>
                   <CustomTextFieldComponent required label="Motivo administracion" name="administrationReason" />

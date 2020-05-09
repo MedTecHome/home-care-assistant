@@ -22,13 +22,18 @@ export function AuthContextProvider({ children }) {
       } else
         setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
-          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+          // id: 'OyE16UfGemph3hdKjAyJ', // clinic id
           id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
+          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
           role: {
-            id: 'doctor',
-          },
+            // id: 'admin',
+            // id: 'clinic',
+            id: 'doctor'
+            // id: 'patient',
+          }
         });
     });
 
@@ -74,7 +79,7 @@ export function AuthContextProvider({ children }) {
         signInUser,
         signOutUser,
         signUpUser,
-        errorState,
+        errorState
       }}
     >
       {children}
@@ -91,6 +96,6 @@ export const useAuthContext = () => {
     signInUser: values.signInUser,
     signOutUser: values.signOutUser,
     signUpUser: values.signUpUser,
-    errorState: values.errorState,
+    errorState: values.errorState
   };
 };

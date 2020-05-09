@@ -12,10 +12,7 @@ function PatientsFieldComponent({ role }) {
   const classes = useCustomStyles();
   return (
     <>
-      <Grid item xs={6}>
-        <SexFieldComponent name="sex" label="Sexo" required />
-      </Grid>
-      <Grid item xs={8} sm={8} md={8}>
+      <Grid item xs={12} sm={6}>
         <KeyboardDatePicker
           required
           dateFunsUtils={MomentUtils}
@@ -28,13 +25,17 @@ function PatientsFieldComponent({ role }) {
           format="DD/MM/YYYY"
           name="birthday"
           fieldProps={{
-            validate: validateBirthday,
+            validate: validateBirthday
           }}
         />
       </Grid>
-      <Grid item xs={4} sm={4} md={4}>
+      <Grid item xs={6} sm={3}>
+        <SexFieldComponent name="sex" label="Sexo" required />
+      </Grid>
+      <Grid item xs={6} sm={3}>
         <CustomTextFieldComponent validate={validateHeight} name="height" label="Estatura" required textAlign="right" />
       </Grid>
+
       <Grid item xs={12}>
         <CustomTextFieldComponent name="address" label="Direccion" />
       </Grid>
