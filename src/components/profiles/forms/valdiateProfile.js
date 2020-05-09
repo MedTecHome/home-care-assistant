@@ -18,12 +18,12 @@ export const validateProfile = values => {
   if (!values.role) {
     errors.role = REQUIRED_FIELD;
   }
-  if (!values.email) {
-    errors.email = REQUIRED_FIELD;
+  if (!values.user) {
+    errors.user = REQUIRED_FIELD;
   }
-  if (values.email) {
-    if (!REGEX_EMAIL_ADDRESS.test(values.email)) {
-      errors.email = INVALID_EMAIL_ADDRESS;
+  if (values.user) {
+    if (!REGEX_EMAIL_ADDRESS.test(values.user)) {
+      errors.user = INVALID_EMAIL_ADDRESS;
     }
   }
   if (values.phone) {

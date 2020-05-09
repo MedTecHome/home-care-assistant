@@ -108,3 +108,18 @@ export const validateSteps = value => {
   if (value) if (!REGEX_POSITIVE_NUMBER.test(value)) return INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
   return null;
 };
+
+export const validateSex = value => {
+  if (!value) return REQUIRED_FIELD;
+  return null;
+};
+
+export const validateIntakeTime = value => {
+  if (!value) return REQUIRED_FIELD;
+  return null;
+};
+
+export const validateGlucoseUnity = value => {
+  if (!value) return REQUIRED_FIELD;
+  return null;
+};

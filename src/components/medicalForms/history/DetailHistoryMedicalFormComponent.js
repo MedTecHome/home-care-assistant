@@ -3,13 +3,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Imagen from 'material-ui-image';
 import moment from 'moment';
-import { usePatientHistoryContext } from './PatientHistoryContext';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import ImageIcon from '@material-ui/icons/Image';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import DetailTextComponent from '../../DetailTextComponent';
+import { getPropValue } from '../../../commons/util';
 import { DialogTitleComponent } from '../../ModalComponent';
-import { findByIdePatientMedicalForm } from '../Nomenc';
+import { usePatientHistoryContext } from './PatientHistoryContext';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -33,107 +39,95 @@ function DetailHistoryMedicalFormComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleClose}>
-        {findByIdePatientMedicalForm(selected.type).name}
+        {selected && selected.type && selected.type.name}
       </DialogTitleComponent>
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
-            <Imagen src="#" />
+          <Grid item xs={12}>
+            <List>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <ImageIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Typography>
+                      Paciente: <strong>{getPropValue(selected, 'user.fullname') || '?'}</strong>
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            </List>
           </Grid>
-          <Grid item xs={9} sm={9} md={9} lg={9} xl={9} className={classes.textStyle}>
-            {selected.type === 'pressure' && (
+          <Grid item xs={12} className={classes.textStyle} spacing={1} container justify="center">
+            {selected.type.id === 'pressure' && (
               <>
-                <Typography noWrap>
-                  Diastolica: <strong>{selected.diastolica}</strong>
-                </Typography>
-                <Typography noWrap>
-                  Sistolica: <strong>{selected.sistolica}</strong>
-                </Typography>
-                <Typography noWrap>
-                  Frecuencia Cardiaca: <strong>{selected.heartrate}</strong>
-                </Typography>
+                <DetailTextComponent label="Diastolica" value={getPropValue(selected, 'diastolica') || '?'} />
+                <DetailTextComponent label="Sistolica" value={getPropValue(selected, 'sistolica') || '?'} />
+                <DetailTextComponent label="Frecuencia Cardiaca" value={getPropValue(selected, 'heartrate') || '?'} />
               </>
             )}
-            {selected.type === 'temperature' && (
+            {selected.type.id === 'temperature' && (
               <>
-                <Typography noWrap>
-                  Grados: <strong>{selected.celsiusDegree}</strong>
-                </Typography>
+                <DetailTextComponent label="Gados" value={getPropValue(selected, 'celsiusDegree') || '?'} />
               </>
             )}
-            {selected.type === 'weight' && (
+            {selected.type.id === 'weight' && (
               <>
-                <Typography noWrap>
-                  Peso: <strong>{selected.weight}kg</strong>
-                </Typography>
+                <DetailTextComponent label="Peso" value={getPropValue(selected, 'weight') || '?'} />
               </>
             )}
-            {selected.type === 'glucose' && (
+            {selected.type.id === 'glucose' && (
               <>
-                <Typography noWrap>
-                  Concentracion de azucar: <strong>{selected.sugarConcentration}</strong>
-                </Typography>
+                <DetailTextComponent
+                  label="Concentracion de azucar"
+                  value={getPropValue(selected, 'sugarConcentration') || '?'}
+                />
+                <DetailTextComponent label="Horario" value={getPropValue(selected, 'shedule.name') || '?'} />
+                <DetailTextComponent label="Momento de ingesta" value={getPropValue(selected, 'intakeTime') || '?'} />
+                <DetailTextComponent label=" Unidad glucosa" value={getPropValue(selected, 'glucoseUnity') || '?'} />
+                <DetailTextComponent label=" Insulina comida" value={getPropValue(selected, 'hba1c') || '?'} />
+                <DetailTextComponent label="HbA1c" value={getPropValue(selected, 'insulinaFood') || '?'} />
+                <DetailTextComponent label="Basal" value={getPropValue(selected, 'basal') || '?'} />
+                <DetailTextComponent label=" Unidad de pan" value={getPropValue(selected, 'breadUnity') || '?'} />
               </>
             )}
-            {selected.type === 'breathing' && (
+            {selected.type.id === 'breathing' && (
               <>
-                <Typography noWrap>
-                  EtCO: <strong>{selected.EtCO}mmHg</strong>
-                </Typography>
-                <Typography noWrap>
-                  PI: <strong>{selected.PI}%</strong>
-                </Typography>
-                <Typography noWrap>
-                  Frecuencia Respiratoria: <strong>{selected.breathingFrecuency}RPM</strong>
-                </Typography>
+                <DetailTextComponent label=" EtCO" value={getPropValue(selected, 'EtCO') || '?'} />
+                <DetailTextComponent label=" PI" value={getPropValue(selected, 'breathingPI') || '?'} />
+                <DetailTextComponent
+                  label=" Frecuencia Respiratoria"
+                  value={getPropValue(selected, 'breathingFrecuency') || '?'}
+                />
               </>
             )}
-            {selected.type === 'oxigen' && (
+            {selected.type.id === 'inr' && (
               <>
-                <Typography noWrap>
-                  Nota: <strong>{selected.note}</strong>
-                </Typography>
+                <DetailTextComponent label=" INR" value={getPropValue(selected, 'INR') || '?'} />
               </>
             )}
-            {selected.type === 'inr' && (
+            {selected.type.id === 'oxygen' && (
               <>
-                <Typography noWrap>
-                  INR: <strong>{selected.INR}</strong>
-                </Typography>
+                <DetailTextComponent label=" Pulso" value={getPropValue(selected, 'heartbeat') || '?'} />
+                <DetailTextComponent label=" SpO2" value={getPropValue(selected, 'SpO2') || '?'} />
+                <DetailTextComponent label=" PI" value={getPropValue(selected, 'oxygenPI') || '?'} />
               </>
             )}
-            {selected.type === 'oxygen' && (
+            {selected.type.id === 'exercises' && (
               <>
-                <Typography noWrap>
-                  Pulso: <strong>{selected.heartbeat}LPM</strong>
-                </Typography>
-                <Typography noWrap>
-                  SpO2: <strong>{selected.SpO2}%</strong>
-                </Typography>
-                <Typography noWrap>
-                  PI: <strong>{selected.PI}%</strong>
-                </Typography>
+                <DetailTextComponent label=" Distancia" value={getPropValue(selected, 'distance') || '?'} />
+                <DetailTextComponent label=" Tiempo" value={getPropValue(selected, 'time') || '?'} />
+                <DetailTextComponent label="  Cantidad de pasos" value={getPropValue(selected, 'steps') || '?'} />
               </>
             )}
-            {selected.type === 'exercises' && (
-              <>
-                <Typography noWrap>
-                  Distancia: <strong>{selected.distance}m</strong>
-                </Typography>
-                <Typography noWrap>
-                  Tiempo: <strong>{selected.time}%</strong>
-                </Typography>
-                <Typography noWrap>
-                  Cantidad de pasos: <strong>{selected.steps}%</strong>
-                </Typography>
-              </>
-            )}
-            <Typography>
-              Fecha <strong>{selected && moment(selected.date.toDate()).format('DD/MM/YYYY hh:mma')}</strong>
-            </Typography>
-            <Typography>
-              Nota <strong>{selected.note}</strong>
-            </Typography>
+            <DetailTextComponent
+              label="Fecha"
+              value={selected && moment(selected.date.toDate()).format('DD/MM/YYYY hh:mma')}
+            />
+            <DetailTextComponent label="Nota" value={getPropValue(selected, 'note') || '?'} />
           </Grid>
         </Grid>
       </DialogContent>

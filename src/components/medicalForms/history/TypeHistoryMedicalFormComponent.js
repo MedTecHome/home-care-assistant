@@ -48,7 +48,7 @@ function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
       {idType === 'breathing' && (
         <>
           <Typography className={classes.listItem}>{`EtCO: ${data.EtCO} mmHg`}</Typography>
-          <Typography className={classes.listItem}>{`PI: ${data.PI}%`}</Typography>
+          <Typography className={classes.listItem}>{`PI: ${data.breathingPI}%`}</Typography>
           <Typography
             className={classes.listItem}
           >{`Frecuencia Repiratoria: ${data.breathingFrecuency} RPM`}</Typography>
@@ -63,7 +63,7 @@ function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
         <>
           <Typography className={classes.listItem}>{`Puso: ${data.heartbeat} LPM`}</Typography>
           <Typography className={classes.listItem}>{`SpO2: ${data.SpO2}%`}</Typography>
-          <Typography className={classes.listItem}>{`PI: ${data.PI}%`}</Typography>
+          <Typography className={classes.listItem}>{`PI: ${data.oxygenPI}%`}</Typography>
         </>
       )}
       {idType === 'exercises' && (

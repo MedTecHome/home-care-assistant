@@ -12,7 +12,6 @@ import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
-import { findByIdePatientMedicalForm } from '../Nomenc';
 
 const useStyles = makeStyles({
   extraText: {
@@ -77,9 +76,6 @@ function PatientHistoryComponent() {
         <div className={classes.extraText}>
           <Typography>
             Nombre: <strong>{currentPatient && currentPatient.fullname}</strong>
-          </Typography>
-          <Typography>
-            Prueba: <strong>{(currentPatient && findByIdePatientMedicalForm(filters.type).name) || ' - '}</strong>
           </Typography>
         </div>
         <ListPatientHistoryComponent />

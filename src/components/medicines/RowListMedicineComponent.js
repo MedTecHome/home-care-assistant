@@ -9,6 +9,7 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
+import { getPropValue } from '../../commons/util';
 
 function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();
@@ -24,15 +25,15 @@ function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisi
       <TableCell>{index + 1}</TableCell>
       <TableCell>
         <Tooltip title={row.name} arrow placement="top">
-          <Typography>{row.name}</Typography>
+          <Typography>{getPropValue(row, 'name')}</Typography>
         </Tooltip>
       </TableCell>
       <TableCell>
-        <Typography align="center">{row.concentrationCant}</Typography>
+        <Typography align="center">{getPropValue(row, 'concentrationCant') || '-'}</Typography>
       </TableCell>
-      <TableCell align="center">{row.dose}</TableCell>
-      <TableCell align="center">{row.administrationRoute}</TableCell>
-      <TableCell align="center">{row.frequency}</TableCell>
+      <TableCell align="center">{getPropValue(row, 'doseCant') || '?'}</TableCell>
+      <TableCell>{getPropValue(row, 'administrationType.name') || '?'}</TableCell>
+      <TableCell align="center">{getPropValue(row, 'frequency') || '?'}</TableCell>
       <TableCell align="center">
         <ButtonGroup variant="text" aria-label="outlined primary button group">
           <StandarDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />

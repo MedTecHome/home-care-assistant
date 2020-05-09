@@ -10,7 +10,7 @@ function CoagulacionForm({ classStyle }) {
   return (
     <div className={classStyle.paper}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Coagulacion - INR:
+        Coagulacion - INR
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -19,7 +19,7 @@ function CoagulacionForm({ classStyle }) {
         <DateFieldComponent classes={classStyle} name="coagulationInrDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="coagulationInrTime" classes={classStyle} />
         <Grid item xs={12}>
-          <CustomTextFieldComponent type="number" label="Nota:" name="coagulationInrNota" required multiline rows={3} />
+          <CustomTextFieldComponent type="number" label="Nota:" name="coagulationInrNote" required multiline rows={3} />
         </Grid>
       </Grid>
     </div>

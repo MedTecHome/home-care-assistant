@@ -7,6 +7,7 @@ import FormsMedicineComponent from './forms/FormsMedicineComponent';
 import FiltersMedicineComponent from './FiltersMedicineComponent';
 import RowListMedicineComponent from './RowListMedicineComponent';
 import TableComponent from '../table/TableComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 function MedicinesComponent() {
   const {
@@ -20,6 +21,7 @@ function MedicinesComponent() {
     formType,
     filters,
   } = useMedicinesContext();
+  const { currentUserProfile } = useAuthContext();
 
   const handleReloadList = useCallback(() => {
     getMedicinesList({ filters });
@@ -50,6 +52,7 @@ function MedicinesComponent() {
         loadingList={loadingList}
         setModalVisible={setModalVisible}
         selected={selected}
+        addRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}
         render={(row, index) => (
           <RowListMedicineComponent
             key={uuid()}

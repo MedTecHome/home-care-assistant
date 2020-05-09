@@ -28,6 +28,7 @@ function CustomSelectFieldComponent({
         color: 'primary',
       }}
       fieldProps={{
+        format: value => (source.length > 0 ? value || '' : ''),
         validate,
       }}
     >

@@ -5,9 +5,14 @@ import { useMediaQuery } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
-import { validateHorario, validateSugarConcentration } from './validateMedicalForms';
+import {
+  validateGlucoseUnity,
+  validateHorario,
+  validateIntakeTime,
+  validateSugarConcentration,
+} from './validateMedicalForms';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
-import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
+import SheduleFieldComponent from '../fields/SheduleFieldComponent';
 
 function GlucosaForm({ classStyle }) {
   const theme = useTheme();
@@ -16,18 +21,42 @@ function GlucosaForm({ classStyle }) {
   return (
     <div className={classStyle.paper}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Glucosa:
+        Glucosa
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={7}>
           <CustomTextFieldComponent
+            required
             label={`${matches ? 'Concent.' : 'Concentracion'} de azucar`}
             name="sugarConcentration"
             validate={validateSugarConcentration}
           />
         </Grid>
+        <Grid item xs={5}>
+          <SheduleFieldComponent label="Horario" name="shedule" validate={validateHorario} />
+        </Grid>
         <Grid item xs={12}>
-          <CustomSelectFieldComponent source={[]} label="Horario" name="schedule" validate={validateHorario} />
+          <CustomTextFieldComponent required label="Momento ingesta" name="intakeTime" validat={validateIntakeTime} />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextFieldComponent
+            required
+            label="Unidad glucosa"
+            name="glucoseUnity"
+            validate={validateGlucoseUnity}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextFieldComponent required label="HbA1c" name="hba1c" />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextFieldComponent label="Insulina comida" name="insulinaFood" />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextFieldComponent label="Basal" name="basal" />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextFieldComponent label="Unidad Pan" name="breadUnity" />
         </Grid>
         <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />

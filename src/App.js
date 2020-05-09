@@ -19,7 +19,7 @@ function App() {
     <Router>
       <RouteService />
       <HeaderComponent />
-      <Container className={classes.mainContainer}>
+      <Container className={classes.mainContainer} maxWidth="lg">
         <Suspense fallback={<div>loading...</div>}>
           <RoutesComponent />
         </Suspense>

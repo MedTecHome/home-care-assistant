@@ -10,6 +10,10 @@ import { EDIT_FORM_TEXT } from '../../../commons/globalText';
 import formValidate from './formValidate';
 import SaveButton from '../../buttons/SaveButton';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
+import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
+import DosisFieldComponent from '../../fields/DosisFielComponent';
+import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
+import { differenceTwoObjects, getPropValue } from '../../../commons/util';
 
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
@@ -17,8 +21,9 @@ function AddOrEditMedicineComponent({ title }) {
     setModalVisible(false, null);
   };
 
-  const onSubmit = async values => {
-    await saveMedicineValues(values, formType);
+  const onSubmit = async (values, forms) => {
+    const newValues = differenceTwoObjects(values, forms.getState().initialValues);
+    await saveMedicineValues({ ...newValues, id: values.id }, formType);
     handleCloseForm();
   };
 
@@ -26,7 +31,15 @@ function AddOrEditMedicineComponent({ title }) {
     <>
       <DialogTitleComponent onClose={handleCloseForm}>{title}</DialogTitleComponent>
       <Form
-        initialValues={formType === EDIT_FORM_TEXT && selected && selected}
+        initialValues={
+          formType === EDIT_FORM_TEXT &&
+          selected && {
+            ...selected,
+            concentrationType: getPropValue(selected, 'concentrationType.id') || '',
+            doseType: getPropValue(selected, 'doseType.id') || '',
+            administrationType: getPropValue(selected, 'administrationType.id') || '',
+          }
+        }
         validate={formValidate}
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, invalid }) => (
@@ -47,7 +60,7 @@ function AddOrEditMedicineComponent({ title }) {
                   <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
                 </Grid>
                 <Grid item xs={8} sm={8}>
-                  <CustomTextFieldComponent required label="Tipo Concentracion" name="concentrationType" />
+                  <ConcentrationFieldComponent required label="Tipo Concentracion" name="concentrationType" />
                 </Grid>
                 <Grid item xs={4} sm={4}>
                   <CustomTextFieldComponent
@@ -60,14 +73,13 @@ function AddOrEditMedicineComponent({ title }) {
                   />
                 </Grid>
                 <Grid item xs={8}>
-                  <CustomTextFieldComponent required label="Tipo dosis" name="doseType" />
+                  <DosisFieldComponent required label="Tipo dosis" name="doseType" />
                 </Grid>
                 <Grid item xs={4}>
-                  <CustomTextFieldComponent required label="Dosis" name="dose" type="number" />
+                  <CustomTextFieldComponent required label="Cant. Dosis" name="doseCant" type="number" />
                 </Grid>
-
                 <Grid item xs={8}>
-                  <CustomTextFieldComponent required label="Via administracion" name="administrationRoute" />
+                  <AdministrationRouteFielComponent required label="Via administracion" name="administrationType" />
                 </Grid>
                 <Grid item xs={4}>
                   <CustomTextFieldComponent required label="Frecuencia" name="frequency" />
@@ -76,14 +88,7 @@ function AddOrEditMedicineComponent({ title }) {
                   <CustomTextFieldComponent required label="Motivo administracion" name="administrationReason" />
                 </Grid>
                 <Grid item xs={12}>
-                  <CustomTextFieldComponent
-                    required
-                    label="Observaciones"
-                    name="observations"
-                    multiline
-                    rows={3}
-                    rowsMax={5}
-                  />
+                  <CustomTextFieldComponent label="Observaciones" name="observations" multiline rows={3} rowsMax={5} />
                 </Grid>
               </Grid>
             </DialogContent>

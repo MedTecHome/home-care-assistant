@@ -1,6 +1,13 @@
 import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { getNomById } from '../../../nomenc/NomencAction';
+
+const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
+  ...(concentrationType ? { concentrationType: await getNomById('concentrations')(concentrationType) } : {}),
+  ...(doseType ? { doseType: await getNomById('dosis')(doseType) } : {}),
+  ...(administrationType ? { administrationType: await getNomById('administrationroute')(administrationType) } : {}),
+});
 
 const MedicinesRef = dbRef('medicine').collection('medicines');
 
@@ -23,12 +30,28 @@ export const getMedicineByIdAction = async (id, fields = []) => {
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
 };
 
-export const saveMedicineValuesActions = async ({ id, ...values }, formType) => {
+const addValuesAction = async ({ id, ...values }) => {
+  const mut = await mutateNomenc(values);
+  const result = { ...values, ...mut };
+  await MedicinesRef.add(result);
+};
+
+const editValuesAction = async ({ id, ...values }) => {
+  const mut = await mutateNomenc(values);
+  const result = { ...values, ...mut };
+  await MedicinesRef.doc(id).update(result);
+};
+
+const deleteValuesAction = async ({ id }) => {
+  await MedicinesRef.doc(id).delete();
+};
+
+export const saveMedicineValuesActions = async (values, formType) => {
   if (formType === ADD_FORM_TEXT) {
-    await MedicinesRef.add(values);
+    await addValuesAction(values);
   } else if (formType === EDIT_FORM_TEXT) {
-    await MedicinesRef.doc(id).update(values);
+    await editValuesAction(values);
   } else if (formType === DELETE_FORM_TEXT) {
-    await MedicinesRef.doc(id).delete();
+    await deleteValuesAction(values);
   }
 };

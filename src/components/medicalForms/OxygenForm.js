@@ -10,7 +10,7 @@ export default function OxygenForm({ classStyle }) {
   return (
     <div className={classStyle.paper}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Saturacion oxigeno
+        Oxigeno
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>

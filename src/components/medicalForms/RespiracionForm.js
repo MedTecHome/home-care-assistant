@@ -11,7 +11,7 @@ function RespiracionForm({ classStyle }) {
   return (
     <div className={classStyle.paper}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Respiracion (Capnometría):
+        Respiracion (Capnometría)
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -37,7 +37,7 @@ function RespiracionForm({ classStyle }) {
         <Grid item xs={12}>
           <CustomTextFieldComponent
             required
-            name="breathingtPI"
+            name="breathingPI"
             type="number"
             label="Indice Perfusion:"
             placeholder="5.5 %"
