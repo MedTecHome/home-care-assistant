@@ -23,7 +23,7 @@ const RouteListConfig = [
     path: '/inicio',
     component: HomeInfoComponent,
     label: 'Inicio',
-    roles: ['admin', 'doctor', 'patient'],
+    roles: ['admin', 'clinic', 'doctor', 'patient'],
   },
   {
     path: '/login',
@@ -33,7 +33,7 @@ const RouteListConfig = [
   {
     path: '/perfiles',
     component: ProfilesComponent,
-    roles: ['admin'],
+    roles: ['admin', 'clinic'],
     label: 'Perfiles',
     navegation: true,
   },

@@ -15,15 +15,18 @@ import { withRolesContext } from '../../fields/roles/RolesContext';
 import { validateHospital, validateProfile } from './valdiateProfile';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
-import { differenceTwoObjects } from '../../../commons/util';
+import { differenceTwoObjects, getPropValue } from '../../../commons/util';
+import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
+import listAccess from '../../../commons/access';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile } = useAuthContext();
   const { selected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
+  const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
-  const onSubmit = async (values, form) => {
+  const onSubmit = async values => {
     const newValues = {
-      ...differenceTwoObjects(values, form.getState().initialValues),
+      ...differenceTwoObjects(values, selected || {}),
       ...(values.id ? { id: values.id } : {}),
     };
     await saveProfileValues(newValues, formType);
@@ -38,8 +41,12 @@ function AddOrEditProfilesComponent({ title }) {
     <>
       <DialogTitleComponent onClose={handleCancel}>{title}</DialogTitleComponent>
       <Form
-        initialValues={
-          formType === EDIT_FORM_TEXT && selected
+        initialValues={{
+          phoneVisible: false,
+          emailVisible: false,
+          hospital: getPropValue(currentUserProfile, 'hospital.id'),
+          role: listAccess[authRole][0],
+          ...(formType === EDIT_FORM_TEXT && selected
             ? {
                 ...selected,
                 ...(selected.user ? { user: selected.user.email } : {}),
@@ -49,8 +56,8 @@ function AddOrEditProfilesComponent({ title }) {
                 ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {}),
                 ...(selected.sex ? { sex: selected.sex.id } : {}),
               }
-            : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id }
-        }
+            : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id }),
+        }}
         validate={validateProfile}
         onSubmit={onSubmit}
         render={({ handleSubmit, values, form, submitting, pristine, invalid }) => {
@@ -68,7 +75,7 @@ function AddOrEditProfilesComponent({ title }) {
               <DialogContent dividers>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <RoleFieldComponent userRole={currentUserProfile.role} />
+                    <RoleFieldComponent disabled={listAccess[authRole].length === 1} userRole={authRole} />
                   </Grid>
                   {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
                   <Grid item xs={12} sm={12} md={12}>
@@ -77,24 +84,30 @@ function AddOrEditProfilesComponent({ title }) {
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
-                  <Grid item xs={values.role === 'patient' ? 6 : 12}>
-                    <CustomTextFieldComponent type="tel" label="Telefono:" name="phone" />
+                  <Grid item xs={9}>
+                    <CustomTextFieldComponent required label="Telefono:" name="phone" type="number" />
+                  </Grid>
+                  <Grid item xs={3} container alignContent="flex-end">
+                    <CheckboxesFieldComponent label="Visible" name="phoneVisible" />
                   </Grid>
                   {values && values.role === 'patient' && (
                     <PatientsBlockFieldComponent role={currentUserProfile.role} />
                   )}
-                  {values && values.role === 'doctor' && (
-                    <Grid item xs={12}>
-                      <HospitalFieldComponent validate={validateHospital} />
-                    </Grid>
-                  )}
                   <Grid item xs={12}>
+                    {values && values.role !== 'admin' && (
+                      <HospitalFieldComponent validate={validateHospital} disabled={authRole !== 'admin'} />
+                    )}
+                  </Grid>
+                  <Grid item xs={9}>
                     <CustomTextFieldComponent
                       required
                       name="user"
                       label="Correo"
                       disabled={formType === EDIT_FORM_TEXT}
                     />
+                  </Grid>
+                  <Grid item xs={3} container alignContent="flex-end">
+                    <CheckboxesFieldComponent label="Visible" namee="emailVisible" />
                   </Grid>
                 </Grid>
               </DialogContent>

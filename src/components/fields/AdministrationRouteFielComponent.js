@@ -7,11 +7,12 @@ function AdministrationRouteFielComponent({ required, name, label, validate }) {
   // const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function loadList() {
-      const result = await getNomList('administrationroute');
+      const result = await getNomList('administrationroute')();
       setOptions(result);
     }
     loadList();
   }, []);
+
   return (
     <CustomSelectFieldComponent required={required} name={name} label={label} validate={validate} source={options} />
   );

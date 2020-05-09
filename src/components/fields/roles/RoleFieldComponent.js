@@ -2,14 +2,9 @@ import React, { useEffect } from 'react';
 import { useRolesContext, withRolesContext } from './RolesContext';
 import CustomSelectFieldComponent from '../../inputs/CustomSelectFieldComponent';
 import useCustomStyles from '../../../jss/globalStyles';
+import listAccess from '../../../commons/access';
 
-const listAccess = {
-  doctor: ['patient'],
-  admin: ['doctor'],
-  developer: ['patient', 'doctor', 'admin'],
-};
-
-function RoleFieldComponent({ userRole }) {
+function RoleFieldComponent({ userRole, disabled }) {
   const { roles, getRoles } = useRolesContext();
 
   useEffect(() => {
@@ -20,10 +15,11 @@ function RoleFieldComponent({ userRole }) {
   return (
     <CustomSelectFieldComponent
       required
+      disabled={disabled}
       className={classes.formControl}
       label="Tipo"
       name="role"
-      source={roles.filter(rl => listAccess[userRole.id].includes(rl.id))}
+      source={roles.filter(rl => listAccess[userRole].includes(rl.id))}
     />
   );
 }

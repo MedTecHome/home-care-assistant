@@ -52,7 +52,10 @@ export default function AddOrEditHospitalComponent() {
                   <CustomTextFieldComponent label="Direccion del hospital" name="address" />
                 </Grid>
                 <Grid item xs={12}>
-                  <CustomTextFieldComponent type="number" label="Telefono" name="phone" />
+                  <CustomTextFieldComponent required type="number" label="Telefono" name="phone" />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextFieldComponent type="email" label="correo" name="email" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <CustomTextFieldComponent

@@ -22,12 +22,17 @@ export function AuthContextProvider({ children }) {
       } else
         setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
-          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+          // id: 'OyE16UfGemph3hdKjAyJ', // clinic id
           id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
+          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
           role: {
+            // id: 'admin',
+            // id: 'clinic',
             id: 'doctor',
+            // id: 'patient',
           },
         });
     });

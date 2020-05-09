@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import { useHospitalContext, withHospitalContext } from '../hospital/HospitalContext';
 import useCustomStyles from '../../jss/globalStyles';
 
-function HospitalFieldComponent({ validate }) {
+function HospitalFieldComponent({ validate, disabled }) {
   const { getListHospitals, loadingList, hospitalsList } = useHospitalContext();
   const [filterName, setFilterName] = useState('');
   const setFilterNameDebounced = debounce(setFilterName, 500);
@@ -24,6 +24,7 @@ function HospitalFieldComponent({ validate }) {
   return (
     <Autocomplete
       required
+      disabled={disabled}
       className={classes.formControl}
       autoHighlight
       blurOnSelect
