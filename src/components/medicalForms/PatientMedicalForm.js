@@ -64,7 +64,7 @@ const PatientMedicalForm = ({ location }) => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Grid container spacing={2}>
         <Grid
           item
@@ -82,7 +82,7 @@ const PatientMedicalForm = ({ location }) => {
           <SelectedChecboxForm defaultValues={selectedCheckbox} />
         </Grid>
         <Grid item xs={12} sm={9} container>
-          <Container maxWidth="xs">
+          <Container maxWidth="md">
             <Form
               onSubmit={onSubmit}
               render={({ handleSubmit, form, submitting, pristine, hasValidationErrors, invalid }) => (
