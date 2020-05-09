@@ -8,7 +8,7 @@ import { getNomById } from '../../../nomenc/NomencAction';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
-  handleCodeInApp: true,
+  handleCodeInApp: true
 };
 
 const profilesRef = dbRef('profile').collection('profiles');
@@ -46,7 +46,7 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
   ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
   ...(role ? { role: await getRoleByIdAction(role) } : {}),
   ...(hospital ? { hospital: await getHospitalByIdAction(hospital, ['name']) } : {}),
-  ...(sex ? { sex: await getNomById('sex')(sex) } : {}),
+  ...(sex ? { sex: await getNomById('sex')(sex) } : {})
 });
 
 const addValuesAction = async ({ user, ...values }) => {
@@ -57,7 +57,7 @@ const addValuesAction = async ({ user, ...values }) => {
   await profilesRef.add({
     ...result,
     user: { id: u.user.uid, email: u.user.email },
-    createdAt: Date.now(),
+    createdAt: Date.now()
   });
 };
 
@@ -65,7 +65,7 @@ const editValuesAction = async ({ id, ...values }) => {
   const result = { ...values, ...(await mutateValues(values)) };
   await profilesRef.doc(id).update({
     ...result,
-    updatedAt: Date.now(),
+    updatedAt: Date.now()
   });
 };
 

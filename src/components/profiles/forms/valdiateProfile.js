@@ -4,7 +4,7 @@ import {
   REGEX_EMAIL_ADDRESS,
   REGEX_POSITIVE_NUMBER,
   REGEX_POSITIVE_NUMBER_AND_DECIMAL,
-  REQUIRED_FIELD,
+  REQUIRED_FIELD
 } from '../../../commons/globalText';
 
 export const validateProfile = values => {

@@ -37,7 +37,7 @@ function AddOrEditMedicineComponent({ title }) {
             ...selected,
             concentrationType: getPropValue(selected, 'concentrationType.id') || '',
             doseType: getPropValue(selected, 'doseType.id') || '',
-            administrationType: getPropValue(selected, 'administrationType.id') || '',
+            administrationType: getPropValue(selected, 'administrationType.id') || ''
           }
         }
         validate={formValidate}
@@ -69,7 +69,7 @@ function AddOrEditMedicineComponent({ title }) {
                     label="Cant. Concentracion"
                     name="concentrationCant"
                     labelStyle={{
-                      fontSize: 12,
+                      fontSize: 12
                     }}
                   />
                 </Grid>

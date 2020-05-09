@@ -14,6 +14,7 @@ export default function DateFieldComponent({ minDate, classes, name, label }) {
         className={classes.formControl}
         size="small"
         variant="inline"
+        inputVariant="outlined"
         label={label}
         autoOk
         placeholder={moment().format('DD/MM/YYYY')}
@@ -21,7 +22,7 @@ export default function DateFieldComponent({ minDate, classes, name, label }) {
         name={name}
         minDate={minDate}
         fieldProps={{
-          validate: validateDate,
+          validate: validateDate
         }}
       />
     </Grid>

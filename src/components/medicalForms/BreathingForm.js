@@ -1,17 +1,15 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Typography, Paper } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
-import { validateBreathingFrecuency, validateEtCO, validatePI } from './validateMedicalForms';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import { validateBreathingFrecuency, validateEtCO, validatePI } from './validateMedicalForms';
 
-function RespiracionForm({ classStyle }) {
-  // const { register, errors } = useFormContext();
+function BreathingForm({ classStyle }) {
   return (
-    <div className={classStyle.paper}>
+    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Respiracion (Capnometría)
+        Respiración (Capnometría)
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -39,7 +37,7 @@ function RespiracionForm({ classStyle }) {
             required
             name="breathingPI"
             type="number"
-            label="Indice Perfusion:"
+            label="Indice Perfusión:"
             placeholder="5.5 %"
             validate={validatePI}
           />
@@ -50,8 +48,8 @@ function RespiracionForm({ classStyle }) {
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="breathingNote" />
         </Grid>
       </Grid>
-    </div>
+    </Paper>
   );
 }
 
-export default RespiracionForm;
+export default BreathingForm;

@@ -1,34 +1,25 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { useTheme } from '@material-ui/core/styles';
-import { useMediaQuery } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
+import { useMediaQuery, useTheme, Grid, Typography, Paper } from '@material-ui/core';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import DateFieldComponent from '../fields/DateFieldComponent';
-import { validateDiastolica, validateHeartrate, validateSistolica } from './validateMedicalForms';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import { validateDiastolica, validateHeartrate, validateSistolica } from './validateMedicalForms';
 
-function PresionForm({ classStyle }) {
+function PressureForm({ classStyle }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
-    <Card
-      elevation={0}
-      style={{
-        padding: 15,
-      }}
-    >
+    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
-        Presion
+        Presión
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent
             required
             type="number"
-            label="Sistolica"
+            label="Sistólica"
             name="sistolica"
             validate={validateSistolica}
           />
@@ -37,7 +28,7 @@ function PresionForm({ classStyle }) {
           <CustomTextFieldComponent
             required
             type="number"
-            label="Diastolica"
+            label="Diastólica"
             name="diastolica"
             validate={validateDiastolica}
           />
@@ -46,19 +37,19 @@ function PresionForm({ classStyle }) {
           <CustomTextFieldComponent
             required
             type="number"
-            label={`${matches ? 'Frec.' : 'Frecuencia'} Cardiaca`}
+            label={`${matches ? 'Frec.' : 'Frecuencia'} Cardíaca`}
             name="heartrate"
             validate={validateHeartrate}
           />
         </Grid>
         <DateFieldComponent classes={classStyle} name="bloodPressureDate" label="Dia" />
         <TimeFieldComponent label="Hora" name="bloodPressureTime" classes={classStyle} />
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+        <Grid item xs={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="bloodPressureNote" />
         </Grid>
       </Grid>
-    </Card>
+    </Paper>
   );
 }
 
-export default PresionForm;
+export default PressureForm;

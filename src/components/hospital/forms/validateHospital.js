@@ -3,7 +3,7 @@ import {
   INVALID_EMAIL_ADDRESS,
   REGEX_EMAIL_ADDRESS,
   REGEX_POSITIVE_NUMBER,
-  REQUIRED_FIELD,
+  REQUIRED_FIELD
 } from '../../../commons/globalText';
 
 const validateHospital = values => {

@@ -17,78 +17,78 @@ const RouteListConfig = [
   {
     path: '/',
     redirectTo: HomeComponent,
-    label: 'Home',
+    label: 'Home'
   },
   {
     path: '/inicio',
     component: HomeInfoComponent,
     label: 'Inicio',
-    roles: ['admin', 'clinic', 'doctor', 'patient'],
+    roles: ['admin', 'clinic', 'doctor', 'patient']
   },
   {
     path: '/login',
     component: LoginComponent,
-    label: 'Login',
+    label: 'Login'
   },
   {
     path: '/perfiles',
     component: ProfilesComponent,
     roles: ['admin', 'clinic'],
     label: 'Perfiles',
-    navegation: true,
+    navegation: true
   },
   {
     path: '/hospitales',
     component: HospitalComponent,
     label: 'Hospitales',
     roles: ['admin'],
-    navegation: true,
+    navegation: true
   },
   {
     path: '/pacientes',
     component: PatientsComponent,
     label: 'Pacientes',
     roles: ['doctor'],
-    navegation: true,
+    navegation: true
   },
   {
     path: '/tratamientos',
     component: TreatmentComponent,
     label: 'Tratamientos',
     roles: ['doctor', 'patient'],
-    navegation: true,
+    navegation: true
   },
   {
     path: '/medicamentos',
     component: MedicinesComponent,
     label: 'Medicamentos',
     roles: ['doctor'],
-    navegation: true,
+    navegation: true
   },
   {
     path: '/prueba/medica',
     component: PatientHealthForm,
     label: 'Pruebas',
     roles: ['patient'],
-    navegation: true,
+    navegation: true
   },
   {
     path: '/historial',
     component: PatientHistoryComponent,
     label: 'Historial',
     roles: ['patient'],
-    navegation: true,
+    navegation: true
   },
   {
     path: '/paciente/historial',
     component: PatientHistoryComponent,
     label: 'Historial',
-    roles: ['doctor'],
+    roles: ['doctor']
   },
 
   {
-    component: PageNotFound,
-  },
+    component: PageNotFound
+  }
 ];
 
 export default RouteListConfig;
