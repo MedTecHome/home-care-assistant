@@ -18,6 +18,9 @@ export const validateProfile = values => {
   if (!values.role) {
     errors.role = REQUIRED_FIELD;
   }
+  if (!values.phone) {
+    errors.phone = REQUIRED_FIELD;
+  }
   if (!values.user) {
     errors.user = REQUIRED_FIELD;
   }

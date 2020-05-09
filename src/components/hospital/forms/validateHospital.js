@@ -1,5 +1,7 @@
 import {
   INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT,
+  INVALID_EMAIL_ADDRESS,
+  REGEX_EMAIL_ADDRESS,
   REGEX_POSITIVE_NUMBER,
   REQUIRED_FIELD,
 } from '../../../commons/globalText';
@@ -8,6 +10,9 @@ const validateHospital = values => {
   const errors = {};
   if (!values.name) {
     errors.name = REQUIRED_FIELD;
+  }
+  if (!values.phone) {
+    errors.phone = REQUIRED_FIELD;
   }
   if (!values.maxDoctors) {
     errors.maxDoctors = REQUIRED_FIELD;
@@ -18,6 +23,11 @@ const validateHospital = values => {
   if (values.phone) {
     if (!REGEX_POSITIVE_NUMBER.test(values.phone)) {
       errors.phone = 'Format no valido.';
+    }
+  }
+  if (values.email) {
+    if (!REGEX_EMAIL_ADDRESS.test(values.email)) {
+      errors.email = INVALID_EMAIL_ADDRESS;
     }
   }
   if (values.maxDoctors) {

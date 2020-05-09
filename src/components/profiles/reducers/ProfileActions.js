@@ -53,9 +53,10 @@ const addValuesAction = async ({ user, ...values }) => {
   const result = { ...values, ...(await mutateValues(values)) };
   const u = await authFirebase.createUserWithEmailAndPassword(user, 'Test*123');
   await authFirebase.sendPasswordResetEmail(u.user.email, actionCodeSettings);
+
   await profilesRef.add({
     ...result,
-    user: { id: user.user.uid, email: user.user.email },
+    user: { id: u.user.uid, email: u.user.email },
     createdAt: Date.now(),
   });
 };

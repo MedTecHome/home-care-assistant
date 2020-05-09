@@ -17,12 +17,7 @@ import { useProfilesContext } from './ProfilesContext';
 import { useAuthContext } from '../../contexts/AuthContext';
 import AddButtonIcon from '../buttons/AddButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
-
-const listAccess = {
-  doctor: ['patient'],
-  admin: ['doctor'],
-  developer: ['patient', 'doctor', 'admin'],
-};
+import listAccess from '../../commons/access';
 
 function FiltersProfileComponent({ onClickAdd }) {
   const { currentUserProfile } = useAuthContext();
