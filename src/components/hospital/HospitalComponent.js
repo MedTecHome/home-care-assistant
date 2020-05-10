@@ -22,7 +22,7 @@ function HospitalComponent() {
     setModalVisible,
     formType,
     getListHospitals,
-    selectHospital,
+    selectHospital
   } = useHospitalContext();
   const { currentUserProfile } = useAuthContext();
   const [page, setPage] = React.useState({});

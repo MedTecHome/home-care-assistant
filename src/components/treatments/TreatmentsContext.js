@@ -54,7 +54,7 @@ export const withTreatmentsContext = WrapperComponent => () => {
         selectFromList,
         saveValues,
         setFilters,
-        setModalVisible,
+        setModalVisible
       }}
     >
       <WrapperComponent />
@@ -77,6 +77,6 @@ export const useTreatmentsContext = () => {
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
     setFilters: values.setFilters,
-    setModalVisible: values.setModalVisible,
+    setModalVisible: values.setModalVisible
   };
 };

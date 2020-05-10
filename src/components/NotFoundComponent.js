@@ -6,7 +6,7 @@ function NotFoundComponent() {
       style={{
         color: '#ccc',
         textAlign: 'center',
-        marginTop: '5%',
+        marginTop: '5%'
       }}
     >
       Pagina no encontrada

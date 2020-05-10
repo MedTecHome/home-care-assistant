@@ -9,8 +9,8 @@ import RouteService from './routes/RoutesService';
 const useStyles = makeStyles(() => ({
   mainContainer: {
     paddingTop: 15,
-    maxHeight: '100vh',
-  },
+    maxHeight: '100vh'
+  }
 }));
 
 function App() {

@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles({
   wrapper: {
-    position: 'relative',
+    position: 'relative'
   },
   buttonProgress: {
     color: green[500],
@@ -14,8 +14,8 @@ const useStyles = makeStyles({
     top: '50%',
     left: '50%',
     marginTop: -12,
-    marginLeft: -12,
-  },
+    marginLeft: -12
+  }
 });
 
 function SaveButton({
@@ -27,7 +27,7 @@ function SaveButton({
   className,
   size,
   disableElevation = true,
-  onClick,
+  onClick
 }) {
   const classes = useStyles();
   return (

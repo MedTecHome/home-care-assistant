@@ -1,6 +1,6 @@
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { isEmpty } from '../../../commons/util';
+import { isEmpty } from '../../../helpers/utils';
 
 const hospitalRef = dbRef('hospital');
 
@@ -25,7 +25,7 @@ export const fetchHospitalsAction = async ({ limit = 2, next, prev, filters }) =
   else ref = ref.limit(limit);
   return (await ref.get()).docChanges().map(({ doc }) => ({
     id: doc.id,
-    ...doc.data(),
+    ...doc.data()
   }));
 };
 

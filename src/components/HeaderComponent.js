@@ -18,17 +18,17 @@ import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationC
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   toolbar: {
-    minHeight: 36,
+    minHeight: 36
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   currentUser: {
-    fontSize: '0.9rem',
-  },
+    fontSize: '0.9rem'
+  }
 });
 
 function HeaderComponent({ history }) {
@@ -71,8 +71,8 @@ function HeaderComponent({ history }) {
               Login
             </Button>
           )}
-          {true && !match && <NavigationLargeComponent />}
-          {true && (
+          {currentUser && !match && <NavigationLargeComponent />}
+          {currentUser && (
             <div>
               <IconButton aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
                 {!match ? <AccountCircle /> : <IconMenu />}

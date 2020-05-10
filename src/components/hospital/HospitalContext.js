@@ -51,7 +51,7 @@ const HospitalContextProvider = ({ children }) => {
         selectHospital,
         saveHospitalValues,
         setModalVisible,
-        setFilters,
+        setFilters
       }}
     >
       {children}
@@ -73,7 +73,7 @@ export const useHospitalContext = () => {
     selectHospital: values.selectHospital,
     saveHospitalValues: values.saveHospitalValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
+    setFilters: values.setFilters
   };
 };
 

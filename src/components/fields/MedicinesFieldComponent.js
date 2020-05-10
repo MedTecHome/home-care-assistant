@@ -30,13 +30,13 @@ function MedicinesFieldComponent({ classes }) {
       label="Medicamentos"
       name="medicine"
       fieldProps={{
-        validate: value => (!value ? REQUIRED_FIELD : null),
+        validate: value => (!value ? REQUIRED_FIELD : null)
       }}
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',
         onChange: handleInputChange,
-        color: 'primary',
+        color: 'primary'
       }}
       openOnFocus={false}
       options={medicines}

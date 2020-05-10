@@ -10,7 +10,7 @@ import {
   FormControl,
   InputAdornment,
   Input,
-  ListItem,
+  ListItem
 } from '@material-ui/core';
 import { Search as SearchIcon } from '@material-ui/icons/';
 import { useRolesContext, withRolesContext } from '../fields/roles/RolesContext';

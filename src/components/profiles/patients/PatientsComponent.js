@@ -18,7 +18,7 @@ function PatientsComponent() {
     getProfilesList,
     selectProfileFromList,
     setFilters,
-    filters,
+    filters
   } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useCustomStyles();
@@ -26,7 +26,7 @@ function PatientsComponent() {
   useEffect(() => {
     setFilters({
       'role.id': 'patient',
-      ...(currentUserProfile ? { 'doctor.id': currentUserProfile.id } : {}),
+      ...(currentUserProfile ? { 'doctor.id': currentUserProfile.id } : {})
     });
   }, [setFilters, currentUserProfile]);
 

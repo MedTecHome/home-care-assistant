@@ -9,7 +9,7 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
-import { getPropValue } from '../../commons/util';
+import { getPropValue } from '../../helpers/utils';
 
 function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();

@@ -21,7 +21,7 @@ function TableComponent({
   setModalVisible,
   render,
   extraText,
-  addRole = false,
+  addRole = false
 }) {
   const classes = useCustomStyles();
 

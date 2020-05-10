@@ -29,7 +29,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
     selectProfileFromList,
     profileSelected,
     filters,
-    loadingList,
+    loadingList
   } = useProfilesContext();
   const [page, setPage] = React.useState({});
   const classes = useCustomStyles();

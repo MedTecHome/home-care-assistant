@@ -17,7 +17,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
-import { getPropValue } from '../../../commons/util';
+import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile } = useAuthContext();

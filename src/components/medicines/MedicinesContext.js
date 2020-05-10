@@ -55,7 +55,7 @@ export const withMedicinesContext = WrapperComponent => props => {
         selectMedicineFromList,
         saveMedicineValues,
         setModalVisible,
-        setFilters,
+        setFilters
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -79,6 +79,6 @@ export const useMedicinesContext = () => {
     selectMedicineFromList: values.selectMedicineFromList,
     saveMedicineValues: values.saveMedicineValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
+    setFilters: values.setFilters
   };
 };

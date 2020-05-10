@@ -13,7 +13,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import DetailTextComponent from '../../DetailTextComponent';
-import { getPropValue } from '../../../commons/util';
+import { getPropValue } from '../../../helpers/utils';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 
@@ -23,9 +23,9 @@ const useStyles = makeStyles({
       fontSize: 12,
       lineHeight: '200%',
       fontWeight: 400,
-      color: '#000',
-    },
-  },
+      color: '#000'
+    }
+  }
 });
 
 function DetailHistoryMedicalFormComponent() {

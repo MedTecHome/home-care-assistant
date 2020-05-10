@@ -17,13 +17,13 @@ function ProfilesComponent() {
     selectProfileFromList,
     getProfilesList,
     filters,
-    setFilters,
+    setFilters
   } = useProfilesContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
     setFilters({
-      'role.id': 'doctor',
+      'role.id': 'doctor'
     });
   }, [setFilters]);
 

@@ -20,9 +20,9 @@ const useStyles = makeStyles({
     color: '#666666',
     '& > *': {
       fontSize: '0.842rem',
-      marginRight: 60,
-    },
-  },
+      marginRight: 60
+    }
+  }
 });
 
 function PatientHistoryComponent() {
@@ -34,7 +34,7 @@ function PatientHistoryComponent() {
     modalVisible,
     setModalVisible,
     filters,
-    setFilters,
+    setFilters
   } = usePatientHistoryContext();
   const [page, setPage] = useState({});
   const [currentPatient, setCurrentPatient] = useState(null);

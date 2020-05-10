@@ -3,7 +3,7 @@ import {
   REQUIRED_FIELD,
   REGEX_POSITIVE_NUMBER,
   INVALID_WEIRD_CHARACTERS_ON_TEXT,
-  REGEX_ONLY_ALPHA,
+  REGEX_ONLY_ALPHA
 } from '../../../commons/globalText';
 
 const formValidate = values => {

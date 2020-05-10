@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { useAuthContext } from '../contexts/AuthContext';
-import { getPropValue } from '../commons/util';
+import { getPropValue } from '../helpers/utils';
 import { getHospitalByIdAction } from './hospital/reducers/HospitalActions';
 import DetailTextComponent from './DetailTextComponent';
 import { getProfileByIdAction } from './profiles/reducers/ProfileActions';

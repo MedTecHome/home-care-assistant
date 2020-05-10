@@ -15,7 +15,7 @@ import { useTreatmentsContext } from '../TreatmentsContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import DetailTextComponent from '../../DetailTextComponent';
-import { getPropValue } from '../../../commons/util';
+import { getPropValue } from '../../../helpers/utils';
 
 function DetailsTreatmentComponent() {
   const { selected, setModalVisible } = useTreatmentsContext();

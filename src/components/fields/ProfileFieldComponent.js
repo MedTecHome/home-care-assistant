@@ -12,7 +12,7 @@ function ProfileFieldComponent({
   name,
   validate,
   filterRole = '',
-  placeholder,
+  placeholder
 }) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
@@ -21,7 +21,7 @@ function ProfileFieldComponent({
 
   useEffect(() => {
     getProfilesAction({
-      filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) },
+      filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }
     }).then(res => setDoctors(res));
   }, [filterRole, filterNameMemoize]);
 
@@ -39,13 +39,13 @@ function ProfileFieldComponent({
       name={name}
       disabled={disabled}
       fieldProps={{
-        validate,
+        validate
       }}
       textFieldProps={{
         size,
         placeholder,
         variant,
-        onChange: handleInputChange,
+        onChange: handleInputChange
       }}
       openOnFocus={false}
       options={doctors}

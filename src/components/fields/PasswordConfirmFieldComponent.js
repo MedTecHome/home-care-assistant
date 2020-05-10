@@ -11,7 +11,7 @@ function PasswordConfirmFieldComponent({ classes }) {
       variant="outlined"
       size="small"
       InputLabelProps={{
-        shrink: true,
+        shrink: true
       }}
     />
   );

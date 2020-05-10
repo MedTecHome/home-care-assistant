@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import PrivateRoutes from './PrivateRoutes';
 import RouteListConfig from './RoutesListConfig';
 import { useAuthContext } from '../contexts/AuthContext';
-import { isEmpty } from '../commons/util';
+import { isEmpty } from '../helpers/utils';
 
 function RoutesComponent() {
   const { currentUserProfile } = useAuthContext();

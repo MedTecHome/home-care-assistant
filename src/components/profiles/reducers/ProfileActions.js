@@ -4,7 +4,7 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../common
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
 import { getNomById } from '../../../nomenc/NomencAction';
-import { isEmpty } from '../../../commons/util';
+import { isEmpty } from '../../../helpers/utils';
 
 const actionCodeSettings = {
   url: 'http://localhost:3000/inicio',
