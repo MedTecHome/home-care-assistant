@@ -42,3 +42,9 @@ export const formatDateWithTime = (date, time) => {
   const m2 = moment(date, 'DD/MM/YYYY').format('YYYY/MM/DD');
   return moment(`${m2} ${m1}`, 'YYYY/MM/DD hh:mm:ss a').toDate();
 };
+
+export const extractValues = (dirtyFields, allValues) => {
+  return Object.keys(dirtyFields)
+    .map(k => ({ [k]: allValues[k] }))
+    .reduce((a, b) => ({ ...a, ...b }), {});
+};

@@ -24,6 +24,7 @@ function PatientsFieldComponent({ role }) {
           placeholder="DD/MM/YYYY"
           format="DD/MM/YYYY"
           name="birthday"
+          inputVariant="outlined"
           fieldProps={{
             validate: validateBirthday
           }}
@@ -37,7 +38,7 @@ function PatientsFieldComponent({ role }) {
       </Grid>
 
       <Grid item xs={12}>
-        <CustomTextFieldComponent name="address" label="Direccion" />
+        <CustomTextFieldComponent name="address" label="Dirección" />
       </Grid>
       <Grid item xs={12} md={12}>
         <ProfileFieldComponent

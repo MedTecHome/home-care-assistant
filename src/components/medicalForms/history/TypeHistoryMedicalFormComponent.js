@@ -42,7 +42,7 @@ function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
       )}
       {idType === 'glucose' && (
         <>
-          <Typography className={classes.listItem}>{`Concentracion de azucar: ${data.sugarConcentration}`}</Typography>
+          <Typography className={classes.listItem}>{`Concentración de azucar: ${data.sugarConcentration}`}</Typography>
         </>
       )}
       {idType === 'breathing' && (

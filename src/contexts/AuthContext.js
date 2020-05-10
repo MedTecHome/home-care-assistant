@@ -31,8 +31,8 @@ export function AuthContextProvider({ children }) {
             id: 'q3fi3hFCIF8gLOPl3I7o'
           },
           role: {
-            // id: 'admin',
-            //  id: 'clinic',
+            // id: 'admin'
+            // id: 'clinic'
             id: 'doctor'
             // id: 'patient',
           }

@@ -49,18 +49,18 @@ export default function AddOrEditHospitalComponent() {
                   <CustomTextFieldComponent required label="Nombre hospital" name="name" />
                 </Grid>
                 <Grid item xs={12}>
-                  <CustomTextFieldComponent label="Direccion del hospital" name="address" />
+                  <CustomTextFieldComponent label="Dirección del hospital" name="address" />
                 </Grid>
                 <Grid item xs={12}>
-                  <CustomTextFieldComponent required type="number" label="Telefono" name="phone" />
+                  <CustomTextFieldComponent required type="number" label="Teléfono" name="phone" />
                 </Grid>
                 <Grid item xs={12}>
-                  <CustomTextFieldComponent type="email" label="correo" name="email" />
+                  <CustomTextFieldComponent type="email" label="Correo" name="email" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <CustomTextFieldComponent
                     type="number"
-                    label="Limite de doctores"
+                    label="Límite de doctores"
                     name="maxDoctors"
                     textAlign="right"
                   />
@@ -68,7 +68,7 @@ export default function AddOrEditHospitalComponent() {
                 <Grid item xs={12} sm={6} md={6}>
                   <CustomTextFieldComponent
                     type="number"
-                    label="Limite de pacientes"
+                    label="Límite de pacientes"
                     name="maxPatients"
                     textAlign="right"
                   />

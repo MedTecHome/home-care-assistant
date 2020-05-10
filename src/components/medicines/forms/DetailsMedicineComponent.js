@@ -31,11 +31,11 @@ function DetailsMedicineComponent() {
               <strong>{getPropValue(selected, 'name') || '?'}</strong>
             </Typography>
             <Typography>
-              {`Cantidad Concentracion: `}
+              {`Cantidad Concentración: `}
               <strong>{getPropValue(selected, 'oncentrationCant') || '?'}</strong>
             </Typography>
             <Typography>
-              {`Tipo Concentracion: `}
+              {`Tipo Concentración: `}
               <strong>{getPropValue(selected, 'concentrationType.name') || '?'}</strong>
             </Typography>
             <Typography>
@@ -47,11 +47,11 @@ function DetailsMedicineComponent() {
               <strong>{getPropValue(selected, 'doseType.name') || '?'}</strong>
             </Typography>
             <Typography>
-              {`Via administracion: `}
+              {`Via Administración: `}
               <strong>{getPropValue(selected, 'administrationType.name') || '?'}</strong>
             </Typography>
             <Typography>
-              {`Motivo administracion: `}
+              {`Motivo Administración: `}
               <strong>{getPropValue(selected, 'administrationReason') || '?'}</strong>
             </Typography>
             <Typography>

@@ -17,7 +17,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
-import { getPropValue } from '../../../helpers/utils';
+import { extractValues, getPropValue } from '../../../helpers/utils';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile } = useAuthContext();
@@ -25,7 +25,8 @@ function AddOrEditProfilesComponent({ title }) {
   const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
   const onSubmit = async (values, forms) => {
-    await saveProfileValues({ ...forms.getState().dirtyFields, id: values.id }, formType);
+    const newValues = extractValues(forms.getState().dirtyFields, values);
+    await saveProfileValues({ ...newValues, id: values.id }, formType);
     setModalVisible(false, null);
   };
 
@@ -81,7 +82,7 @@ function AddOrEditProfilesComponent({ title }) {
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
                   <Grid item xs={9}>
-                    <CustomTextFieldComponent required label="Telefono:" name="phone" type="number" />
+                    <CustomTextFieldComponent required label="Teléfono:" name="phone" type="number" />
                   </Grid>
                   <Grid item xs={3} container alignContent="flex-end">
                     <CheckboxesFieldComponent label="Visible" namee="phoneVisible" />

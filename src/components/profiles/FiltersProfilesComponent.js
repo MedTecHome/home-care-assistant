@@ -37,7 +37,7 @@ function InputSearchByFullname() {
   };
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel>buscar por nombre</InputLabel>
+      <InputLabel>Buscar por nombre</InputLabel>
       <Input
         type="search"
         onChange={handleInputChange}

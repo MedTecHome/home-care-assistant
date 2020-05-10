@@ -91,7 +91,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                       <Typography className={classes.itemListContentPrimary}>
                         {profile.role && profile.role.id === 'patient' && profile.birthday && (
                           <>
-                            Nacio: <strong>{moment(profile.birthday.toDate()).format('DD/MM/YYYYY')}</strong>
+                            Nació: <strong>{moment(profile.birthday.toDate()).format('DD/MM/YYYYY')}</strong>
                           </>
                         )}
                         {profile.role && profile.role.id === 'doctor' && (
