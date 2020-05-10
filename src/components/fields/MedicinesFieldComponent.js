@@ -36,7 +36,8 @@ function MedicinesFieldComponent({ classes }) {
         size: 'small',
         placeholder: 'busque y seleccione',
         onChange: handleInputChange,
-        color: 'primary'
+        color: 'primary',
+        variant: 'outlined'
       }}
       openOnFocus={false}
       options={medicines}

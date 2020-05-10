@@ -7,7 +7,7 @@ function ProfileFieldComponent({
   required,
   disabled,
   size = 'small',
-  variant = 'standard',
+  variant = 'outlined',
   label,
   name,
   validate,

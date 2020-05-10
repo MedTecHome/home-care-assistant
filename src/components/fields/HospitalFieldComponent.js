@@ -35,7 +35,8 @@ function HospitalFieldComponent({ validate, disabled }) {
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',
-        onChange: handleInputChange
+        onChange: handleInputChange,
+        variant: 'outlined'
       }}
       fieldProps={{
         validate

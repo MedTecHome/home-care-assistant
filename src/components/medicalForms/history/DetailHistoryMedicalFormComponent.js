@@ -82,7 +82,7 @@ function DetailHistoryMedicalFormComponent() {
             {selected.type.id === 'glucose' && (
               <>
                 <DetailTextComponent
-                  label="Concentracion de azucar"
+                  label="Concentración de azucar"
                   value={getPropValue(selected, 'sugarConcentration') || '?'}
                 />
                 <DetailTextComponent label="Horario" value={getPropValue(selected, 'shedule.name') || '?'} />

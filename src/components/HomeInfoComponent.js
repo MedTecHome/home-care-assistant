@@ -31,7 +31,7 @@ function PatientHomeComponent({ doctorId }) {
           value={getPropValue(doctor, 'fullname') || '-'}
         />
         {getPropValue(doctor, 'phoneVisible') === true && (
-          <DetailTextComponent label="Telefono doctor" value={getPropValue(doctor, 'phone') || '-'} />
+          <DetailTextComponent label="Teléfono doctor" value={getPropValue(doctor, 'phone') || '-'} />
         )}
         {getPropValue(doctor, 'emailVisible') === true && (
           <DetailTextComponent label="Correo doctor" value={getPropValue(doctor, 'user.email') || '-'} />
@@ -39,9 +39,9 @@ function PatientHomeComponent({ doctorId }) {
       </Grid>
       <Grid item xs={6} container spacing={3}>
         <DetailTextComponent label="Nombre hospital" value={getPropValue(hospital, 'name') || '-'} />
-        <DetailTextComponent label="Telefono hospital" value={getPropValue(hospital, 'phone') || '-'} />
+        <DetailTextComponent label="Teléfono hospital" value={getPropValue(hospital, 'phone') || '-'} />
         <DetailTextComponent label="Correo hospital" value={getPropValue(hospital, 'email') || '-'} />
-        <DetailTextComponent label="Direccion hospital" value={getPropValue(hospital, 'address') || '-'} />
+        <DetailTextComponent label="Dirección hospital" value={getPropValue(hospital, 'address') || '-'} />
       </Grid>
     </>
   );
@@ -68,9 +68,9 @@ function DoctorHomeComponent({ hospitalId }) {
       {!loading && (
         <Grid container item xs={6} spacing={3}>
           <DetailTextComponent label="Nombre hospital" value={getPropValue(hospital, 'name') || '-'} />
-          <DetailTextComponent label="Telefono hospital" value={getPropValue(hospital, 'phone') || '-'} />
+          <DetailTextComponent label="Teléfono hospital" value={getPropValue(hospital, 'phone') || '-'} />
           <DetailTextComponent label="Correo hospital" value={getPropValue(hospital, 'email') || '-'} />
-          <DetailTextComponent label="Direccion hospital" value={getPropValue(hospital, 'address') || '-'} />
+          <DetailTextComponent label="Dirección hospital" value={getPropValue(hospital, 'address') || '-'} />
         </Grid>
       )}
     </>

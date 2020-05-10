@@ -13,6 +13,7 @@ import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../profiles/forms/valdiateProfile';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
+import { extractValues } from '../../../helpers/utils';
 
 function AddOrEditFormComponent({ title }) {
   const { setModalVisible, selected, saveValues, formType, filters } = useTreatmentsContext();
@@ -21,8 +22,9 @@ function AddOrEditFormComponent({ title }) {
     setModalVisible(false, null);
   };
 
-  const onSubmit = async values => {
-    await saveValues(values, formType);
+  const onSubmit = async (values, forms) => {
+    const newValues = extractValues(forms.getState().dirtyFields, values);
+    await saveValues({ id: selected.id, ...newValues }, formType);
     handleCloseModal();
   };
 
@@ -69,8 +71,8 @@ function AddOrEditFormComponent({ title }) {
                   <Grid item xs={12}>
                     <MedicinesFieldComponent classes={classes} />
                   </Grid>
-                  <DateFieldComponent label="fecha inicio" name="startDate" classes={classes} />
-                  <DateFieldComponent label="fecha fin" name="endDate" classes={classes} minDate={values.startDate} />
+                  <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
+                  <DateFieldComponent label="Fecha fin" name="endDate" classes={classes} minDate={values.startDate} />
                 </Grid>
               </DialogContent>
               <DialogActions>

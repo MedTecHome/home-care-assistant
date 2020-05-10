@@ -13,7 +13,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
-import { getPropValue } from '../../../helpers/utils';
+import { extractValues, getPropValue } from '../../../helpers/utils';
 
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
@@ -22,7 +22,8 @@ function AddOrEditMedicineComponent({ title }) {
   };
 
   const onSubmit = async (values, forms) => {
-    await saveMedicineValues({ ...forms.getState().dirtyFields, id: values.id }, formType);
+    const newValues = extractValues(forms.getState().dirtyFields, values);
+    await saveMedicineValues({ id: values.id, ...newValues }, formType);
     handleCloseForm();
   };
 
@@ -59,13 +60,13 @@ function AddOrEditMedicineComponent({ title }) {
                   <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
                 </Grid>
                 <Grid item xs={8} sm={8}>
-                  <ConcentrationFieldComponent required label="Tipo Concentracion" name="concentrationType" />
+                  <ConcentrationFieldComponent required label="Tipo Concentración" name="concentrationType" />
                 </Grid>
                 <Grid item xs={4} sm={4}>
                   <CustomTextFieldComponent
                     required
                     type="number"
-                    label="Cant. Concentracion"
+                    label="Cant. Concentración"
                     name="concentrationCant"
                     labelStyle={{
                       fontSize: 12
@@ -79,13 +80,13 @@ function AddOrEditMedicineComponent({ title }) {
                   <CustomTextFieldComponent required label="Cant. Dosis" name="doseCant" type="number" />
                 </Grid>
                 <Grid item xs={8}>
-                  <AdministrationRouteFielComponent required label="Via administracion" name="administrationType" />
+                  <AdministrationRouteFielComponent required label="Via Administración" name="administrationType" />
                 </Grid>
                 <Grid item xs={4}>
                   <CustomTextFieldComponent required label="Frecuencia" name="frequency" type="number" />
                 </Grid>
                 <Grid item xs={12}>
-                  <CustomTextFieldComponent required label="Motivo administracion" name="administrationReason" />
+                  <CustomTextFieldComponent required label="Motivo Administración" name="administrationReason" />
                 </Grid>
                 <Grid item xs={12}>
                   <CustomTextFieldComponent label="Observaciones" name="observations" multiline rows={3} rowsMax={5} />

@@ -26,17 +26,17 @@ function DetailsHospitalComponent() {
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
             <Typography>Nombre: {selected ? <strong>{selected.name}</strong> : '?'}</Typography>
-            <Typography>Direccion: {selected ? <strong>{selected.address}</strong> : '?'}</Typography>
+            <Typography>Dirección: {selected ? <strong>{selected.address}</strong> : '?'}</Typography>
             <Typography>
-              Telefono:
+              Teléfono:
               {selected ? <strong>{selected.phone}</strong> : '?'}
             </Typography>
             <Typography>
-              Limite de doctores:{' '}
+              Límite de doctores:{' '}
               {selected ? <strong>{`${selected.totalDoctors || 0} / ${selected.maxDoctors}`}</strong> : '?'}
             </Typography>
             <Typography>
-              Limite de pacientes:{' '}
+              Límite de pacientes:{' '}
               {selected ? <strong>{`${selected.totalPatients || 0} / ${selected.maxPatients}`}</strong> : '?'}
             </Typography>
           </Grid>
