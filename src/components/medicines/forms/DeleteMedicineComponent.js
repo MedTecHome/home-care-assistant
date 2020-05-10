@@ -6,20 +6,21 @@ import Button from '@material-ui/core/Button';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useMedicinesContext } from '../MedicinesContext';
 import SaveButton from '../../buttons/SaveButton';
+import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 function DeleteMedicineComponent() {
   const { setModalVisible, selected, saveMedicineValues, formType } = useMedicinesContext();
   const [saving, setSaving] = useState(false);
 
   const handleCancel = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
   const onDelete = async () => {
     setSaving(true);
     await saveMedicineValues(selected, formType);
     setSaving(false);
-    handleCancel();
+    setModalVisible(false, null);
   };
 
   return (

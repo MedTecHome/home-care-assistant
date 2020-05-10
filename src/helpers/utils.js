@@ -29,8 +29,6 @@ export default function addOrReplace(array, item) {
   return result;
 }
 
-export const returnIfExiste = value => value || {};
-
 export const getPropValue = (obj, key) => key.split('.').reduce((o, x) => (o == undefined ? o : o[x]), obj);
 
 export const formatMomentToDate = date => {

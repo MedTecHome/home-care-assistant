@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import { EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
 import { useProfilesContext } from '../ProfilesContext';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
@@ -31,7 +31,7 @@ function AddOrEditProfilesComponent({ title }) {
   };
 
   const handleCancel = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
   return (

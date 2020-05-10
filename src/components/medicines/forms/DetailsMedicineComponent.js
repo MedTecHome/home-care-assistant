@@ -9,13 +9,14 @@ import { useMedicinesContext } from '../MedicinesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import { getPropValue } from '../../../helpers/utils';
+import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 function DetailsMedicineComponent() {
   const { selected, setModalVisible } = useMedicinesContext();
   const classes = useCustomStyles();
 
   const handleCloseForm = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
   return (
     <>

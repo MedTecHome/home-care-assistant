@@ -33,12 +33,8 @@ function HospitalComponent() {
   }, [getListHospitals, page]);
 
   useEffect(() => {
-    handleReloadList();
-  }, [handleReloadList]);
-
-  const handleBackdrop = () => {
-    setModalVisible(false, null);
-  };
+    if (formType === null) handleReloadList();
+  }, [formType, handleReloadList]);
 
   const handleFormClose = useCallback(() => {
     handleReloadList();
@@ -51,7 +47,7 @@ function HospitalComponent() {
 
   return (
     <>
-      <ModalComponent visible={modalVisible} handleBackdropClick={handleBackdrop}>
+      <ModalComponent visible={modalVisible}>
         <HospitalForms formType={formType} onFormClose={handleFormClose} />
       </ModalComponent>
       <TableComponent

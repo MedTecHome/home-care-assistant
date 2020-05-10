@@ -8,13 +8,14 @@ import Image from 'material-ui-image';
 import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
+import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 function DetailsHospitalComponent() {
   const { selected, setModalVisible } = useHospitalContext();
   const classes = useCustomStyles();
 
   const handleCloseForm = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
   return (
     <>
