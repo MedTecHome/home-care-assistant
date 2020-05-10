@@ -21,6 +21,7 @@
     "final-form": "^4.19.1",
     "firebase": "^7.14.0",
     "just-debounce": "^1.0.0",
+    "material-ui-image": "^3.2.3",
     "moment": "^2.24.0",
     "mui-rff": "latest",
     "react": "^16.13.1",
