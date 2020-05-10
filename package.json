@@ -21,7 +21,6 @@
     "final-form": "^4.19.1",
     "firebase": "^7.14.0",
     "just-debounce": "^1.0.0",
-    "material-ui-image": "^3.2.3",
     "moment": "^2.24.0",
     "mui-rff": "latest",
     "react": "^16.13.1",
@@ -38,7 +37,7 @@
     "eject": "react-scripts eject",
     "check-eslint-config": "eslint --print-config src/index.js | eslint-config-prettier-check",
     "lintfix": "eslint --fix src",
-    "deploy": "npm build && firebase deploy"
+    "deploy": "npm run build && firebase deploy"
   },
   "husky": {
     "hooks": {

@@ -103,42 +103,42 @@ const PatientMedicalForm = () => {
               >
                 <Grid container spacing={4} justify={selectedForms.length === 1 ? 'center' : null}>
                   {selectedForms.includes('pressure') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <PressureForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('temperature') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <TemperatureForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('glucose') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <GlucoseForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('weight') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <WeightForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('breathing') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <BreathingForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('inr') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <CoagulationForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('oxygen') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <OxygenForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('exercises') && (
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <ExercisesForm classStyle={classes} />
                     </Grid>
                   )}
