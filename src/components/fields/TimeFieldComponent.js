@@ -13,12 +13,13 @@ export default function TimeFieldComponent({ classes, name, label }) {
         className={classes.formControl}
         size="small"
         variant="inline"
+        inputVariant="outlined"
         label={label}
         autoOk
         placeholder="04:25 AM"
         name={name}
         fieldProps={{
-          validate: validateTime,
+          validate: validateTime
         }}
       />
     </Grid>

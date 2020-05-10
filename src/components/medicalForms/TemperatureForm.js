@@ -1,14 +1,13 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Paper, Typography } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
-import { validateCelsiusDegree } from './validateMedicalForms';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
+import { validateCelsiusDegree } from './validateMedicalForms';
 
-function TemperaturaForm({ classStyle }) {
+function TemperatureForm({ classStyle }) {
   return (
-    <div className={classStyle.paper}>
+    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
         Temperatura:
       </Typography>
@@ -27,8 +26,8 @@ function TemperaturaForm({ classStyle }) {
           <CustomTextFieldComponent multiline rows={3} label="Nota" name="temperatureNote" />
         </Grid>
       </Grid>
-    </div>
+    </Paper>
   );
 }
 
-export default TemperaturaForm;
+export default TemperatureForm;

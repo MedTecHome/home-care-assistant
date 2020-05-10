@@ -50,9 +50,9 @@ function AddOrEditProfilesComponent({ title }) {
                 ...(selected.doctor ? { doctor: selected.doctor.id } : {}),
                 ...(selected.hospital ? { hospital: selected.hospital.id } : {}),
                 ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {}),
-                ...(selected.sex ? { sex: selected.sex.id } : {}),
+                ...(selected.sex ? { sex: selected.sex.id } : {})
               }
-            : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id }),
+            : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id })
         }}
         validate={validateProfile}
         onSubmit={onSubmit}

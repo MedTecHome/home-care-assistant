@@ -28,14 +28,14 @@ export function AuthContextProvider({ children }) {
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
           hospital: {
-            id: 'q3fi3hFCIF8gLOPl3I7o',
+            id: 'q3fi3hFCIF8gLOPl3I7o'
           },
           role: {
             // id: 'admin',
             //  id: 'clinic',
-            id: 'doctor',
+            id: 'doctor'
             // id: 'patient',
-          },
+          }
         });
     });
 
@@ -81,7 +81,7 @@ export function AuthContextProvider({ children }) {
         signInUser,
         signOutUser,
         signUpUser,
-        errorState,
+        errorState
       }}
     >
       {children}
@@ -98,6 +98,6 @@ export const useAuthContext = () => {
     signInUser: values.signInUser,
     signOutUser: values.signOutUser,
     signUpUser: values.signUpUser,
-    errorState: values.errorState,
+    errorState: values.errorState
   };
 };

@@ -25,7 +25,7 @@ function PatientsFieldComponent({ role }) {
           format="DD/MM/YYYY"
           name="birthday"
           fieldProps={{
-            validate: validateBirthday,
+            validate: validateBirthday
           }}
         />
       </Grid>
