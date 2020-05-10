@@ -8,7 +8,7 @@ import Image from 'material-ui-image';
 import { useMedicinesContext } from '../MedicinesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
-import { getPropValue } from '../../../commons/util';
+import { getPropValue } from '../../../helpers/utils';
 
 function DetailsMedicineComponent() {
   const { selected, setModalVisible } = useMedicinesContext();

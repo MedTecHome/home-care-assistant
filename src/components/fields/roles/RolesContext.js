@@ -17,7 +17,7 @@ export const withRolesContext = WrapperComponent => props => {
     <RolesContext.Provider
       value={{
         roles,
-        getRoles,
+        getRoles
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -31,6 +31,6 @@ export const useRolesContext = () => {
   if (!values) throw new Error('useRolesContext only works inside olesContextProvider');
   return {
     roles: values.roles,
-    getRoles: values.getRoles,
+    getRoles: values.getRoles
   };
 };

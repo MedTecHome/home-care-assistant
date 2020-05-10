@@ -6,11 +6,9 @@ function ConcentrationFieldComponent({ required, name, label, validate }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function loadList() {
-      const result = await getNomList('concentrations')();
+    getNomList('concentrations')().then(result => {
       setOptions(result);
-    }
-    loadList();
+    });
   }, []);
   return (
     <CustomSelectFieldComponent required={required} name={name} label={label} validate={validate} source={options} />

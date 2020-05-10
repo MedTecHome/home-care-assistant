@@ -1,7 +1,7 @@
-import { isEmpty } from 'ramda';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import mutateTreatmentValues from './mutations';
+import { isEmpty } from '../../../helpers/utils';
 
 const TreatmentRef = dbRef('treatment').collection('treatments');
 

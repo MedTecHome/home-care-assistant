@@ -6,11 +6,9 @@ function SheduleFieldComponent({ label, name, validate }) {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    async function loadList() {
-      const result = await getNomList('shedules')();
+    getNomList('shedules')().then(result => {
       setOptions(result);
-    }
-    loadList();
+    });
   }, []);
 
   return <CustomSelectFieldComponent required source={options} label={label} name={name} validate={validate} />;

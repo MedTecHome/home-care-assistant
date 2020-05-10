@@ -12,12 +12,12 @@ import { getNomList } from '../../../nomenc/NomencAction';
 
 const useStyles = makeStyles({
   formControl: {
-    width: '25%',
+    width: '25%'
   },
   containerFilters: {
     display: 'flex',
-    minWidth: '100%',
-  },
+    minWidth: '100%'
+  }
 });
 
 function FiltersPatientHistoryComponent() {
@@ -49,7 +49,7 @@ function FiltersPatientHistoryComponent() {
               variant="h5"
               style={{
                 flex: '1 1 100%',
-                color: '#666',
+                color: '#666'
               }}
             >
               Historial de pruebas
@@ -58,7 +58,7 @@ function FiltersPatientHistoryComponent() {
           <Grid item xs={6} sm={6} container alignContent="flex-end">
             <Select
               style={{
-                flex: '1 1 100%',
+                flex: '1 1 100%'
               }}
               className={classes.formControl}
               value={(filters && filters.type) || 'all'}

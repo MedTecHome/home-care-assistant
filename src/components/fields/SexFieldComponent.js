@@ -7,11 +7,9 @@ function SexFieldComponent({ required, name, label }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function loadList() {
-      const result = await getNomList('sex')();
+    getNomList('sex')().then(result => {
       setOptions(result);
-    }
-    loadList();
+    });
   }, []);
   return (
     <CustomSelectFieldComponent required={required} name={name} label={label} validate={validateSex} source={options} />

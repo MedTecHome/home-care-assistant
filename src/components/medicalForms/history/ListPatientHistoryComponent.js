@@ -23,19 +23,19 @@ import StandarDetailButtonIcon from '../../buttons/StandarDetailButtonIcon';
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiListItemText-root': {
-      flex: 1,
-    },
+      flex: 1
+    }
   },
   listItems: {
     marginBottom: 5,
     background: theme.palette.background.paper,
     '&:hover': {
-      background: '#f5f5f6',
+      background: '#f5f5f6'
     },
     listItemsSelected: {
-      background: '#666666',
-    },
-  },
+      background: '#666666'
+    }
+  }
 }));
 
 function ListPatientHistoryComponent() {

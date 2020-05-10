@@ -19,7 +19,7 @@ function MedicinesComponent() {
     modalVisible,
     setModalVisible,
     formType,
-    filters,
+    filters
   } = useMedicinesContext();
   const { currentUserProfile } = useAuthContext();
 

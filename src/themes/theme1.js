@@ -8,16 +8,16 @@ const theme1 = createMuiTheme({
     primary: {
       main: '#164160',
       light: '#476c8e',
-      dark: '#001b36',
+      dark: '#001b36'
     },
     secondary: {
-      main: red['500'],
+      main: red['500']
     },
     accent: grey,
     error: red,
     success: green,
-    inProgress: yellow,
-  }),
+    inProgress: yellow
+  })
 });
 
 export default theme1;

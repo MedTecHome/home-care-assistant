@@ -1,7 +1,7 @@
 import { Autocomplete } from 'mui-rff';
 import React, { useEffect, useMemo, useState } from 'react';
-import debounce from 'lodash/debounce';
 import { getProfilesAction } from '../profiles/reducers/ProfileActions';
+import useDebounceCustom from '../../commons/useDebounceCustom';
 
 function ProfileFieldComponent({
   required,
@@ -12,21 +12,21 @@ function ProfileFieldComponent({
   name,
   validate,
   filterRole = '',
-  placeholder,
+  placeholder
 }) {
   const [doctors, setDoctors] = useState([]);
   const [filterName, setFilterName] = useState('');
-  const setFilterNameDebounced = debounce(setFilterName, 500);
+  const debounceValue = useDebounceCustom(filterName, 500);
+  const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
-  const filterNameMemoize = useMemo(() => filterName, [filterName]);
   useEffect(() => {
     getProfilesAction({
-      filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) },
+      filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }
     }).then(res => setDoctors(res));
   }, [filterRole, filterNameMemoize]);
 
   const handleInputChange = event => {
-    setFilterNameDebounced(event.target.value);
+    setFilterName(event.target.value);
   };
 
   return (
@@ -39,13 +39,13 @@ function ProfileFieldComponent({
       name={name}
       disabled={disabled}
       fieldProps={{
-        validate,
+        validate
       }}
       textFieldProps={{
         size,
         placeholder,
         variant,
-        onChange: handleInputChange,
+        onChange: handleInputChange
       }}
       openOnFocus={false}
       options={doctors}

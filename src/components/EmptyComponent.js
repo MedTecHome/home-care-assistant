@@ -6,7 +6,7 @@ function EmptyComponent() {
       style={{
         color: '#ccc',
         textAlign: 'center',
-        marginTop: '5%',
+        marginTop: '5%'
       }}
     >
       No hay datos a mostrar

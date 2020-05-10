@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  homeContainer: {},
+  homeContainer: {}
 });
 
 function HomeComponent() {

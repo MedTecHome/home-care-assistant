@@ -6,11 +6,9 @@ function DosisFieldComponent({ required, name, label, validate }) {
   const [options, setOptions] = useState([]);
   // const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function loadList() {
-      const result = await getNomList('dosis')();
+    getNomList('dosis')().then(result => {
       setOptions(result);
-    }
-    loadList();
+    });
   }, []);
   return (
     <CustomSelectFieldComponent required={required} name={name} label={label} validate={validate} source={options} />

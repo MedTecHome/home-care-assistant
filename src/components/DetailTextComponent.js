@@ -11,7 +11,7 @@ function DetailTextComponent({ label, value, disabledAlignContent = false }) {
         justify="flex-end"
         alignContent={disabledAlignContent ? 'flex-start' : 'flex-end'}
         style={{
-          textAlign: 'right',
+          textAlign: 'right'
         }}
       >
         <strong>{`${label}:`}</strong>

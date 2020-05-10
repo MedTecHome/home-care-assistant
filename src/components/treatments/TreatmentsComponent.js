@@ -26,7 +26,7 @@ function TreatmentsComponent() {
     formType,
     selectFromList,
     setFilters,
-    filters,
+    filters
   } = useTreatmentsContext();
   const [page, setPage] = useState({});
   const [currentPatient, setCurrentPatient] = useState(null);

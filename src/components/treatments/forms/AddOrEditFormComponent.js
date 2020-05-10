@@ -37,7 +37,7 @@ function AddOrEditFormComponent({ title }) {
                 medicine: selected.medicine.id,
                 patient: selected.patient.id,
                 startDate: selected.startDate.toDate(),
-                endDate: selected.endDate.toDate(),
+                endDate: selected.endDate.toDate()
               }
             : formType === ADD_FORM_TEXT && filters && filters['patient.id'] && { patient: filters['patient.id'] }
         }

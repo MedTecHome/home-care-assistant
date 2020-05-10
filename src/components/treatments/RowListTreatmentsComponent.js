@@ -13,9 +13,9 @@ import EditButtonIcon from '../buttons/EditButtonIcon';
 const useStyles = makeStyles(theme => ({
   tableRows: {
     '&.Mui-selected': {
-      background: theme.palette.primary.light,
-    },
-  },
+      background: theme.palette.primary.light
+    }
+  }
 }));
 
 function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVisible, editRole, delRole }) {

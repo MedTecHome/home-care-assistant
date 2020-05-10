@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { isEmpty } from 'ramda';
+
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
@@ -61,7 +61,7 @@ export const withProfileContext = WrapperComponent => () => {
         selectProfileFromList,
         saveProfileValues,
         setModalVisible,
-        setFilters,
+        setFilters
       }}
     >
       <WrapperComponent />
@@ -71,7 +71,7 @@ export const withProfileContext = WrapperComponent => () => {
 
 export const useProfilesContext = () => {
   const values = useContext(ProfilesContext);
-  if (!values || isEmpty(values)) throw new Error('This context only works inside ProfilesContextProvider');
+  if (!values) throw new Error('This context only works inside ProfilesContextProvider');
   return {
     profileList: values.profileList,
     selected: values.selected,
@@ -83,6 +83,6 @@ export const useProfilesContext = () => {
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
     filters: values.filters,
-    setFilters: values.setFilters,
+    setFilters: values.setFilters
   };
 };

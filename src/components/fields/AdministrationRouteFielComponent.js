@@ -6,11 +6,9 @@ function AdministrationRouteFielComponent({ required, name, label, validate }) {
   const [options, setOptions] = useState([]);
   // const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function loadList() {
-      const result = await getNomList('administrationroute')();
+    getNomList('administrationroute')().then(result => {
       setOptions(result);
-    }
-    loadList();
+    });
   }, []);
 
   return (

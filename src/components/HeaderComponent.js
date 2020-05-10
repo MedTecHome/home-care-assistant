@@ -18,17 +18,17 @@ import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationC
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   toolbar: {
-    minHeight: 36,
+    minHeight: 36
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   currentUser: {
-    fontSize: '0.9rem',
-  },
+    fontSize: '0.9rem'
+  }
 });
 
 function HeaderComponent({ history }) {

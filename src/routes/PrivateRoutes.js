@@ -10,7 +10,7 @@ const PrivateRoutes = ({ location, history, path, component, exact }) => {
       urlSearchParams.set('toUrl', location.pathname);
       history.push({
         pathname: '/login',
-        search: urlSearchParams.toString(),
+        search: urlSearchParams.toString()
       });
     }
   }, [currentUser, history, location.pathname]);

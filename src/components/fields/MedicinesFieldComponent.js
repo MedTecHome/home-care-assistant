@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
-import debounce from 'lodash/debounce';
 import { withMedicinesContext } from '../medicines/MedicinesContext';
 import { getMedicinesListAction } from '../medicines/reducers/MedicinesActions';
 import { REQUIRED_FIELD } from '../../commons/globalText';
+import useDebounceCustom from '../../commons/useDebounceCustom';
 
 function MedicinesFieldComponent({ classes }) {
   const [medicines, setMedicines] = useState([]);
   const [filterName, setFilterName] = useState('');
-  const setFilterNameDebounced = debounce(setFilterName, 500);
+  const debounceValue = useDebounceCustom(filterName, 500);
+  const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
-  const filterNameMemoize = useMemo(() => filterName, [filterName]);
   useEffect(() => {
     getMedicinesListAction({ filters: { name: filterNameMemoize } }).then(res => {
       setMedicines(res);
@@ -18,7 +18,7 @@ function MedicinesFieldComponent({ classes }) {
   }, [filterNameMemoize]);
 
   const handleInputChange = event => {
-    setFilterNameDebounced(event.target.value);
+    setFilterName(event.target.value);
   };
 
   return (
@@ -30,13 +30,13 @@ function MedicinesFieldComponent({ classes }) {
       label="Medicamentos"
       name="medicine"
       fieldProps={{
-        validate: value => (!value ? REQUIRED_FIELD : null),
+        validate: value => (!value ? REQUIRED_FIELD : null)
       }}
       textFieldProps={{
         size: 'small',
         placeholder: 'busque y seleccione',
         onChange: handleInputChange,
-        color: 'primary',
+        color: 'primary'
       }}
       openOnFocus={false}
       options={medicines}

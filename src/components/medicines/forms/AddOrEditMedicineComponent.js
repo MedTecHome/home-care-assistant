@@ -13,7 +13,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
-import { differenceTwoObjects, getPropValue } from '../../../commons/util';
+import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
@@ -22,8 +22,7 @@ function AddOrEditMedicineComponent({ title }) {
   };
 
   const onSubmit = async (values, forms) => {
-    const newValues = differenceTwoObjects(values, forms.getState().initialValues);
-    await saveMedicineValues({ ...newValues, id: values.id }, formType);
+    await saveMedicineValues({ ...forms.getState().dirtyFields, id: values.id }, formType);
     handleCloseForm();
   };
 

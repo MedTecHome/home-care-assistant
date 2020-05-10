@@ -14,17 +14,17 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     '& > * + *': {
-      marginLeft: theme.spacing(2),
+      marginLeft: theme.spacing(2)
     },
     '& > *': {
       textTransform: 'none',
       padding: 2,
-      fontSize: '0.7rem',
+      fontSize: '0.7rem'
     },
     activeLink: {
-      color: 'red',
-    },
-  },
+      color: 'red'
+    }
+  }
 }));
 
 export function NavigationMenuComponent({ onClick }) {
@@ -42,7 +42,7 @@ export function NavigationMenuComponent({ onClick }) {
               to={route.path}
               onClick={onClick}
               activeStyle={{
-                background: 'rgba(0,0,0,0.1)',
+                background: 'rgba(0,0,0,0.1)'
               }}
             >
               {route.label}
@@ -70,7 +70,7 @@ export function NavigationLargeComponent() {
                   component={NavLink}
                   to={route.path}
                   activeStyle={{
-                    background: 'rgba(255,255,255,0.5)',
+                    background: 'rgba(255,255,255,0.5)'
                   }}
                 >
                   {route.label}

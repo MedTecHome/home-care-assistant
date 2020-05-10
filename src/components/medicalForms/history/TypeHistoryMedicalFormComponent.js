@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   listItemValues: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2,1fr)',
-    gridRowGap: 14,
+    gridRowGap: 14
   },
   listItem: {
     color: 'rgba(0, 0, 0, 0.87)',
@@ -15,8 +15,8 @@ const useStyles = makeStyles({
     fontWeight: 400,
     lineHeight: 1.43,
     letterSpacing: '0.01071em',
-    justifySelf: 'left',
-  },
+    justifySelf: 'left'
+  }
 });
 
 function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {

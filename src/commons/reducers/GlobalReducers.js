@@ -2,7 +2,7 @@ import { SET_MODAL_VISIBLE } from '../globalText';
 
 export const initialGlobalState = {
   modalVisible: false,
-  formType: null,
+  formType: null
 };
 
 export const GlobalReducer = (state, action) => {
@@ -11,7 +11,7 @@ export const GlobalReducer = (state, action) => {
       return {
         ...state,
         modalVisible: action.flag,
-        formType: action.formType,
+        formType: action.formType
       };
     default:
       return state;

@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { isEmpty, isNil } from 'ramda';
 import { fetchHospitalsAction, saveHospitalValuesAction } from './reducers/HospitalActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
@@ -52,7 +51,7 @@ const HospitalContextProvider = ({ children }) => {
         selectHospital,
         saveHospitalValues,
         setModalVisible,
-        setFilters,
+        setFilters
       }}
     >
       {children}
@@ -62,7 +61,7 @@ const HospitalContextProvider = ({ children }) => {
 
 export const useHospitalContext = () => {
   const values = useContext(HospitalContext);
-  if (isEmpty(values) || isNil(values)) throw new Error('This hooks only works inside HospitalContextProvider');
+  if (!values) throw new Error('This hooks only works inside HospitalContextProvider');
   return {
     hospitalsList: values.hospitalsList,
     selected: values.selected,
@@ -74,7 +73,7 @@ export const useHospitalContext = () => {
     selectHospital: values.selectHospital,
     saveHospitalValues: values.saveHospitalValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
+    setFilters: values.setFilters
   };
 };
 

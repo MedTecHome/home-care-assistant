@@ -1,10 +1,10 @@
 import React from 'react';
 import uuid from 'uuid4';
 import { Route, Switch } from 'react-router-dom';
-import { isEmpty, isNil } from 'ramda';
 import PrivateRoutes from './PrivateRoutes';
 import RouteListConfig from './RoutesListConfig';
 import { useAuthContext } from '../contexts/AuthContext';
+import { isEmpty } from '../helpers/utils';
 
 function RoutesComponent() {
   const { currentUserProfile } = useAuthContext();
@@ -13,10 +13,10 @@ function RoutesComponent() {
       {RouteListConfig.filter(
         route =>
           isEmpty(route.roles) ||
-          isNil(route.roles) ||
+          !route.roles ||
           (route.roles && currentUserProfile && route.roles.includes(currentUserProfile.role.id))
       ).map(({ path, roles, component }) => {
-        if (!isEmpty(roles) && !isNil(roles)) {
+        if (!isEmpty(roles) && roles) {
           return <PrivateRoutes key={uuid()} path={path} exact component={component} />;
         }
         // eslint-disable-next-line react/jsx-props-no-spreading

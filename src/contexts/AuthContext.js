@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { isNil } from 'ramda';
 import { authFirebase, dbRef } from '../firebaseConfig';
 import { saveProfileValuesAction } from '../components/profiles/reducers/ProfileActions';
 import { ADD_FORM_TEXT } from '../commons/globalText';
@@ -16,7 +15,7 @@ export function AuthContextProvider({ children }) {
       setCurrentUser(user);
       if (user) {
         const profile = await dbRef('profile').collection('profiles').where('user.id', '==', user.uid).get();
-        if (!isNil(profile.docChanges()[0])) {
+        if (profile.docChanges()[0]) {
           setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
         }
       } else
@@ -28,9 +27,12 @@ export function AuthContextProvider({ children }) {
 
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
+          hospital: {
+            id: 'q3fi3hFCIF8gLOPl3I7o'
+          },
           role: {
             // id: 'admin',
-            // id: 'clinic',
+            //  id: 'clinic',
             id: 'doctor'
             // id: 'patient',
           }

@@ -2,7 +2,7 @@ import {
   INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT,
   REGEX_POSITIVE_NUMBER,
   REGEX_POSITIVE_NUMBER_AND_DECIMAL,
-  REQUIRED_FIELD,
+  REQUIRED_FIELD
 } from '../../commons/globalText';
 
 export const validateDate = value => {

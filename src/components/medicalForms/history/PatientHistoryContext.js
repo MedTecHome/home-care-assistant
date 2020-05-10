@@ -47,7 +47,7 @@ const PatientHistoryContextProvider = ({ children }) => {
         selectMedicalForm,
         getPatientHistory,
         setFilters,
-        setModalVisible,
+        setModalVisible
       }}
     >
       {children}
@@ -77,6 +77,6 @@ export const usePatientHistoryContext = () => {
     formType: values.formType,
     getPatientHistory: values.getPatientHistory,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
+    setFilters: values.setFilters
   };
 };

@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   errorMessage: {
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });
 
 export default function ErrorMessageComponent({ errorState }) {
