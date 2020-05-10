@@ -28,12 +28,8 @@ function MedicinesComponent() {
   }, [getMedicinesList, filters]);
 
   useEffect(() => {
-    handleReloadList();
-  }, [handleReloadList]);
-
-  const handleBackdrop = () => {
-    setModalVisible(false, null);
-  };
+    if (formType === null) handleReloadList();
+  }, [formType, handleReloadList]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -41,8 +37,8 @@ function MedicinesComponent() {
 
   return (
     <>
-      <ModalComponent visible={modalVisible} onBackdropClick={handleBackdrop}>
-        <FormsMedicineComponent formType={formType} onFormsClose={handleReloadList} />
+      <ModalComponent visible={modalVisible}>
+        <FormsMedicineComponent formType={formType} />
       </ModalComponent>
       <TableComponent
         title="Listado de medicamentos"

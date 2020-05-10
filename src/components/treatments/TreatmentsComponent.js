@@ -57,8 +57,8 @@ function TreatmentsComponent() {
   }, [getListOfTreatments, filters, page]);
 
   useEffect(() => {
-    handleLoadList();
-  }, [handleLoadList]);
+    if (formType === null) handleLoadList();
+  }, [formType, handleLoadList]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -67,7 +67,7 @@ function TreatmentsComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible}>
-        <TreatmentsFormComponent formType={formType} onCloseForms={handleLoadList} />
+        <TreatmentsFormComponent formType={formType} />
       </ModalComponent>
       <TableComponent
         addRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}

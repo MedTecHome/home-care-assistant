@@ -27,15 +27,7 @@ const useStyles = makeStyles({
 
 function PatientHistoryComponent() {
   const { state } = useLocation();
-  const {
-    getPatientHistory,
-    historyList,
-    loadingList,
-    modalVisible,
-    setModalVisible,
-    filters,
-    setFilters
-  } = usePatientHistoryContext();
+  const { getPatientHistory, historyList, loadingList, modalVisible, filters, setFilters } = usePatientHistoryContext();
   const [page, setPage] = useState({});
   const [currentPatient, setCurrentPatient] = useState(null);
   const { currentUserProfile } = useAuthContext();
@@ -62,13 +54,9 @@ function PatientHistoryComponent() {
     getPatientHistory({ filters, ...page });
   }, [setFilters, getPatientHistory, filters, page]);
 
-  const handleClose = () => {
-    setModalVisible(false, null);
-  };
-
   return (
     <>
-      <ModalComponent visible={modalVisible} onBackdropClick={handleClose}>
+      <ModalComponent visible={modalVisible}>
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
       <Container maxWidth="md">

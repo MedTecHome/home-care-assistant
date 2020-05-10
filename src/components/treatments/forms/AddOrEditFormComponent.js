@@ -11,27 +11,30 @@ import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
 import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../profiles/forms/valdiateProfile';
-import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { ADD_FORM_TEXT, CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
 import { extractValues } from '../../../helpers/utils';
+import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
+import validateForm from './validateForm';
 
 function AddOrEditFormComponent({ title }) {
   const { setModalVisible, selected, saveValues, formType, filters } = useTreatmentsContext();
   const classes = useCustomStyles();
   const handleCloseModal = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
   const onSubmit = async (values, forms) => {
     const newValues = extractValues(forms.getState().dirtyFields, values);
     await saveValues({ id: selected.id, ...newValues }, formType);
-    handleCloseModal();
+    setModalVisible(false, null);
   };
 
   return (
     <>
       <DialogTitleComponent onClose={handleCloseModal}>{title}</DialogTitleComponent>
       <Form
+        validate={validateForm}
         initialValues={
           formType === EDIT_FORM_TEXT && selected
             ? {
@@ -59,7 +62,11 @@ function AddOrEditFormComponent({ title }) {
               <DialogContent dividers>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
+                    <CustomTextFieldComponent required variant="outlined" label="Nombre" name="name" />
+                  </Grid>
+                  <Grid item xs={12}>
                     <ProfileFieldComponent
+                      required
                       label="Paciente"
                       name="patient"
                       filterRole="patient"

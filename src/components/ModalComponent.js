@@ -37,12 +37,11 @@ export const DialogTitleComponent = withStyles(styles)(props => {
   );
 });
 
-const ModalComponent = withStyles(styles)(({ children, onBackdropClick, visible, classes }) => {
+const ModalComponent = withStyles(styles)(({ children, visible, classes }) => {
   return (
     <Dialog
       className={classes.dialogRoot}
       open={visible}
-      onBackdropClick={onBackdropClick}
       scroll="paper"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"

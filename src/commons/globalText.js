@@ -5,7 +5,7 @@ export const ADD_FORM_TEXT = 'ADD_FORM_TEXT';
 export const EDIT_FORM_TEXT = 'EDIT_FORM_TEXT';
 export const DELETE_FORM_TEXT = 'DELETE_FORM_TEXT';
 export const DETAILS_FORM_TEXT = 'DETAILS_FORM_TEXT';
-export const SELECT_FORM_TEXT = 'SELECT_FORM_TEXT';
+export const CANCEL_FORM_TEXT = 'CANCEL_FORM_TEXT';
 
 /** validator text */
 export const REGEX_EMAIL_ADDRESS = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;

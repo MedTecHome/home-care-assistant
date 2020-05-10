@@ -16,6 +16,7 @@ import DetailTextComponent from '../../DetailTextComponent';
 import { getPropValue } from '../../../helpers/utils';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
+import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -33,7 +34,7 @@ function DetailHistoryMedicalFormComponent() {
   const classes = useStyles();
 
   const handleClose = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
   return (

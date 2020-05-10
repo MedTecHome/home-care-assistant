@@ -16,13 +16,14 @@ import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import DetailTextComponent from '../../DetailTextComponent';
 import { getPropValue } from '../../../helpers/utils';
+import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 function DetailsTreatmentComponent() {
   const { selected, setModalVisible } = useTreatmentsContext();
   const classes = useCustomStyles();
 
   const handleCloseForm = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
   return (
     <>

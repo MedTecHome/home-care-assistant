@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useMedicinesContext } from '../MedicinesContext';
-import { EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import formValidate from './formValidate';
 import SaveButton from '../../buttons/SaveButton';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
@@ -18,13 +18,13 @@ import { extractValues, getPropValue } from '../../../helpers/utils';
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
   const handleCloseForm = () => {
-    setModalVisible(false, null);
+    setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
   const onSubmit = async (values, forms) => {
     const newValues = extractValues(forms.getState().dirtyFields, values);
     await saveMedicineValues({ id: values.id, ...newValues }, formType);
-    handleCloseForm();
+    setModalVisible(false, null);
   };
 
   return (

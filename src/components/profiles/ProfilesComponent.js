@@ -27,10 +27,6 @@ function ProfilesComponent() {
     });
   }, [setFilters]);
 
-  const handleBackdropClick = () => {
-    setModalVisible(false, null);
-  };
-
   const handleLoadList = useCallback(() => {
     getProfilesList({ filters });
     selectProfileFromList(null);
@@ -50,7 +46,7 @@ function ProfilesComponent() {
 
   return (
     <>
-      <ModalComponent visible={modalVisible} onBackdropClick={handleBackdropClick}>
+      <ModalComponent visible={modalVisible}>
         <ProfilesFormComponent formType={formType} handleModalClose={handleLoadList} />
       </ModalComponent>
       <Breadcrumbs aria-label="breadcrumb">

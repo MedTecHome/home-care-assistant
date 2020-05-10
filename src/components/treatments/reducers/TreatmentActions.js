@@ -6,11 +6,11 @@ import { isEmpty } from '../../../helpers/utils';
 const TreatmentRef = dbRef('treatment').collection('treatments');
 
 export const getListTreatmentsAction = async ({ limit = 2, next, prev, filters }) => {
-  let ref = TreatmentRef.orderBy('startDate');
+  let ref = TreatmentRef;
   if (next) {
-    ref = ref.startAfter(next.statDate);
+    ref = ref.startAfter(next.startDate);
   } else if (prev) {
-    ref = ref.endBefore(prev.statDate);
+    ref = ref.endBefore(prev.startDate);
   }
   if (filters) {
     Object.keys(filters).map(k => {
@@ -33,13 +33,26 @@ export const findByIdAction = async (id, fields = []) => {
   return { id: result.id, ...(isEmpty(fields) ? result.data() : data) };
 };
 
-export const saveValuesAction = async ({ id, ...values }, formType) => {
+const addValues = async ({ id, ...values }) => {
   const result = await mutateTreatmentValues(values);
+  await TreatmentRef.add(result);
+};
+
+const editValues = async ({ id, ...values }) => {
+  const result = await mutateTreatmentValues(values);
+  await TreatmentRef.doc(id).update(result);
+};
+
+const deleteValues = async ({ id }) => {
+  await TreatmentRef.doc(id).delete();
+};
+
+export const saveValuesAction = async (values, formType) => {
   if (formType === ADD_FORM_TEXT) {
-    await TreatmentRef.add(result);
+    await addValues(values);
   } else if (formType === EDIT_FORM_TEXT) {
-    await TreatmentRef.doc(id).update(result);
+    await editValues(values);
   } else if (formType === DELETE_FORM_TEXT) {
-    await TreatmentRef.doc(id).delete();
+    await deleteValues(values);
   }
 };
