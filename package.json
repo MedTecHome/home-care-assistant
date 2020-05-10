@@ -38,7 +38,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "check-eslint-config": "eslint --print-config src/index.js | eslint-config-prettier-check",
-    "lintfix": "eslint --fix src"
+    "lintfix": "eslint --fix src",
+    "deploy": "npm build && firebase deploy"
   },
   "husky": {
     "hooks": {
