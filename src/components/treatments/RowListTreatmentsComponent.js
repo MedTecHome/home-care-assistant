@@ -1,48 +1,161 @@
 import React from 'react';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, Box, IconButton } from '@material-ui/core';
+import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
-import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/styles';
+import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
-import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
+import Fieldset from '../fieldset';
+import { getPropValue } from '../../helpers/utils';
+import DetailTextComponent from '../DetailTextComponent';
 
-const useStyles = makeStyles(theme => ({
-  tableRows: {
-    '&.Mui-selected': {
-      background: theme.palette.primary.light
+const cellStyle = makeStyles({
+  cell: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    width: '99%',
+    backgroundColor: '#f5f5f6'
+  },
+  gridTextMargin: {
+    '& > *': {
+      margin: 5
     }
   }
-}));
+});
 
-function RowListTreatmentsComponent({ row, index, selected, selectRow, onModalVisible, editRole, delRole }) {
-  const classes = useStyles();
+function DetailTreatmentRowCellComponent({ open, data }) {
+  const classes = cellStyle();
   return (
-    <TableRow
-      className={classes.tableRow}
-      hover
-      onClick={() => selectRow(row.id)}
-      tabIndex={-1}
-      key={row.id}
-      selected={selected && selected.id === row.id}
-    >
-      <TableCell>{index + 1}</TableCell>
-      <TableCell>
-        <Typography>{row.medicine && row.medicine.name}</Typography>
-      </TableCell>
-      <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
-      <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
-      <TableCell align="center">
-        <ButtonGroup variant="text" aria-label="outlined primary button group">
-          <StandarDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />
-          {editRole && <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />}
-          {delRole && <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />}
-        </ButtonGroup>
-      </TableCell>
-    </TableRow>
+    <>
+      <TableRow>
+        <TableCell className={classes.cell} colSpan={5}>
+          <Collapse in={open && open === data.id} timeout="auto" unmountOnExit>
+            <Box margin={1}>
+              <Box margin={1}>
+                <Fieldset title="Detalles">
+                  <Grid container spacing={4} direction="row">
+                    <Grid item xs={6} container spacing={2}>
+                      <DetailTextComponent
+                        xsLabel={3}
+                        disabledAlignContent
+                        label="Descripcion"
+                        value={getPropValue(data, 'name') || '?'}
+                      />
+                    </Grid>
+                    <Grid item xs={6} container spacing={2}>
+                      <DetailTextComponent
+                        xsLabel={3}
+                        xsValue={9}
+                        label="Fecha inicio"
+                        value={data.startDate && moment(data.startDate.toDate()).format('DD/MM/YYYY')}
+                      />
+                      <DetailTextComponent
+                        xsLabel={3}
+                        xsValue={9}
+                        label="Fecha fin"
+                        value={data.endDate && moment(data.endDate.toDate()).format('DD/MM/YYYY')}
+                      />
+                    </Grid>
+                  </Grid>
+                </Fieldset>
+              </Box>
+              <Box margin={1}>
+                <Grid
+                  container
+                  spacing={2}
+                  style={{
+                    position: 'relative'
+                  }}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <Fieldset title="Paciente">
+                      <Grid container spacing={2}>
+                        <DetailTextComponent
+                          xsLabel={4}
+                          xsValue={6}
+                          label="Nombre y apellidos"
+                          value={getPropValue(data, 'patient.fullname')}
+                        />
+                      </Grid>
+                    </Fieldset>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Fieldset title="Medicamentos">
+                      <Grid container spacing={2}>
+                        <DetailTextComponent
+                          xsLabel={3}
+                          label="Medicamentos"
+                          value={getPropValue(data, 'medicine.name')}
+                        />
+                      </Grid>
+                    </Fieldset>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
   );
 }
-export default RowListTreatmentsComponent;
+
+const useStyles = {
+  root: {
+    '&.Mui-selected': {
+      backgroundColor: '#f5f5f6',
+      color: '#fff'
+    }
+  }
+};
+
+function RowListTreatmentsComponent({
+  row,
+  open,
+  setOpen,
+  selected,
+  selectRow,
+  onModalVisible,
+  editRole,
+  delRole,
+  classes
+}) {
+  const handleRowClick = id => {
+    selectRow(id);
+    setOpen(!open ? id : null);
+  };
+
+  return (
+    <>
+      <TableRow
+        className={classes.root}
+        hover
+        onClick={() => handleRowClick(row.id)}
+        tabIndex={-1}
+        key={row.id}
+        selected={selected && selected.id === row.id}
+      >
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open ? row.id : null)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell>
+          <Typography>{row.medicine && row.medicine.name}</Typography>
+        </TableCell>
+        <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
+        <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
+        <TableCell align="center">
+          <ButtonGroup variant="text" aria-label="outlined primary button group">
+            {editRole && <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />}
+            {delRole && <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />}
+          </ButtonGroup>
+        </TableCell>
+      </TableRow>
+      <DetailTreatmentRowCellComponent open={open} data={row} />
+    </>
+  );
+}
+export default withStyles(useStyles)(RowListTreatmentsComponent);

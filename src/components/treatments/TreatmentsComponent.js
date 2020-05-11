@@ -28,6 +28,7 @@ function TreatmentsComponent() {
     setFilters,
     filters
   } = useTreatmentsContext();
+  const [open, setOpen] = useState(null);
   const [page, setPage] = useState({});
   const [currentPatient, setCurrentPatient] = useState(null);
   const { currentUserProfile } = useAuthContext();
@@ -81,6 +82,8 @@ function TreatmentsComponent() {
         render={(row, index) => (
           <RowListTreatmentsComponent
             key={uuid()}
+            open={open}
+            setOpen={setOpen}
             row={row}
             index={index}
             selected={selected}
