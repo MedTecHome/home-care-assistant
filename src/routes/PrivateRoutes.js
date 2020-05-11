@@ -4,6 +4,7 @@ import { useAuthContext } from '../contexts/AuthContext';
 
 const PrivateRoutes = ({ location, history, path, component, exact }) => {
   const { currentUser } = useAuthContext();
+
   useEffect(() => {
     if (!currentUser) {
       const urlSearchParams = new URLSearchParams();

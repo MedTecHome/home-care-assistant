@@ -10,7 +10,7 @@ export default function EnhancedTableHead(props) {
     <TableHead color="primary">
       <TableRow>
         <TableCell padding="checkbox" color="primary">
-          <Typography>No.</Typography>
+          <Typography />
         </TableCell>
         {headCells.map(headCell => (
           <TableCell key={headCell.id} align={headCell.numeric ? 'center' : 'left'}>
