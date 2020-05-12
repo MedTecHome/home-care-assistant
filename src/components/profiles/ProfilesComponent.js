@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { useProfilesContext, withProfileContext } from './ProfilesContext';
@@ -10,15 +10,7 @@ import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/g
 import useCustomStyles from '../../jss/globalStyles';
 
 function ProfilesComponent() {
-  const {
-    formType,
-    setModalVisible,
-    modalVisible,
-    selectProfileFromList,
-    getProfilesList,
-    filters,
-    setFilters
-  } = useProfilesContext();
+  const { formType, setModalVisible, modalVisible, setFilters } = useProfilesContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
@@ -26,11 +18,6 @@ function ProfilesComponent() {
       'role.id': 'doctor'
     });
   }, [setFilters]);
-
-  const handleLoadList = useCallback(() => {
-    getProfilesList({ filters });
-    selectProfileFromList(null);
-  }, [filters, getProfilesList, selectProfileFromList]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -47,7 +34,7 @@ function ProfilesComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible}>
-        <ProfilesFormComponent formType={formType} handleModalClose={handleLoadList} />
+        <ProfilesFormComponent formType={formType} />
       </ModalComponent>
       <Breadcrumbs aria-label="breadcrumb">
         <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>
