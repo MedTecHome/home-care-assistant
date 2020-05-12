@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LocalizationProvider, DesktopDateRangePicker } from '@material-ui/pickers';
 import MomentAdapter from '@material-ui/pickers/adapter/moment';
-import { TextField, List, ListItem } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
@@ -10,8 +10,6 @@ function FilterPatientHistoryGraficsComponent() {
   const handleOnChange = values => {
     setDateValue(values);
   };
-
-  console.log(dateValue);
 
   return (
     <Grid item xs={12} container justify="flex-end">

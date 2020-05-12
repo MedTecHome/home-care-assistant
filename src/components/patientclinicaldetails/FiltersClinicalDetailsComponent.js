@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, ListItem } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -37,7 +38,7 @@ function ProfileSearchComponent({ value, onSelect, filterRole = '' }) {
       onChange={(event, newValue) => {
         handleSelect(newValue);
       }}
-      renderInput={params => <TextField {...params} label="controlled" margin="normal" onChange={handleInputChange} />}
+      renderInput={params => <TextField {...params} label="Paciente" margin="normal" onChange={handleInputChange} />}
     />
   );
 }

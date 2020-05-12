@@ -9,6 +9,7 @@ export default function setModalVisibleAction(flag, formType) {
 }
 
 export const setFilters = (Reference, filters) => {
+  // console.log(filters);
   let ref = Reference;
   Object.keys(filters).map(k => {
     if (k === 'name') {

@@ -19,8 +19,6 @@ import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
-import AsignTreatmentButtonIcon from '../buttons/AsignTreatmentButtonIcon';
-import { ADD_FORM_TEXT } from '../../commons/globalText';
 
 function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   const {

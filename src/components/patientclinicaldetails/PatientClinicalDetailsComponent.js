@@ -30,7 +30,7 @@ function PatientClinicalDetailsComponent() {
   useEffect(() => {
     if (patient) {
       setFiltersTreatments({ 'patient.id': patient.id });
-      setFiltersHistory({ 'patient.id': patient.id });
+      setFiltersHistory({ 'user.id': patient.id });
     }
   }, [setFiltersTreatments, patient, setFiltersHistory]);
 
