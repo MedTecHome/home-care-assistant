@@ -5,13 +5,13 @@ import Paper from '@material-ui/core/Paper';
 import TreatmentsComponent from '../treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
 import { useTreatmentsContext, withTreatmentsContext } from '../treatments/TreatmentsContext';
-import { usePatientHistoryContext, withPatientHistoryContext } from '../medicalForms/history/PatientHistoryContext';
-import PatientHistoryComponent from '../medicalForms/history/PatientHistoryComponent';
+import { usePatientHistoryContext, withPatientHistoryContext } from '../testsHistory/PatientHistoryContext';
+import PatientHistoryComponent from '../testsHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 
 function PatientClinicalDetailsComponent() {
-  const [tab, setTab] = useState('treatments');
+  const [tab, setTab] = useState('clinictest');
   const { state } = useLocation();
   const { currentUserProfile, isDoctor } = useAuthContext();
 

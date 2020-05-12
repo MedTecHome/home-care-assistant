@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
-import ModalComponent from '../../ModalComponent';
+import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import useCustomStyles from '../../../jss/globalStyles';
+import { useAuthContext } from '../../contexts/AuthContext';
+import useCustomStyles from '../../jss/globalStyles';
+import FilterPatientHistoryGraficsComponent from './FilterPatientHistoryGraficsComponent';
 
 function PatientHistoryComponent() {
   const { state } = useLocation();
@@ -65,6 +64,9 @@ function PatientHistoryComponent() {
               </>
             )}
           </div>
+        </Grid>
+        <Grid item xs={7} container>
+          <FilterPatientHistoryGraficsComponent />
         </Grid>
       </Grid>
     </>

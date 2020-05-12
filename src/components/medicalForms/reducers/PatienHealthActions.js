@@ -10,15 +10,16 @@ import {
   weightModel
 } from './models';
 import { getNomById } from '../../../nomenc/NomencAction';
+import { getListOfData } from '../../../commons/reducers/GlobalActions';
 
-export const PessureRef = dbRef('health').collection('pressure');
-export const TemperatureRef = dbRef('health').collection('temperature');
-export const WeightRef = dbRef('health').collection('weight');
-export const GlucoseRef = dbRef('health').collection('glucose');
-export const BreathingRef = dbRef('health').collection('breathing');
-export const INRRef = dbRef('health').collection('inr');
-export const OxygenRef = dbRef('health').collection('oxygen');
-export const ExericesRef = dbRef('health').collection('exercises');
+const PessureRef = dbRef('health').collection('pressure');
+const TemperatureRef = dbRef('health').collection('temperature');
+const WeightRef = dbRef('health').collection('weight');
+const GlucoseRef = dbRef('health').collection('glucose');
+const BreathingRef = dbRef('health').collection('breathing');
+const INRRef = dbRef('health').collection('inr');
+const OxygenRef = dbRef('health').collection('oxygen');
+const ExericesRef = dbRef('health').collection('exercises');
 
 export const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('pressure')) {
@@ -79,14 +80,10 @@ export const getWeightAction = async ({ limit = 1, ...params }) => {
   return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
 };
 
-export const getGlucoseAction = async ({ limit = 1, ...params }) => {
-  let ref = GlucoseRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getGlucoseAction = async params => {
   const type = await getNomById('medicalforms')('glucose');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(GlucoseRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
 export const getBreathingAction = async ({ limit = 1, ...params }) => {

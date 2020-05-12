@@ -1,24 +1,18 @@
 import React, { memo } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { makeStyles } from '@material-ui/core/styles';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import moment from 'moment';
-import { useMediaQuery } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTemperatureHigh, faQuestionCircle, faWeight } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import TypeMedicalFormComponent from './TypeHistoryMedicalFormComponent';
-import { DETAILS_FORM_TEXT } from '../../../commons/globalText';
-import EmptyComponent from '../../EmptyComponent';
-import StandarDetailButtonIcon from '../../buttons/StandarDetailButtonIcon';
+import { DETAILS_FORM_TEXT } from '../../commons/globalText';
+import EmptyComponent from '../EmptyComponent';
+import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,16 +26,18 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       background: '#f5f5f6'
     },
-    listItemsSelected: {
-      background: '#666666'
+    '& *': {
+      fontSize: '0.750rem'
     }
+  },
+  title: {
+    fontWeight: 800
   }
 }));
 
 function ListPatientHistoryComponent() {
   const { historyList, loadingList, setModalVisible, selectMedicalForm, selected } = usePatientHistoryContext();
   const classes = useStyles();
-  const match = useMediaQuery(theme => theme.breakpoints.down(700));
 
   const handleDetailMedicalForm = el => {
     setModalVisible(true, DETAILS_FORM_TEXT);
@@ -65,21 +61,23 @@ function ListPatientHistoryComponent() {
                 className={clsx(classes.listItems, selected && selected.id === report.id && classes.listItemsSelected)}
                 divider
               >
-                <ListItemAvatar>
-                  <Avatar>
-                    <FontAwesomeIcon
-                      icon={
-                        (report.type === 'temperature' && faTemperatureHigh) ||
-                        (report.type === 'weight' && faWeight) ||
-                        faQuestionCircle
-                      }
-                    />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<Typography variant="h6">{report.type ? report.type.name : '?'}</Typography>}
-                  secondary={
-                    <>
+                <Grid container>
+                  <Grid item xs={12} container>
+                    <Grid item xs={6}>
+                      <Typography variant="button" className={classes.title}>
+                        {report.type ? report.type.name : '?'}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TypeMedicalFormComponent data={report} type={report.type} />
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12} container>
+                    <Grid item xs={6} />
+                    <Grid item xs={6} />
+                  </Grid>
+                  <Grid item xs={12} container>
+                    <Grid item xs={6}>
                       <Typography component="span" variant="body2" color="textPrimary">
                         {`Fecha: ${
                           moment(report.date.toDate()).isValid()
@@ -87,18 +85,10 @@ function ListPatientHistoryComponent() {
                             : ' - '
                         }`}
                       </Typography>
-                    </>
-                  }
-                />
-                {!match && (
-                  <ListItemText>
-                    <Grid container spacing={5}>
-                      <Grid item xs={12}>
-                        <TypeMedicalFormComponent data={report} type={report.type} />
-                      </Grid>
                     </Grid>
-                  </ListItemText>
-                )}
+                    <Grid item xs={6} />
+                  </Grid>
+                </Grid>
                 <ListItemSecondaryAction>
                   <StandarDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
                 </ListItemSecondaryAction>
