@@ -1,23 +1,22 @@
 import React from 'react';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Typography from '@material-ui/core/Typography';
+import { TableHead, TableRow, TableCell, Typography } from '@material-ui/core';
 
 export default function EnhancedTableHead(props) {
   const { headCells } = props;
   return (
     <TableHead color="primary">
       <TableRow>
-        <TableCell padding="checkbox" color="primary">
+        <TableCell padding="checkbox" color="primary" variant="head">
           <Typography />
         </TableCell>
         {headCells.map(headCell => (
-          <TableCell key={headCell.id} align={headCell.numeric ? 'center' : 'left'}>
+          <TableCell key={headCell.id} align={headCell.numeric ? 'center' : 'left'} variant="head">
             {headCell.label}
           </TableCell>
         ))}
-        <TableCell align="center">Acciones</TableCell>
+        <TableCell align="center" variant="head" component="th">
+          Acciones
+        </TableCell>
       </TableRow>
     </TableHead>
   );

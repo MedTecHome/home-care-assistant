@@ -3,7 +3,8 @@ import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, Box
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
@@ -15,8 +16,8 @@ const cellStyle = makeStyles({
   cell: {
     paddingBottom: 0,
     paddingTop: 0,
-    width: '99%',
-    backgroundColor: '#f5f5f6'
+    width: '99%'
+    // backgroundColor: '#f5f5f6'
   },
   gridTextMargin: {
     '& > *': {
@@ -30,8 +31,8 @@ function DetailTreatmentRowCellComponent({ open, data }) {
   return (
     <>
       <TableRow>
-        <TableCell className={classes.cell} colSpan={5}>
-          <Collapse in={open && open === data.id} timeout="auto" unmountOnExit>
+        <TableCell className={classes.cell} colSpan={6}>
+          <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
             <Box margin={1}>
               <Box margin={1}>
                 <Fieldset title="Detalles">
@@ -130,7 +131,7 @@ function RowListTreatmentsComponent({
   return (
     <>
       <TableRow
-        className={classes.root}
+        className={clsx(classes.root)}
         hover
         onClick={() => handleRowClick(row.id)}
         tabIndex={-1}
@@ -143,7 +144,10 @@ function RowListTreatmentsComponent({
           </IconButton>
         </TableCell>
         <TableCell>
-          <Typography>{row.medicine && row.medicine.name}</Typography>
+          <Typography>{getPropValue(row, 'name') || ' - '}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography>{getPropValue(row, 'medicine.name') || ' - '}</Typography>
         </TableCell>
         <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>

@@ -11,6 +11,7 @@ import treatmentsHeadCells from './treatmentsHeadCells';
 import ModalComponent from '../ModalComponent';
 import TreatmentsFormComponent from './forms/TreatmentsFormComponent';
 import RowListTreatmentsComponent from './RowListTreatmentsComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 import useCustomStyles from '../../jss/globalStyles';
 
 function TreatmentsComponent() {
@@ -25,6 +26,7 @@ function TreatmentsComponent() {
     selectFromList,
     filters
   } = useTreatmentsContext();
+  const { isDoctor } = useAuthContext();
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState({});
   const classes = useCustomStyles();
@@ -47,18 +49,12 @@ function TreatmentsComponent() {
         <TreatmentsFormComponent formType={formType} />
       </ModalComponent>
       <TableComponent
+        disableElevation
         headCells={treatmentsHeadCells}
         loadingList={loadingList}
         list={listTreatments}
         setModalVisible={setModalVisible}
         selected={selected}
-        extraText={
-          <div className={classes.extraText}>
-            <Typography>
-              Nombre: <strong>probando</strong>
-            </Typography>
-          </div>
-        }
         render={(row, index) => (
           <RowListTreatmentsComponent
             key={uuid()}
@@ -69,6 +65,8 @@ function TreatmentsComponent() {
             selected={selected}
             selectRow={selectFromList}
             onModalVisible={handleModalVisible}
+            editRole={isDoctor}
+            delRole={isDoctor}
           />
         )}
       />
