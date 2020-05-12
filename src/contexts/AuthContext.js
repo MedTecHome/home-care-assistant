@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { authFirebase, dbRef } from '../firebaseConfig';
 import { saveProfileValuesAction } from '../components/profiles/reducers/ProfileActions';
 import { ADD_FORM_TEXT } from '../commons/globalText';
+import { getPropValue } from '../helpers/utils';
 
 const AuthContext = createContext({});
 
@@ -9,6 +10,11 @@ export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
   const [errorState, setErrorState] = useState(null);
+
+  const isAdmin = ['admin'].includes(getPropValue(currentUserProfile, 'role.id'));
+  const isClinic = ['clinic', 'admin'].includes(getPropValue(currentUserProfile, 'role.id'));
+  const isDoctor = ['doctor', 'admin'].includes(getPropValue(currentUserProfile, 'role.id'));
+  const isPatient = ['patient', 'admin'].includes(getPropValue(currentUserProfile, 'role.id'));
 
   useEffect(() => {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {
@@ -20,9 +26,9 @@ export function AuthContextProvider({ children }) {
         }
       } else setCurrentUserProfile(null);
       /** setCurrentUserProfile({
-          id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
+          // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
           // id: 'OyE16UfGemph3hdKjAyJ', // clinic id
-          // id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
+          id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
           // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
 
           user: { email: 'localhost@local' },
@@ -31,10 +37,10 @@ export function AuthContextProvider({ children }) {
             id: 'q3fi3hFCIF8gLOPl3I7o'
           },
           role: {
-            id: 'admin'
+            // id: 'admin'
             // id: 'clinic'
-            // id: 'doctor'
-            // id: 'patient',
+            id: 'doctor'
+            // id: 'patient'
           }
         }); */
     });
@@ -78,6 +84,10 @@ export function AuthContextProvider({ children }) {
       value={{
         currentUser,
         currentUserProfile,
+        isAdmin,
+        isClinic,
+        isDoctor,
+        isPatient,
         signInUser,
         signOutUser,
         signUpUser,
@@ -95,6 +105,10 @@ export const useAuthContext = () => {
   return {
     currentUser: values.currentUser,
     currentUserProfile: values.currentUserProfile,
+    isAdmin: values.isAdmin,
+    isClinic: values.isClinic,
+    isDoctor: values.isDoctor,
+    isPatient: values.isPatient,
     signInUser: values.signInUser,
     signOutUser: values.signOutUser,
     signUpUser: values.signUpUser,

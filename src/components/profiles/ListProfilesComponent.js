@@ -19,8 +19,6 @@ import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
-import AsignTreatmentButtonIcon from '../buttons/AsignTreatmentButtonIcon';
-import { ADD_FORM_TEXT } from '../../commons/globalText';
 
 function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   const {
@@ -124,10 +122,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                 <div>
                   {profile.role && profile.role.id === 'patient' && (
                     <>
-                      <NavLink to={{ pathname: '/tratamientos', state: { profile, formType: ADD_FORM_TEXT } }}>
-                        <AsignTreatmentButtonIcon />
-                      </NavLink>
-                      <NavLink to={{ pathname: '/paciente/historial', state: { profile } }}>
+                      <NavLink to={{ pathname: '/detallesclinicos', state: { profile } }}>
                         <MedicalDetailButtonIcon />
                       </NavLink>
                     </>

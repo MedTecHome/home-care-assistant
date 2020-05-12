@@ -14,7 +14,7 @@ function ProfileFieldComponent({
   filterRole = '',
   placeholder
 }) {
-  const [doctors, setDoctors] = useState([]);
+  const [profiles, setProfiles] = useState([]);
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
@@ -22,7 +22,7 @@ function ProfileFieldComponent({
   useEffect(() => {
     getProfilesAction({
       filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }
-    }).then(res => setDoctors(res));
+    }).then(res => setProfiles(res));
   }, [filterRole, filterNameMemoize]);
 
   const handleInputChange = event => {
@@ -48,7 +48,7 @@ function ProfileFieldComponent({
         onChange: handleInputChange
       }}
       openOnFocus={false}
-      options={doctors}
+      options={profiles}
       getOptionValue={option => option.id}
       getOptionLabel={option => `${option.name} ${option.lastName}`}
     />

@@ -112,6 +112,15 @@ const useCustomStyles = makeStyles(theme => ({
   noHoverBackground: {
     '&:hover': { background: 'transparent' },
     '&.Mui-checked:hover': { background: 'transparent' }
+  },
+  extraText: {
+    width: '100%',
+    display: 'flex',
+    color: '#666666',
+    '& > *': {
+      fontSize: '0.842rem',
+      marginRight: 60
+    }
   }
 }));
 

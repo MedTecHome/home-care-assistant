@@ -5,10 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import uuid from 'uuid4';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import { DesktopDatePicker, LocalizationProvider } from '@material-ui/pickers';
+import MomentAdapter from '@material-ui/pickers/adapter/moment';
+import TextField from '@material-ui/core/TextField';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { getNomList } from '../../../nomenc/NomencAction';
+import { getNomList } from '../../nomenc/NomencAction';
 
 const useStyles = makeStyles({
   formControl: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles({
 
 function FiltersPatientHistoryComponent() {
   const { filters, setFilters } = usePatientHistoryContext();
+  const [dateValue, setDateValue] = useState(null);
   const [options, setOptions] = useState([]);
   useEffect(() => {
     async function loadList() {
@@ -40,22 +43,19 @@ function FiltersPatientHistoryComponent() {
     setFilters({ ...filters, type: event.target.value });
   };
 
+  const handleFilterDate = value => {
+    setDateValue(value);
+    setFilters({
+      ...filters,
+      ...(value ? { date: value.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate() } : {})
+    });
+  };
+
   return (
     <List>
       <ListItem divider>
         <Grid container spacing={2} justify="space-between" className={classes.containerFilters}>
-          <Grid item xs={12} sm={6}>
-            <Typography
-              variant="h5"
-              style={{
-                flex: '1 1 100%',
-                color: '#666'
-              }}
-            >
-              Historial de pruebas
-            </Typography>
-          </Grid>
-          <Grid item xs={6} sm={6} container alignContent="flex-end">
+          <Grid item xs={12} sm={6} container alignContent="flex-end">
             <Select
               style={{
                 flex: '1 1 100%'
@@ -72,6 +72,32 @@ function FiltersPatientHistoryComponent() {
                 </MenuItem>
               ))}
             </Select>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={MomentAdapter}>
+              <DesktopDatePicker
+                renderInput={({ value, inputRef, InputProps, ref, onBlur, onFocus, placeholder }) => {
+                  return (
+                    <TextField
+                      value={value}
+                      ref={ref}
+                      inputRef={inputRef}
+                      InputProps={InputProps}
+                      onBlur={onBlur}
+                      onFocus={onFocus}
+                      placeholder={placeholder}
+                    />
+                  );
+                }}
+                onChange={handleFilterDate}
+                inputFormat="DD/MM/YYYY"
+                variant="standard"
+                size="small"
+                value={dateValue}
+                autoOk
+                clearable
+              />
+            </LocalizationProvider>
           </Grid>
         </Grid>
       </ListItem>

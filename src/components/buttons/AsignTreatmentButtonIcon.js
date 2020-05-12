@@ -6,7 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 function AsignTreatmentButtonIcon({ onClick }) {
   return (
-    <Tooltip title="Asignar tratamiento">
+    <Tooltip title="Medical">
       <IconButton onClick={onClick} size="small">
         <FontAwesomeIcon icon={faHandHoldingMedical} />
       </IconButton>

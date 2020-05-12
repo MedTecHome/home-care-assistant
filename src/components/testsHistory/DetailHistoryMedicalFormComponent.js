@@ -12,11 +12,11 @@ import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import DetailTextComponent from '../../DetailTextComponent';
-import { getPropValue } from '../../../helpers/utils';
-import { DialogTitleComponent } from '../../ModalComponent';
+import DetailTextComponent from '../DetailTextComponent';
+import { getPropValue } from '../../helpers/utils';
+import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
+import { CANCEL_FORM_TEXT } from '../../commons/globalText';
 
 const useStyles = makeStyles({
   textStyle: {

@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, useHistory, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 
-const PrivateRoutes = ({ location, history, path, component, exact }) => {
+const PrivateRoutes = ({ path, component, exact }) => {
+  const { pathname } = useLocation();
+  const history = useHistory();
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
     if (!currentUser) {
       const urlSearchParams = new URLSearchParams();
-      urlSearchParams.set('toUrl', location.pathname);
+      urlSearchParams.set('toUrl', pathname);
       history.push({
         pathname: '/login',
         search: urlSearchParams.toString()
       });
     }
-  }, [currentUser, history, location.pathname]);
+  }, [currentUser, history, pathname]);
 
   return <Route history={history} path={path} component={component} exact={exact} />;
 };

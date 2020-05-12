@@ -7,20 +7,25 @@ import { getHospitalByIdAction } from './hospital/reducers/HospitalActions';
 import DetailTextComponent from './DetailTextComponent';
 import { getProfileByIdAction } from './profiles/reducers/ProfileActions';
 
-function PatientHomeComponent({ doctorId }) {
-  const [doctor, setDoctor] = useState();
-  const [hospital, setHospital] = useState();
+function PatientHomeComponent({ patient }) {
+  const [doctor, setDoctor] = useState(null);
+  const [hospital, setHospital] = useState(null);
+  const doctorId = getPropValue(patient, 'doctor.id');
+  const hospitalId = getPropValue(patient, 'hospital.id');
 
   useEffect(() => {
-    async function getById() {
-      const d = await getProfileByIdAction(doctorId);
-      setDoctor(d);
-      const h = await getHospitalByIdAction(d.hospital.id);
-      setHospital(h);
-    }
-    getById();
+    if (doctorId)
+      getProfileByIdAction(doctorId).then(d => {
+        setDoctor(d);
+      });
   }, [doctorId]);
-  useEffect(() => {}, [doctor]);
+
+  useEffect(() => {
+    if (hospitalId)
+      getHospitalByIdAction(hospitalId).then(h => {
+        setHospital(h);
+      });
+  }, [hospitalId]);
 
   return (
     <>
@@ -47,9 +52,10 @@ function PatientHomeComponent({ doctorId }) {
   );
 }
 
-function DoctorHomeComponent({ hospitalId }) {
+function DoctorHomeComponent({ doctor }) {
   const [hospital, setHospital] = useState(null);
   const [loading, setLoading] = useState(false);
+  const hospitalId = getPropValue(doctor, 'hospital.id');
 
   useEffect(() => {
     async function getById() {
@@ -78,15 +84,11 @@ function DoctorHomeComponent({ hospitalId }) {
 }
 
 function HomeInfoComponent() {
-  const { currentUserProfile } = useAuthContext();
+  const { currentUserProfile, isDoctor, isPatient } = useAuthContext();
   return (
     <Grid container spacing={3} component={Container} maxWidth="lg">
-      {getPropValue(currentUserProfile, 'role.id') === 'patient' && (
-        <PatientHomeComponent doctorId={getPropValue(currentUserProfile, 'doctor.id')} />
-      )}
-      {getPropValue(currentUserProfile, 'role.id') === 'doctor' && (
-        <DoctorHomeComponent hospitalId={getPropValue(currentUserProfile, 'hospital.id')} />
-      )}
+      {isPatient && <PatientHomeComponent patient={currentUserProfile} />}
+      {isDoctor && <DoctorHomeComponent doctor={currentUserProfile} />}
     </Grid>
   );
 }

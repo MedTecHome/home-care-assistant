@@ -21,7 +21,7 @@ import useCustomStyles from '../../jss/globalStyles';
 import listAccess from '../../commons/access';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 
-function InputSearchByFullname() {
+export function InputSearchByFullname() {
   const { filters, setFilters } = useProfilesContext();
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);

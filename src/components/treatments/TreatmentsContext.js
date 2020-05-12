@@ -5,7 +5,7 @@ import { getListTreatmentsAction, saveValuesAction } from './reducers/TreatmentA
 
 const TreatmentsContext = createContext({});
 
-export const withTreatmentsContext = WrapperComponent => () => {
+export const withTreatmentsContext = WrapperComponent => props => {
   const [list, setList] = useState([]);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
@@ -57,7 +57,8 @@ export const withTreatmentsContext = WrapperComponent => () => {
         setModalVisible
       }}
     >
-      <WrapperComponent />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <WrapperComponent {...props} />
     </TreatmentsContext.Provider>
   );
 };

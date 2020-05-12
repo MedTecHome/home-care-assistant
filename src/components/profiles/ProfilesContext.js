@@ -6,7 +6,7 @@ import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 
 const ProfilesContext = createContext({});
 
-export const withProfileContext = WrapperComponent => () => {
+export const withProfileContext = WrapperComponent => props => {
   const [list, setProfileList] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [slected, setSelected] = useState(null);
@@ -64,7 +64,8 @@ export const withProfileContext = WrapperComponent => () => {
         setFilters
       }}
     >
-      <WrapperComponent />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <WrapperComponent {...props} />
     </ProfilesContext.Provider>
   );
 };

@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { getAllPatientHistoryAction } from '../reducers/PatienHealthActions';
-import { GlobalReducer, initialGlobalState } from '../../../commons/reducers/GlobalReducers';
-import setModalVisibleAction from '../../../commons/reducers/GlobalActions';
+import { getAllPatientHistoryAction } from '../medicalForms/reducers/PatienHealthActions';
+import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
+import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 
 const PatientHistoryContext = createContext({});
 

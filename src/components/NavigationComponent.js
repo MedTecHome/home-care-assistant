@@ -32,7 +32,12 @@ export function NavigationMenuComponent({ onClick }) {
   return (
     <>
       {currentUserProfile &&
-        RouteListConfig.filter(route => route.navegation)
+        RouteListConfig.filter(route => {
+          if (route.navegation) {
+            return route.navegation instanceof Array ? route.navegation.includes(currentUserProfile.role.id) : true;
+          }
+          return false;
+        })
           .filter(route => route.roles.includes(currentUserProfile.role.id))
           .map(route => (
             <MenuItem
@@ -61,7 +66,12 @@ export function NavigationLargeComponent() {
       {currentUserProfile && (
         <Container className={classes.navigation}>
           {currentUserProfile &&
-            RouteListConfig.filter(route => route.navegation)
+            RouteListConfig.filter(route => {
+              if (route.navegation) {
+                return route.navegation instanceof Array ? route.navegation.includes(currentUserProfile.role.id) : true;
+              }
+              return false;
+            })
               .filter(route => route.roles.includes(currentUserProfile.role.id))
               .map(route => (
                 <Button
