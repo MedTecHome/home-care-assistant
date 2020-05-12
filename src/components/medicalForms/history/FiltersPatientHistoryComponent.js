@@ -44,18 +44,7 @@ function FiltersPatientHistoryComponent() {
     <List>
       <ListItem divider>
         <Grid container spacing={2} justify="space-between" className={classes.containerFilters}>
-          <Grid item xs={12} sm={6}>
-            <Typography
-              variant="h5"
-              style={{
-                flex: '1 1 100%',
-                color: '#666'
-              }}
-            >
-              Historial de pruebas
-            </Typography>
-          </Grid>
-          <Grid item xs={6} sm={6} container alignContent="flex-end">
+          <Grid item xs={12} container alignContent="flex-end">
             <Select
               style={{
                 flex: '1 1 100%'

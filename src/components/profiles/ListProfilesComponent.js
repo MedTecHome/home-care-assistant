@@ -124,10 +124,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                 <div>
                   {profile.role && profile.role.id === 'patient' && (
                     <>
-                      <NavLink to={{ pathname: '/tratamientos', state: { profile, formType: ADD_FORM_TEXT } }}>
-                        <AsignTreatmentButtonIcon />
-                      </NavLink>
-                      <NavLink to={{ pathname: '/paciente/historial', state: { profile } }}>
+                      <NavLink to={{ pathname: '/detallesclinicos', state: { profile } }}>
                         <MedicalDetailButtonIcon />
                       </NavLink>
                     </>

@@ -6,24 +6,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import Grid from '@material-ui/core/Grid';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
-
-const useStyles = makeStyles({
-  extraText: {
-    width: '100%',
-    display: 'flex',
-    color: '#666666',
-    '& > *': {
-      fontSize: '0.842rem',
-      marginRight: 60
-    }
-  }
-});
+import useCustomStyles from '../../../jss/globalStyles';
 
 function PatientHistoryComponent() {
   const { state } = useLocation();
@@ -31,7 +21,7 @@ function PatientHistoryComponent() {
   const [page, setPage] = useState({});
   const [currentPatient, setCurrentPatient] = useState(null);
   const { currentUserProfile } = useAuthContext();
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   useEffect(() => {
     if (state) {
@@ -59,27 +49,24 @@ function PatientHistoryComponent() {
       <ModalComponent visible={modalVisible}>
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
-      <Container maxWidth="md">
-        <FiltersPatientHistoryComponent />
-        <div className={classes.extraText}>
-          <Typography>
-            Nombre: <strong>{currentPatient && currentPatient.fullname}</strong>
-          </Typography>
-        </div>
-        <ListPatientHistoryComponent />
-        <div className={classes.pagination}>
-          {!loadingList && (
-            <>
-              <IconButton onClick={() => setPage({ prev: historyList[0] })}>
-                <ArrowBackIosIcon fontSize="small" />
-              </IconButton>
-              <IconButton onClick={() => setPage({ next: historyList[historyList.length - 1] })}>
-                <ArrowForwardIosIcon fontSize="small" />
-              </IconButton>
-            </>
-          )}
-        </div>
-      </Container>
+      <Grid container>
+        <Grid item xs={5}>
+          <FiltersPatientHistoryComponent />
+          <ListPatientHistoryComponent />
+          <div className={classes.pagination}>
+            {!loadingList && (
+              <>
+                <IconButton onClick={() => setPage({ prev: historyList[0] })}>
+                  <ArrowBackIosIcon fontSize="small" />
+                </IconButton>
+                <IconButton onClick={() => setPage({ next: historyList[historyList.length - 1] })}>
+                  <ArrowForwardIosIcon fontSize="small" />
+                </IconButton>
+              </>
+            )}
+          </div>
+        </Grid>
+      </Grid>
     </>
   );
 }

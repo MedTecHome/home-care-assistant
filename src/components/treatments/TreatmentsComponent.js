@@ -1,18 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import uuid from 'uuid4';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListItem from '@material-ui/core/ListItem';
-import { useTreatmentsContext, withTreatmentsContext } from './TreatmentsContext';
+import Typography from '@material-ui/core/Typography';
+import { useTreatmentsContext } from './TreatmentsContext';
 import TableComponent from '../table/TableComponent';
 import treatmentsHeadCells from './treatmentsHeadCells';
 import ModalComponent from '../ModalComponent';
 import TreatmentsFormComponent from './forms/TreatmentsFormComponent';
 import RowListTreatmentsComponent from './RowListTreatmentsComponent';
-import FiltersTratmentComponent from './FiltersTreatmentComponent';
-import { useAuthContext } from '../../contexts/AuthContext';
 import useCustomStyles from '../../jss/globalStyles';
 
 function TreatmentsComponent() {
@@ -25,33 +23,11 @@ function TreatmentsComponent() {
     setModalVisible,
     formType,
     selectFromList,
-    setFilters,
     filters
   } = useTreatmentsContext();
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState({});
-  const [currentPatient, setCurrentPatient] = useState(null);
-  const { currentUserProfile } = useAuthContext();
-  const { state } = useLocation();
   const classes = useCustomStyles();
-
-  useEffect(() => {
-    if (state) {
-      if (state.formType) setModalVisible(true, state.formType);
-      if (state.profile) {
-        setFilters({ 'patient.id': state.profile.id });
-        setCurrentPatient(state.profile);
-      }
-    }
-  }, [state, setModalVisible, setFilters]);
-
-  useEffect(() => {
-    if (currentUserProfile)
-      if (currentUserProfile.role.id === 'patient') {
-        setFilters({ 'patient.id': currentUserProfile.id });
-        setCurrentPatient(currentUserProfile);
-      }
-  }, [currentUserProfile, setFilters]);
 
   const handleLoadList = useCallback(() => {
     getListOfTreatments({ filters, ...page });
@@ -71,14 +47,18 @@ function TreatmentsComponent() {
         <TreatmentsFormComponent formType={formType} />
       </ModalComponent>
       <TableComponent
-        addRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}
-        filters={<FiltersTratmentComponent />}
         headCells={treatmentsHeadCells}
         loadingList={loadingList}
         list={listTreatments}
         setModalVisible={setModalVisible}
         selected={selected}
-        extraText={currentPatient && currentPatient.fullname}
+        extraText={
+          <div className={classes.extraText}>
+            <Typography>
+              Nombre: <strong>probando</strong>
+            </Typography>
+          </div>
+        }
         render={(row, index) => (
           <RowListTreatmentsComponent
             key={uuid()}
@@ -89,8 +69,6 @@ function TreatmentsComponent() {
             selected={selected}
             selectRow={selectFromList}
             onModalVisible={handleModalVisible}
-            editRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}
-            delRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}
           />
         )}
       />
@@ -112,4 +90,4 @@ function TreatmentsComponent() {
   );
 }
 
-export default withTreatmentsContext(TreatmentsComponent);
+export default TreatmentsComponent;
