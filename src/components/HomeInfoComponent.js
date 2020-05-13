@@ -3,9 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
-import { getHospitalByIdAction } from './hospital/reducers/HospitalActions';
+import { getHospitalByIdAction } from './Hospital/reducers/HospitalActions';
 import DetailTextComponent from './DetailTextComponent';
-import { getProfileByIdAction } from './profiles/reducers/ProfileActions';
+import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 
 function PatientHomeComponent({ patient }) {
   const [doctor, setDoctor] = useState(null);

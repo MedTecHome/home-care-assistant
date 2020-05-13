@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
-import { withMedicinesContext } from '../medicines/MedicinesContext';
-import { getMedicinesListAction } from '../medicines/reducers/MedicinesActions';
+import { withMedicinesContext } from '../Medicines/MedicinesContext';
+import { getMedicinesListAction } from '../Medicines/reducers/MedicinesActions';
 import { REQUIRED_FIELD } from '../../commons/globalText';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 

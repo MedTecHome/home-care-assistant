@@ -14,10 +14,10 @@ function ProfilesComponent() {
   const classes = useCustomStyles();
 
   useEffect(() => {
-    setFilters({
-      'role.id': 'doctor'
-    });
-  }, [setFilters]);
+    if (formType === null) {
+      setFilters({});
+    }
+  }, [setFilters, formType]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);

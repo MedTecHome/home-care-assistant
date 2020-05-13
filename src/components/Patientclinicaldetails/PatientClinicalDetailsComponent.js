@@ -3,11 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { Tabs, Tab } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import TreatmentsComponent from '../treatments/TreatmentsComponent';
+import TreatmentsComponent from '../Treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
-import { useTreatmentsContext, withTreatmentsContext } from '../treatments/TreatmentsContext';
-import { usePatientHistoryContext, withPatientHistoryContext } from '../testsHistory/PatientHistoryContext';
-import PatientHistoryComponent from '../testsHistory/PatientHistoryComponent';
+import { useTreatmentsContext, withTreatmentsContext } from '../Treatments/TreatmentsContext';
+import { usePatientHistoryContext, withPatientHistoryContext } from '../ClinicalHistory/PatientHistoryContext';
+import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 
@@ -71,7 +71,7 @@ function PatientClinicalDetailsComponent() {
           </Tabs>
         </Paper>
 
-        {tab === 'treatments' && <TreatmentsComponent />}
+        {tab === 'Treatments' && <TreatmentsComponent />}
         {tab === 'clinictest' && <PatientHistoryComponent />}
       </div>
     </>

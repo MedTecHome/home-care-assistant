@@ -1,8 +1,9 @@
 import moment from 'moment';
+import apiData from '../../../axiosApiRequest';
 import { authFirebase, dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
-import { getHospitalByIdAction } from '../../hospital/reducers/HospitalActions';
+import { getHospitalByIdAction } from '../../Hospital/reducers/HospitalActions';
 import { getNomById } from '../../../nomenc/NomencAction';
 import { isEmpty } from '../../../helpers/utils';
 
@@ -19,7 +20,7 @@ export const getProfileByIdAction = async (id, fields = []) => {
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
 };
 
-export const getProfilesAction = async ({ limit = 2, next, prev, filters }) => {
+export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => {
   let ref = profilesRef.orderBy('fullname');
   if (next) {
     ref = ref.startAfter(next.fullname);
@@ -50,10 +51,11 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
 });
 
 const addValuesAction = async ({ id, user, ...values }) => {
-  const result = { ...values, ...(await mutateValues(values)) };
-  const u = await authFirebase.createUserWithEmailAndPassword(user, 'Test*123');
+  const mutations = await mutateValues(values);
+  const result = { ...values, ...mutations };
+  const response = await apiData.post('/createUser', { email: user, fullname: `${values.name} ${values.lastName}` });
+  const u = response.data;
   await authFirebase.sendPasswordResetEmail(u.user.email, actionCodeSettings);
-
   await profilesRef.add({
     ...result,
     user: { id: u.user.uid, email: u.user.email },
@@ -69,7 +71,8 @@ const editValuesAction = async ({ id, user, ...values }) => {
   });
 };
 
-const deleteValuesAction = async ({ id }) => {
+const deleteValuesAction = async ({ id, user }) => {
+  await apiData.post('/deleteUser', { userId: user.id });
   await profilesRef.doc(id).delete();
 };
 

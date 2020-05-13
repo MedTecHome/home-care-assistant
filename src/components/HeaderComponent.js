@@ -37,7 +37,7 @@ function HeaderComponent({ history }) {
   const classes = useStyles();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const handleClickLogin = () => {
-    history.push('/login');
+    history.push('/Login');
   };
 
   const handleClick = event => {

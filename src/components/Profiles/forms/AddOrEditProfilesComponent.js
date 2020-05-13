@@ -17,16 +17,15 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
-import { extractValues, getPropValue } from '../../../helpers/utils';
+import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile } = useAuthContext();
   const { selected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
   const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
-  const onSubmit = async (values, forms) => {
-    const newValues = extractValues(forms.getState().dirtyFields, values);
-    await saveProfileValues({ ...newValues, id: values.id }, formType);
+  const onSubmit = async values => {
+    await saveProfileValues(values, formType);
     setModalVisible(false, null);
   };
 

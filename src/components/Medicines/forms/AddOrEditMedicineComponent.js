@@ -13,7 +13,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
-import { extractValues, getPropValue } from '../../../helpers/utils';
+import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
@@ -21,9 +21,8 @@ function AddOrEditMedicineComponent({ title }) {
     setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
-  const onSubmit = async (values, forms) => {
-    const newValues = extractValues(forms.getState().dirtyFields, values);
-    await saveMedicineValues({ id: values.id, ...newValues }, formType);
+  const onSubmit = async values => {
+    await saveMedicineValues(values, formType);
     setModalVisible(false, null);
   };
 

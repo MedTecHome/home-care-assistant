@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
-import { validateSex } from '../medicalForms/validateMedicalForms';
+import { validateSex } from '../MedicalForms/validateMedicalForms';
 import { getNomList } from '../../nomenc/NomencAction';
 
 function SexFieldComponent({ required, name, label }) {

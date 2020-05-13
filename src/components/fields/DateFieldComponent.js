@@ -3,7 +3,7 @@ import { KeyboardDatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
-import { validateDate } from '../medicalForms/validateMedicalForms';
+import { validateDate } from '../MedicalForms/validateMedicalForms';
 
 export default function DateFieldComponent({ minDate, classes, name, label }) {
   return (

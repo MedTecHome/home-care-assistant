@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { authFirebase, dbRef } from '../firebaseConfig';
-import { saveProfileValuesAction } from '../components/profiles/reducers/ProfileActions';
+import { saveProfileValuesAction } from '../components/Profiles/reducers/ProfileActions';
 import { ADD_FORM_TEXT } from '../commons/globalText';
 import { getPropValue } from '../helpers/utils';
 
@@ -24,8 +24,9 @@ export function AuthContextProvider({ children }) {
         if (profile.docChanges()[0]) {
           setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
         }
-      } else setCurrentUserProfile(null);
-      /** setCurrentUserProfile({
+      } else {
+        setCurrentUserProfile(null);
+        /** setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
           // id: 'OyE16UfGemph3hdKjAyJ', // clinic id
           id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
@@ -43,6 +44,7 @@ export function AuthContextProvider({ children }) {
             // id: 'patient'
           }
         }); */
+      }
     });
 
     return () => {

@@ -9,7 +9,7 @@ function RouteService({ location, history }) {
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
-    if (location.pathname === '/login' && currentUser) {
+    if (location.pathname === '/Login' && currentUser) {
       const urlSearchParams = new URLSearchParams(location.search);
       const pathname = urlSearchParams.has('toUrl') ? urlSearchParams.get('toUrl') : '/inicio';
       urlSearchParams.delete('toUrl');

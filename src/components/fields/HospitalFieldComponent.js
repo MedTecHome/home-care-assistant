@@ -2,7 +2,7 @@ import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
 import { CircularProgress } from '@material-ui/core';
 import { ExpandMoreOutlined as ExpandMoreIcon } from '@material-ui/icons';
-import { useHospitalContext, withHospitalContext } from '../hospital/HospitalContext';
+import { useHospitalContext, withHospitalContext } from '../Hospital/HospitalContext';
 import useCustomStyles from '../../jss/globalStyles';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 

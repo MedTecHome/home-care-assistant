@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { getAllPatientHistoryAction } from '../medicalForms/reducers/PatienHealthActions';
+import { getAllPatientHistoryAction } from '../MedicalForms/reducers/PatienHealthActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 

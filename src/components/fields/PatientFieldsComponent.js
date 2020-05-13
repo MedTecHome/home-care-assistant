@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { KeyboardDatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import ProfileFieldComponent from './ProfileFieldComponent';
-import { validateBirthday, validateDoctor, validateHeight } from '../profiles/forms/valdiateProfile';
+import { validateBirthday, validateDoctor, validateHeight } from '../Profiles/forms/valdiateProfile';
 import useCustomStyles from '../../jss/globalStyles';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import SexFieldComponent from './SexFieldComponent';
