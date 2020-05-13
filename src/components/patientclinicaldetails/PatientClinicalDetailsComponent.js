@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Tabs, Tab } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import TreatmentsComponent from '../treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
 import { useTreatmentsContext, withTreatmentsContext } from '../treatments/TreatmentsContext';
@@ -45,6 +46,13 @@ function PatientClinicalDetailsComponent() {
   return (
     <>
       {isDoctor && <FiltersClinicalDetails setPatient={handlePatient} patient={patient} />}
+      <Typography
+        style={{
+          color: '#666'
+        }}
+      >
+        Nombre: <strong>{getPropValue(patient, 'fullname') || ' - '}</strong>
+      </Typography>
       <div
         style={{
           backgroundColor: '#fff'

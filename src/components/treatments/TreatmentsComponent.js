@@ -48,6 +48,7 @@ function TreatmentsComponent() {
         <TreatmentsFormComponent formType={formType} />
       </ModalComponent>
       <TableComponent
+        addRole={isDoctor}
         disableElevation
         headCells={treatmentsHeadCells}
         loadingList={loadingList}

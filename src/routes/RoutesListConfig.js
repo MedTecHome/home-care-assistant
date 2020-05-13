@@ -70,7 +70,7 @@ const RouteListConfig = [
     component: PatientClinicalDetailsComponent,
     label: 'Detalles clínicos',
     roles: ['patient', 'doctor'],
-    navigation: ['patient']
+    navegation: ['patient']
   },
   {
     component: PageNotFound
