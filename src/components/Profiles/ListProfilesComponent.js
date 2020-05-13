@@ -27,7 +27,8 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
     selectProfileFromList,
     profileSelected,
     filters,
-    loadingList
+    loadingList,
+    formType
   } = useProfilesContext();
   const [page, setPage] = React.useState({});
   const classes = useCustomStyles();
@@ -35,8 +36,8 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   const up400 = useMediaQuery(theme => theme.breakpoints.up(400));
 
   useEffect(() => {
-    getProfilesList({ filters, ...page });
-  }, [getProfilesList, filters, page]);
+    if (formType === null) getProfilesList({ filters, ...page });
+  }, [getProfilesList, filters, page, formType]);
 
   const handleSelectItemOnClick = id => {
     selectProfileFromList(id);
