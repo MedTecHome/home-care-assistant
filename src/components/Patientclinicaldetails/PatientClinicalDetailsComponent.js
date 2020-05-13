@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import TreatmentsComponent from '../Treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
 import { useTreatmentsContext, withTreatmentsContext } from '../Treatments/TreatmentsContext';
-import { usePatientHistoryContext, withPatientHistoryContext } from '../TestsHistory/PatientHistoryContext';
-import PatientHistoryComponent from '../TestsHistory/PatientHistoryComponent';
+import { usePatientHistoryContext, withPatientHistoryContext } from '../ClinicalHistory/PatientHistoryContext';
+import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 
