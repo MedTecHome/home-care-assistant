@@ -2,7 +2,7 @@ import React from 'react';
 import { KeyboardTimePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
-import { validateTime } from '../medicalForms/validateMedicalForms';
+import { validateTime } from '../MedicalForms/validateMedicalForms';
 
 export default function TimeFieldComponent({ classes, name, label }) {
   return (

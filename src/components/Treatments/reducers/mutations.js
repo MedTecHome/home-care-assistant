@@ -1,6 +1,6 @@
 import { formatMomentToDate } from '../../../helpers/utils';
-import { getProfileByIdAction } from '../../profiles/reducers/ProfileActions';
-import { getMedicineByIdAction } from '../../medicines/reducers/MedicinesActions';
+import { getProfileByIdAction } from '../../Profiles/reducers/ProfileActions';
+import { getMedicineByIdAction } from '../../Medicines/reducers/MedicinesActions';
 
 const mutateTreatmentValues = async ({ name, patient, medicine, startDate, endDate }) => ({
   name,

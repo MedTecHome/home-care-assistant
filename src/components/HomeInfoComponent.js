@@ -3,15 +3,15 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
-import { getHospitalByIdAction } from './hospital/reducers/HospitalActions';
+import { getHospitalByIdAction } from './Hospital/reducers/HospitalActions';
 import DetailTextComponent from './DetailTextComponent';
-import { getProfileByIdAction } from './profiles/reducers/ProfileActions';
+import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 
 function PatientHomeComponent({ patient }) {
   const [doctor, setDoctor] = useState(null);
   const [hospital, setHospital] = useState(null);
   const doctorId = getPropValue(patient, 'doctor.id');
-  const hospitalId = getPropValue(patient, 'hospital.id');
+  const hospitalId = getPropValue(patient, 'Hospital.id');
 
   useEffect(() => {
     if (doctorId)
@@ -55,7 +55,7 @@ function PatientHomeComponent({ patient }) {
 function DoctorHomeComponent({ doctor }) {
   const [hospital, setHospital] = useState(null);
   const [loading, setLoading] = useState(false);
-  const hospitalId = getPropValue(doctor, 'hospital.id');
+  const hospitalId = getPropValue(doctor, 'Hospital.id');
 
   useEffect(() => {
     async function getById() {

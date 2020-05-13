@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import useDebounceCustom from '../../commons/useDebounceCustom';
-import { getProfilesAction } from '../profiles/reducers/ProfileActions';
+import { getProfilesAction } from '../Profiles/reducers/ProfileActions';
 
 function ProfileSearchComponent({ value, onSelect, filterRole = '' }) {
   const [profiles, setProfiles] = useState([]);

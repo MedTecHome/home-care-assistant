@@ -1,6 +1,6 @@
 import { Autocomplete } from 'mui-rff';
 import React, { useEffect, useMemo, useState } from 'react';
-import { getProfilesAction } from '../profiles/reducers/ProfileActions';
+import { getProfilesAction } from '../Profiles/reducers/ProfileActions';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 
 function ProfileFieldComponent({

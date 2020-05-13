@@ -1,17 +1,17 @@
 import { lazy } from 'react';
 
 const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
-const LoginComponent = lazy(() => import('../components/login/LoginComponent'));
-const HospitalComponent = lazy(() => import('../components/hospital/HospitalComponent'));
-const ProfilesComponent = lazy(() => import('../components/profiles/ProfilesComponent'));
-const PatientsComponent = lazy(() => import('../components/profiles/patients/PatientsComponent'));
+const LoginComponent = lazy(() => import('../components/Login/LoginComponent'));
+const HospitalComponent = lazy(() => import('../components/Hospital/HospitalComponent'));
+const ProfilesComponent = lazy(() => import('../components/Profiles/ProfilesComponent'));
+const PatientsComponent = lazy(() => import('../components/Profiles/patients/PatientsComponent'));
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const HomeInfoComponent = lazy(() => import('../components/HomeInfoComponent'));
-const PatientHealthForm = lazy(() => import('../components/medicalForms/PatientMedicalForm'));
+const PatientHealthForm = lazy(() => import('../components/MedicalForms/PatientMedicalForm'));
 const PatientClinicalDetailsComponent = lazy(() =>
-  import('../components/patientclinicaldetails/PatientClinicalDetailsComponent')
+  import('../components/Patientclinicaldetails/PatientClinicalDetailsComponent')
 );
-const MedicinesComponent = lazy(() => import('../components/medicines/MedicinesComponent'));
+const MedicinesComponent = lazy(() => import('../components/Medicines/MedicinesComponent'));
 
 const RouteListConfig = [
   {
@@ -26,7 +26,7 @@ const RouteListConfig = [
     roles: ['admin', 'clinic', 'doctor', 'patient']
   },
   {
-    path: '/login',
+    path: '/Login',
     component: LoginComponent,
     label: 'Login'
   },

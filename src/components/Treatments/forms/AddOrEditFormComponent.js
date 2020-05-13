@@ -10,10 +10,9 @@ import DateFieldComponent from '../../fields/DateFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
 import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
-import { validateDoctor } from '../../profiles/forms/valdiateProfile';
+import { validateDoctor } from '../../Profiles/forms/valdiateProfile';
 import { ADD_FORM_TEXT, CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
-import { extractValues } from '../../../helpers/utils';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
 
@@ -24,9 +23,8 @@ function AddOrEditFormComponent({ title }) {
     setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
-  const onSubmit = async (values, forms) => {
-    const newValues = extractValues(forms.getState().dirtyFields, values);
-    await saveValues({ id: selected.id, ...newValues }, formType);
+  const onSubmit = async values => {
+    await saveValues(values, formType);
     setModalVisible(false, null);
   };
 
