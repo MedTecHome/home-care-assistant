@@ -22,10 +22,10 @@ function ProfilesComponent() {
   const classes = useCustomStyles();
 
   useEffect(() => {
-    setFilters({
-      'role.id': 'doctor'
-    });
-  }, [setFilters]);
+    if (formType === null) {
+      setFilters({});
+    }
+  }, [setFilters, formType]);
 
   const handleLoadList = useCallback(() => {
     getProfilesList({ filters });

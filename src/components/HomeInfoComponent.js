@@ -11,7 +11,7 @@ function PatientHomeComponent({ patient }) {
   const [doctor, setDoctor] = useState(null);
   const [hospital, setHospital] = useState(null);
   const doctorId = getPropValue(patient, 'doctor.id');
-  const hospitalId = getPropValue(patient, 'Hospital.id');
+  const hospitalId = getPropValue(patient, 'hospital.id');
 
   useEffect(() => {
     if (doctorId)
@@ -55,7 +55,7 @@ function PatientHomeComponent({ patient }) {
 function DoctorHomeComponent({ doctor }) {
   const [hospital, setHospital] = useState(null);
   const [loading, setLoading] = useState(false);
-  const hospitalId = getPropValue(doctor, 'Hospital.id');
+  const hospitalId = getPropValue(doctor, 'hospital.id');
 
   useEffect(() => {
     async function getById() {

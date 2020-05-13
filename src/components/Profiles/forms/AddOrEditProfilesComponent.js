@@ -40,7 +40,7 @@ function AddOrEditProfilesComponent({ title }) {
         initialValues={{
           phoneVisible: false,
           emailVisible: false,
-          hospital: getPropValue(currentUserProfile, 'Hospital.id'),
+          hospital: getPropValue(currentUserProfile, 'hospital.id'),
           role: listAccess[authRole][0],
           ...(formType === EDIT_FORM_TEXT && selected
             ? {
