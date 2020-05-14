@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { LocalizationProvider, DesktopDateRangePicker, MobileDateRangePicker } from '@material-ui/pickers';
+import { LocalizationProvider, MobileDateRangePicker } from '@material-ui/pickers';
+import { CalendarToday as CalendarTodayIcon } from '@material-ui/icons';
 import MomentAdapter from '@material-ui/pickers/adapter/moment';
-import { TextField, useMediaQuery } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   formControl: {
@@ -19,18 +21,15 @@ const useStyles = makeStyles({
 function FilterPatientHistoryGraficsComponent() {
   const [dateValue, setDateValue] = useState([null, null]);
   const classes = useStyles();
-  const match = useMediaQuery(theme => theme.breakpoints.down(680));
   const handleOnChange = values => {
     setDateValue(values);
   };
-
-  const ResponsiveRangePiker = match ? MobileDateRangePicker : DesktopDateRangePicker;
 
   return (
     <Grid item xs={12} container justify="flex-end">
       <Box margin={1}>
         <LocalizationProvider dateAdapter={MomentAdapter}>
-          <ResponsiveRangePiker
+          <MobileDateRangePicker
             className={classes.formControl}
             renderInput={(
               { value: value1, inputRef, inputProps, ref, onBlur, onFocus, onClick },
@@ -41,7 +40,7 @@ function FilterPatientHistoryGraficsComponent() {
                   label="Rango de fecha"
                   value={`${value1 || '      '} ~ ${value2}`}
                   inputRef={inputRef}
-                  inputProps={{ ...inputProps, type: 'search', className: clsx(classes.rangePickerTextField) }}
+                  inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField) }}
                   size="small"
                   ref={ref}
                   onBlur={onBlur}
@@ -51,10 +50,17 @@ function FilterPatientHistoryGraficsComponent() {
                 />
               );
             }}
+            showToolbar={false}
             value={dateValue}
             variant="outlined"
             onChange={handleOnChange}
+            clearLabel="Limpiar"
+            inputFormat="DD/MM/YYYY"
+            okLabel="Aceptar"
+            cancelLabel="Cancelar"
+            allowKeyboardControl
             clearable
+            open={<CalendarTodayIcon />}
           />
         </LocalizationProvider>
       </Box>

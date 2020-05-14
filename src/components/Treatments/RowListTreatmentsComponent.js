@@ -1,11 +1,10 @@
 import React from 'react';
-import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, Box, IconButton } from '@material-ui/core';
+import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, IconButton } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
@@ -109,6 +108,7 @@ const useStyles = {
 
 function RowListTreatmentsComponent({
   row,
+  index,
   open,
   setOpen,
   selected,
@@ -133,11 +133,7 @@ function RowListTreatmentsComponent({
         key={row.id}
         selected={selected && selected.id === row.id}
       >
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open ? row.id : null)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
+        <TableCell align="center">{index + 1}</TableCell>
         <TableCell>
           <Typography>{getPropValue(row, 'name') || ' - '}</Typography>
         </TableCell>
@@ -147,6 +143,9 @@ function RowListTreatmentsComponent({
         <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open ? row.id : null)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
           <ButtonGroup variant="text" aria-label="outlined primary button group">
             {editRole && <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />}
             {delRole && <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />}

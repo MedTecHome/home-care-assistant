@@ -63,7 +63,7 @@ function PatientClinicalDetailsComponent() {
             indicatorColor="primary"
           >
             <Tab label="Tratamientos" value="treatments" />
-            <Tab label="Pruebas clinicas" value="clinictest" />
+            <Tab label="Pruebas clínicas" value="clinictest" />
           </Tabs>
         </Paper>
 
