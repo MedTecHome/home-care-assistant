@@ -27,7 +27,7 @@ function PatientHistoryComponent() {
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
       <Grid container>
-        <Grid item xs={5}>
+        <Grid item xs={12} sm={5}>
           <FiltersPatientHistoryComponent />
           <ListPatientHistoryComponent />
           <div className={classes.pagination}>
@@ -43,7 +43,7 @@ function PatientHistoryComponent() {
             )}
           </div>
         </Grid>
-        <Grid item xs={7} container>
+        <Grid item xs={12} sm={7} container>
           <FilterPatientHistoryGraficsComponent />
         </Grid>
       </Grid>

@@ -53,12 +53,8 @@ function PatientClinicalDetailsComponent() {
       >
         Nombre: <strong>{getPropValue(patient, 'fullname') || ' - '}</strong>
       </Typography>
-      <div
-        style={{
-          backgroundColor: '#fff'
-        }}
-      >
-        <Paper square>
+      <div>
+        <Paper square color="inherit">
           <Tabs
             value={tab}
             onChange={handleTabChange}
@@ -71,7 +67,7 @@ function PatientClinicalDetailsComponent() {
           </Tabs>
         </Paper>
 
-        {tab === 'Treatments' && <TreatmentsComponent />}
+        {tab === 'treatments' && <TreatmentsComponent />}
         {tab === 'clinictest' && <PatientHistoryComponent />}
       </div>
     </>

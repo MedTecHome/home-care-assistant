@@ -34,7 +34,10 @@ const useCustomStyles = makeStyles(theme => ({
     lineHeight: '250%'
   },
   itemList: {
+    display: 'flex',
+    justifyContent: 'space-between',
     cursor: 'pointer',
+
     backgroundColor: theme.palette.background.paper,
     marginBottom: 5,
     '&:hover': {
@@ -43,6 +46,11 @@ const useCustomStyles = makeStyles(theme => ({
   },
   selectedItemList: {
     background: '#dddddd'
+  },
+  itemListText: {
+    '&>*': {
+      fontSize: 12
+    }
   },
   itemListContentPrimary: {
     maxWidth: '100%',
@@ -117,10 +125,18 @@ const useCustomStyles = makeStyles(theme => ({
     width: '100%',
     display: 'flex',
     color: '#666666',
+    whiteSpace: 'noWrap',
     '& > *': {
       fontSize: '0.842rem',
       marginRight: 60
     }
+  },
+  paperDetails: {
+    width: '100%',
+    minHeight: '100%'
+  },
+  textLabel: {
+    fontWeight: 600
   }
 }));
 

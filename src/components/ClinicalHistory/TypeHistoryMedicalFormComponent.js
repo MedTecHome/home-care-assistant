@@ -1,79 +1,83 @@
 import React, { memo } from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { useMediaQuery } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import { getPropValue } from '../../helpers/utils';
+import useCustomStyles from '../../jss/globalStyles';
 
-const useStyles = makeStyles({
-  listItemValues: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2,1fr)',
-    gridRowGap: 14
-  },
-  listItem: {
-    color: 'rgba(0, 0, 0, 0.87)',
-    fontSize: '0.875rem',
-    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-    fontWeight: 400,
-    lineHeight: 1.43,
-    letterSpacing: '0.01071em',
-    justifySelf: 'left'
-  }
-});
-
-function TypeHistoryMedicalFormComponent({ data, type: { id: idType } }) {
-  const classes = useStyles();
+function TextLabelAndValue({ label, value }) {
+  const classes = useCustomStyles();
   return (
-    <div className={classes.listItemValues}>
+    <div>
+      <span className={classes.textLabel}>{`${label}: `}</span>
+      {value}
+    </div>
+  );
+}
+
+function ListItemTextComponent({ one, two }) {
+  const classes = useCustomStyles();
+  const match700 = useMediaQuery(theme => theme.breakpoints.down(700));
+  const match900 = useMediaQuery(theme => theme.breakpoints.down(900));
+  return (
+    <>
+      <Grid item xs={8} container spacing={1} className={classes.extraText}>
+        {!match700 && (
+          <Grid item xs={12}>
+            {one}
+          </Grid>
+        )}
+        {!match900 && (
+          <Grid item xs={12}>
+            {two}
+          </Grid>
+        )}
+      </Grid>
+    </>
+  );
+}
+
+function TypeHistoryMedicalFormComponent({ data }) {
+  const idType = getPropValue(data, 'type.id');
+  return (
+    <>
       {idType === 'pressure' && (
-        <>
-          <Typography className={classes.listItem}>{`Sistolica: ${data.sistolica}`}</Typography>
-          <Typography className={classes.listItem}>{`Diastolica: ${data.diastolica}`}</Typography>
-          <Typography className={classes.listItem}>{`Frecuencia cardiaca: ${data.heartrate}`}</Typography>
-        </>
+        <ListItemTextComponent
+          one={<TextLabelAndValue label="Sistolica" value={data.sistolica || ' - '} />}
+          two={<TextLabelAndValue label="Diastolica" value={data.diastolica || ' - '} />}
+        />
       )}
       {idType === 'temperature' && (
-        <>
-          <Typography className={classes.listItem}>{`Grados: ${data.celsiusDegree}°C`}</Typography>
-        </>
+        <ListItemTextComponent one={<TextLabelAndValue label="Grados" value={data.celsiusDegree || ' - '} />} />
       )}
       {idType === 'weight' && (
-        <>
-          <Typography className={classes.listItem}>{`Peso: ${data.weight}kg`}</Typography>
-        </>
+        <ListItemTextComponent one={<TextLabelAndValue label="Peso" value={data.weight || ' - '} />} />
       )}
       {idType === 'glucose' && (
-        <>
-          <Typography className={classes.listItem}>{`Concentración de azucar: ${data.sugarConcentration}`}</Typography>
-        </>
+        <ListItemTextComponent
+          one={<TextLabelAndValue label="Concentración azucar" value={data.sugarConcentration || ' - '} />}
+          two={<TextLabelAndValue label="Unidad Glucosa" value={data.glucoseUnity || ' - '} />}
+        />
       )}
       {idType === 'breathing' && (
-        <>
-          <Typography className={classes.listItem}>{`EtCO: ${data.EtCO} mmHg`}</Typography>
-          <Typography className={classes.listItem}>{`PI: ${data.breathingPI}%`}</Typography>
-          <Typography
-            className={classes.listItem}
-          >{`Frecuencia Repiratoria: ${data.breathingFrecuency} RPM`}</Typography>
-        </>
+        <ListItemTextComponent
+          one={<TextLabelAndValue label="EtCO" value={data.EtCO || ' - '} />}
+          two={<TextLabelAndValue label="PI" value={data.breathingPI || ' - '} />}
+        />
       )}
-      {idType === 'inr' && (
-        <>
-          <Typography className={classes.listItem}>{`INR: ${data.INR}`}</Typography>
-        </>
-      )}
+      {idType === 'inr' && <ListItemTextComponent one={<TextLabelAndValue label="INR" value={data.INR || ' - '} />} />}
       {idType === 'oxygen' && (
-        <>
-          <Typography className={classes.listItem}>{`Puso: ${data.heartbeat} LPM`}</Typography>
-          <Typography className={classes.listItem}>{`SpO2: ${data.SpO2}%`}</Typography>
-          <Typography className={classes.listItem}>{`PI: ${data.oxygenPI}%`}</Typography>
-        </>
+        <ListItemTextComponent
+          one={<TextLabelAndValue label="Pulso" value={data.heartbeat || ' - '} />}
+          two={<TextLabelAndValue label="SpO2" value={data.SpO2 || ' - '} />}
+        />
       )}
       {idType === 'exercises' && (
-        <>
-          <Typography className={classes.listItem}>{`Distancia: ${data.distance}m`}</Typography>
-          <Typography className={classes.listItem}>{`Tiempo: ${data.time}min`}</Typography>
-          <Typography className={classes.listItem}>{`Cantidad de pasos: ${data.steps}`}</Typography>
-        </>
+        <ListItemTextComponent
+          one={<TextLabelAndValue label="Distancia" value={data.distance || ' - '} />}
+          two={<TextLabelAndValue label="Tiempo" value={data.time || ' - '} />}
+        />
       )}
-    </div>
+    </>
   );
 }
 export default memo(TypeHistoryMedicalFormComponent);

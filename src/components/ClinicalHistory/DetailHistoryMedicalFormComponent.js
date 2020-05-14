@@ -126,7 +126,7 @@ function DetailHistoryMedicalFormComponent() {
             )}
             <DetailTextComponent
               label="Fecha"
-              value={selected && moment(selected.date.toDate()).format('DD/MM/YYYY hh:mma')}
+              value={selected && moment.unix(selected.clinicalDate).format('DD/MM/YYYY hh:mma')}
             />
             <DetailTextComponent label="Nota" value={getPropValue(selected, 'note') || '?'} />
           </Grid>

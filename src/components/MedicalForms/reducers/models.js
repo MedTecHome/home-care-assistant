@@ -14,21 +14,21 @@ export const pressureModel = ({
   sistolica,
   diastolica,
   heartrate,
-  date: formatDateWithTime(bloodPressureDate, bloodPressureTime),
+  clinicalDate: formatDateWithTime(bloodPressureDate, bloodPressureTime),
   ...(bloodPressureNota ? { note: bloodPressureNota } : {})
 });
 
 export const tempratureModel = ({ user, celsiusDegree, temperatureNote, temperatureDate, temperatureTime }) => ({
   user,
   celsiusDegree,
-  date: formatDateWithTime(temperatureDate, temperatureTime),
+  clinicalDate: formatDateWithTime(temperatureDate, temperatureTime),
   ...(temperatureNote ? { note: temperatureNote } : {})
 });
 
 export const weightModel = ({ user, weight, weightDate, weightTime, weightNote }) => ({
   user,
   weight,
-  date: formatDateWithTime(weightDate, weightTime),
+  clinicalDate: formatDateWithTime(weightDate, weightTime),
   ...(weightNote ? { note: weightNote } : {})
 });
 
@@ -51,7 +51,7 @@ export const glucoseModel = async ({
   shedule: await getNomById('shedules')(shedule),
   intakeTime,
   glucoseUnity,
-  date: formatDateWithTime(glucoseDate, glucoseTime),
+  clinicalDate: formatDateWithTime(glucoseDate, glucoseTime),
   ...(hba1c ? { hba1c } : {}),
   ...(insulinaFood ? { insulinaFood } : {}),
   ...(basal ? { basal } : {}),
@@ -72,7 +72,7 @@ export const breathingModel = ({
   EtCO,
   breathingFrecuency,
   breathingtPI,
-  date: formatDateWithTime(breathingtDate, breathingTime),
+  clinicalDate: formatDateWithTime(breathingtDate, breathingTime),
   ...(breathingNote ? { note: breathingNote } : {})
 });
 
@@ -87,7 +87,7 @@ export const oxygenModel = ({ user, SpO2, heartbeat, oxygenPI, oxygenDate, oxyge
   SpO2,
   heartbeat,
   oxygenPI,
-  ...(oxygenDate && oxygenTime ? { date: formatDateWithTime(oxygenDate, oxygenTime) } : {}),
+  clinicalDate: formatDateWithTime(oxygenDate, oxygenTime),
   ...(oxygenNote ? { note: oxygenNote } : {})
 });
 
@@ -95,6 +95,6 @@ export const exercicesModel = ({ distance, time, steps, exercisesDate, exercises
   distance,
   time,
   steps,
-  date: formatDateWithTime(exercisesDate, exercisesTime),
+  clinicalDate: formatDateWithTime(exercisesDate, exercisesTime),
   ...(exercisesNote ? { note: exercisesNote } : {})
 });

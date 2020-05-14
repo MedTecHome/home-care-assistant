@@ -20,8 +20,8 @@ const PatientHistoryContextProvider = ({ children }) => {
       setLoadingList(true);
       const response = await getAllPatientHistoryAction(params);
       const result = response.sort((a, b) => {
-        const c = a.date.toDate().getTime();
-        const d = b.date.toDate().getTime();
+        const c = a.clinicalDate;
+        const d = b.clinicalDate;
         return d - c;
       });
       setHistoryList(result);
