@@ -4,25 +4,15 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
 import { getHospitalByIdAction } from './Hospital/reducers/HospitalActions';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
-
-const useStyles = makeStyles({
-  paperDetails: {
-    width: '100%',
-    minHeight: '100%'
-  },
-  textLabel: {
-    fontWeight: 600
-  }
-});
+import useCustomStyles from '../jss/globalStyles';
 
 function PaperDetailComponent({ title, children }) {
-  const classes = useStyles();
+  const classes = useCustomStyles();
   return (
     <Paper variant="outlined" className={classes.paperDetails}>
       <List>
@@ -37,7 +27,7 @@ function PaperDetailComponent({ title, children }) {
 }
 
 function PaperHospitalInfoComponent({ hospital }) {
-  const classes = useStyles();
+  const classes = useCustomStyles();
   return (
     <PaperDetailComponent title="Hospital">
       <ListItem divider>
@@ -89,7 +79,7 @@ function PatientHomeComponent({ patient }) {
   const [hospital, setHospital] = useState(null);
   const doctorId = getPropValue(patient, 'doctor.id');
   const hospitalId = getPropValue(patient, 'hospital.id');
-  const classes = useStyles();
+  const classes = useCustomStyles();
 
   useEffect(() => {
     if (doctorId)

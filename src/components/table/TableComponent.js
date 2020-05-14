@@ -35,7 +35,9 @@ function TableComponent({
 
   return (
     <>
-      <CardHeader className={classes.pageHeader} title={<Typography variant="subtitle1">{title}</Typography>} />
+      {title && (
+        <CardHeader className={classes.pageHeader} title={<Typography variant="subtitle1">{title}</Typography>} />
+      )}
       {addRole && (
         <EnhancedTableToolbar filters={filters} selected={selected && selected.id} onAdd={handleModalVisible} />
       )}

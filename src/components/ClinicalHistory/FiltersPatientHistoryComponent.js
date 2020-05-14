@@ -14,7 +14,7 @@ import { getNomList } from '../../nomenc/NomencAction';
 
 const useStyles = makeStyles({
   formControl: {
-    width: '25%'
+    width: '100%'
   },
   containerFilters: {
     display: 'flex',
@@ -26,6 +26,8 @@ function FiltersPatientHistoryComponent() {
   const { filters, setFilters } = usePatientHistoryContext();
   const [dateValue, setDateValue] = useState(null);
   const [options, setOptions] = useState([]);
+  const classes = useStyles();
+
   useEffect(() => {
     async function loadList() {
       const result = await getNomList('medicalforms')();
@@ -33,7 +35,6 @@ function FiltersPatientHistoryComponent() {
     }
     loadList();
   }, []);
-  const classes = useStyles();
 
   useEffect(() => {
     if (!filters.type) setFilters({ ...filters, type: 'all' });
@@ -47,7 +48,7 @@ function FiltersPatientHistoryComponent() {
     setDateValue(value);
     setFilters({
       ...filters,
-      ...(value ? { date: value.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate() } : {})
+      ...(value ? { clinicalDate: value.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate() } : {})
     });
   };
 
@@ -76,19 +77,7 @@ function FiltersPatientHistoryComponent() {
           <Grid item xs={12} sm={6}>
             <LocalizationProvider dateAdapter={MomentAdapter}>
               <DesktopDatePicker
-                renderInput={({ value, inputRef, InputProps, ref, onBlur, onFocus, placeholder }) => {
-                  return (
-                    <TextField
-                      value={value}
-                      ref={ref}
-                      inputRef={inputRef}
-                      InputProps={InputProps}
-                      onBlur={onBlur}
-                      onFocus={onFocus}
-                      placeholder={placeholder}
-                    />
-                  );
-                }}
+                className={classes.formControl}
                 onChange={handleFilterDate}
                 inputFormat="DD/MM/YYYY"
                 variant="standard"
@@ -96,6 +85,21 @@ function FiltersPatientHistoryComponent() {
                 value={dateValue}
                 autoOk
                 clearable
+                renderInput={({ value, inputRef, InputProps, ref, onBlur, onFocus, placeholder, onChange }) => {
+                  return (
+                    <TextField
+                      className={classes.formControl}
+                      value={value}
+                      ref={ref}
+                      inputRef={inputRef}
+                      InputProps={InputProps}
+                      onBlur={onBlur}
+                      onFocus={onFocus}
+                      placeholder={placeholder}
+                      onChange={onChange}
+                    />
+                  );
+                }}
               />
             </LocalizationProvider>
           </Grid>

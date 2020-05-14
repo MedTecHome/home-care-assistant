@@ -6,8 +6,8 @@ export default function EnhancedTableHead(props) {
   return (
     <TableHead color="primary">
       <TableRow>
-        <TableCell padding="checkbox" color="primary" variant="head">
-          <Typography />
+        <TableCell align="center" variant="head" component="th">
+          <Typography>#</Typography>
         </TableCell>
         {headCells.map(headCell => (
           <TableCell key={headCell.id} align={headCell.numeric ? 'center' : 'left'} variant="head">

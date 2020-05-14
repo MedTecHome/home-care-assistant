@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, Box, IconButton } from '@material-ui/core';
+import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, IconButton } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
@@ -22,6 +22,9 @@ const cellStyle = makeStyles({
   gridTextMargin: {
     '& > *': {
       margin: 5
+    },
+    gridItem: {
+      height: '100%'
     }
   }
 });
@@ -33,69 +36,60 @@ function DetailTreatmentRowCellComponent({ open, data }) {
       <TableRow>
         <TableCell className={classes.cell} colSpan={6}>
           <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
-            <Box margin={1}>
-              <Box margin={1}>
-                <Fieldset title="Detalles">
-                  <Grid container spacing={4} direction="row">
-                    <Grid item xs={6} container spacing={2}>
-                      <DetailTextComponent
-                        xsLabel={3}
-                        disabledAlignContent
-                        label="Descripcion"
-                        value={getPropValue(data, 'name') || '?'}
-                      />
-                    </Grid>
-                    <Grid item xs={6} container spacing={2}>
-                      <DetailTextComponent
-                        xsLabel={3}
-                        xsValue={9}
-                        label="Fecha inicio"
-                        value={data.startDate && moment(data.startDate.toDate()).format('DD/MM/YYYY')}
-                      />
-                      <DetailTextComponent
-                        xsLabel={3}
-                        xsValue={9}
-                        label="Fecha fin"
-                        value={data.endDate && moment(data.endDate.toDate()).format('DD/MM/YYYY')}
-                      />
-                    </Grid>
+            <Fieldset title="Detalles">
+              <Grid container spacing={4} direction="row">
+                <Grid item xs={6} container spacing={2}>
+                  <DetailTextComponent
+                    xsLabel={3}
+                    disabledAlignContent
+                    label="Descripcion"
+                    value={getPropValue(data, 'name') || '?'}
+                  />
+                </Grid>
+                <Grid item xs={6} container spacing={2}>
+                  <DetailTextComponent
+                    xsLabel={3}
+                    xsValue={9}
+                    label="Fecha inicio"
+                    value={data.startDate && moment(data.startDate.toDate()).format('DD/MM/YYYY')}
+                  />
+                  <DetailTextComponent
+                    xsLabel={3}
+                    xsValue={9}
+                    label="Fecha fin"
+                    value={data.endDate && moment(data.endDate.toDate()).format('DD/MM/YYYY')}
+                  />
+                </Grid>
+              </Grid>
+            </Fieldset>
+            <Grid
+              container
+              spacing={2}
+              style={{
+                position: 'relative'
+              }}
+            >
+              <Grid item xs={12} sm={6}>
+                <Fieldset title="Paciente">
+                  <Grid container spacing={2}>
+                    <DetailTextComponent
+                      xsLabel={4}
+                      xsValue={6}
+                      label="Nombre y apellidos"
+                      value={getPropValue(data, 'patient.fullname')}
+                    />
                   </Grid>
                 </Fieldset>
-              </Box>
-              <Box margin={1}>
-                <Grid
-                  container
-                  spacing={2}
-                  style={{
-                    position: 'relative'
-                  }}
-                >
-                  <Grid item xs={12} sm={6}>
-                    <Fieldset title="Paciente">
-                      <Grid container spacing={2}>
-                        <DetailTextComponent
-                          xsLabel={4}
-                          xsValue={6}
-                          label="Nombre y apellidos"
-                          value={getPropValue(data, 'patient.fullname')}
-                        />
-                      </Grid>
-                    </Fieldset>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Fieldset title="Medicamentos">
+                  <Grid container spacing={2}>
+                    <DetailTextComponent xsLabel={3} label="Medicamentos" value={getPropValue(data, 'medicine.name')} />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Fieldset title="Medicamentos">
-                      <Grid container spacing={2}>
-                        <DetailTextComponent
-                          xsLabel={3}
-                          label="Medicamentos"
-                          value={getPropValue(data, 'medicine.name')}
-                        />
-                      </Grid>
-                    </Fieldset>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
+                </Fieldset>
+              </Grid>
+            </Grid>
+            <br />
           </Collapse>
         </TableCell>
       </TableRow>
@@ -114,6 +108,7 @@ const useStyles = {
 
 function RowListTreatmentsComponent({
   row,
+  index,
   open,
   setOpen,
   selected,
@@ -138,11 +133,7 @@ function RowListTreatmentsComponent({
         key={row.id}
         selected={selected && selected.id === row.id}
       >
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open ? row.id : null)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
+        <TableCell align="center">{index + 1}</TableCell>
         <TableCell>
           <Typography>{getPropValue(row, 'name') || ' - '}</Typography>
         </TableCell>
@@ -152,6 +143,9 @@ function RowListTreatmentsComponent({
         <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open ? row.id : null)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
           <ButtonGroup variant="text" aria-label="outlined primary button group">
             {editRole && <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />}
             {delRole && <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />}

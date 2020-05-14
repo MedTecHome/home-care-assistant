@@ -4,15 +4,15 @@ import {
   exercicesModel,
   glucoseModel,
   inrModel,
-  pressureModel,
   oxygenModel,
+  pressureModel,
   tempratureModel,
   weightModel
 } from './models';
 import { getNomById } from '../../../nomenc/NomencAction';
 import { getListOfData } from '../../../commons/reducers/GlobalActions';
 
-const PessureRef = dbRef('health').collection('pressure');
+const PressureRef = dbRef('health').collection('pressure');
 const TemperatureRef = dbRef('health').collection('temperature');
 const WeightRef = dbRef('health').collection('weight');
 const GlucoseRef = dbRef('health').collection('glucose');
@@ -23,7 +23,7 @@ const ExericesRef = dbRef('health').collection('exercises');
 
 export const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('pressure')) {
-    await PessureRef.add(pressureModel(values));
+    await PressureRef.add(pressureModel(values));
   }
   if (forms.includes('temperature')) {
     await TemperatureRef.add(tempratureModel(values));
@@ -50,34 +50,22 @@ export const saveHealthDataAction = async ({ forms, ...values }) => {
   }
 };
 
-export const getBloodPressureAction = async ({ limit = 1, ...params }) => {
-  let ref = PessureRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getBloodPressureAction = async params => {
   const type = await getNomById('medicalforms')('pressure');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(PressureRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
-export const getTemperatureAction = async ({ limit = 1, ...params }) => {
-  let ref = TemperatureRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getTemperatureAction = async params => {
   const type = await getNomById('medicalforms')('temperature');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(TemperatureRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
-export const getWeightAction = async ({ limit = 1, ...params }) => {
-  let ref = WeightRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getWeightAction = async params => {
   const type = await getNomById('medicalforms')('weight');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(WeightRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
 export const getGlucoseAction = async params => {
@@ -86,43 +74,27 @@ export const getGlucoseAction = async params => {
   return data.map(el => ({ ...el, type }));
 };
 
-export const getBreathingAction = async ({ limit = 1, ...params }) => {
-  let ref = BreathingRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getBreathingAction = async params => {
   const type = await getNomById('medicalforms')('breathing');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(BreathingRef, params);
+  return data.map(el => ({ ...el, type }));
 };
-export const getINRAction = async ({ limit = 1, ...params }) => {
-  let ref = INRRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getINRAction = async params => {
   const type = await getNomById('medicalforms')('inr');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(INRRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
-export const getOxygenAction = async ({ limit = 1, ...params }) => {
-  let ref = OxygenRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getOxygenAction = async params => {
   const type = await getNomById('medicalforms')('oxygen');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(OxygenRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
-export const getExercisesAction = async ({ limit = 1, ...params }) => {
-  let ref = ExericesRef;
-  Object.keys(params).map(k => {
-    ref = ref.where(k, '==', params[k]);
-    return null;
-  });
+export const getExercisesAction = async params => {
   const type = await getNomById('medicalforms')('exercises');
-  return (await ref.limit(limit).get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data(), type }));
+  const data = await getListOfData(ExericesRef, params);
+  return data.map(el => ({ ...el, type }));
 };
 
 const isPressureOrAll = type => type === 'all' || type === 'pressure';
