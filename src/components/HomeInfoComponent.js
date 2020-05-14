@@ -1,17 +1,95 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
 import { getHospitalByIdAction } from './Hospital/reducers/HospitalActions';
-import DetailTextComponent from './DetailTextComponent';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
+
+const useStyles = makeStyles({
+  paperDetails: {
+    width: '100%',
+    minHeight: '100%'
+  },
+  textLabel: {
+    fontWeight: 600
+  }
+});
+
+function PaperDetailComponent({ title, children }) {
+  const classes = useStyles();
+  return (
+    <Paper variant="outlined" className={classes.paperDetails}>
+      <List>
+        <ListItem divider>
+          <ListItemText primary={<Typography variant="h5">{title}</Typography>} />
+        </ListItem>
+        {children}
+        <ListItem />
+      </List>
+    </Paper>
+  );
+}
+
+function PaperHospitalInfoComponent({ hospital }) {
+  const classes = useStyles();
+  return (
+    <PaperDetailComponent title="Hospital">
+      <ListItem divider>
+        <ListItemText
+          primary={
+            <Typography className={classes.textLabel} variant="subtitle1">
+              Nombre hospital
+            </Typography>
+          }
+        />
+        <ListItemText primary={getPropValue(hospital, 'name') || '-'} />
+      </ListItem>
+      <ListItem divider>
+        <ListItemText
+          primary={
+            <Typography className={classes.textLabel} variant="subtitle1">
+              Teléfono hospital
+            </Typography>
+          }
+        />
+        <ListItemText primary={getPropValue(hospital, 'phone') || '-'} />
+      </ListItem>
+      <ListItem divider>
+        <ListItemText
+          primary={
+            <Typography className={classes.textLabel} variant="subtitle1">
+              Correo hospital
+            </Typography>
+          }
+        />
+        <ListItemText primary={getPropValue(hospital, 'email') || '-'} />
+      </ListItem>
+      <ListItem divider>
+        <ListItemText
+          primary={
+            <Typography className={classes.textLabel} variant="subtitle1">
+              Dirección hospital
+            </Typography>
+          }
+        />
+        <ListItemText primary={getPropValue(hospital, 'address') || '-'} />
+      </ListItem>
+    </PaperDetailComponent>
+  );
+}
 
 function PatientHomeComponent({ patient }) {
   const [doctor, setDoctor] = useState(null);
   const [hospital, setHospital] = useState(null);
   const doctorId = getPropValue(patient, 'doctor.id');
   const hospitalId = getPropValue(patient, 'hospital.id');
+  const classes = useStyles();
 
   useEffect(() => {
     if (doctorId)
@@ -29,24 +107,46 @@ function PatientHomeComponent({ patient }) {
 
   return (
     <>
-      <Grid item xs={6} container spacing={3}>
-        <DetailTextComponent
-          disabledAlignContent
-          label="Nombre doctor"
-          value={getPropValue(doctor, 'fullname') || '-'}
-        />
-        {getPropValue(doctor, 'phoneVisible') === true && (
-          <DetailTextComponent label="Teléfono doctor" value={getPropValue(doctor, 'phone') || '-'} />
-        )}
-        {getPropValue(doctor, 'emailVisible') === true && (
-          <DetailTextComponent label="Correo doctor" value={getPropValue(doctor, 'user.email') || '-'} />
-        )}
+      <Grid item xs={12} sm={6}>
+        <PaperHospitalInfoComponent hospital={hospital} />
       </Grid>
-      <Grid item xs={6} container spacing={3}>
-        <DetailTextComponent label="Nombre hospital" value={getPropValue(hospital, 'name') || '-'} />
-        <DetailTextComponent label="Teléfono hospital" value={getPropValue(hospital, 'phone') || '-'} />
-        <DetailTextComponent label="Correo hospital" value={getPropValue(hospital, 'email') || '-'} />
-        <DetailTextComponent label="Dirección hospital" value={getPropValue(hospital, 'address') || '-'} />
+      <Grid item xs={12} sm={6}>
+        <PaperDetailComponent title="Doctor">
+          <ListItem divider>
+            <ListItemText
+              primary={
+                <Typography className={classes.textLabel} variant="subtitle1">
+                  Nombre doctor
+                </Typography>
+              }
+            />
+            <ListItemText primary={getPropValue(doctor, 'fullname') || '-'} />
+          </ListItem>
+          <ListItem divider>
+            <ListItemText
+              primary={
+                <Typography className={classes.textLabel} variant="subtitle1">
+                  Teléfono doctor
+                </Typography>
+              }
+            />
+            <ListItemText
+              primary={(getPropValue(doctor, 'phoneVisible') === true && getPropValue(doctor, 'phone')) || '-'}
+            />
+          </ListItem>
+          <ListItem divider>
+            <ListItemText
+              primary={
+                <Typography className={classes.textLabel} variant="subtitle1">
+                  Correo doctor
+                </Typography>
+              }
+            />
+            <ListItemText
+              primary={(getPropValue(doctor, 'emailVisible') === true && getPropValue(doctor, 'user.email')) || '-'}
+            />
+          </ListItem>
+        </PaperDetailComponent>
       </Grid>
     </>
   );
@@ -72,11 +172,8 @@ function DoctorHomeComponent({ doctor }) {
   return (
     <>
       {!loading && (
-        <Grid container item xs={6} spacing={3}>
-          <DetailTextComponent label="Nombre hospital" value={getPropValue(hospital, 'name') || '-'} />
-          <DetailTextComponent label="Teléfono hospital" value={getPropValue(hospital, 'phone') || '-'} />
-          <DetailTextComponent label="Correo hospital" value={getPropValue(hospital, 'email') || '-'} />
-          <DetailTextComponent label="Dirección hospital" value={getPropValue(hospital, 'address') || '-'} />
+        <Grid item xs={12} sm={6}>
+          <PaperHospitalInfoComponent hospital={hospital} />
         </Grid>
       )}
     </>
@@ -86,10 +183,12 @@ function DoctorHomeComponent({ doctor }) {
 function HomeInfoComponent() {
   const { currentUserProfile, isDoctor, isPatient } = useAuthContext();
   return (
-    <Grid container spacing={3} component={Container} maxWidth="lg">
-      {isPatient && <PatientHomeComponent patient={currentUserProfile} />}
-      {isDoctor && <DoctorHomeComponent doctor={currentUserProfile} />}
-    </Grid>
+    <>
+      <Grid container spacing={3}>
+        {isPatient && <PatientHomeComponent patient={currentUserProfile} />}
+        {isDoctor && <DoctorHomeComponent doctor={currentUserProfile} />}
+      </Grid>
+    </>
   );
 }
 
