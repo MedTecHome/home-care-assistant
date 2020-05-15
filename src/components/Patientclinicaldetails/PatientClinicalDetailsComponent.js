@@ -12,7 +12,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 
 function PatientClinicalDetailsComponent() {
-  const [tab, setTab] = useState('clinictest');
+  const [tab, setTab] = useState('treatments');
   const { state } = useLocation();
   const { currentUserProfile, isDoctor } = useAuthContext();
 

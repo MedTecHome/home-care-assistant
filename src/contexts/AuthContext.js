@@ -26,7 +26,7 @@ export function AuthContextProvider({ children }) {
         }
       } else {
         setCurrentUserProfile(null);
-        /** setCurrentUserProfile({
+        /**  setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
           // id: 'OyE16UfGemph3hdKjAyJ', // clinic id
           id: 'pwA1hXTKogAt9gCS34rJ', // doctor id

@@ -3,13 +3,13 @@ import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../common
 import { getNomById } from '../../../nomenc/NomencAction';
 import { isEmpty } from '../../../helpers/utils';
 
-const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
+const MedicinesRef = dbRef('medicine').collection('medicines');
+
+export const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
   ...(concentrationType ? { concentrationType: await getNomById('concentrations')(concentrationType) } : {}),
   ...(doseType ? { doseType: await getNomById('dosis')(doseType) } : {}),
   ...(administrationType ? { administrationType: await getNomById('administrationroute')(administrationType) } : {})
 });
-
-const MedicinesRef = dbRef('medicine').collection('medicines');
 
 export const getMedicinesListAction = async ({ filters }) => {
   let ref = MedicinesRef;
