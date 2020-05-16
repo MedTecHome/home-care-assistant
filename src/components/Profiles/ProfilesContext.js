@@ -27,7 +27,7 @@ export const withProfileContext = WrapperComponent => props => {
         const result = await getProfilesAction(params);
         setProfileList(result);
       } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e);
+        RegisterMessage(ERROR_MESSAGE, e, 'ProfilesContext');
       } finally {
         setLoadingList(false);
       }
@@ -40,7 +40,7 @@ export const withProfileContext = WrapperComponent => props => {
       try {
         await saveProfileValuesAction(values, formType);
       } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e);
+        RegisterMessage(ERROR_MESSAGE, e, 'ProfileContext');
       }
     },
     [RegisterMessage]

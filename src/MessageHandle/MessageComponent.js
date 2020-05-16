@@ -52,7 +52,7 @@ export default function MessageComponent() {
       >
         {messages && messages.type && (
           <Alert onClose={handleClose} severity={messages.type}>
-            <Typography>{getPropValue(messages, 'message.message') || '- - '}!</Typography>
+            <Typography>{getPropValue(messages, 'message.message')}</Typography>
           </Alert>
         )}
       </Snackbar>
