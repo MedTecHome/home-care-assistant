@@ -2,10 +2,10 @@ import { formatMomentToDate } from '../../../helpers/utils';
 import { getProfileByIdAction } from '../../Profiles/reducers/ProfileActions';
 import { mutateNomenc } from '../../Medicines/reducers/MedicinesActions';
 
-const parseStringJsonMedicines = string => {
+const parseStringJsonMedicines = async string => {
   const medicines = JSON.parse(string);
   return Promise.all(
-    medicines.medicines.map(async medic => {
+    await medicines.medicines.map(async medic => {
       const nomenc = await mutateNomenc(medic);
       return { ...medic, ...nomenc };
     })

@@ -75,7 +75,7 @@ function FiltersProfileComponent({ onClickAdd }) {
           {currentUserProfile && currentUserProfile.role.id === 'admin' && (
             <Grid item xs={12} sm={4} md={3}>
               <FormControl className={classes.formControl}>
-                <InputLabel>Tipo de perfile</InputLabel>
+                <InputLabel>Tipo de perfil</InputLabel>
                 <Select
                   name="filter-roles"
                   value={roles.length > 0 ? filters['role.id'] || '' : ''}

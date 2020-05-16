@@ -20,16 +20,16 @@ export function AuthContextProvider({ children }) {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {
       setCurrentUser(user);
       if (user) {
-        const profile = await dbRef('profile').collection('profiles').where('user.id', '==', user.uid).get();
+        const profile = await dbRef('profile').collection('profiles').doc(user.uid).get();
         if (profile.docChanges()[0]) {
           setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
         }
       } else {
         setCurrentUserProfile(null);
-        /**  setCurrentUserProfile({
+        /** setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
-          // id: 'OyE16UfGemph3hdKjAyJ', // clinic id
-          id: 'pwA1hXTKogAt9gCS34rJ', // doctor id
+          // id: '7NTTFpPt4HVsufZR9eY0Vi7t81l2', // clinic id
+          id: 'K6Ps07L1VrZ2n4VUJXdJWThBs4F3', // doctor id
           // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
 
           user: { email: 'localhost@local' },

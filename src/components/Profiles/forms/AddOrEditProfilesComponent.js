@@ -12,7 +12,7 @@ import RoleFieldComponent from '../../fields/roles/RoleFieldComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { withRolesContext } from '../../fields/roles/RolesContext';
-import { validateHospital, validateProfile } from './valdiateProfile';
+import { validateHospital, validateProfile } from './validateProfile';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
@@ -45,7 +45,6 @@ function AddOrEditProfilesComponent({ title }) {
           ...(formType === EDIT_FORM_TEXT && selected
             ? {
                 ...selected,
-                ...(selected.user ? { user: selected.user.email } : {}),
                 ...(selected.role ? { role: selected.role.id } : {}),
                 ...(selected.doctor ? { doctor: selected.doctor.id } : {}),
                 ...(selected.hospital ? { hospital: selected.hospital.id } : {}),
@@ -97,7 +96,7 @@ function AddOrEditProfilesComponent({ title }) {
                   <Grid item xs={9}>
                     <CustomTextFieldComponent
                       required
-                      name="user"
+                      name="email"
                       label="Correo"
                       disabled={formType === EDIT_FORM_TEXT}
                     />
