@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
+import { ERROR_MESSAGE } from '../commons/globalText';
 
 const MessageContext = createContext({});
 
@@ -6,7 +7,7 @@ export const MessageContextProvider = ({ children }) => {
   const [messages, setMessage] = useState(null);
 
   const RegisterMessage = useCallback((type, message) => {
-    setMessage({ type, message });
+    setMessage({ type, message: type === ERROR_MESSAGE ? 'A ocurrido un error' : message });
   }, []);
 
   const clearMessages = useCallback(() => {
