@@ -29,8 +29,8 @@ export function AuthContextProvider({ children }) {
         /** setCurrentUserProfile({
           // id: 'AoNyOoFK2VBMSvd4nFXN', // admin id
           // id: '7NTTFpPt4HVsufZR9eY0Vi7t81l2', // clinic id
-          id: 'K6Ps07L1VrZ2n4VUJXdJWThBs4F3', // doctor id
-          // id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
+          // id: 'K6Ps07L1VrZ2n4VUJXdJWThBs4F3', // doctor id
+          id: 'ZwYARyBS3arEhzYeDAYr', // paciente id
 
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
@@ -40,8 +40,8 @@ export function AuthContextProvider({ children }) {
           role: {
             // id: 'admin'
             // id: 'clinic'
-            id: 'doctor'
-            // id: 'patient'
+            // id: 'doctor'
+            id: 'patient'
           }
         }); */
       }
@@ -103,7 +103,7 @@ export function AuthContextProvider({ children }) {
 
 export const useAuthContext = () => {
   const values = useContext(AuthContext);
-  if (!values) throw new Error('This only works iside AuthContextProvider');
+  if (!values) throw new Error('This only works inside AuthContextProvider');
   return {
     currentUser: values.currentUser,
     currentUserProfile: values.currentUserProfile,

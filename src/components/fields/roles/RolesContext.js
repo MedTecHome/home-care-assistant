@@ -1,17 +1,24 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import { getRolesAction } from './reducers/RoleActions';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../../commons/globalText';
 
 const RolesContext = createContext({});
 
 export const withRolesContext = WrapperComponent => props => {
+  const { RegisterMessage } = useMessageContext();
   const [roles, setRoles] = useState([]);
 
   const getRoles = useCallback(async () => {
-    const result = (await getRolesAction().orderBy('name').get())
-      .docChanges()
-      .map(({ doc }) => ({ id: doc.id, ...doc.data() }));
-    setRoles(result);
-  }, []);
+    try {
+      const result = (await getRolesAction().orderBy('name').get())
+        .docChanges()
+        .map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+      setRoles(result);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, e);
+    }
+  }, [RegisterMessage]);
 
   return (
     <RolesContext.Provider

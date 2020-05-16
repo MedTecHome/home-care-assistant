@@ -2,10 +2,13 @@ import React, { createContext, useCallback, useContext, useMemo, useReducer, use
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { getMedicinesListAction, saveMedicineValuesActions } from './reducers/MedicinesActions';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../commons/globalText';
 
 const MedicinesContext = createContext({});
 
 export const withMedicinesContext = WrapperComponent => props => {
+  const { RegisterMessage } = useMessageContext();
   const [medicList, setMedicinesList] = useState([]);
   const [loadList, setLoadingList] = useState(false);
   const [seletd, setSelected] = useState(null);
@@ -16,20 +19,26 @@ export const withMedicinesContext = WrapperComponent => props => {
   const loadingList = useMemo(() => loadList, [loadList]);
   const selected = useMemo(() => seletd, [seletd]);
 
-  const getMedicinesList = useCallback(async params => {
-    setLoadingList(true);
-    try {
-      const result = await getMedicinesListAction(params);
-      setMedicinesList(result);
-    } catch (e) {
-      // handle errror
-    }
-    setLoadingList(false);
-  }, []);
+  const getMedicinesList = useCallback(
+    async params => {
+      setLoadingList(true);
+      try {
+        const result = await getMedicinesListAction(params);
+        setMedicinesList(result);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e);
+      }
+      setLoadingList(false);
+    },
+    [RegisterMessage]
+  );
 
-  const saveMedicineValues = useCallback(async (values, formType) => {
-    await saveMedicineValuesActions(values, formType);
-  }, []);
+  const saveMedicineValues = useCallback(
+    async (values, formType) => {
+      await saveMedicineValuesActions(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+    },
+    [RegisterMessage]
+  );
 
   const selectMedicineFromList = useCallback(
     id => {

@@ -36,7 +36,9 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
   const up400 = useMediaQuery(theme => theme.breakpoints.up(400));
 
   useEffect(() => {
-    if (formType === null) getProfilesList({ filters, ...page });
+    if (formType === null) {
+      getProfilesList({ filters, ...page });
+    }
   }, [getProfilesList, filters, page, formType]);
 
   const handleSelectItemOnClick = id => {

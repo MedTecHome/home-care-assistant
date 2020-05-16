@@ -18,3 +18,10 @@ export const INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT = 'Formato no valido par
 export const INVALID_WEIRD_CHARACTERS_ON_TEXT = 'Texto no valido';
 export const REQUIRED_FIELD = 'Este campo es obligatorio.';
 export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada';
+
+/** message types */
+
+export const ERROR_MESSAGE = 'error';
+export const WARNING_MESSAGE = 'warning';
+export const INFO_MESSAGE = 'info';
+export const SUCCES_MESSAGE = 'succes';

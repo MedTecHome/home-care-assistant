@@ -16,7 +16,7 @@ export const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const authFirebase = firebase.auth();
-
+// firebase.firestore.setLogLevel('debug');
 export const dbFirebase = firebase.firestore();
 
 export const dbRef = doc => dbFirebase.collection('home-care-assistant').doc(doc);
