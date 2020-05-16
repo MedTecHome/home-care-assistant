@@ -21,8 +21,8 @@ export function AuthContextProvider({ children }) {
       setCurrentUser(user);
       if (user) {
         const profile = await dbRef('profile').collection('profiles').doc(user.uid).get();
-        if (profile.docChanges()[0]) {
-          setCurrentUserProfile({ id: profile.docChanges()[0].doc.id, ...profile.docChanges()[0].doc.data() });
+        if (profile.data()) {
+          setCurrentUserProfile({ id: profile.id, ...profile.data() });
         }
       } else {
         setCurrentUserProfile(null);
