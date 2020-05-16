@@ -14,6 +14,7 @@ import EditButtonIcon from '../buttons/EditButtonIcon';
 import ModalComponent from '../ModalComponent';
 import { AddOrEditMedicineForm } from '../Medicines/forms/AddOrEditMedicineComponent';
 import { EDIT_FORM_TEXT } from '../../commons/globalText';
+import { getPropValue } from '../../helpers/utils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -152,7 +153,14 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
   }, [setMedicine]);
 
   useEffect(() => {
-    setMedicine(value);
+    setMedicine(
+      value.map(medicine => ({
+        ...medicine,
+        concentrationType: getPropValue(medicine, 'concentrationType.id') || medicine.concentrationType,
+        doseType: getPropValue(medicine, 'doseType.id') || medicine.doseType,
+        administrationType: getPropValue(medicine, 'administrationType.id') || medicine.administrationType
+      }))
+    );
   }, [setMedicine, value]);
 
   useEffect(() => {
@@ -190,7 +198,7 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
   };
 
   const handleMedicineValues = values => {
-    const result = value.map(medicine => (medicine.id === values.id ? values : medicine));
+    const result = value.map(medicine => (medicine.id === values.id ? { ...values, edited: true } : medicine));
     setValue(result);
     setModalVisible(false);
     setMedicineSelected(null);
@@ -218,6 +226,9 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
             {value.map(medicine => (
               <ListItem key={medicine.id} className={classes.tag}>
                 <ListItemText primary={<Typography className={classes.listText}>{medicine.name}</Typography>} />
+                <ListItemText
+                  primary={<Typography className={classes.listText}>{medicine.edited && 'Editado'}</Typography>}
+                />
                 <ListItemSecondaryAction>
                   <EditButtonIcon onClick={() => handleEditMedicine(medicine)} />
                 </ListItemSecondaryAction>

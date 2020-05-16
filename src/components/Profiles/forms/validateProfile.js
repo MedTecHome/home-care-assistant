@@ -21,11 +21,11 @@ export const validateProfile = values => {
   if (!values.phone) {
     errors.phone = REQUIRED_FIELD;
   }
-  if (!values.user) {
-    errors.user = REQUIRED_FIELD;
+  if (!values.email) {
+    errors.email = REQUIRED_FIELD;
   }
-  if (values.user) {
-    if (!REGEX_EMAIL_ADDRESS.test(values.user)) {
+  if (values.email) {
+    if (!REGEX_EMAIL_ADDRESS.test(values.email)) {
       errors.user = INVALID_EMAIL_ADDRESS;
     }
   }

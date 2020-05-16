@@ -50,20 +50,20 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
   ...(sex ? { sex: await getNomById('sex')(sex) } : {})
 });
 
-const addValuesAction = async ({ id, user, ...values }) => {
+const addValuesAction = async ({ id, email, ...values }) => {
   const mutations = await mutateValues(values);
   const result = { ...values, ...mutations };
-  const response = await apiData.post('/createUser', { email: user, fullname: `${values.name} ${values.lastName}` });
+  const response = await apiData.post('/createUser', { email, fullname: `${values.name} ${values.lastName}` });
   const u = response.data;
   await authFirebase.sendPasswordResetEmail(u.user.email, actionCodeSettings);
-  await profilesRef.add({
+  await profilesRef.doc(u.user.uid).set({
     ...result,
-    user: { id: u.user.uid, email: u.user.email },
+    email: u.user.email,
     createdAt: Date.now()
   });
 };
 
-const editValuesAction = async ({ id, user, ...values }) => {
+const editValuesAction = async ({ id, email, ...values }) => {
   const result = { ...values, ...(await mutateValues(values)) };
   await profilesRef.doc(id).update({
     ...result,
@@ -71,8 +71,8 @@ const editValuesAction = async ({ id, user, ...values }) => {
   });
 };
 
-const deleteValuesAction = async ({ id, user }) => {
-  await apiData.post('/deleteUser', { userId: user.id });
+const deleteValuesAction = async ({ id }) => {
+  await apiData.post('/deleteUser', { userId: id });
   await profilesRef.doc(id).delete();
 };
 

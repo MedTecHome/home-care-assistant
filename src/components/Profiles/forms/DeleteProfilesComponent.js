@@ -27,7 +27,7 @@ export default function DeleteProfilesComponent() {
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar</DialogTitleComponent>
       <DialogContent dividers>
-        <Typography>Esta seguro que desea eliminar el perfile seleccionado.</Typography>
+        <Typography>Esta seguro que desea eliminar el perfil seleccionado.</Typography>
       </DialogContent>
       <DialogActions>
         <Button disableElevation variant="contained" size="small" onClick={handleCancel}>

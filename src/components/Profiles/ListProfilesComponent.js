@@ -114,7 +114,7 @@ function ListProfilesComponent({ onClickDelete, onClickEdit }) {
                 <ListItemText
                   primary={
                     <Typography className={classes.itemListContentPrimary}>
-                      Correo: {profile.user && <strong>{profile.user.email}</strong>}
+                      Correo: {profile.email && <strong>{profile.email}</strong>}
                     </Typography>
                   }
                 />
