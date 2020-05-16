@@ -21,7 +21,6 @@ export const getProfileByIdAction = async (id, fields = []) => {
 };
 
 export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => {
-  console.log(filters);
   let ref = profilesRef.orderBy('fullname');
   if (next) {
     ref = ref.startAfter(next.fullname);
