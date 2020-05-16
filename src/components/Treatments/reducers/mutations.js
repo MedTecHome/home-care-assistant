@@ -1,11 +1,21 @@
 import { formatMomentToDate } from '../../../helpers/utils';
 import { getProfileByIdAction } from '../../Profiles/reducers/ProfileActions';
-import { getMedicineByIdAction } from '../../Medicines/reducers/MedicinesActions';
+import { mutateNomenc } from '../../Medicines/reducers/MedicinesActions';
 
-const mutateTreatmentValues = async ({ name, patient, medicine, startDate, endDate }) => ({
+const parseStringJsonMedicines = string => {
+  const medicines = JSON.parse(string);
+  return Promise.all(
+    medicines.medicines.map(async medic => {
+      const nomenc = await mutateNomenc(medic);
+      return { ...medic, ...nomenc };
+    })
+  );
+};
+
+const mutateTreatmentValues = async ({ name, patient, medicines, startDate, endDate }) => ({
   name,
   ...(patient ? { patient: await getProfileByIdAction(patient, ['fullname']) } : {}),
-  ...(medicine ? { medicine: await getMedicineByIdAction(medicine, ['name']) } : {}),
+  ...(medicines ? { medicines: await parseStringJsonMedicines(medicines) } : {}),
   ...(startDate ? { startDate: formatMomentToDate(startDate) } : {}),
   ...(endDate ? { endDate: formatMomentToDate(endDate) } : {})
 });

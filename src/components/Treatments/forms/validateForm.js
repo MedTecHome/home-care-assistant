@@ -5,6 +5,9 @@ const validateForm = value => {
   if (!value.name) {
     errors.name = REQUIRED_FIELD;
   }
+  if (!value.medicines) {
+    errors.medicines = REQUIRED_FIELD;
+  }
   return errors;
 };
 

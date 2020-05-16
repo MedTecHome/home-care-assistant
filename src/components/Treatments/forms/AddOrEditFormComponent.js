@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form } from 'react-final-form';
+import React, { useEffect } from 'react';
+import { Field, Form } from 'react-final-form';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -15,10 +15,12 @@ import { ADD_FORM_TEXT, CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../common
 import useCustomStyles from '../../../jss/globalStyles';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
+import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditFormComponent({ title }) {
-  const { setModalVisible, selected, saveValues, formType, filters } = useTreatmentsContext();
+  const { setModalVisible, selected, selectFromList, saveValues, formType, filters } = useTreatmentsContext();
   const classes = useCustomStyles();
+
   const handleCloseModal = () => {
     setModalVisible(false, CANCEL_FORM_TEXT);
   };
@@ -33,19 +35,25 @@ function AddOrEditFormComponent({ title }) {
       <DialogTitleComponent onClose={handleCloseModal}>{title}</DialogTitleComponent>
       <Form
         validate={validateForm}
-        initialValues={
-          formType === EDIT_FORM_TEXT && selected
-            ? {
-                ...selected,
-                medicine: selected.medicine.id,
-                patient: selected.patient.id,
-                startDate: selected.startDate.toDate(),
-                endDate: selected.endDate.toDate()
-              }
-            : formType === ADD_FORM_TEXT && filters && filters['patient.id'] && { patient: filters['patient.id'] }
-        }
+        mutators={{
+          setMedicine: (args, state, utils) => {
+            utils.changeValue(state, 'medicines', () =>
+              args[0].length > 0 ? JSON.stringify({ medicines: args[0] }) : undefined
+            );
+          }
+        }}
+        initialValues={{
+          ...(formType === EDIT_FORM_TEXT &&
+            selected && {
+              ...selected,
+              patient: selected.patient.id,
+              startDate: selected.startDate.toDate(),
+              endDate: selected.endDate.toDate()
+            }),
+          ...(formType === ADD_FORM_TEXT && filters && filters['patient.id'] && { patient: filters['patient.id'] })
+        }}
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {
+        render={({ handleSubmit, form, submitting, pristine, invalid, values, errors }) => {
           return (
             <form
               noValidate
@@ -73,11 +81,33 @@ function AddOrEditFormComponent({ title }) {
                       validate={validateDoctor}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <MedicinesFieldComponent classes={classes} />
-                  </Grid>
                   <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
                   <DateFieldComponent label="Fecha fin" name="endDate" classes={classes} minDate={values.startDate} />
+                  <Grid item xs={12}>
+                    <Field
+                      name="medicines"
+                      render={({ input }) => {
+                        return (
+                          <input
+                            type="hidden"
+                            name={input.name}
+                            onChange={input.onChange}
+                            onBlur={input.onBlur}
+                            onFocus={input.onFocus}
+                            value={input.value}
+                          />
+                        );
+                      }}
+                    />
+                    <MedicinesFieldComponent
+                      required
+                      name="medicines"
+                      label="Medicamentos"
+                      errors={errors.medicines}
+                      setMedicine={form.mutators.setMedicine}
+                      defaultValue={getPropValue(selected, 'medicines') || []}
+                    />
+                  </Grid>
                 </Grid>
               </DialogContent>
               <DialogActions>

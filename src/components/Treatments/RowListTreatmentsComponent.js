@@ -1,16 +1,21 @@
 import React from 'react';
+import uuid from 'uuid4';
 import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, IconButton } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../fieldset';
 import { getPropValue } from '../../helpers/utils';
 import DetailTextComponent from '../DetailTextComponent';
+import PopoverComponent from '../containers/PopoverComponent';
 
 const cellStyle = makeStyles({
   cell: {
@@ -28,6 +33,22 @@ const cellStyle = makeStyles({
     }
   }
 });
+
+function ListMedicines({ list = [] }) {
+  return (
+    <List
+      style={{
+        width: '100%'
+      }}
+    >
+      {list.map(l => (
+        <ListItem key={uuid()} style={{ padding: 1 }} divider>
+          <ListItemText primary={l.name} />
+        </ListItem>
+      ))}
+    </List>
+  );
+}
 
 function DetailTreatmentRowCellComponent({ open, data }) {
   const classes = cellStyle();
@@ -84,7 +105,11 @@ function DetailTreatmentRowCellComponent({ open, data }) {
               <Grid item xs={12} sm={6}>
                 <Fieldset title="Medicamentos">
                   <Grid container spacing={2}>
-                    <DetailTextComponent xsLabel={3} label="Medicamentos" value={getPropValue(data, 'medicine.name')} />
+                    <DetailTextComponent
+                      xsLabel={3}
+                      label="Medicamentos"
+                      value={<ListMedicines list={data.medicines} />}
+                    />
                   </Grid>
                 </Fieldset>
               </Grid>
@@ -103,6 +128,15 @@ const useStyles = {
       backgroundColor: '#f5f5f6',
       color: '#fff'
     }
+  },
+  largeCells: {
+    maxWidth: 130
+  },
+  textCells: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    textDecoration: 'underline'
   }
 };
 
@@ -118,6 +152,18 @@ function RowListTreatmentsComponent({
   delRole,
   classes
 }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openPopover = Boolean(anchorEl);
+
   const handleRowClick = id => {
     selectRow(id);
     setOpen(!open ? id : null);
@@ -137,8 +183,28 @@ function RowListTreatmentsComponent({
         <TableCell>
           <Typography>{getPropValue(row, 'name') || ' - '}</Typography>
         </TableCell>
-        <TableCell>
-          <Typography>{getPropValue(row, 'medicine.name') || ' - '}</Typography>
+        <TableCell
+          className={classes.largeCells}
+          aria-owns={openPopover ? 'mouse-over-popover' : undefined}
+          aria-haspopup="true"
+          onMouseEnter={handlePopoverOpen}
+          onMouseLeave={handlePopoverClose}
+        >
+          {row.medicines ? (
+            <Typography className={classes.textCells}>
+              {row.medicines.map(medicine => medicine.name).join(', ')}
+            </Typography>
+          ) : (
+            ' - '
+          )}
+          {row.medicines && (
+            <PopoverComponent
+              open={openPopover}
+              anchorEl={anchorEl}
+              onClose={handlePopoverClose}
+              title={<ListMedicines list={row.medicines} />}
+            />
+          )}
         </TableCell>
         <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
