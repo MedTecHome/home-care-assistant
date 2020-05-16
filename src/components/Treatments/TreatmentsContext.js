@@ -24,7 +24,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
         const result = await getListTreatmentsAction(params);
         setList(result);
       } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e);
+        RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext');
       } finally {
         setLoadingList(false);
       }
@@ -42,7 +42,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
 
   const saveValues = useCallback(
     async (values, formType) => {
-      await saveValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+      await saveValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmentsContext'));
     },
     [RegisterMessage]
   );

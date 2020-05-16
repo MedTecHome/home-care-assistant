@@ -16,7 +16,7 @@ export const withRolesContext = WrapperComponent => props => {
         .map(({ doc }) => ({ id: doc.id, ...doc.data() }));
       setRoles(result);
     } catch (e) {
-      RegisterMessage(ERROR_MESSAGE, e);
+      RegisterMessage(ERROR_MESSAGE, e, 'RoleContext');
     }
   }, [RegisterMessage]);
 

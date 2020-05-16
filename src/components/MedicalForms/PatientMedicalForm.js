@@ -56,7 +56,7 @@ const PatientMedicalForm = () => {
   const onSubmit = async values => {
     if (!isEmpty(values))
       await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms }).catch(e =>
-        RegisterMessage(ERROR_MESSAGE, e)
+        RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm')
       );
   };
 

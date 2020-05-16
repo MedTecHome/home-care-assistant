@@ -26,7 +26,7 @@ export const withMedicinesContext = WrapperComponent => props => {
         const result = await getMedicinesListAction(params);
         setMedicinesList(result);
       } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e);
+        RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext');
       }
       setLoadingList(false);
     },
@@ -35,7 +35,9 @@ export const withMedicinesContext = WrapperComponent => props => {
 
   const saveMedicineValues = useCallback(
     async (values, formType) => {
-      await saveMedicineValuesActions(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+      await saveMedicineValuesActions(values, formType).catch(e =>
+        RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext')
+      );
     },
     [RegisterMessage]
   );

@@ -22,7 +22,9 @@ const HospitalContextProvider = ({ children }) => {
   const getListHospitals = useCallback(
     async params => {
       setLoadingList(true);
-      const result = await fetchHospitalsAction(params).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+      const result = await fetchHospitalsAction(params).catch(e =>
+        RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext')
+      );
       setHospitals(result);
       setLoadingList(false);
     },
@@ -39,7 +41,7 @@ const HospitalContextProvider = ({ children }) => {
 
   const saveHospitalValues = useCallback(
     async (values, formType) => {
-      await saveHospitalValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+      await saveHospitalValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext'));
     },
     [RegisterMessage]
   );

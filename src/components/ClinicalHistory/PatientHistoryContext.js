@@ -30,7 +30,7 @@ const PatientHistoryContextProvider = ({ children }) => {
         });
         setHistoryList(result);
       } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e);
+        RegisterMessage(ERROR_MESSAGE, e, 'PatientHistoryContext');
       } finally {
         setLoadingList(false);
       }
