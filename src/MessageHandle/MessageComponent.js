@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { useMessageContext } from './MessageContext';
 import { getPropValue, isEmpty } from '../helpers/utils';
+import { useAuthContext } from '../contexts/AuthContext';
 
 function Alert({ children, severity, onClose, variant = 'filled' }) {
   return (
@@ -24,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MessageComponent() {
+  const { currentUser } = useAuthContext();
   const { messages, clearMessages } = useMessageContext();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -43,19 +45,23 @@ export default function MessageComponent() {
   };
 
   return (
-    <div className={classes.root}>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        {messages && messages.type && (
-          <Alert onClose={handleClose} severity={messages.type}>
-            <Typography>{getPropValue(messages, 'message.message')}</Typography>
-          </Alert>
-        )}
-      </Snackbar>
-    </div>
+    <>
+      {currentUser && (
+        <div className={classes.root}>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            {messages && messages.type && (
+              <Alert onClose={handleClose} severity={messages.type}>
+                <Typography>{getPropValue(messages, 'message.message')}</Typography>
+              </Alert>
+            )}
+          </Snackbar>
+        </div>
+      )}
+    </>
   );
 }

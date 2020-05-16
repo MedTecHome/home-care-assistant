@@ -6,7 +6,6 @@ import { HomeRounded as HomeIcon } from '@material-ui/icons';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Catch from './functional-error-boundary';
-import { getPropValue } from '../helpers/utils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,8 +42,9 @@ function ErrorBoundaryMessageComponent({ error }) {
         A ocurrido un error
       </Typography>
       <h4 className={classes.content}>
-        {getPropValue(error, 'message') ||
-          'Por favor contacte con el administrador del sistema para mas detalles del mismo.'}
+        {error && (
+          <Typography> Por favor contacte con el administrador del sistema para mas detalles del mismo.</Typography>
+        )}
       </h4>
       <div className={classes.actions}>
         <Tooltip title="Atras">
