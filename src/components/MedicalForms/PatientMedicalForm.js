@@ -16,6 +16,8 @@ import WeightForm from './WeightForm';
 import OxygenForm from './OxygenForm';
 import ExercisesForm from './ExercisesForm';
 import CoagulationForm from './CoagulationForm';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../commons/globalText';
 
 const useStyles = makeStyles(theme => ({
   formContainer: {
@@ -44,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PatientMedicalForm = () => {
+  const { RegisterMessage } = useMessageContext();
   const {
     currentUserProfile: { id, fullname }
   } = useAuthContext();
@@ -51,13 +54,10 @@ const PatientMedicalForm = () => {
   const [selectedForms, setSelectedForms] = useState([]);
 
   const onSubmit = async values => {
-    if (!isEmpty(values)) {
-      try {
-        await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms });
-      } catch (e) {
-        // handle error
-      }
-    }
+    if (!isEmpty(values))
+      await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms }).catch(e =>
+        RegisterMessage(ERROR_MESSAGE, e)
+      );
   };
 
   const handleToogleCheckbox = useCallback(

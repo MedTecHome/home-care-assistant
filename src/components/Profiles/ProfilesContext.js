@@ -3,10 +3,13 @@ import React, { createContext, useCallback, useContext, useMemo, useReducer, use
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../commons/globalText';
 
 const ProfilesContext = createContext({});
 
 export const withProfileContext = WrapperComponent => props => {
+  const { RegisterMessage } = useMessageContext();
   const [list, setProfileList] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [slected, setSelected] = useState(null);
@@ -17,24 +20,31 @@ export const withProfileContext = WrapperComponent => props => {
   const selected = useMemo(() => slected, [slected]);
 
   // eslint-disable-next-line no-unused-vars
-  const getProfilesList = useCallback(async params => {
-    setLoadingList(true);
-    try {
-      const result = await getProfilesAction(params);
-      setProfileList(result);
-    } catch (e) {
-      // handle error
-    }
-    setLoadingList(false);
-  }, []);
+  const getProfilesList = useCallback(
+    async params => {
+      setLoadingList(true);
+      try {
+        const result = await getProfilesAction(params);
+        setProfileList(result);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e);
+      } finally {
+        setLoadingList(false);
+      }
+    },
+    [RegisterMessage]
+  );
 
-  const saveProfileValues = useCallback(async (values, formType) => {
-    try {
-      await saveProfileValuesAction(values, formType);
-    } catch (e) {
-      // handle error
-    }
-  }, []);
+  const saveProfileValues = useCallback(
+    async (values, formType) => {
+      try {
+        await saveProfileValuesAction(values, formType);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e);
+      }
+    },
+    [RegisterMessage]
+  );
 
   const selectProfileFromList = useCallback(
     id => {

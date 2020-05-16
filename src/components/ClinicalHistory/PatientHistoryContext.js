@@ -2,10 +2,13 @@ import React, { createContext, useCallback, useContext, useMemo, useReducer, use
 import { getAllPatientHistoryAction } from '../MedicalForms/reducers/PatienHealthActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../commons/globalText';
 
 const PatientHistoryContext = createContext({});
 
 const PatientHistoryContextProvider = ({ children }) => {
+  const { RegisterMessage } = useMessageContext();
   const [list, setHistoryList] = useState([]);
   const [slcted, setSelected] = useState(null);
   const [filters, setFilters] = useState({});
@@ -15,22 +18,25 @@ const PatientHistoryContextProvider = ({ children }) => {
   const historyList = useMemo(() => list, [list]);
   const selected = useMemo(() => slcted, [slcted]);
 
-  const getPatientHistory = useCallback(async params => {
-    try {
-      setLoadingList(true);
-      const response = await getAllPatientHistoryAction(params);
-      const result = response.sort((a, b) => {
-        const c = a.clinicalDate;
-        const d = b.clinicalDate;
-        return d - c;
-      });
-      setHistoryList(result);
-    } catch (e) {
-      // /handle error
-    } finally {
-      setLoadingList(false);
-    }
-  }, []);
+  const getPatientHistory = useCallback(
+    async params => {
+      try {
+        setLoadingList(true);
+        const response = await getAllPatientHistoryAction(params);
+        const result = response.sort((a, b) => {
+          const c = a.clinicalDate;
+          const d = b.clinicalDate;
+          return d - c;
+        });
+        setHistoryList(result);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e);
+      } finally {
+        setLoadingList(false);
+      }
+    },
+    [RegisterMessage]
+  );
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 

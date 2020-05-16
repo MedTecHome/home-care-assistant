@@ -9,15 +9,23 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthContextProvider } from './contexts/AuthContext';
 import theme1 from './themes/theme1';
+import { MessageContextProvider } from './MessageHandle/MessageContext';
+import MessageComponent from './MessageHandle/MessageComponent';
+import CustomBoundary from './MessageHandle/CustomBoundary';
 
 library.add(fab, faCheckSquare, faCoffee);
 
 ReactDOM.render(
-  <AuthContextProvider>
-    <ThemeProvider theme={theme1}>
-      <App />
-    </ThemeProvider>
-  </AuthContextProvider>,
+  <ThemeProvider theme={theme1}>
+    <MessageContextProvider>
+      <CustomBoundary>
+        <MessageComponent />
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
+      </CustomBoundary>
+    </MessageContextProvider>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

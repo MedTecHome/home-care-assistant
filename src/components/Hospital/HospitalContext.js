@@ -2,10 +2,13 @@ import React, { createContext, useCallback, useContext, useMemo, useReducer, use
 import { fetchHospitalsAction, saveHospitalValuesAction } from './reducers/HospitalActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../commons/globalText';
 
 const HospitalContext = createContext({});
 
 const HospitalContextProvider = ({ children }) => {
+  const { RegisterMessage } = useMessageContext();
   const [hospitals, setHospitals] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [slected, setSelected] = useState(null);
@@ -16,12 +19,15 @@ const HospitalContextProvider = ({ children }) => {
   const selected = useMemo(() => slected, [slected]);
 
   // eslint-disable-next-line no-unused-vars
-  const getListHospitals = useCallback(async params => {
-    setLoadingList(true);
-    const result = await fetchHospitalsAction(params);
-    setHospitals(result);
-    setLoadingList(false);
-  }, []);
+  const getListHospitals = useCallback(
+    async params => {
+      setLoadingList(true);
+      const result = await fetchHospitalsAction(params).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+      setHospitals(result);
+      setLoadingList(false);
+    },
+    [RegisterMessage]
+  );
 
   const selectHospital = useCallback(
     id => {
@@ -31,9 +37,12 @@ const HospitalContextProvider = ({ children }) => {
     [hospitalsList]
   );
 
-  const saveHospitalValues = useCallback(async (values, formType) => {
-    await saveHospitalValuesAction(values, formType);
-  }, []);
+  const saveHospitalValues = useCallback(
+    async (values, formType) => {
+      await saveHospitalValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+    },
+    [RegisterMessage]
+  );
 
   const setModalVisible = useCallback((visible, formType) => {
     modalDispatch(setModalVisibleAction(visible, formType));

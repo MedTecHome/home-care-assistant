@@ -2,10 +2,13 @@ import React, { createContext, useCallback, useContext, useMemo, useReducer, use
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { getListTreatmentsAction, saveValuesAction } from './reducers/TreatmentActions';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../../commons/globalText';
 
 const TreatmentsContext = createContext({});
 
 export const withTreatmentsContext = WrapperComponent => props => {
+  const { RegisterMessage } = useMessageContext();
   const [list, setList] = useState([]);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
@@ -14,17 +17,20 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const selected = useMemo(() => slected, [slected]);
   const listTreatments = useMemo(() => list, [list]);
 
-  const getListOfTreatments = useCallback(async params => {
-    setLoadingList(true);
-    try {
-      const result = await getListTreatmentsAction(params);
-      setList(result);
-    } catch (e) {
-      // handle errors
-    } finally {
-      setLoadingList(false);
-    }
-  }, []);
+  const getListOfTreatments = useCallback(
+    async params => {
+      setLoadingList(true);
+      try {
+        const result = await getListTreatmentsAction(params);
+        setList(result);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e);
+      } finally {
+        setLoadingList(false);
+      }
+    },
+    [RegisterMessage]
+  );
 
   const selectFromList = useCallback(
     id => {
@@ -34,9 +40,12 @@ export const withTreatmentsContext = WrapperComponent => props => {
     [listTreatments]
   );
 
-  const saveValues = useCallback(async (values, formType) => {
-    await saveValuesAction(values, formType);
-  }, []);
+  const saveValues = useCallback(
+    async (values, formType) => {
+      await saveValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e));
+    },
+    [RegisterMessage]
+  );
 
   const setModalVisible = useCallback((flag, formType) => {
     globalDispatch(setModalVisibleAction(flag, formType));
