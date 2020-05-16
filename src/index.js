@@ -19,8 +19,8 @@ ReactDOM.render(
   <ThemeProvider theme={theme1}>
     <MessageContextProvider>
       <CustomBoundary>
-        <MessageComponent />
         <AuthContextProvider>
+          <MessageComponent />
           <App />
         </AuthContextProvider>
       </CustomBoundary>
