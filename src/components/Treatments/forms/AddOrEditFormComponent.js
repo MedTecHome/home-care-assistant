@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Field, Form } from 'react-final-form';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
@@ -18,7 +18,7 @@ import validateForm from './validateForm';
 import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditFormComponent({ title }) {
-  const { setModalVisible, selected, selectFromList, saveValues, formType, filters } = useTreatmentsContext();
+  const { setModalVisible, selected, saveValues, formType, filters } = useTreatmentsContext();
   const classes = useCustomStyles();
 
   const handleCloseModal = () => {
