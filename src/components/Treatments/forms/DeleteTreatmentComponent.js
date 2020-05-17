@@ -17,8 +17,9 @@ function DeleteTreatmentComponent() {
   };
 
   const onDelete = async () => {
+    const itemToDelete = selected;
     setSaving(true);
-    await saveValues({ ...selected, patient: selected.patient.id, medicine: selected.medicine.id }, formType);
+    await saveValues(itemToDelete, formType);
     setSaving(false);
     setModalVisible(false, null);
   };

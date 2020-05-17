@@ -17,8 +17,9 @@ export default function DeleteHospitalComponent() {
   };
 
   const onDelete = async () => {
+    const itemToDelete = selected;
     setSaving(true);
-    await saveHospitalValues(selected, formType);
+    await saveHospitalValues(itemToDelete, formType);
     setSaving(false);
     setModalVisible(false, null);
   };
