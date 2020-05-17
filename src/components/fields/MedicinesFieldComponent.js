@@ -20,6 +20,7 @@ import ModalComponent from '../ModalComponent';
 import { AddOrEditMedicineForm } from '../Medicines/forms/AddOrEditMedicineComponent';
 import { EDIT_FORM_TEXT } from '../../commons/globalText';
 import { getPropValue } from '../../helpers/utils';
+import MedicineDetailItemListComponent from '../Medicines/MedicineDetailItemListComponent';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,20 +47,6 @@ const useStyles = makeStyles(theme => ({
       width: 16,
       height: 16
     }
-  },
-  tag: {
-    marginTop: 3,
-    padding: '.15em 4px',
-    fontWeight: 600,
-    lineHeight: '15px',
-    borderRadius: 2,
-    borderBottom: '1px solid #ccc'
-  },
-  listText: {
-    maxWidth: '90%',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
   },
   popper: {
     border: '1px solid rgba(27,31,35,.15)',
@@ -227,21 +214,7 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
           </span>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </ButtonBase>
-        {!open && (
-          <List>
-            {value.map(medicine => (
-              <ListItem key={medicine.id} className={classes.tag}>
-                <ListItemText primary={<Typography className={classes.listText}>{medicine.name}</Typography>} />
-                <ListItemText
-                  primary={<Typography className={classes.listText}>{medicine.edited && 'Editado'}</Typography>}
-                />
-                <ListItemSecondaryAction>
-                  <EditButtonIcon onClick={() => handleEditMedicine(medicine)} />
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
+        {!open && <MedicineDetailItemListComponent medicines={value} handleEditMedicine={handleEditMedicine} />}
         <Typography>{errors}</Typography>
       </div>
       {open && (
