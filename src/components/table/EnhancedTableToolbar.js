@@ -16,7 +16,7 @@ const EnhancedTableToolbar = props => {
     onAdd(ADD_FORM_TEXT);
   };
   return (
-    <List>
+    <List style={{ paddingBottom: 0 }}>
       <ListItem>
         <Grid container spacing={3} justify="space-between" alignItems="flex-end">
           <Grid item xs={12} sm={3} md={3} className={match ? classes.addFloatingButton : ''}>

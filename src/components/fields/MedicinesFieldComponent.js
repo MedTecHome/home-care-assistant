@@ -1,6 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { Settings as SettingsIcon, Done as DoneIcon, Close as CloseIcon } from '@material-ui/icons';
+import {
+  Done as DoneIcon,
+  Close as CloseIcon,
+  KeyboardArrowUp as KeyboardArrowUpIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon
+} from '@material-ui/icons';
 import { ButtonBase, InputBase, ListItemSecondaryAction } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
@@ -23,11 +28,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: '1px solid #ccc',
+    border: '1px solid #ccc',
+    borderRadius: 3,
     fontSize: 13,
     width: '100%',
     textAlign: 'left',
-    paddingBottom: 8,
+    padding: 6,
     color: '#586069',
     fontWeight: 600,
     '&:hover,&:focus': {
@@ -219,7 +225,7 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
           <span>
             {label} {required && '*'}
           </span>
-          <SettingsIcon />
+          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </ButtonBase>
         {!open && (
           <List>

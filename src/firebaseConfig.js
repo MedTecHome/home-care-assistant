@@ -15,6 +15,8 @@ export const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+export default firebase;
+
 export const authFirebase = firebase.auth();
 // firebase.firestore.setLogLevel('debug');
 export const dbFirebase = firebase.firestore();

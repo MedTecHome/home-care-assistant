@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  TableContainer,
-  Table,
-  TableBody,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-  LinearProgress
-} from '@material-ui/core';
+import { TableContainer, Table, TableBody, CardHeader, Typography, LinearProgress } from '@material-ui/core';
 
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
@@ -24,8 +15,7 @@ function TableComponent({
   setModalVisible,
   render,
   extraText,
-  addRole = false,
-  disableElevation
+  addRole = false
 }) {
   const classes = useCustomStyles();
 
@@ -55,18 +45,16 @@ function TableComponent({
           <LinearProgress />
         </div>
       ) : (
-        <Card elevation={disableElevation ? 0 : 1} className={classes.root}>
-          <TableContainer component={CardContent}>
-            <Table className={classes.table}>
-              <EnhancedTableHead headCells={headCells} />
-              <TableBody>
-                {list.map((row, index) => {
-                  return render(row, index);
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Card>
+        <TableContainer className={classes.tableContent}>
+          <Table className={classes.table}>
+            <EnhancedTableHead headCells={headCells} />
+            <TableBody>
+              {list.map((row, index) => {
+                return render(row, index);
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
     </>
   );

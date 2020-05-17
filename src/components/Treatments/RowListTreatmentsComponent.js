@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import uuid from 'uuid4';
 import { TableRow, TableCell, Typography, makeStyles, ButtonGroup, Collapse, IconButton } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
@@ -13,9 +13,9 @@ import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../fieldset';
-import { getPropValue } from '../../helpers/utils';
 import DetailTextComponent from '../DetailTextComponent';
 import PopoverComponent from '../containers/PopoverComponent';
+import { getPropValue, isTimestamp } from '../../helpers/utils';
 
 const cellStyle = makeStyles({
   cell: {
@@ -141,6 +141,7 @@ const useStyles = {
 };
 
 function RowListTreatmentsComponent({
+  cells,
   row,
   index,
   open,
@@ -152,21 +153,19 @@ function RowListTreatmentsComponent({
   delRole,
   classes
 }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handlePopoverOpen = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const openPopover = Boolean(anchorEl);
-
   const handleRowClick = id => {
     selectRow(id);
     setOpen(!open ? id : null);
+  };
+
+  const handleEditAction = id => {
+    selectRow(id);
+    onModalVisible(EDIT_FORM_TEXT);
+  };
+
+  const handleDeleteAction = id => {
+    selectRow(id);
+    onModalVisible(DELETE_FORM_TEXT);
   };
 
   return (
@@ -174,47 +173,39 @@ function RowListTreatmentsComponent({
       <TableRow
         className={clsx(classes.root)}
         hover
-        onClick={() => handleRowClick(row.id)}
         tabIndex={-1}
-        key={row.id}
+        key={uuid()}
         selected={selected && selected.id === row.id}
       >
-        <TableCell align="center">{index + 1}</TableCell>
-        <TableCell>
-          <Typography>{getPropValue(row, 'name') || ' - '}</Typography>
+        <TableCell key={uuid()} align="center">
+          {index + 1}
         </TableCell>
-        <TableCell
-          className={classes.largeCells}
-          aria-owns={openPopover ? 'mouse-over-popover' : undefined}
-          aria-haspopup="true"
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-        >
-          {row.medicines ? (
-            <Typography className={classes.textCells}>
-              {row.medicines.map(medicine => medicine.name).join(', ')}
-            </Typography>
-          ) : (
-            ' - '
-          )}
-          {row.medicines && (
-            <PopoverComponent
-              open={openPopover}
-              anchorEl={anchorEl}
-              onClose={handlePopoverClose}
-              title={<ListMedicines list={row.medicines} />}
-            />
-          )}
-        </TableCell>
-        <TableCell align="center">{row.startDate && moment(row.startDate.toDate()).format('DD/MM/YYYY')}</TableCell>
-        <TableCell align="center">{row.endDate && moment(row.endDate.toDate()).format('DD/MM/YYYY')}</TableCell>
-        <TableCell align="center">
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open ? row.id : null)}>
+        {cells.map(cell => {
+          const value = isTimestamp(row[cell.id]) ? moment(row[cell.id].toDate()).format('DD/MM/YYYY') : row[cell.id];
+          return (
+            <Fragment key={uuid()}>
+              {cell.id === 'medicines' ? (
+                <TableCell className={classes.largeCells}>
+                  <PopoverComponent
+                    className={classes.textCells}
+                    title={row[cell.id].map(medicine => medicine.name).join(', ')}
+                  />
+                </TableCell>
+              ) : (
+                <TableCell align={cell.numeric ? 'center' : 'inherit'}>
+                  <Typography>{value}</Typography>
+                </TableCell>
+              )}
+            </Fragment>
+          );
+        })}
+        <TableCell align="center" key={uuid()} style={{ whiteSpace: 'nowrap' }}>
+          <IconButton aria-label="expand row" size="small" onClick={() => handleRowClick(row.id)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
           <ButtonGroup variant="text" aria-label="outlined primary button group">
-            {editRole && <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />}
-            {delRole && <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />}
+            {editRole && <EditButtonIcon onClick={() => handleEditAction(row.id)} />}
+            {delRole && <DeleteButtonIcon onClick={() => handleDeleteAction(row.id)} />}
           </ButtonGroup>
         </TableCell>
       </TableRow>

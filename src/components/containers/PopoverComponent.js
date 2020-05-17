@@ -21,32 +21,56 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PopoverComponent({ open, anchorEl, onClose, title }) {
+function PopoverComponent({ className, title }) {
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
-    <Popover
-      id="mouse-over-popover"
-      className={classes.popover}
-      classes={{
-        paper: classes.paper
-      }}
-      open={open}
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left'
-      }}
-      transformOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left'
-      }}
-      onClose={onClose}
-      disableRestoreFocus
-    >
-      <Typography component="div" className={classes.title}>
+    <div>
+      <Typography
+        className={className}
+        aria-owns={open ? 'mouse-over-popover' : undefined}
+        aria-haspopup="true"
+        onMouseEnter={handlePopoverOpen}
+        onMouseLeave={handlePopoverClose}
+      >
         {title}
       </Typography>
-    </Popover>
+      <Popover
+        id="mouse-over-popover"
+        className={classes.popover}
+        classes={{
+          paper: classes.paper
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <Typography component="div" className={classes.title}>
+          {title}
+        </Typography>
+      </Popover>
+    </div>
   );
 }
 
