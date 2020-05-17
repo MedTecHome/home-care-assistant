@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import moment from 'moment';
 import TableRow from '@material-ui/core/TableRow';
+import uuid from 'uuid4';
 import TableCell from '@material-ui/core/TableCell';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
-import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
+import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
-import { getPropValue } from '../../helpers/utils';
+import { isTimestamp, getPropValue } from '../../helpers/utils';
+import PopoverComponent from '../containers/PopoverComponent';
 
-function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisible }) {
+function RowListMedicineComponent({ cells, row, index, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();
   return (
     <TableRow
@@ -23,20 +24,20 @@ function RowListMedicineComponent({ row, index, selected, selectRow, onModalVisi
       selected={selected && selected.id === row.id}
     >
       <TableCell>{index + 1}</TableCell>
-      <TableCell>
-        <Tooltip title={row.name} arrow placement="top">
-          <Typography>{getPropValue(row, 'name')}</Typography>
-        </Tooltip>
-      </TableCell>
-      <TableCell>
-        <Typography align="center">{getPropValue(row, 'concentrationCant') || '-'}</Typography>
-      </TableCell>
-      <TableCell align="center">{getPropValue(row, 'doseCant') || '?'}</TableCell>
-      <TableCell>{getPropValue(row, 'administrationType.name') || '?'}</TableCell>
-      <TableCell align="center">{getPropValue(row, 'frequency') || '?'}</TableCell>
+      {cells.map(cell => {
+        const data = isTimestamp(row[cell.id]) ? moment(row[cell.id].toDate()).format('DD/MM/YYYY') : row[cell.id];
+        const value = getPropValue(data, 'name') || data;
+        return (
+          <Fragment key={uuid()}>
+            <TableCell align={cell.numeric ? 'center' : 'inherit'} className={classes.largeCells}>
+              <PopoverComponent className={classes.textCells} title={value} />
+            </TableCell>
+          </Fragment>
+        );
+      })}
       <TableCell align="center">
         <ButtonGroup variant="text" aria-label="outlined primary button group">
-          <StandarDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />
+          <StandardDetailButtonIcon onClick={() => onModalVisible(DETAILS_FORM_TEXT)} />
           <EditButtonIcon onClick={() => onModalVisible(EDIT_FORM_TEXT)} />
           <DeleteButtonIcon onClick={() => onModalVisible(DELETE_FORM_TEXT)} />
         </ButtonGroup>

@@ -105,7 +105,7 @@ function AddOrEditFormComponent({ title }) {
                       label="Medicamentos"
                       errors={errors.medicines}
                       setMedicine={form.mutators.setMedicine}
-                      defaultValue={getPropValue(selected, 'medicines') || []}
+                      defaultValue={(formType === EDIT_FORM_TEXT && getPropValue(selected, 'medicines')) || []}
                     />
                   </Grid>
                 </Grid>

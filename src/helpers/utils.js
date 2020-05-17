@@ -1,5 +1,6 @@
 /* eslint-disable eqeqeq */
 import moment from 'moment';
+import firebase from '../firebaseConfig';
 
 export const isEmpty = value => {
   const type = Object.prototype.toString.call(value);
@@ -20,6 +21,8 @@ export const isEmpty = value => {
       return true;
   }
 };
+
+export const isTimestamp = value => value instanceof firebase.firestore.Timestamp;
 
 export default function addOrReplace(array, item) {
   const result = array;

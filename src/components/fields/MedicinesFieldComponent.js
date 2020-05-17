@@ -1,20 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { Settings as SettingsIcon, Done as DoneIcon, Close as CloseIcon } from '@material-ui/icons';
-import { ButtonBase, InputBase, ListItemSecondaryAction } from '@material-ui/core';
+import {
+  Done as DoneIcon,
+  Close as CloseIcon,
+  KeyboardArrowUp as KeyboardArrowUpIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon
+} from '@material-ui/icons';
+import { ButtonBase, InputBase } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import { withMedicinesContext } from '../Medicines/MedicinesContext';
 import { getMedicinesListAction } from '../Medicines/reducers/MedicinesActions';
 import useDebounceCustom from '../../commons/useDebounceCustom';
-import EditButtonIcon from '../buttons/EditButtonIcon';
 import ModalComponent from '../ModalComponent';
 import { AddOrEditMedicineForm } from '../Medicines/forms/AddOrEditMedicineComponent';
 import { EDIT_FORM_TEXT } from '../../commons/globalText';
 import { getPropValue } from '../../helpers/utils';
+import MedicineDetailItemListComponent from '../Medicines/MedicineDetailItemListComponent';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,11 +25,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: '1px solid #ccc',
+    border: '1px solid #ccc',
+    borderRadius: 3,
     fontSize: 13,
     width: '100%',
     textAlign: 'left',
-    paddingBottom: 8,
+    padding: 6,
     color: '#586069',
     fontWeight: 600,
     '&:hover,&:focus': {
@@ -40,20 +43,6 @@ const useStyles = makeStyles(theme => ({
       width: 16,
       height: 16
     }
-  },
-  tag: {
-    marginTop: 3,
-    padding: '.15em 4px',
-    fontWeight: 600,
-    lineHeight: '15px',
-    borderRadius: 2,
-    borderBottom: '1px solid #ccc'
-  },
-  listText: {
-    maxWidth: '90%',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
   },
   popper: {
     border: '1px solid rgba(27,31,35,.15)',
@@ -219,23 +208,9 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
           <span>
             {label} {required && '*'}
           </span>
-          <SettingsIcon />
+          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </ButtonBase>
-        {!open && (
-          <List>
-            {value.map(medicine => (
-              <ListItem key={medicine.id} className={classes.tag}>
-                <ListItemText primary={<Typography className={classes.listText}>{medicine.name}</Typography>} />
-                <ListItemText
-                  primary={<Typography className={classes.listText}>{medicine.edited && 'Editado'}</Typography>}
-                />
-                <ListItemSecondaryAction>
-                  <EditButtonIcon onClick={() => handleEditMedicine(medicine)} />
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
+        {!open && <MedicineDetailItemListComponent medicines={value} handleEditMedicine={handleEditMedicine} />}
         <Typography>{errors}</Typography>
       </div>
       {open && (

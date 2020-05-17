@@ -29,10 +29,8 @@ function PatientClinicalDetailsComponent() {
   }, [state, currentUserProfile]);
 
   useEffect(() => {
-    if (patient) {
-      setFiltersTreatments({ 'patient.id': patient.id });
-      setFiltersHistory({ 'user.id': patient.id });
-    }
+    setFiltersTreatments({ 'patient.id': getPropValue(patient, 'id') || '' });
+    setFiltersHistory({ 'user.id': getPropValue(patient, 'id') || '' });
   }, [setFiltersTreatments, patient, setFiltersHistory]);
 
   const handleTabChange = (event, newValue) => {

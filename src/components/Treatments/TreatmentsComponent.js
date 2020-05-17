@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListItem from '@material-ui/core/ListItem';
+import { useMediaQuery } from '@material-ui/core';
 import { useTreatmentsContext } from './TreatmentsContext';
 import TableComponent from '../table/TableComponent';
 import treatmentsHeadCells from './treatmentsHeadCells';
@@ -29,6 +30,8 @@ function TreatmentsComponent() {
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState({});
   const classes = useCustomStyles();
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const cells = match ? [treatmentsHeadCells[0]] : treatmentsHeadCells;
 
   const handleLoadList = useCallback(() => {
     getListOfTreatments({ filters, ...page });
@@ -50,13 +53,14 @@ function TreatmentsComponent() {
       <TableComponent
         addRole={isDoctor}
         disableElevation
-        headCells={treatmentsHeadCells}
+        headCells={cells}
         loadingList={loadingList}
         list={listTreatments}
         setModalVisible={setModalVisible}
         selected={selected}
         render={(row, index) => (
           <RowListTreatmentsComponent
+            cells={cells}
             key={uuid()}
             open={open}
             setOpen={setOpen}

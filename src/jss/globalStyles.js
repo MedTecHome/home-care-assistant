@@ -83,16 +83,20 @@ const useCustomStyles = makeStyles(theme => ({
     width: '100%',
     marginBottom: theme.spacing(2)
   },
+  tableContent: {
+    marginTop: 10,
+    backgroundColor: '#fff'
+  },
   table: {
-    minWidth: 750
+    minWidth: '100%'
   },
   tableRows: {
     '&.Mui-selected': {
-      background: theme.palette.primary.light
+      background: theme.palette.primary.dark
     }
   },
   largeCells: {
-    maxWidth: 230
+    maxWidth: 100
   },
   textCells: {
     overflow: 'hidden',
