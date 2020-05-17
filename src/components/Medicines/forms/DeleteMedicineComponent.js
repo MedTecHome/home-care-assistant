@@ -17,8 +17,9 @@ function DeleteMedicineComponent() {
   };
 
   const onDelete = async () => {
+    const itemToDelete = selected;
     setSaving(true);
-    await saveMedicineValues(selected, formType);
+    await saveMedicineValues(itemToDelete, formType);
     setSaving(false);
     setModalVisible(false, null);
   };

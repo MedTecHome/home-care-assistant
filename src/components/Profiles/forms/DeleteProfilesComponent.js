@@ -17,8 +17,9 @@ export default function DeleteProfilesComponent() {
   };
 
   const onDelete = async () => {
+    const itemToDelete = selected;
     setSaving(true);
-    await saveProfileValues(selected, formType);
+    await saveProfileValues(itemToDelete, formType);
     setSaving(false);
     setModalVisible(false, null);
   };
