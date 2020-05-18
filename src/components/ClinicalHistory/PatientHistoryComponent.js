@@ -10,14 +10,15 @@ import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import useCustomStyles from '../../jss/globalStyles';
 import FilterPatientHistoryGraficsComponent from './FilterPatientHistoryGraficsComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 function PatientHistoryComponent() {
   const { getPatientHistory, historyList, loadingList, modalVisible, filters, setFilters } = usePatientHistoryContext();
+  const { isDoctor } = useAuthContext();
   const [page, setPage] = useState({});
   const classes = useCustomStyles();
 
   useEffect(() => {
-    // console.log(filters);
     getPatientHistory({ filters, ...page });
   }, [setFilters, getPatientHistory, filters, page]);
 
@@ -27,7 +28,7 @@ function PatientHistoryComponent() {
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
       <Grid container>
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={isDoctor ? 5 : 12}>
           <FiltersPatientHistoryComponent />
           <ListPatientHistoryComponent />
           <div className={classes.pagination}>
@@ -43,9 +44,11 @@ function PatientHistoryComponent() {
             )}
           </div>
         </Grid>
-        <Grid item xs={12} sm={7} container>
-          <FilterPatientHistoryGraficsComponent />
-        </Grid>
+        {isDoctor && (
+          <Grid item xs={12} sm={7} container>
+            <FilterPatientHistoryGraficsComponent />
+          </Grid>
+        )}
       </Grid>
     </>
   );

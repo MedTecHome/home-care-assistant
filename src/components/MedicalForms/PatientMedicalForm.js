@@ -87,7 +87,7 @@ const PatientMedicalForm = () => {
         >
           <SelectedChecboxForm defaultValues={selectedForms} onCheckboxChange={handleToogleCheckbox} />
         </Grid>
-        <Grid item xs={12} sm={9} md={10} container direction="column">
+        <Grid item xs={12} sm={9} container direction="column">
           <Form
             onSubmit={onSubmit}
             render={({ handleSubmit, form, submitting, pristine, hasValidationErrors, invalid }) => (
@@ -103,42 +103,42 @@ const PatientMedicalForm = () => {
               >
                 <Grid container spacing={4} justify={selectedForms.length === 1 ? 'center' : null}>
                   {selectedForms.includes('pressure') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <PressureForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('temperature') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <TemperatureForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('glucose') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <GlucoseForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('weight') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <WeightForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('breathing') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <BreathingForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('inr') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <CoagulationForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('oxygen') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <OxygenForm classStyle={classes} />
                     </Grid>
                   )}
                   {selectedForms.includes('exercises') && (
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={10} md={6}>
                       <ExercisesForm classStyle={classes} />
                     </Grid>
                   )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import uuid from 'uuid4';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -78,13 +79,13 @@ function HeaderComponent({ history }) {
                 {!match ? <AccountCircle /> : <IconMenu />}
               </IconButton>
               <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                <MenuItem disabled>
+                <MenuItem disabled key={uuid()}>
                   <Typography aria-setsize={8} className={classes.currentUser}>
                     {currentUserProfile ? currentUserProfile.fullname : currentUser && currentUser.email}
                   </Typography>
                 </MenuItem>
                 {match && <NavigationMenuComponent onClick={handleClose} />}
-                <MenuItem onClick={handleClickLogout}>
+                <MenuItem key={uuid()} onClick={handleClickLogout}>
                   <ListItemIcon>
                     <ExitToAppIcon fontSize="small" />
                   </ListItemIcon>

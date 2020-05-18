@@ -1,26 +1,25 @@
 import React, { useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
 import { useMessageContext } from './MessageContext';
 import { getPropValue, isEmpty } from '../helpers/utils';
 import { useAuthContext } from '../contexts/AuthContext';
 
-function Alert({ children, severity, onClose, variant = 'filled' }) {
-  return (
-    <MuiAlert elevation={6} variant={variant} severity={severity} onClose={onClose}>
-      {children}
-    </MuiAlert>
-  );
-}
-
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2)
-    }
+    width: '100%'
+  },
+  messageText: {
+    maxWidth: 200,
+    maxHeight: 48,
+    overflow: 'hidden',
+    textOverflow: 'ellipsi',
+    /* word-break: break-word; */
+    /* text-align: justify; */
+    fontSize: '0.849rem',
+    alignSelf: 'center'
   }
 }));
 
@@ -54,11 +53,11 @@ export default function MessageComponent() {
             autoHideDuration={6000}
             onClose={handleClose}
           >
-            {messages && messages.type && (
-              <Alert onClose={handleClose} severity={messages.type}>
-                <Typography>{getPropValue(messages, 'message.message')}</Typography>
-              </Alert>
-            )}
+            <Alert variant="filled" onClose={handleClose} severity={getPropValue(messages, 'type') || 'error'}>
+              <Typography className={classes.messageText}>{`${
+                getPropValue(messages, 'message') || 'A ocurrido un error interno.'
+              }`}</Typography>
+            </Alert>
           </Snackbar>
         </div>
       )}

@@ -8,9 +8,9 @@ const TreatmentRef = dbRef('treatment').collection('treatments');
 export const getListTreatmentsAction = async ({ limit = 2, next, prev, filters }) => {
   let ref = TreatmentRef;
   if (next) {
-    ref = ref.startAfter(next.startDate);
+    ref = ref.orderBy('startDate').startAfter(next.startDate.toDate());
   } else if (prev) {
-    ref = ref.endBefore(prev.startDate);
+    ref = ref.orderBy('startDate').endBefore(prev.startDate.toDate());
   }
   if (filters) {
     Object.keys(filters).map(k => {

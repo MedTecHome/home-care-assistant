@@ -37,10 +37,10 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
               <Grid item xs={12}>
                 <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
               </Grid>
-              <Grid item xs={8} sm={8}>
+              <Grid item xs={12} sm={6}>
                 <ConcentrationFieldComponent required label="Tipo Concentración" name="concentrationType" />
               </Grid>
-              <Grid item xs={4} sm={4}>
+              <Grid item xs={6}>
                 <CustomTextFieldComponent
                   required
                   type="number"
@@ -51,16 +51,16 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
                   }}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={12} sm={6}>
                 <DosisFieldComponent required label="Tipo dosis" name="doseType" />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={6}>
                 <CustomTextFieldComponent required label="Cant. Dosis" name="doseCant" type="number" />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={12} sm={6}>
                 <AdministrationRouteFielComponent required label="Via Administración" name="administrationType" />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={6}>
                 <CustomTextFieldComponent required label="Frecuencia" name="frequency" type="number" />
               </Grid>
               <Grid item xs={12}>
