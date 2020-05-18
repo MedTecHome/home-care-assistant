@@ -79,10 +79,10 @@ function AddOrEditProfilesComponent({ title }) {
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <CustomTextFieldComponent required label="Teléfono:" name="phone" type="number" />
                   </Grid>
-                  <Grid item xs={3} container alignContent="flex-end">
+                  <Grid item xs={4}>
                     <CheckboxesFieldComponent label="Visible" namee="phoneVisible" />
                   </Grid>
                   {values && values.role === 'patient' && (
@@ -93,7 +93,7 @@ function AddOrEditProfilesComponent({ title }) {
                       <HospitalFieldComponent validate={validateHospital} disabled={authRole !== 'admin'} />
                     )}
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <CustomTextFieldComponent
                       required
                       name="email"
@@ -101,7 +101,7 @@ function AddOrEditProfilesComponent({ title }) {
                       disabled={formType === EDIT_FORM_TEXT}
                     />
                   </Grid>
-                  <Grid item xs={3} container alignContent="flex-end">
+                  <Grid item xs={4}>
                     <CheckboxesFieldComponent label="Visible" namee="emailVisible" />
                   </Grid>
                 </Grid>

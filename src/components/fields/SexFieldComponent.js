@@ -3,7 +3,7 @@ import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
 import { validateSex } from '../MedicalForms/validateMedicalForms';
 import { getNomList } from '../../nomenc/NomencAction';
 
-function SexFieldComponent({ required, name, label }) {
+function SexFieldComponent({ required, name, label, className }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -12,7 +12,14 @@ function SexFieldComponent({ required, name, label }) {
     });
   }, []);
   return (
-    <CustomSelectFieldComponent required={required} name={name} label={label} validate={validateSex} source={options} />
+    <CustomSelectFieldComponent
+      className={className}
+      required={required}
+      name={name}
+      label={label}
+      validate={validateSex}
+      source={options}
+    />
   );
 }
 

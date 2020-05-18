@@ -7,7 +7,9 @@ export const MessageContextProvider = ({ children }) => {
   const [messages, setMessage] = useState(null);
 
   const RegisterMessage = useCallback((type, message, origin) => {
-    setMessage({ type, message: type === ERROR_MESSAGE ? message : message, origin });
+    // eslint-disable-next-line no-console
+    console.log(message);
+    setMessage({ type, message: type === ERROR_MESSAGE ? 'A ocurrido un error interno' : message, origin });
   }, []);
 
   const clearMessages = useCallback(() => {

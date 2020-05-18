@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import uuid from 'uuid4';
 import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function NavigationMenuComponent({ onClick }) {
+function NavigationMenu({ onClick }, ref) {
   const { currentUserProfile } = useAuthContext();
   return (
     <>
@@ -57,6 +57,8 @@ export function NavigationMenuComponent({ onClick }) {
     </>
   );
 }
+
+export const NavigationMenuComponent = forwardRef(NavigationMenu);
 
 export function NavigationLargeComponent() {
   const { currentUserProfile } = useAuthContext();

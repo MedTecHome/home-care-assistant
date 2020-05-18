@@ -62,7 +62,6 @@ const useCustomStyles = makeStyles(theme => ({
     height: 120
   },
   pagination: {
-    width: '100%',
     display: 'flex',
     justifyContent: 'flex-start',
     padding: 10
