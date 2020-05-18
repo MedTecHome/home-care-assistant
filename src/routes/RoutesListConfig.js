@@ -5,6 +5,7 @@ const LoginComponent = lazy(() => import('../components/Login/LoginComponent'));
 const HospitalComponent = lazy(() => import('../components/Hospital/HospitalComponent'));
 const ProfilesComponent = lazy(() => import('../components/Profiles/ProfilesComponent'));
 const PatientsComponent = lazy(() => import('../components/Profiles/patients/PatientsComponent'));
+const MonitoringComponent = lazy(() => import('../components/monitoring/MonitoringComponent'));
 const DoctorsComponent = lazy(() => import('../components/Profiles/doctors/DoctorsComponent'));
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const HomeInfoComponent = lazy(() => import('../components/HomeInfoComponent'));
@@ -50,6 +51,13 @@ const RouteListConfig = [
     component: DoctorsComponent,
     roles: ['clinic'],
     label: 'Doctores',
+    navegation: true
+  },
+  {
+    path: '/monitoriar',
+    component: MonitoringComponent,
+    label: 'Monitorear',
+    roles: ['doctor'],
     navegation: true
   },
   {

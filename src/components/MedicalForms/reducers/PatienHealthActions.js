@@ -111,28 +111,28 @@ export const getAllPatientHistoryAction = async ({ filters }) => {
   const params = { ...rest, limit: type === 'all' ? 1 : 1000 };
   const promises = [];
   if (isPressureOrAll(type)) {
-    promises.push(getBloodPressureAction(params));
+    promises.push(await getBloodPressureAction(params));
   }
   if (isTemperatureOrAll(type)) {
-    promises.push(getTemperatureAction(params));
+    promises.push(await getTemperatureAction(params));
   }
   if (isWeightOrAll(type)) {
-    promises.push(getWeightAction(params));
+    promises.push(await getWeightAction(params));
   }
   if (isGlucoseOrAll(type)) {
-    promises.push(getGlucoseAction(params));
+    promises.push(await getGlucoseAction(params));
   }
   if (isBreathingOrAll(type)) {
-    promises.push(getBreathingAction(params));
+    promises.push(await getBreathingAction(params));
   }
   if (isINROrAll(type)) {
-    promises.push(getINRAction(params));
+    promises.push(await getINRAction(params));
   }
   if (isOxygenOrAll(type)) {
-    promises.push(getOxygenAction(params));
+    promises.push(await getOxygenAction(params));
   }
   if (isExercisesOrAll(type)) {
-    promises.push(getExercisesAction(params));
+    promises.push(await getExercisesAction(params));
   }
   const result = await Promise.all(promises);
   return result.reduce((previousValue, currentValue) => {
