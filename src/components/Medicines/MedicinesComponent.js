@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import uuid from 'uuid4';
+import { useMediaQuery } from '@material-ui/core';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
 import medicineHeadCells from './medicineHeadCells';
@@ -22,6 +23,8 @@ function MedicinesComponent() {
     filters
   } = useMedicinesContext();
   const { currentUserProfile } = useAuthContext();
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const cells = match ? [medicineHeadCells[0]] : medicineHeadCells;
 
   const handleReloadList = useCallback(() => {
     getMedicinesList({ filters });
@@ -43,7 +46,7 @@ function MedicinesComponent() {
       <TableComponent
         title="Listado de medicamentos"
         filters={<FiltersMedicineComponent />}
-        headCells={medicineHeadCells}
+        headCells={cells}
         list={medicineList}
         loadingList={loadingList}
         setModalVisible={setModalVisible}
@@ -52,6 +55,7 @@ function MedicinesComponent() {
         render={(row, index) => (
           <RowListMedicineComponent
             key={uuid()}
+            cells={cells}
             row={row}
             index={index}
             selectRow={selectMedicineFromList}

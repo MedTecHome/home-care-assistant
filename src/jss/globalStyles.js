@@ -96,7 +96,7 @@ const useCustomStyles = makeStyles(theme => ({
     }
   },
   largeCells: {
-    maxWidth: 230
+    maxWidth: 100
   },
   textCells: {
     overflow: 'hidden',

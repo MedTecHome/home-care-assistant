@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListItem from '@material-ui/core/ListItem';
+import { useMediaQuery } from '@material-ui/core';
 import { useHospitalContext, withHospitalContext } from './HospitalContext';
 import HospitalForms from './forms/HospitalForms';
 import ModalComponent from '../ModalComponent';
@@ -25,6 +26,9 @@ function HospitalComponent() {
     selectHospital
   } = useHospitalContext();
   const { currentUserProfile } = useAuthContext();
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const cells = match ? [hospitalHeadCells[0]] : hospitalHeadCells;
+
   const [page, setPage] = React.useState({});
   const classes = useCustomStyles();
 
@@ -55,13 +59,14 @@ function HospitalComponent() {
         addRole={currentUserProfile && currentUserProfile.role.id === 'admin'}
         title="Lista de hospitales"
         selected={selected}
-        headCells={hospitalHeadCells}
+        headCells={cells}
         loadingList={loadingList}
         list={hospitalsList}
         setModalVisible={setModalVisible}
         render={(row, index) => (
           <RowTableHospitalComponent
             key={uuid()}
+            cells={cells}
             row={row}
             index={index}
             selected={selected}

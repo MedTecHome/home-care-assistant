@@ -1,21 +1,6 @@
 import React, { Fragment } from 'react';
 import uuid from 'uuid4';
-import {
-  TableRow,
-  TableCell,
-  Typography,
-  makeStyles,
-  ButtonGroup,
-  Collapse,
-  IconButton,
-  Grid,
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Container
-} from '@material-ui/core';
+import { TableRow, TableCell, Typography, ButtonGroup, Collapse, IconButton, Grid } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';

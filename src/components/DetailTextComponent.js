@@ -1,5 +1,4 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 
 function DetailTextComponent({ label, value, divider = false, spacing = 5 }) {
@@ -15,14 +14,14 @@ function DetailTextComponent({ label, value, divider = false, spacing = 5 }) {
     >
       <Typography
         style={{
-          minWidth: '34%',
+          maxWidth: '24%',
           fontWeight: 600,
           textAlign: 'right'
         }}
-      >{`${label}:`}</Typography>
+      >{`${label}`}</Typography>
       <Typography
         style={{
-          width: '64%',
+          width: '74%',
           alignSelf: 'flex-end'
         }}
       >

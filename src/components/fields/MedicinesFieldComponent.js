@@ -6,16 +6,12 @@ import {
   KeyboardArrowUp as KeyboardArrowUpIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon
 } from '@material-ui/icons';
-import { ButtonBase, InputBase, ListItemSecondaryAction } from '@material-ui/core';
+import { ButtonBase, InputBase } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import { withMedicinesContext } from '../Medicines/MedicinesContext';
 import { getMedicinesListAction } from '../Medicines/reducers/MedicinesActions';
 import useDebounceCustom from '../../commons/useDebounceCustom';
-import EditButtonIcon from '../buttons/EditButtonIcon';
 import ModalComponent from '../ModalComponent';
 import { AddOrEditMedicineForm } from '../Medicines/forms/AddOrEditMedicineComponent';
 import { EDIT_FORM_TEXT } from '../../commons/globalText';

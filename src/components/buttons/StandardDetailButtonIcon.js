@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
-function StandarDetailButtonIcon({ onClick }) {
+function StandardDetailButtonIcon({ onClick }) {
   return (
     <IconButton color="primary" onClick={onClick} size="small">
       <FontAwesomeIcon icon={faInfoCircle} />
@@ -11,4 +11,4 @@ function StandarDetailButtonIcon({ onClick }) {
   );
 }
 
-export default StandarDetailButtonIcon;
+export default StandardDetailButtonIcon;

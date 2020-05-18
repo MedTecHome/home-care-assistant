@@ -1,75 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
 import { getHospitalByIdAction } from './Hospital/reducers/HospitalActions';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
-import useCustomStyles from '../jss/globalStyles';
+import DetailTextComponent from './DetailTextComponent';
 
 function PaperDetailComponent({ title, children }) {
-  const classes = useCustomStyles();
   return (
-    <Paper variant="outlined" className={classes.paperDetails}>
-      <List>
-        <ListItem divider>
-          <ListItemText primary={<Typography variant="h5">{title}</Typography>} />
-        </ListItem>
+    <Grid item xs={12} sm={10} md={8} container>
+      <Grid item xs={4} container justify="center" alignItems="center">
+        <Typography variant="h5">{title}</Typography>
+      </Grid>
+      <Grid
+        item
+        xs={8}
+        style={{
+          padding: 10,
+          borderLeft: '1px solid #ccc'
+        }}
+      >
         {children}
-        <ListItem />
-      </List>
-    </Paper>
+      </Grid>
+    </Grid>
   );
 }
 
 function PaperHospitalInfoComponent({ hospital }) {
-  const classes = useCustomStyles();
   return (
     <PaperDetailComponent title="Hospital">
-      <ListItem divider>
-        <ListItemText
-          primary={
-            <Typography className={classes.textLabel} variant="subtitle1">
-              Nombre hospital
-            </Typography>
-          }
-        />
-        <ListItemText primary={getPropValue(hospital, 'name') || '-'} />
-      </ListItem>
-      <ListItem divider>
-        <ListItemText
-          primary={
-            <Typography className={classes.textLabel} variant="subtitle1">
-              Teléfono hospital
-            </Typography>
-          }
-        />
-        <ListItemText primary={getPropValue(hospital, 'phone') || '-'} />
-      </ListItem>
-      <ListItem divider>
-        <ListItemText
-          primary={
-            <Typography className={classes.textLabel} variant="subtitle1">
-              Correo hospital
-            </Typography>
-          }
-        />
-        <ListItemText primary={getPropValue(hospital, 'email') || '-'} />
-      </ListItem>
-      <ListItem divider>
-        <ListItemText
-          primary={
-            <Typography className={classes.textLabel} variant="subtitle1">
-              Dirección hospital
-            </Typography>
-          }
-        />
-        <ListItemText primary={getPropValue(hospital, 'address') || '-'} />
-      </ListItem>
+      <DetailTextComponent label="Nombre" value={getPropValue(hospital, 'name') || ' - '} />
+      <DetailTextComponent label="Correo" value={getPropValue(hospital, 'email') || ' - '} />
+      <DetailTextComponent label="Teléfono" value={getPropValue(hospital, 'phone') || ' - '} />
+      <DetailTextComponent label="Dirección" value={getPropValue(hospital, 'address') || ' - '} />
     </PaperDetailComponent>
   );
 }
@@ -79,7 +43,6 @@ function PatientHomeComponent({ patient }) {
   const [hospital, setHospital] = useState(null);
   const doctorId = getPropValue(patient, 'doctor.id');
   const hospitalId = getPropValue(patient, 'hospital.id');
-  const classes = useCustomStyles();
 
   useEffect(() => {
     if (doctorId)
@@ -97,47 +60,13 @@ function PatientHomeComponent({ patient }) {
 
   return (
     <>
-      <Grid item xs={12} sm={6}>
-        <PaperHospitalInfoComponent hospital={hospital} />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <PaperDetailComponent title="Doctor">
-          <ListItem divider>
-            <ListItemText
-              primary={
-                <Typography className={classes.textLabel} variant="subtitle1">
-                  Nombre doctor
-                </Typography>
-              }
-            />
-            <ListItemText primary={getPropValue(doctor, 'fullname') || '-'} />
-          </ListItem>
-          <ListItem divider>
-            <ListItemText
-              primary={
-                <Typography className={classes.textLabel} variant="subtitle1">
-                  Teléfono doctor
-                </Typography>
-              }
-            />
-            <ListItemText
-              primary={(getPropValue(doctor, 'phoneVisible') === true && getPropValue(doctor, 'phone')) || '-'}
-            />
-          </ListItem>
-          <ListItem divider>
-            <ListItemText
-              primary={
-                <Typography className={classes.textLabel} variant="subtitle1">
-                  Correo doctor
-                </Typography>
-              }
-            />
-            <ListItemText
-              primary={(getPropValue(doctor, 'emailVisible') === true && getPropValue(doctor, 'user.email')) || '-'}
-            />
-          </ListItem>
-        </PaperDetailComponent>
-      </Grid>
+      <PaperHospitalInfoComponent hospital={hospital} />
+      <PaperDetailComponent title="Doctor">
+        <DetailTextComponent label="Nombre" value={getPropValue(doctor, 'fullname') || ' - '} />
+        <DetailTextComponent label="Correo" value={getPropValue(doctor, 'email') || ' - '} />
+        <DetailTextComponent label="Teléfono" value={getPropValue(doctor, 'phone') || ' - '} />
+        <DetailTextComponent label="Dirección" value={getPropValue(doctor, 'address') || ' - '} />
+      </PaperDetailComponent>
     </>
   );
 }
@@ -159,15 +88,7 @@ function DoctorHomeComponent({ doctor }) {
     getById();
   }, [hospitalId]);
 
-  return (
-    <>
-      {!loading && (
-        <Grid item xs={12} sm={6}>
-          <PaperHospitalInfoComponent hospital={hospital} />
-        </Grid>
-      )}
-    </>
-  );
+  return <>{!loading && <PaperHospitalInfoComponent hospital={hospital} />}</>;
 }
 
 function HomeInfoComponent() {

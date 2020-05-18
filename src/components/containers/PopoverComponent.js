@@ -2,6 +2,7 @@ import React from 'react';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
   popover: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     '& *': {
       fontSize: '0.834rem'
     }
+  },
+  content: {
+    textDecoration: 'underline'
   }
 }));
 
@@ -39,7 +43,7 @@ function PopoverComponent({ className, title }) {
   return (
     <div>
       <Typography
-        className={className}
+        className={clsx(className, classes.content)}
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
         onMouseEnter={handlePopoverOpen}

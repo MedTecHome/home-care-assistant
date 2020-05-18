@@ -11,7 +11,7 @@ import { usePatientHistoryContext } from './PatientHistoryContext';
 import TypeMedicalFormComponent from './TypeHistoryMedicalFormComponent';
 import { DETAILS_FORM_TEXT } from '../../commons/globalText';
 import EmptyComponent from '../EmptyComponent';
-import StandarDetailButtonIcon from '../buttons/StandarDetailButtonIcon';
+import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
 import { getPropValue } from '../../helpers/utils';
 
@@ -60,7 +60,7 @@ function ListPatientHistoryComponent() {
                   </Grid>
                 </Grid>
                 <ListItemSecondaryAction>
-                  <StandarDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
+                  <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
                 </ListItemSecondaryAction>
               </ListItem>
             );
