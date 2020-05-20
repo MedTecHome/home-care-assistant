@@ -54,7 +54,7 @@ const RouteListConfig = [
     navegation: true
   },
   {
-    path: '/monitoriar',
+    path: '/monitorear',
     component: MonitoringComponent,
     label: 'Monitorear',
     roles: ['doctor'],

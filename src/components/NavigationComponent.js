@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function NavigationMenu({ onClick }, ref) {
+function NavigationMenu({ onClick }) {
   const { currentUserProfile } = useAuthContext();
   return (
     <>

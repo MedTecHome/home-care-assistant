@@ -17,7 +17,6 @@ export const withMonitoringContext = WrapperComponent => () => {
       setLoadingList(true);
       try {
         const result = await getMonitoringListAction(params);
-        console.log(result);
         setListAction(result);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext - getList');
