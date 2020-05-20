@@ -20,6 +20,8 @@ export function AuthContextProvider({ children }) {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {
       setCurrentUser(user);
       if (user) {
+        const idToken = await user.getIdToken();
+        localStorage.setItem('AuthToken', `Bearer ${idToken}`);
         const profile = await dbRef('profile').collection('profiles').doc(user.uid).get();
         if (profile.data()) {
           setCurrentUserProfile({ id: profile.id, ...profile.data() });
