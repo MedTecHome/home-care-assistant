@@ -1,8 +1,7 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { authFirebase, dbRef } from '../firebaseConfig';
-import { saveProfileValuesAction } from '../components/Profiles/reducers/ProfileActions';
-import { ADD_FORM_TEXT } from '../commons/globalText';
 import { getPropValue } from '../helpers/utils';
+import { USERNAME_DOMAIN } from '../commons/globalText';
 
 const AuthContext = createContext({});
 
@@ -62,7 +61,9 @@ export function AuthContextProvider({ children }) {
     }, 10000);
   };
 
-  const signInUser = async ({ email, password }) => {
+  const signInUser = async ({ username, password }) => {
+    const email = `${username}${USERNAME_DOMAIN}`;
+
     try {
       return await authFirebase.signInWithEmailAndPassword(email, password);
     } catch (e) {
@@ -72,16 +73,6 @@ export function AuthContextProvider({ children }) {
   };
 
   const signOutUser = () => authFirebase.signOut();
-
-  const signUpUser = useCallback(async ({ email, password, passwordConfirm, ...values }) => {
-    try {
-      const { user } = await authFirebase.createUserWithEmailAndPassword(email, password);
-      return await saveProfileValuesAction({ ...values, user: { id: user.uid, email: user.email } }, ADD_FORM_TEXT);
-    } catch (e) {
-      setAndClearErrorState(e);
-      return null;
-    }
-  }, []);
 
   return (
     <AuthContext.Provider
@@ -94,7 +85,6 @@ export function AuthContextProvider({ children }) {
         isPatient,
         signInUser,
         signOutUser,
-        signUpUser,
         errorState
       }}
     >
@@ -115,7 +105,6 @@ export const useAuthContext = () => {
     isPatient: values.isPatient,
     signInUser: values.signInUser,
     signOutUser: values.signOutUser,
-    signUpUser: values.signUpUser,
     errorState: values.errorState
   };
 };

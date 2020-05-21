@@ -14,13 +14,18 @@ import RoleFieldComponent from '../../fields/roles/RoleFieldComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { withRolesContext } from '../../fields/roles/RolesContext';
-import { validateHospital, validateProfile } from './validateProfile';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
 import { getPropValue } from '../../../helpers/utils';
-import validateEmail from './validateEmail';
+import {
+  validateProfile,
+  validateHospital,
+  validateEmail,
+  validatePassword,
+  agreementValidate
+} from './validateProfile';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile, isAdmin } = useAuthContext();
@@ -90,9 +95,6 @@ function AddOrEditProfilesComponent({ title }) {
                     <CustomTextFieldComponent required label="Nombre:" name="name" />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
-                    <CustomTextFieldComponent label="Segundo nombre:" name="sname" />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
                   <Grid item xs={8}>
@@ -140,13 +142,27 @@ function AddOrEditProfilesComponent({ title }) {
                           required
                           name="password"
                           label="Contraseña"
+                          validate={validatePassword}
                         />
                       </Grid>
-
                       <Grid item xs={4}>
                         <CheckboxesFieldComponent label="Ramdom" namee="ramdomPassword" />
                       </Grid>
                     </>
+                  )}
+                  {values.role === 'patient' && (
+                    <Grid item xs={12}>
+                      <CheckboxesFieldComponent
+                        required
+                        labelStyle={{
+                          fontSize: '0.766rem',
+                          textAlign: 'justify'
+                        }}
+                        namee="agreement"
+                        label="Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema '?' no es un sistema de respuesta de emergencia"
+                        validate={agreementValidate}
+                      />
+                    </Grid>
                   )}
                 </Grid>
               </DialogContent>

@@ -7,8 +7,9 @@ import {
   REGEX_PHONE,
   REGEX_ONLY_ALPHANUMERIC
 } from '../../../commons/globalText';
+import { getProfilesAction } from '../reducers/ProfileActions';
 
-export const validateProfile = values => {
+const validateProfile = values => {
   const errors = {};
   if (!values.name) {
     errors.name = REQUIRED_FIELD;
@@ -43,9 +44,6 @@ export const validateProfile = values => {
   if (!values.username) {
     errors.username = REQUIRED_FIELD;
   }
-  if (!values.password) {
-    errors.password = REQUIRED_FIELD;
-  }
   if (values.username) {
     if (!REGEX_ONLY_ALPHANUMERIC.test(values.username)) {
       errors.username = 'Solo se admite numeros y letras';
@@ -54,27 +52,55 @@ export const validateProfile = values => {
   return errors;
 };
 
-export const validateBirthday = value => {
+const validateBirthday = value => {
   if (!value) return REQUIRED_FIELD;
   return null;
 };
 
-export const validateHeight = value => {
+const validateHeight = value => {
   if (!value) return REQUIRED_FIELD;
   if (value) if (!REGEX_POSITIVE_NUMBER_AND_DECIMAL.test(value)) return INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
   if (value) if (value > 250) return 'Solo valores menor o igual 250cm';
   return null;
 };
 
-export const validateDoctor = value => {
+const validateDoctor = value => {
   if (!value) return REQUIRED_FIELD;
   return null;
 };
 
-export const validateHospital = value => {
+const validateHospital = value => {
   let error = '';
   if (!value) {
     error = REQUIRED_FIELD;
   }
   return error;
+};
+
+const validatePassword = value => {
+  if (!value) {
+    return !REQUIRED_FIELD;
+  }
+  return null;
+};
+
+const validateEmail = async value => {
+  const response = await getProfilesAction({ filters: { email: value } });
+  return response.length > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
+};
+
+const agreementValidate = value => {
+  if (!value) return REQUIRED_FIELD;
+  return null;
+};
+
+export {
+  validateProfile,
+  validateBirthday,
+  validateHeight,
+  validateDoctor,
+  validateHospital,
+  validateEmail,
+  validatePassword,
+  agreementValidate
 };

@@ -26,7 +26,7 @@ function SaveButton({
   className,
   size,
   disableElevation = true,
-  onClick
+  onClick = undefined
 }) {
   const classes = useStyles();
   return (

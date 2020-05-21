@@ -9,11 +9,10 @@ const apiData = axios.create({
 });
 
 apiData.interceptors.request.use(config => {
+  const newConfig = config;
   const token = localStorage.getItem('AuthToken');
-  console.log('token', token);
-  config.headers.Authorization = token;
-
-  return config;
+  newConfig.headers.Authorization = token;
+  return newConfig;
 });
 
 export { apiEmail, apiData };
