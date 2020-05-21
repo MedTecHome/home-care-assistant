@@ -16,11 +16,11 @@ export const getProfileByIdAction = async (id, fields = []) => {
 };
 
 export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => {
-  let ref = profilesRef.orderBy('fullname');
+  let ref = profilesRef;
   if (next) {
-    ref = ref.startAfter(next.fullname);
+    ref = ref.orderBy('fullname').startAfter(next.fullname);
   } else if (prev) {
-    ref = ref.endBefore(prev.fullname);
+    ref = ref.orderBy('fullname').endBefore(prev.fullname);
   }
   if (filters) {
     Object.keys(filters).map(k => {

@@ -20,6 +20,7 @@ import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
 import { getPropValue } from '../../../helpers/utils';
+import validateEmail from './validateEmail';
 
 function AddOrEditProfilesComponent({ title }) {
   const { currentUserProfile, isAdmin } = useAuthContext();
@@ -110,7 +111,14 @@ function AddOrEditProfilesComponent({ title }) {
                     </Grid>
                   )}
                   <Grid item xs={8}>
-                    <CustomTextFieldComponent required name="email" label="Correo" />
+                    <CustomTextFieldComponent
+                      required
+                      name="email"
+                      label="Correo"
+                      validate={value => {
+                        return form.getState().initialValues.email !== value ? validateEmail(value) : null;
+                      }}
+                    />
                   </Grid>
                   <Grid item xs={4}>
                     <CheckboxesFieldComponent label="Visible" namee="emailVisible" />
