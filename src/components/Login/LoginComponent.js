@@ -58,7 +58,13 @@ function LoginComponent() {
               >
                 <Grid item container spacing={3}>
                   <Grid item xs={12}>
-                    <CustomTextFieldComponent required type="email" label="Correo" name="email" variant="outlined" />
+                    <CustomTextFieldComponent
+                      required
+                      type="email"
+                      label="Usuario"
+                      name="username"
+                      variant="outlined"
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <CustomTextFieldComponent
