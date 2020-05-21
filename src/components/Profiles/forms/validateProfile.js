@@ -4,7 +4,8 @@ import {
   REGEX_EMAIL_ADDRESS,
   REGEX_POSITIVE_NUMBER_AND_DECIMAL,
   REQUIRED_FIELD,
-  REGEX_PHONE
+  REGEX_PHONE,
+  REGEX_ONLY_ALPHANUMERIC
 } from '../../../commons/globalText';
 
 export const validateProfile = values => {
@@ -44,6 +45,11 @@ export const validateProfile = values => {
   }
   if (!values.password) {
     errors.password = REQUIRED_FIELD;
+  }
+  if (values.username) {
+    if (!REGEX_ONLY_ALPHANUMERIC.test(values.username)) {
+      errors.username = 'Solo se admite numeros y letras';
+    }
   }
   return errors;
 };

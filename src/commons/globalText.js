@@ -16,6 +16,7 @@ export const REGEX_POSITIVE_NUMBER_AND_DECIMAL = /^\d*\.?\d*$/;
 export const REGEX_ALPHANUMERIC_AND_SPACE = /^[-\w\s]+$/;
 export const REGEX_PHONE = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s.]{0,1}[0-9]{3}[-\s.]{0,1}[0-9]{4}$/;
 export const REGEX_ONLY_ALPHA = /^[a-zA-Z\s]+$/;
+export const REGEX_ONLY_ALPHANUMERIC = /^[a-zA-Z0-9]+$/;
 export const INVALID_EMAIL_ADDRESS = 'Formato de correo no valido.';
 export const INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT = 'Formato no valido para numeros positivos.';
 export const INVALID_WEIRD_CHARACTERS_ON_TEXT = 'Texto no valido';

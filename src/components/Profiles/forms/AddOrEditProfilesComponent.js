@@ -154,7 +154,7 @@ function AddOrEditProfilesComponent({ title }) {
                 <Button disableElevation variant="contained" onClick={handleCancel}>
                   cancelar
                 </Button>
-                <SaveButton pristine={pristine} invalid={invalid} submitting={submitting} />
+                <SaveButton pristine={pristine} submitting={submitting} />
               </DialogActions>
             </form>
           );
