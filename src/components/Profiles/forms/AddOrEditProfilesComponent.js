@@ -150,18 +150,20 @@ function AddOrEditProfilesComponent({ title }) {
                       </Grid>
                     </>
                   )}
-                  <Grid item xs={12}>
-                    <CheckboxesFieldComponent
-                      required
-                      labelStyle={{
-                        fontSize: '0.766rem',
-                        textAlign: 'justify'
-                      }}
-                      namee="agreement"
-                      label="Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema '?' no es un sistema de respuesta de emergencia"
-                      validate={agreementValidate}
-                    />
-                  </Grid>
+                  {values.role === 'patient' && (
+                    <Grid item xs={12}>
+                      <CheckboxesFieldComponent
+                        required
+                        labelStyle={{
+                          fontSize: '0.766rem',
+                          textAlign: 'justify'
+                        }}
+                        namee="agreement"
+                        label="Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema '?' no es un sistema de respuesta de emergencia"
+                        validate={agreementValidate}
+                      />
+                    </Grid>
+                  )}
                 </Grid>
               </DialogContent>
               <DialogActions>
