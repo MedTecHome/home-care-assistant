@@ -7,9 +7,11 @@ import { validateBirthday, validateDoctor, validateHeight } from '../Profiles/fo
 import useCustomStyles from '../../jss/globalStyles';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import SexFieldComponent from './SexFieldComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 
-function PatientsFieldComponent({ role }) {
+function PatientsFieldComponent() {
   const classes = useCustomStyles();
+  const { isAdmin } = useAuthContext();
   return (
     <>
       <Grid item xs={12} sm={8}>
@@ -31,26 +33,34 @@ function PatientsFieldComponent({ role }) {
         />
       </Grid>
       <Grid item xs={8} sm={4}>
-        <SexFieldComponent className={classes.formControl} name="sex" label="Sexo" required />
+        <SexFieldComponent className={classes.formControl} name="sex" label="Género" required />
       </Grid>
       <Grid item xs={4}>
-        <CustomTextFieldComponent validate={validateHeight} name="height" label="Estatura" required textAlign="right" />
+        <CustomTextFieldComponent
+          validate={validateHeight}
+          name="height"
+          label="Estatura"
+          required
+          textAlign="right"
+          placeholder="cm"
+        />
       </Grid>
 
       <Grid item xs={12} sm={8}>
         <CustomTextFieldComponent name="address" label="Dirección" />
       </Grid>
-      <Grid item xs={12} md={12}>
-        <ProfileFieldComponent
-          required
-          name="doctor"
-          label="Doctor"
-          filterRole="doctor"
-          validate={validateDoctor}
-          classes={classes}
-          disabled={role.id === 'doctor'}
-        />
-      </Grid>
+      {isAdmin && (
+        <Grid item xs={12} md={12}>
+          <ProfileFieldComponent
+            required
+            name="doctor"
+            label="Doctor"
+            filterRole="doctor"
+            validate={validateDoctor}
+            classes={classes}
+          />
+        </Grid>
+      )}
     </>
   );
 }

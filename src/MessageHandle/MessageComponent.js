@@ -7,7 +7,7 @@ import { useMessageContext } from './MessageContext';
 import { getPropValue, isEmpty } from '../helpers/utils';
 import { useAuthContext } from '../contexts/AuthContext';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   root: {
     width: '100%'
   },
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '0.849rem',
     alignSelf: 'center'
   }
-}));
+});
 
 export default function MessageComponent() {
   const { currentUser } = useAuthContext();

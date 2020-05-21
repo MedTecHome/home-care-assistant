@@ -10,7 +10,7 @@ function FiltersMonitoringComponent() {
     if (currentUserProfile) setFilters({ 'doctor.id': currentUserProfile.id });
   }, [setFilters, currentUserProfile]);
 
-  return <>filters</>;
+  return <></>;
 }
 
 export default FiltersMonitoringComponent;

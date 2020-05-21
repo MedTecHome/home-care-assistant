@@ -17,7 +17,8 @@ function CustomTextFieldComponent({
   multiline,
   rows,
   rowsMax,
-  labelStyle
+  labelStyle,
+  placeholder
 }) {
   const classes = useCustomStyles();
   return (
@@ -34,13 +35,16 @@ function CustomTextFieldComponent({
       multiline={multiline}
       rows={rows}
       rowsMax={rowsMax}
+      placeholder={placeholder}
       fieldProps={{
+        disabled,
         validate
       }}
       InputLabelProps={{
         ...(labelStyle ? { style: labelStyle } : {})
       }}
       inputProps={{
+        disabled,
         style: {
           textAlign
         }

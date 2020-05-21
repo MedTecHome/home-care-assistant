@@ -1,10 +1,12 @@
 import React from 'react';
+import uuid from 'uuid4';
 import { Field, Form } from 'react-final-form';
+import createDecorator from 'final-form-calculate';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import { CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { CANCEL_FORM_TEXT, EDIT_FORM_TEXT, ADD_FORM_TEXT } from '../../../commons/globalText';
 import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
 import { useProfilesContext } from '../ProfilesContext';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
@@ -20,7 +22,7 @@ import listAccess from '../../../commons/access';
 import { getPropValue } from '../../../helpers/utils';
 
 function AddOrEditProfilesComponent({ title }) {
-  const { currentUserProfile } = useAuthContext();
+  const { currentUserProfile, isAdmin } = useAuthContext();
   const { selected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
   const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
@@ -32,6 +34,13 @@ function AddOrEditProfilesComponent({ title }) {
   const handleCancel = () => {
     setModalVisible(false, CANCEL_FORM_TEXT);
   };
+
+  const calculator = createDecorator({
+    field: 'ramdomPassword',
+    updates: {
+      password: ramdomPasswordValue => (ramdomPasswordValue ? uuid() : '')
+    }
+  });
 
   return (
     <>
@@ -53,6 +62,7 @@ function AddOrEditProfilesComponent({ title }) {
               }
             : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id })
         }}
+        decorators={[calculator]}
         validate={validateProfile}
         onSubmit={onSubmit}
         render={({ handleSubmit, values, form, submitting, pristine, invalid }) => {
@@ -69,41 +79,67 @@ function AddOrEditProfilesComponent({ title }) {
             >
               <DialogContent dividers>
                 <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <RoleFieldComponent disabled={listAccess[authRole].length === 1} userRole={authRole} />
-                  </Grid>
+                  {isAdmin && (
+                    <Grid item xs={12}>
+                      <RoleFieldComponent disabled={listAccess[authRole].length === 1} userRole={authRole} />
+                    </Grid>
+                  )}
                   {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Nombre:" name="name" />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
+                    <CustomTextFieldComponent label="Segundo nombre:" name="sname" />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
                   <Grid item xs={8}>
-                    <CustomTextFieldComponent required label="Teléfono:" name="phone" type="number" />
+                    <CustomTextFieldComponent required label="Teléfono principal:" name="primaryPhone" type="number" />
                   </Grid>
                   <Grid item xs={4}>
                     <CheckboxesFieldComponent label="Visible" namee="phoneVisible" />
                   </Grid>
-                  {values && values.role === 'patient' && (
-                    <PatientsBlockFieldComponent role={currentUserProfile.role} />
-                  )}
-                  <Grid item xs={12}>
-                    {values && values.role !== 'admin' && (
-                      <HospitalFieldComponent validate={validateHospital} disabled={authRole !== 'admin'} />
-                    )}
-                  </Grid>
                   <Grid item xs={8}>
-                    <CustomTextFieldComponent
-                      required
-                      name="email"
-                      label="Correo"
-                      disabled={formType === EDIT_FORM_TEXT}
-                    />
+                    <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" type="number" />
+                  </Grid>
+                  {values && values.role === 'patient' && <PatientsBlockFieldComponent />}
+                  {isAdmin && values.role !== 'admin' && (
+                    <Grid item xs={12}>
+                      <HospitalFieldComponent validate={validateHospital} />
+                    </Grid>
+                  )}
+                  <Grid item xs={8}>
+                    <CustomTextFieldComponent required name="email" label="Correo" />
                   </Grid>
                   <Grid item xs={4}>
                     <CheckboxesFieldComponent label="Visible" namee="emailVisible" />
                   </Grid>
+                  <Grid item xs={8}>
+                    <CustomTextFieldComponent
+                      required
+                      name="username"
+                      label="Usuario"
+                      disabled={formType === EDIT_FORM_TEXT}
+                    />
+                  </Grid>
+                  {formType === ADD_FORM_TEXT && (
+                    <>
+                      <Grid item xs={8}>
+                        <CustomTextFieldComponent
+                          disabled={values.ramdomPassword}
+                          type="password"
+                          required
+                          name="password"
+                          label="Contraseña"
+                        />
+                      </Grid>
+
+                      <Grid item xs={4}>
+                        <CheckboxesFieldComponent label="Ramdom" namee="ramdomPassword" />
+                      </Grid>
+                    </>
+                  )}
                 </Grid>
               </DialogContent>
               <DialogActions>

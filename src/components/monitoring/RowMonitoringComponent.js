@@ -29,7 +29,7 @@ function RowMonitoringComponent({ cells = [], row, index, selected, selectRow })
             key={uuid()}
             align={item.numeric ? 'center' : 'inherit'}
             style={{
-              backgroundColor: color[200],
+              backgroundColor: color[100],
               color: color.A700
             }}
           >

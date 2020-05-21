@@ -1,16 +1,11 @@
 import moment from 'moment';
-import apiData from '../../../axiosApiRequest';
-import { authFirebase, dbRef } from '../../../firebaseConfig';
-import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../../commons/globalText';
+import { apiData } from '../../../axiosApiRequest';
+import { dbRef } from '../../../firebaseConfig';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../Hospital/reducers/HospitalActions';
 import { getNomById } from '../../../nomenc/NomencAction';
 import { isEmpty } from '../../../helpers/utils';
-
-const actionCodeSettings = {
-  url: 'http://localhost:3000/inicio',
-  handleCodeInApp: true
-};
 
 const profilesRef = dbRef('profile').collection('profiles');
 
@@ -42,7 +37,10 @@ export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => 
   return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
+const mutateValues = async ({ birthday, doctor, role, hospital, sex, sname = '', secondaryPhone = '' }) => ({
+  sname,
+  secondaryPhone,
+  ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
   ...(role ? { role: await getRoleByIdAction(role) } : {}),
@@ -50,15 +48,20 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex }) => ({
   ...(sex ? { sex: await getNomById('sex')(sex) } : {})
 });
 
-const addValuesAction = async ({ id, email, ...values }) => {
+const addValuesAction = async ({ id, email, password, username, ...values }) => {
   const mutations = await mutateValues(values);
   const result = { ...values, ...mutations };
-  const response = await apiData.post('/createUser', { email, fullname: `${values.name} ${values.lastName}` });
-  const u = response.data;
-  await authFirebase.sendPasswordResetEmail(u.user.email, actionCodeSettings);
-  await profilesRef.doc(u.user.uid).set({
+  const response = await apiData.post('/createUser', {
+    username: `${username}${USERNAME_DOMAIN}`,
+    password,
+    fullname: `${values.name} ${values.lastName}`
+  });
+  const { user } = response.data;
+  await profilesRef.doc(user.uid).set({
     ...result,
-    email: u.user.email,
+    email,
+    username,
+    user,
     createdAt: Date.now()
   });
 };

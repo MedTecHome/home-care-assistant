@@ -3,7 +3,8 @@ import {
   INVALID_EMAIL_ADDRESS,
   REGEX_EMAIL_ADDRESS,
   REGEX_POSITIVE_NUMBER,
-  REQUIRED_FIELD
+  REQUIRED_FIELD,
+  REGEX_PHONE
 } from '../../../commons/globalText';
 
 const validateHospital = values => {
@@ -21,7 +22,7 @@ const validateHospital = values => {
     errors.maxPatients = REQUIRED_FIELD;
   }
   if (values.phone) {
-    if (!REGEX_POSITIVE_NUMBER.test(values.phone)) {
+    if (!REGEX_PHONE.test(values.phone)) {
       errors.phone = 'Format no valido.';
     }
   }
