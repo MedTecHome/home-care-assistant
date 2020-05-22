@@ -92,13 +92,26 @@ function EvolutionComponent() {
               {testList.map(mt => (
                 <TableRow key={uuid()}>
                   <TableCell>{getPropValue(mt, 'type.name')}</TableCell>
-                  {aux.map(d => (
-                    <TableCell key={uuid()}>
-                      {moment(moment(d).format('YYYY-MM-DD')).isSame(moment.unix(mt.clinicalDate).format('YYYY-MM-DD'))
-                        ? '-'
-                        : ''}
-                    </TableCell>
-                  ))}
+                  {aux.map(d => {
+                    const value =
+                      (getPropValue(mt, 'type.id') === 'pressure' &&
+                        `${getPropValue(mt, 'sistolica')}/${getPropValue(mt, 'diastolica')}`) ||
+                      (getPropValue(mt, 'type.id') === 'temperature' && getPropValue(mt, 'celsiusDegree')) ||
+                      (getPropValue(mt, 'type.id') === 'weight' && getPropValue(mt, 'weight')) ||
+                      (getPropValue(mt, 'type.id') === 'glucose' && getPropValue(mt, 'sugarConcentration')) ||
+                      (getPropValue(mt, 'type.id') === 'inr' && getPropValue(mt, 'INR')) ||
+                      (getPropValue(mt, 'type.id') === 'oxygen' && getPropValue(mt, 'heartbet')) ||
+                      (getPropValue(mt, 'type.id') === 'steps' && getPropValue(mt, 'steps'));
+                    return (
+                      <TableCell key={uuid()}>
+                        {moment(moment(d).format('YYYY-MM-DD')).isSame(
+                          moment.unix(mt.clinicalDate).format('YYYY-MM-DD')
+                        )
+                          ? value
+                          : ''}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))}
             </TableBody>
