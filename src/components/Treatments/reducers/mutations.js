@@ -1,4 +1,4 @@
-import { formatMomentToDate } from '../../../helpers/utils';
+import moment from 'moment';
 import { getProfileByIdAction } from '../../Profiles/reducers/ProfileActions';
 import { mutateNomenc } from '../../Medicines/reducers/MedicinesActions';
 
@@ -12,12 +12,12 @@ const parseStringJsonMedicines = async string => {
   );
 };
 
-const mutateTreatmentValues = async ({ name, patient, medicines, startDate, endDate }) => ({
+const mutateTreatmentValues = async ({ name, user, medicines, startDate, endDate }) => ({
   name,
-  ...(patient ? { patient: await getProfileByIdAction(patient, ['fullname']) } : {}),
+  ...(user ? { user: await getProfileByIdAction(user, ['fullname']) } : {}),
   ...(medicines ? { medicines: await parseStringJsonMedicines(medicines) } : {}),
-  ...(startDate ? { startDate: formatMomentToDate(startDate) } : {}),
-  ...(endDate ? { endDate: formatMomentToDate(endDate) } : {})
+  ...(startDate ? { startDate: moment(startDate).unix() } : {}),
+  ...(endDate ? { endDate: moment(endDate).unix() } : {})
 });
 
 export default mutateTreatmentValues;

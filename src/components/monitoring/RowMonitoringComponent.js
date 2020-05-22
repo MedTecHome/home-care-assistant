@@ -5,14 +5,13 @@ import { TableRow, TableCell, Typography } from '@material-ui/core';
 import { getPropValue } from '../../helpers/utils';
 import healthyStandards from '../../helpers/healthyStandards';
 
-function RowMonitoringComponent({ cells = [], row, index, selected, selectRow }) {
+function RowMonitoringComponent({ cells = [], row, selected, selectRow }) {
   const handleRowSelect = id => {
     selectRow(id);
   };
 
   return (
     <TableRow onClick={() => handleRowSelect(row.id)}>
-      <TableCell key={uuid()}>{index + 1}</TableCell>
       {cells.map(item => {
         const color =
           (item.id === 'pressure' &&

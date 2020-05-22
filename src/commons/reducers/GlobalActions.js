@@ -20,6 +20,10 @@ export const setFilters = (Reference, filters) => {
       const customDate = moment(filters[k]).unix();
       const tomorrow = moment(filters[k]).add(1, 'days').unix();
       ref = ref.where(k, '>=', customDate).where(k, '<', tomorrow);
+    } else if (k === 'startDate' || k === 'endDate') {
+      const start = moment(filters[k][0]).isValid() ? moment(filters[k][0]).unix() : 0;
+      const end = moment(filters[k][1]).isValid() ? moment(filters[k][1]).unix() : 0;
+      ref = ref.where('clinicalDate', '>=', start).where('clinicalDate', '<=', end);
     } else {
       ref = ref.where(k, '==', filters[k]);
     }
@@ -28,8 +32,9 @@ export const setFilters = (Reference, filters) => {
   return ref;
 };
 
-export const getListOfData = async (Reference, { limit = 5, ...params }) => {
-  const ref = setFilters(Reference, params);
-  const result = (await ref.limit(limit).get()).docChanges();
+export const getListOfData = async (Reference, { limit, ...params }) => {
+  let ref = setFilters(Reference, params);
+  ref = limit ? ref.limit(limit) : ref;
+  const result = (await ref.get()).docChanges();
   return result.map(({ doc }) => ({ id: doc.id, ...doc.data() }));
 };

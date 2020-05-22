@@ -14,27 +14,6 @@ const formValidate = values => {
   if (values.name && !REGEX_ONLY_ALPHA.test(values.name)) {
     errors.name = INVALID_WEIRD_CHARACTERS_ON_TEXT;
   }
-  if (!values.concentrationCant) {
-    errors.concentrationCant = REQUIRED_FIELD;
-  }
-  if (!values.concentrationType) {
-    errors.concentrationType = REQUIRED_FIELD;
-  }
-  if (!values.doseCant) {
-    errors.doseCant = REQUIRED_FIELD;
-  }
-  if (!values.doseType) {
-    errors.doseType = REQUIRED_FIELD;
-  }
-  if (!values.administrationType) {
-    errors.administrationType = REQUIRED_FIELD;
-  }
-  if (!values.frequency) {
-    errors.frequency = REQUIRED_FIELD;
-  }
-  if (!values.administrationReason) {
-    errors.administrationReason = REQUIRED_FIELD;
-  }
   if (values.concentrationCant && !REGEX_POSITIVE_NUMBER.test(values.concentrationCant)) {
     errors.concentrationCant = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
   }

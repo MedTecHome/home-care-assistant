@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 import { getProfilesAction } from '../Profiles/reducers/ProfileActions';
 
-function ProfileSearchComponent({ value, onSelect, filterRole = '' }) {
+function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
   const [profiles, setProfiles] = useState([]);
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
@@ -15,9 +15,13 @@ function ProfileSearchComponent({ value, onSelect, filterRole = '' }) {
 
   useEffect(() => {
     getProfilesAction({
-      filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }
+      filters: {
+        'role.id': filterRole,
+        'doctor.id': doctor,
+        ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
+      }
     }).then(res => setProfiles(res));
-  }, [filterRole, filterNameMemoize]);
+  }, [filterRole, filterNameMemoize, doctor]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);
@@ -43,7 +47,7 @@ function ProfileSearchComponent({ value, onSelect, filterRole = '' }) {
   );
 }
 
-function FiltersClinicalDetails({ patient, setPatient }) {
+function FiltersClinicalDetails({ patient, setPatient, doctor }) {
   return (
     <List>
       <ListItem>
@@ -52,6 +56,7 @@ function FiltersClinicalDetails({ patient, setPatient }) {
             <ProfileSearchComponent
               value={patient}
               onSelect={setPatient}
+              doctor={doctor}
               filterRole="patient"
               placeholder="Buscar por nombre"
             />

@@ -36,10 +36,6 @@ function FiltersPatientHistoryComponent() {
     loadList();
   }, []);
 
-  useEffect(() => {
-    if (!filters.type) setFilters({ ...filters, type: 'all' });
-  }, [filters, setFilters]);
-
   const handleSetTypeHistory = event => {
     setFilters({ ...filters, type: event.target.value });
   };
@@ -55,18 +51,14 @@ function FiltersPatientHistoryComponent() {
   return (
     <List>
       <ListItem divider>
-        <Grid container spacing={2} justify="space-between" className={classes.containerFilters}>
-          <Grid item xs={12} sm={6} container alignContent="flex-end">
+        <Grid container spacing={2} justify="flex-start" className={classes.containerFilters}>
+          <Grid item xs={12} sm={6} md={3} container alignContent="flex-end">
             <Select
-              style={{
-                flex: '1 1 100%'
-              }}
               className={classes.formControl}
-              value={(filters && filters.type) || 'all'}
+              value={(filters && filters.type) || ''}
               label="tipos historial"
               onChange={handleSetTypeHistory}
             >
-              <MenuItem value="all">Todos</MenuItem>
               {options.map(types => (
                 <MenuItem key={uuid()} value={types.id}>
                   {types.name}
@@ -74,7 +66,7 @@ function FiltersPatientHistoryComponent() {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} md={3}>
             <LocalizationProvider dateAdapter={MomentAdapter}>
               <DesktopDatePicker
                 className={classes.formControl}

@@ -12,7 +12,7 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import { isTimestamp, getPropValue } from '../../helpers/utils';
 import useCustomStyles from '../../jss/globalStyles';
 
-function RowTableHospitalComponent({ cells, row, index, selected, selectRow, onModalVisible }) {
+function RowTableHospitalComponent({ cells, row, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();
   return (
     <TableRow
@@ -22,7 +22,6 @@ function RowTableHospitalComponent({ cells, row, index, selected, selectRow, onM
       key={row.id}
       selected={selected && selected.id === row.id}
     >
-      <TableCell>{index + 1}</TableCell>
       {cells.map(cell => {
         const data = isTimestamp(row[cell.id]) ? moment(row[cell.id].toDate()).format('DD/MM/YYYY') : row[cell.id];
         const value = getPropValue(data, 'name') || data;

@@ -4,12 +4,9 @@ import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import SheduleFieldComponent from '../fields/SheduleFieldComponent';
-import {
-  validateGlucoseUnity,
-  validateHorario,
-  validateIntakeTime,
-  validateSugarConcentration
-} from './validateMedicalForms';
+import { validateGlucoseUnity, validateHorario, validateSugarConcentration } from './validateMedicalForms';
+import GlucosaUnityFieldComponent from '../fields/GlucosaUnityFieldComponent';
+import IntakeTimeFieldComponent from '../fields/IntakeTimeFieldComponent';
 
 function GlucoseForm({ classStyle }) {
   const theme = useTheme();
@@ -24,6 +21,7 @@ function GlucoseForm({ classStyle }) {
         <Grid item xs={7}>
           <CustomTextFieldComponent
             required
+            type="number"
             label={`${matches ? 'Concent.' : 'Concentración'} de azucar`}
             name="sugarConcentration"
             validate={validateSugarConcentration}
@@ -33,21 +31,16 @@ function GlucoseForm({ classStyle }) {
           <SheduleFieldComponent label="Horario" name="shedule" validate={validateHorario} />
         </Grid>
         <Grid item xs={12}>
-          <CustomTextFieldComponent required label="Momento ingesta" name="intakeTime" validat={validateIntakeTime} />
+          <IntakeTimeFieldComponent label="Momento ingesta" name="intakeTime" />
         </Grid>
         <Grid item xs={12}>
-          <CustomTextFieldComponent
-            required
-            label="Unidad glucosa"
-            name="glucoseUnity"
-            validate={validateGlucoseUnity}
-          />
+          <GlucosaUnityFieldComponent required namee="glucoseUnity" validate={validateGlucoseUnity} />
         </Grid>
         <Grid item xs={12}>
-          <CustomTextFieldComponent required label="HbA1c" name="hba1c" />
+          <CustomTextFieldComponent label="HbA1c" name="hba1c" />
         </Grid>
         <Grid item xs={12}>
-          <CustomTextFieldComponent label="Insulina comida" name="insulinaFood" />
+          <CustomTextFieldComponent label="Insulina(comida)" name="insulinaFood" />
         </Grid>
         <Grid item xs={12}>
           <CustomTextFieldComponent label="Basal" name="basal" />

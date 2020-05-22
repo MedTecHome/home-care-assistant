@@ -38,11 +38,10 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
                 <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <ConcentrationFieldComponent required label="Tipo Concentración" name="concentrationType" />
+                <ConcentrationFieldComponent label="Tipo Concentración" name="concentrationType" />
               </Grid>
               <Grid item xs={6}>
                 <CustomTextFieldComponent
-                  required
                   type="number"
                   label="Cant. Concentración"
                   name="concentrationCant"
@@ -52,19 +51,19 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <DosisFieldComponent required label="Tipo dosis" name="doseType" />
+                <DosisFieldComponent label="Tipo dosis" name="doseType" />
               </Grid>
               <Grid item xs={6}>
-                <CustomTextFieldComponent required label="Cant. Dosis" name="doseCant" type="number" />
+                <CustomTextFieldComponent label="Cant. Dosis" name="doseCant" type="number" />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <AdministrationRouteFielComponent required label="Via Administración" name="administrationType" />
+                <AdministrationRouteFielComponent label="Via Administración" name="administrationType" />
               </Grid>
               <Grid item xs={6}>
-                <CustomTextFieldComponent required label="Frecuencia" name="frequency" type="number" />
+                <CustomTextFieldComponent label="Frecuencia" name="frequency" type="number" />
               </Grid>
               <Grid item xs={12}>
-                <CustomTextFieldComponent required label="Motivo Administración" name="administrationReason" />
+                <CustomTextFieldComponent label="Motivo Administración" name="administrationReason" />
               </Grid>
               <Grid item xs={12}>
                 <CustomTextFieldComponent label="Observaciones" name="observations" multiline rows={3} rowsMax={5} />

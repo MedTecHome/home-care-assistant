@@ -4,6 +4,7 @@ import TableRow from '@material-ui/core/TableRow';
 import uuid from 'uuid4';
 import TableCell from '@material-ui/core/TableCell';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { Typography } from '@material-ui/core';
 import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
@@ -12,7 +13,7 @@ import useCustomStyles from '../../jss/globalStyles';
 import { isTimestamp, getPropValue } from '../../helpers/utils';
 import PopoverComponent from '../containers/PopoverComponent';
 
-function RowListMedicineComponent({ cells, row, index, selected, selectRow, onModalVisible }) {
+function RowListMedicineComponent({ cells, row, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();
   return (
     <TableRow
@@ -23,14 +24,17 @@ function RowListMedicineComponent({ cells, row, index, selected, selectRow, onMo
       key={row.id}
       selected={selected && selected.id === row.id}
     >
-      <TableCell>{index + 1}</TableCell>
       {cells.map(cell => {
         const data = isTimestamp(row[cell.id]) ? moment(row[cell.id].toDate()).format('DD/MM/YYYY') : row[cell.id];
-        const value = getPropValue(data, 'name') || data;
+        const value = getPropValue(data, 'name') || data || '-';
         return (
           <Fragment key={uuid()}>
-            <TableCell align={cell.numeric ? 'center' : 'inherit'} className={classes.largeCells}>
-              <PopoverComponent className={classes.textCells} title={value} />
+            <TableCell align={cell.numeric || !row[cell.id] ? 'center' : 'inherit'} className={classes.largeCells}>
+              {cell.id === 'name' ? (
+                <PopoverComponent className={classes.textCells} title={value} />
+              ) : (
+                <Typography>{value}</Typography>
+              )}
             </TableCell>
           </Fragment>
         );

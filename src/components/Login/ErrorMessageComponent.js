@@ -14,7 +14,7 @@ export default function ErrorMessageComponent({ errorState }) {
   return (
     <div className={classes.errorMessage}>
       {errorState && (
-        <Alert severity="message" variant="filled">
+        <Alert severity="error" variant="filled">
           <AlertTitle>Error</AlertTitle>
           {errorState && errorState.message}
         </Alert>
