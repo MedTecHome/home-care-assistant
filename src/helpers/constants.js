@@ -13,3 +13,18 @@ export const genders = {
   male: 'Masculino',
   female: 'Femenino'
 };
+
+export const intakeTimeSource = [
+  {
+    id: 'beforeEat',
+    name: 'Antes de comer'
+  },
+  {
+    id: 'afterEat',
+    name: 'Después de comer'
+  },
+  {
+    id: 'speedDial',
+    name: 'Marcación rápida'
+  }
+];

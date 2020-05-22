@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Field, Form } from 'react-final-form';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
@@ -46,11 +47,11 @@ function AddOrEditFormComponent({ title }) {
           ...(formType === EDIT_FORM_TEXT &&
             selected && {
               ...selected,
-              patient: selected.patient.id,
-              startDate: selected.startDate.toDate(),
-              endDate: selected.endDate.toDate()
+              user: selected.user.id,
+              startDate: moment.unix(selected.startDate),
+              endDate: moment.unix(selected.endDate)
             }),
-          ...(formType === ADD_FORM_TEXT && filters && filters['patient.id'] && { patient: filters['patient.id'] })
+          ...(formType === ADD_FORM_TEXT && filters && filters['user.id'] && { user: filters['user.id'] })
         }}
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, invalid, values, errors }) => {
@@ -74,7 +75,7 @@ function AddOrEditFormComponent({ title }) {
                     <ProfileFieldComponent
                       required
                       label="Paciente"
-                      name="patient"
+                      name="user"
                       filterRole="patient"
                       userRole="doctor"
                       classes={classes}

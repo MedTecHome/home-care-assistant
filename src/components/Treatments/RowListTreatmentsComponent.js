@@ -3,62 +3,16 @@ import uuid from 'uuid4';
 import { TableRow, TableCell, Typography, ButtonGroup, Collapse, IconButton, Grid } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../fieldset';
-import DetailTextComponent from '../DetailTextComponent';
 import PopoverComponent from '../containers/PopoverComponent';
-import { getPropValue, isTimestamp } from '../../helpers/utils';
-import MedicineDetailItemListComponent from '../Medicines/MedicineDetailItemListComponent';
+import { getPropValue } from '../../helpers/utils';
 
-function DetailTreatmentRowCellComponent({ open, data }) {
-  return (
-    <>
-      <TableRow>
-        <TableCell colSpan={6}>
-          <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <Fieldset title={<Typography variant="h5">General</Typography>}>
-                  <Grid item xs={12} container spacing={3}>
-                    <DetailTextComponent label="Nombre" value={data.name} />
-                    <DetailTextComponent
-                      label="Fecha inicio"
-                      value={data.startDate && moment(data.startDate.toDate()).format('DD-MM-YYYY')}
-                    />
-                    <DetailTextComponent
-                      label="Fecha Fin"
-                      value={data.endDate && moment(data.endDate.toDate()).format('DD-MM-YYYY')}
-                    />
-                  </Grid>
-                </Fieldset>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Fieldset title={<Typography variant="h5">Paciente</Typography>}>
-                  <Grid item xs={12} container spacing={3} justify="space-between">
-                    <DetailTextComponent label="Nombre y apellidos" value={getPropValue(data, 'patient.fullname')} />
-                  </Grid>
-                </Fieldset>
-              </Grid>
-              <Grid item xs={12}>
-                <Fieldset title={<Typography variant="h5">Medicamentos</Typography>} paddingTop={0}>
-                  <Grid item xs={12}>
-                    <MedicineDetailItemListComponent medicines={data.medicines} />
-                  </Grid>
-                </Fieldset>
-              </Grid>
-            </Grid>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-}
-
-const useStyles = {
+const useStyles = makeStyles({
   root: {
     '&.Mui-selected': {
       backgroundColor: '#f5f5f6',
@@ -73,22 +27,91 @@ const useStyles = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     textDecoration: 'underline'
+  },
+  containerDetailDiv: {
+    minWidth: '100%',
+    '& > *': {
+      marginBottom: 10
+    }
+  },
+  contentDetailRow: {
+    backgroundColor: fade('#f5f5f6', 0.5)
+  },
+  rowMedicineDetail: {
+    minWidth: '100%',
+    display: 'flex',
+    alignContent: 'space-between'
   }
-};
+});
+
+function DetailTreatmentRowCellComponent({ open, data }) {
+  const classes = useStyles();
+  return (
+    <>
+      {open && (
+        <TableRow className={classes.contentDetailRow}>
+          <TableCell colSpan={6}>
+            <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <Fieldset title="General">
+                    <div className={classes.containerDetailDiv}>
+                      <Typography>
+                        <strong>Fecha inicio: </strong>
+                        {moment.unix(data.startDate).format('DD/MM/YYYY')}
+                      </Typography>
+                      <Typography>
+                        <strong>Fecha fin: </strong>
+                        {moment.unix(data.endDate).format('DD/MM/YYYY')}
+                      </Typography>
+                    </div>
+                  </Fieldset>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Fieldset title="Paciente">
+                    <Typography>
+                      <strong>Nombre Y Apellidos: </strong>
+                      {getPropValue(data, 'user.fullname')}
+                    </Typography>
+                  </Fieldset>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Fieldset title="Medicamentos">
+                    <div className={classes.containerDetailDiv}>
+                      {data.medicines.map(medicine => (
+                        <div key={uuid()} className={classes.rowMedicineDetail}>
+                          <Typography component="span">
+                            <strong>{medicine.name}</strong>
+                          </Typography>
+                          <Typography component="span" style={{ margin: 'auto' }}>
+                            <strong>{medicine.edited && 'Editado'}</strong>
+                          </Typography>
+                        </div>
+                      ))}
+                    </div>
+                  </Fieldset>
+                </Grid>
+              </Grid>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
+    </>
+  );
+}
 
 function RowListTreatmentsComponent({
   cells,
   row,
-  index,
   open,
   setOpen,
   selected,
   selectRow,
   onModalVisible,
   editRole,
-  delRole,
-  classes
+  delRole
 }) {
+  const classes = useStyles();
   const handleRowClick = id => {
     selectRow(id);
     setOpen(!open ? id : null);
@@ -113,11 +136,11 @@ function RowListTreatmentsComponent({
         key={uuid()}
         selected={selected && selected.id === row.id}
       >
-        <TableCell key={uuid()} align="center">
-          {index + 1}
-        </TableCell>
         {cells.map(cell => {
-          const value = isTimestamp(row[cell.id]) ? moment(row[cell.id].toDate()).format('DD/MM/YYYY') : row[cell.id];
+          const value =
+            cell.id === 'startDate' || cell.id === 'endDate'
+              ? moment.unix(row[cell.id]).format('DD/MM/YYYY')
+              : row[cell.id];
           return (
             <Fragment key={uuid()}>
               {cell.id === 'medicines' ? (
@@ -149,4 +172,4 @@ function RowListTreatmentsComponent({
     </>
   );
 }
-export default withStyles(useStyles)(RowListTreatmentsComponent);
+export default RowListTreatmentsComponent;

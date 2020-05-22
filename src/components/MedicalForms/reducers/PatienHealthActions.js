@@ -106,9 +106,9 @@ const isINROrAll = type => type === 'all' || type === 'inr';
 const isOxygenOrAll = type => type === 'all' || type === 'oxygen';
 const isExercisesOrAll = type => type === 'all' || type === 'exercises';
 
-export const getAllPatientHistoryAction = async ({ filters }) => {
+export const getAllPatientHistoryAction = async ({ limit, filters }) => {
   const { type, ...rest } = filters;
-  const params = { ...rest, limit: type === 'all' ? 1 : 1000 };
+  const params = { ...rest, limit: type === 'all' ? limit || 1 : limit || 1000 };
   const promises = [];
   if (isPressureOrAll(type)) {
     promises.push(await getBloodPressureAction(params));

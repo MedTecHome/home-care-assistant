@@ -114,11 +114,6 @@ export const validateSex = value => {
   return null;
 };
 
-export const validateIntakeTime = value => {
-  if (!value) return REQUIRED_FIELD;
-  return null;
-};
-
 export const validateGlucoseUnity = value => {
   if (!value) return REQUIRED_FIELD;
   return null;

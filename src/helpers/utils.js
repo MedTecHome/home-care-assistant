@@ -49,3 +49,17 @@ export const extractValues = (dirtyFields, allValues) => {
     .map(k => ({ [k]: allValues[k] }))
     .reduce((a, b) => ({ ...a, ...b }), {});
 };
+
+export const enumerateDaysBetweenDates = (startDate, endDate) => {
+  const dates = [];
+  if (startDate && endDate) {
+    const currDate = moment(startDate).startOf('day');
+    const lastDate = moment(endDate).startOf('day');
+    dates.push(startDate);
+    while (currDate.add(1, 'days').diff(lastDate) < 0) {
+      dates.push(currDate.clone().toDate());
+    }
+    dates.push(endDate);
+  }
+  return dates;
+};

@@ -10,6 +10,8 @@ import { usePatientHistoryContext, withPatientHistoryContext } from '../Clinical
 import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
+import EvolutionComponent from './EvolutionComponent';
+import { withEvolutionContext, useEvolutionContext } from './EvolutionContext';
 
 function PatientClinicalDetailsComponent() {
   const [tab, setTab] = useState('treatments');
@@ -19,6 +21,7 @@ function PatientClinicalDetailsComponent() {
   const [patient, setPatient] = useState(null);
   const { setFilters: setFiltersTreatments } = useTreatmentsContext();
   const { setFilters: setFiltersHistory } = usePatientHistoryContext();
+  const { setFilters: setFiltersEvolution } = useEvolutionContext();
 
   useEffect(() => {
     if (getPropValue(currentUserProfile, 'role.id') === 'patient') {
@@ -29,9 +32,10 @@ function PatientClinicalDetailsComponent() {
   }, [state, currentUserProfile]);
 
   useEffect(() => {
-    setFiltersTreatments({ 'patient.id': getPropValue(patient, 'id') || '' });
+    setFiltersTreatments({ 'user.id': getPropValue(patient, 'id') || '' });
     setFiltersHistory({ 'user.id': getPropValue(patient, 'id') || '' });
-  }, [setFiltersTreatments, patient, setFiltersHistory]);
+    setFiltersEvolution({ 'user.id': getPropValue(patient, 'id') || '' });
+  }, [setFiltersTreatments, patient, setFiltersHistory, setFiltersEvolution]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
@@ -43,7 +47,9 @@ function PatientClinicalDetailsComponent() {
 
   return (
     <>
-      {isDoctor && <FiltersClinicalDetails setPatient={handlePatient} patient={patient} />}
+      {isDoctor && (
+        <FiltersClinicalDetails setPatient={handlePatient} patient={patient} doctor={currentUserProfile.id} />
+      )}
       <Typography
         style={{
           color: '#666'
@@ -62,13 +68,15 @@ function PatientClinicalDetailsComponent() {
           >
             <Tab label="Tratamientos" value="treatments" />
             <Tab label="Pruebas clínicas" value="clinictest" />
+            {isDoctor && <Tab label="Evolución" value="evolution" />}
           </Tabs>
         </Paper>
 
         {tab === 'treatments' && <TreatmentsComponent />}
         {tab === 'clinictest' && <PatientHistoryComponent />}
+        {tab === 'evolution' && isDoctor && <EvolutionComponent />}
       </div>
     </>
   );
 }
-export default withTreatmentsContext(withPatientHistoryContext(PatientClinicalDetailsComponent));
+export default withTreatmentsContext(withPatientHistoryContext(withEvolutionContext(PatientClinicalDetailsComponent)));

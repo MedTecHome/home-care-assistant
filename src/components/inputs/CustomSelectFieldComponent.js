@@ -34,7 +34,9 @@ function CustomSelectFieldComponent({
         validate
       }}
     >
-      <MenuItem key={uuid()} value="" />
+      <MenuItem key={uuid()} value="">
+        Ninguno
+      </MenuItem>
       {source.map(item => (
         <MenuItem key={uuid()} value={item.id}>
           {item.name}

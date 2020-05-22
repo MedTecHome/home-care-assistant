@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   fieldset: {
-    border: 'none',
+    border: props => (props.bordered ? '1px solid #ccc' : 'none'),
     borderTop: '1px solid #ccc',
     borderRadius: 2,
-    padding: 20,
+    padding: props => props.padding,
     paddingTop: props => props.paddingTop
   },
   legend: {
@@ -15,8 +15,8 @@ const useStyles = makeStyles({
   }
 });
 
-function Fieldset({ title, children, paddingTop = 20 }) {
-  const classes = useStyles({ paddingTop });
+function Fieldset({ title, children, paddingTop, padding = 5, bordered = true }) {
+  const classes = useStyles({ padding, paddingTop, bordered });
   return (
     <fieldset className={classes.fieldset}>
       <legend className={classes.legend}>{title}</legend>

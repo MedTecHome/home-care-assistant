@@ -33,8 +33,9 @@ function LoginComponent() {
 
   const classes = useCustomStyles();
 
-  const onSubmit = async value => {
+  const onSubmit = async (value, form) => {
     await signInUser(value);
+    setTimeout(form.reset);
   };
 
   return (
@@ -47,15 +48,7 @@ function LoginComponent() {
             onSubmit={onSubmit}
             validate={loginValidate}
             render={({ handleSubmit, form, submitting, pristine }) => (
-              <form
-                autoComplete="off"
-                noValidate
-                onSubmit={event => {
-                  handleSubmit(event).then(() => {
-                    form.reset();
-                  });
-                }}
-              >
+              <form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Grid item container spacing={3}>
                   <Grid item xs={12}>
                     <CustomTextFieldComponent

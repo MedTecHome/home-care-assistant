@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import mutateTreatmentValues from './mutations';
@@ -16,6 +17,10 @@ export const getListTreatmentsAction = async ({ limit = 2, next, prev, filters }
     Object.keys(filters).map(k => {
       if (k === 'name') {
         ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
+      } else if (k === 'startDate' || k === 'endDate') {
+        const start = moment(filters[k][0]).isValid() ? moment(filters[k][0]).unix() : 0;
+        const end = moment(filters[k][1]).isValid() ? moment(filters[k][1]).unix() : 0;
+        ref = ref.where(k, '>=', start).where(k, '<=', end);
       } else {
         ref = ref.where(k, '==', filters[k]);
       }

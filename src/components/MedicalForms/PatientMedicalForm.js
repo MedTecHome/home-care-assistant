@@ -53,11 +53,12 @@ const PatientMedicalForm = () => {
   const classes = useStyles();
   const [selectedForms, setSelectedForms] = useState([]);
 
-  const onSubmit = async values => {
+  const onSubmit = async (values, form) => {
     if (!isEmpty(values))
       await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms }).catch(e =>
         RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm')
       );
+    setTimeout(form.reset);
   };
 
   const handleToogleCheckbox = useCallback(
@@ -90,73 +91,72 @@ const PatientMedicalForm = () => {
         <Grid item xs={12} sm={9} container direction="column">
           <Form
             onSubmit={onSubmit}
-            render={({ handleSubmit, form, submitting, pristine, hasValidationErrors, invalid }) => (
-              <form
-                noValidate
-                autoComplete="off"
-                onSubmit={event => {
-                  if (!hasValidationErrors)
-                    handleSubmit(event).then(() => {
-                      form.reset();
-                    });
-                }}
-              >
-                <Grid container spacing={4} justify={selectedForms.length === 1 ? 'center' : null}>
-                  {selectedForms.includes('pressure') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <PressureForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('temperature') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <TemperatureForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('glucose') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <GlucoseForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('weight') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <WeightForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('breathing') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <BreathingForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('inr') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <CoagulationForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('oxygen') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <OxygenForm classStyle={classes} />
-                    </Grid>
-                  )}
-                  {selectedForms.includes('exercises') && (
-                    <Grid item xs={12} sm={10} md={6}>
-                      <ExercisesForm classStyle={classes} />
-                    </Grid>
-                  )}
-                </Grid>
-                {selectedForms.length > 0 && (
-                  <Grid item xs={12} container justify="center" spacing={4} style={{ marginTop: 20 }}>
-                    <Grid item>
-                      <Button color="secondary" onClick={() => form.reset()}>
-                        Cancelar
-                      </Button>
-                    </Grid>
-                    <Grid item>
-                      <SaveButton invalid={invalid} pristine={pristine} submitting={submitting} />
-                    </Grid>
+            render={({ handleSubmit, form, submitting, pristine, invalid }) => {
+              return (
+                <form
+                  autoComplete="off"
+                  onSubmit={event => {
+                    event.preventDefault();
+                    if (!invalid) handleSubmit(event);
+                  }}
+                >
+                  <Grid container spacing={4} justify={selectedForms.length === 1 ? 'center' : null}>
+                    {selectedForms.includes('pressure') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <PressureForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('temperature') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <TemperatureForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('glucose') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <GlucoseForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('weight') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <WeightForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('breathing') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <BreathingForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('inr') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <CoagulationForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('oxygen') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <OxygenForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('exercises') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <ExercisesForm classStyle={classes} />
+                      </Grid>
+                    )}
                   </Grid>
-                )}
-              </form>
-            )}
+                  {selectedForms.length > 0 && (
+                    <Grid item xs={12} container justify="center" spacing={4} style={{ marginTop: 20 }}>
+                      <Grid item>
+                        <Button color="secondary" onClick={() => form.reset()}>
+                          Cancelar
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <SaveButton invalid={invalid} pristine={pristine} submitting={submitting} />
+                      </Grid>
+                    </Grid>
+                  )}
+                </form>
+              );
+            }}
           />
         </Grid>
       </Grid>
