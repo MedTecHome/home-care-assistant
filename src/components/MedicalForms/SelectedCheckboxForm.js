@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
-
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
 import { testFormsNames } from '../../helpers/constants';
 import useCustomStyles from '../../jss/globalStyles';
 
@@ -14,7 +13,16 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
       }}
       component="fieldset"
     >
-      <FormLabel component="legend">Seleccione</FormLabel>
+      <FormLabel component="legend">
+        <Typography
+          variant="button"
+          style={{
+            fontSize: 16
+          }}
+        >
+          Seleccione
+        </Typography>
+      </FormLabel>
       <FormGroup className={justifyCheckbox} row defaultValue={defaultValues}>
         {Object.entries(testFormsNames).map(([key, value]) => (
           <FormControlLabel
@@ -31,7 +39,14 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
                 name={key}
               />
             }
-            label={`${value}`}
+            label={
+              <Typography
+                variant="button"
+                style={{
+                  fontWeight: 550
+                }}
+              >{`${value}`}</Typography>
+            }
           />
         ))}
       </FormGroup>

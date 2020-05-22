@@ -17,9 +17,8 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(2)
     },
     '& > *': {
-      textTransform: 'none',
       padding: 2,
-      fontSize: '0.7rem'
+      fontSize: '0.8rem'
     },
     activeLink: {
       color: 'red'

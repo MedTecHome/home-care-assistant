@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import uuid from 'uuid4';
 import moment from 'moment';
 import { TableRow, TableCell, Typography } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 import { getPropValue } from '../../helpers/utils';
 import healthyStandards from '../../helpers/healthyStandards';
 
@@ -32,19 +33,31 @@ function RowMonitoringComponent({ cells = [], row, selected, selectRow }) {
               color: color.A700
             }}
           >
-            {item.id === 'pressure' ? (
+            {(item.id === 'pressure' && (
               <div>
                 {getPropValue(row, `${item.id}.sistolica`) || '-'}
                 <span>/</span>
                 {getPropValue(row, `${item.id}.diastolica`) || '-'}
               </div>
-            ) : (
+            )) ||
               (item.id === 'latestDate' && (
                 <Typography>
                   {moment.unix(row[item.id]).isValid() ? moment.unix(row[item.id]).format('DD/MM/YYYY') : '-'}
                 </Typography>
-              )) || <Typography>{getPropValue(row, item.id) || '-'}</Typography>
-            )}
+              )) ||
+              (item.id === 'user.fullname' && (
+                <Typography
+                  component={NavLink}
+                  to={{
+                    pathname: '/detallesclinicos',
+                    state: {
+                      profile: row.user
+                    }
+                  }}
+                >
+                  {getPropValue(row, item.id) || '-'}
+                </Typography>
+              )) || <Typography>{getPropValue(row, item.id) || '-'}</Typography>}
           </TableCell>
         );
       })}
