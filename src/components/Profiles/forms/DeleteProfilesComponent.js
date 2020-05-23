@@ -27,7 +27,12 @@ export default function DeleteProfilesComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: 400
+        }}
+      >
         <Typography>Esta seguro que desea eliminar el perfil seleccionado.</Typography>
       </DialogContent>
       <DialogActions>

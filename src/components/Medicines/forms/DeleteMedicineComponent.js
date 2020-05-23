@@ -27,7 +27,12 @@ function DeleteMedicineComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar medicamento</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: 400
+        }}
+      >
         <Typography>
           Esta seguro que desea eliminar el medicamento:<strong> {selected.name}</strong>.
         </Typography>

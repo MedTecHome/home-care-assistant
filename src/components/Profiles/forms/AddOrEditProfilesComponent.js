@@ -83,7 +83,12 @@ function AddOrEditProfilesComponent({ title }) {
                 }
               }}
             >
-              <DialogContent dividers>
+              <DialogContent
+                dividers
+                style={{
+                  maxWidth: 400
+                }}
+              >
                 <Grid container spacing={3}>
                   {isAdmin && (
                     <Grid item xs={12}>

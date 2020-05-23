@@ -27,7 +27,12 @@ function DeleteTreatmentComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar Tratamiento</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: 400
+        }}
+      >
         <Typography>Esta seguro que desea eliminar el tratamiento.</Typography>
       </DialogContent>
       <DialogActions>

@@ -20,7 +20,12 @@ function DetailsHospitalComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCloseForm}>Detalles del hospital</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: 400
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} container justify="center" alignItems="center">
             <Image src="#" aspectRatio={4 / 3} />

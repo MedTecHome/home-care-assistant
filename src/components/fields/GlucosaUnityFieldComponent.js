@@ -2,7 +2,7 @@ import React from 'react';
 import { Radio } from 'final-form-material-ui';
 import { RadioGroup, FormControlLabel, Typography } from '@material-ui/core';
 import { Field } from 'react-final-form';
-import Fieldset from '../fieldset';
+import Fieldset from '../containers/fieldset';
 
 function GlucosanityFieldComponent({ namee, validate, required }) {
   return (

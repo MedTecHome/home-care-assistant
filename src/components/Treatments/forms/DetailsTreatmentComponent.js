@@ -28,7 +28,12 @@ function DetailsTreatmentComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCloseForm}>Detalles del tratamiento</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: 400
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <List>
