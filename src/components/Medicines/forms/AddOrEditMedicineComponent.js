@@ -33,7 +33,12 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
       render={({ handleSubmit, form, submitting, pristine, invalid }) => (
         <form noValidate onSubmit={event => !invalid && handleSubmit(event)} autoComplete="off">
           {formType === EDIT_FORM_TEXT && selected && <input type="hidden" name="id" />}
-          <DialogContent dividers>
+          <DialogContent
+            dividers
+            style={{
+              maxWidth: 400
+            }}
+          >
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CustomTextFieldComponent required label="Nombre medicamento" name="name" />

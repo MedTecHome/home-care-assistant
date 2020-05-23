@@ -42,7 +42,12 @@ export default function AddOrEditHospitalComponent() {
               }
             }}
           >
-            <DialogContent dividers>
+            <DialogContent
+              dividers
+              style={{
+                maxWidth: 400
+              }}
+            >
               {selected && formType === EDIT_FORM_TEXT && <input type="hidden" name="id" />}
               <Grid container item spacing={3}>
                 <Grid item xs={12}>

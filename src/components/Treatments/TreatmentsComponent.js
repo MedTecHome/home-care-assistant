@@ -47,7 +47,7 @@ function TreatmentsComponent() {
 
   return (
     <>
-      <ModalComponent visible={modalVisible}>
+      <ModalComponent visible={modalVisible} width={0}>
         <TreatmentsFormComponent formType={formType} />
       </ModalComponent>
       <TableComponent

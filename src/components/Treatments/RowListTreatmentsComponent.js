@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
-import Fieldset from '../fieldset';
+import Fieldset from '../containers/fieldset';
 import PopoverComponent from '../containers/PopoverComponent';
 import { getPropValue } from '../../helpers/utils';
 
@@ -48,14 +48,26 @@ function DetailTreatmentRowCellComponent({ open, data }) {
   const classes = useStyles();
   return (
     <>
-      {open && (
+      {open && open === data.id && (
         <TableRow className={classes.contentDetailRow}>
           <TableCell colSpan={6}>
             <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
+                  <Fieldset title="Paciente">
+                    <Typography>
+                      <strong>Nombre Y Apellidos: </strong>
+                      {getPropValue(data, 'user.fullname')}
+                    </Typography>
+                  </Fieldset>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                   <Fieldset title="General">
                     <div className={classes.containerDetailDiv}>
+                      <Typography>
+                        <strong>Tipo: </strong>
+                        {data.name}
+                      </Typography>
                       <Typography>
                         <strong>Fecha inicio: </strong>
                         {moment.unix(data.startDate).format('DD/MM/YYYY')}
@@ -67,14 +79,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                     </div>
                   </Fieldset>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Fieldset title="Paciente">
-                    <Typography>
-                      <strong>Nombre Y Apellidos: </strong>
-                      {getPropValue(data, 'user.fullname')}
-                    </Typography>
-                  </Fieldset>
-                </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <Fieldset title="Medicamentos">
                     <div className={classes.containerDetailDiv}>

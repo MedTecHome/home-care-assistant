@@ -27,7 +27,12 @@ export default function DeleteHospitalComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar Hopital</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: 400
+        }}
+      >
         <Typography>Esta seguro que desea eliminar el hospital seleccionado.</Typography>
       </DialogContent>
       <DialogActions>

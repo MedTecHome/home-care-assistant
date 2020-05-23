@@ -17,13 +17,21 @@ const useStyles = makeStyles({
   }
 });
 
-function MedicineDetailItemListComponent({ medicines, handleEditMedicine }) {
+function MedicineDetailItemListComponent({ medicines, selected, handleEditMedicine }) {
   const classes = useStyles();
   return (
     <List>
       {medicines.map(medicine => (
-        <ListItem key={medicine.id} className={classes.tag}>
+        <ListItem
+          key={medicine.id}
+          className={classes.tag}
+          style={{
+            backgroundColor: selected && selected.id === medicine.id ? '#f5f5f6' : 'inherit',
+            width: selected && selected.id === medicine.id ? '103%' : '100%'
+          }}
+        >
           <ListItemText primary={<Typography className={classes.listText}>{medicine.name}</Typography>} />
+          <ListItemText primary={<Typography className={classes.listText}>{medicine.frequency}</Typography>} />
           <ListItemText
             primary={<Typography className={classes.listText}>{medicine.edited && 'Editado'}</Typography>}
           />
