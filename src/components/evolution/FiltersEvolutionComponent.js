@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { Box, Grid, TextField } from '@material-ui/core';
 import { LocalizationProvider, MobileDateRangePicker } from '@material-ui/pickers';
 import { CalendarToday as CalendarTodayIcon } from '@material-ui/icons';
@@ -7,10 +8,14 @@ import clsx from 'clsx';
 import useCustomStyles from '../../jss/globalStyles';
 import { useEvolutionContext } from './EvolutionContext';
 
+const today = moment();
+const defaultStart = today.clone().add(-3, 'days');
+const defaultEnd = today.clone().add(10, 'days');
+
 function FiltersEvolutionComponent() {
   const { setFilters, filters } = useEvolutionContext();
   const classes = useCustomStyles();
-  const [dateValue, setDateValue] = useState([null, null]);
+  const [dateValue, setDateValue] = useState([defaultStart, defaultEnd]);
 
   useEffect(() => {
     if (filters.rangeDate !== dateValue) {

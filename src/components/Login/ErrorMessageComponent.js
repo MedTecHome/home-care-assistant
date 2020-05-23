@@ -2,6 +2,7 @@ import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const useStyles = makeStyles({
   errorMessage: {
@@ -9,7 +10,8 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ErrorMessageComponent({ errorState }) {
+export default function ErrorMessageComponent() {
+  const { errorState } = useAuthContext();
   const classes = useStyles();
   return (
     <div className={classes.errorMessage}>

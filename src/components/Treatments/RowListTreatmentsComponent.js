@@ -148,6 +148,7 @@ function RowListTreatmentsComponent({
                   <PopoverComponent
                     className={classes.textCells}
                     title={row[cell.id].map(medicine => medicine.name).join(', ')}
+                    content={row[cell.id].map(medicine => medicine.name).join(', ')}
                   />
                 </TableCell>
               ) : (

@@ -10,17 +10,17 @@ import { usePatientHistoryContext, withPatientHistoryContext } from '../Clinical
 import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
-import EvolutionComponent from './EvolutionComponent';
-import { withEvolutionContext, useEvolutionContext } from './EvolutionContext';
+import EvolutionComponent from '../evolution/EvolutionComponent';
+import { withEvolutionContext, useEvolutionContext } from '../evolution/EvolutionContext';
 
 function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
   const { currentUserProfile, isDoctor } = useAuthContext();
-  const [tab, setTab] = useState(isDoctor ? 'treatments' : 'clinictest');
+  const [tab, setTab] = useState(isDoctor ? 'evolution' : 'clinictest');
 
   const [patient, setPatient] = useState(null);
   const { setFilters: setFiltersTreatments } = useTreatmentsContext();
-  const { setFilters: setFiltersHistory } = usePatientHistoryContext();
+  const { setFilters: setFiltersHistory, filters: historyFilters } = usePatientHistoryContext();
   const { setFilters: setFiltersEvolution } = useEvolutionContext();
 
   useEffect(() => {
@@ -43,6 +43,11 @@ function PatientClinicalDetailsComponent() {
 
   const handlePatient = id => {
     setPatient(id);
+  };
+
+  const handleTabFromEvolution = (tb, filter) => {
+    setTab(tb);
+    setFiltersHistory({ ...historyFilters, type: filter });
   };
 
   return (
@@ -74,7 +79,7 @@ function PatientClinicalDetailsComponent() {
 
         {tab === 'treatments' && <TreatmentsComponent />}
         {tab === 'clinictest' && <PatientHistoryComponent />}
-        {tab === 'evolution' && isDoctor && <EvolutionComponent />}
+        {tab === 'evolution' && isDoctor && <EvolutionComponent setTab={handleTabFromEvolution} />}
       </div>
     </>
   );

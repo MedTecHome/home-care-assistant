@@ -29,7 +29,7 @@ function Copyright() {
 }
 
 function LoginComponent() {
-  const { signInUser, errorState } = useAuthContext();
+  const { signInUser } = useAuthContext();
 
   const classes = useCustomStyles();
 
@@ -41,7 +41,7 @@ function LoginComponent() {
   return (
     <>
       <Card className={classes.loginRoot}>
-        <CardHeader title={<ErrorMessageComponent errorState={errorState} />} />
+        <CardHeader title={<ErrorMessageComponent />} />
         <CardHeader title={<AuthFormsTitleComponent title="Acceder" />} />
         <CardContent>
           <Form

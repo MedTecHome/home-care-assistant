@@ -7,7 +7,8 @@ import clsx from 'clsx';
 const useStyles = makeStyles(theme => ({
   popover: {
     pointerEvents: 'none',
-    maxWidth: 230,
+    width: '100%',
+    maxWidth: 400,
     textAlign: 'justify'
   },
   paper: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PopoverComponent({ className, title }) {
+function PopoverComponent({ className, title, content }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,6 +44,7 @@ function PopoverComponent({ className, title }) {
   return (
     <div>
       <Typography
+        componen="div"
         className={clsx(className, classes.content)}
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
@@ -70,9 +72,7 @@ function PopoverComponent({ className, title }) {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography component="div" className={classes.title}>
-          {title}
-        </Typography>
+        {content}
       </Popover>
     </div>
   );

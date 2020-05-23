@@ -11,6 +11,7 @@ export const withEvolutionContext = WrapperComponent => ({ children }) => {
   const [filters, setFilters] = useState({});
   const [treatments, setTreatmentList] = useState([]);
   const [testList, setTestList] = useState([]);
+  const [loadingList, setLoadingList] = useState(false);
 
   const getTestList = useCallback(async () => {
     const { rangeDate, ...rest } = filters;
@@ -32,7 +33,19 @@ export const withEvolutionContext = WrapperComponent => ({ children }) => {
               return t.id === thing.id;
             })
         );
-        setTestList(result);
+
+        const aux = result
+          .map(a => {
+            return { ...a.type, list: result.filter(b => b.type.id === a.type.id) };
+          })
+          .filter(
+            (thing, index, self) =>
+              index ===
+              self.findIndex(t => {
+                return t.id === thing.id;
+              })
+          );
+        setTestList(aux);
       }
     } catch (e) {
       RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-getTestList');
@@ -68,15 +81,28 @@ export const withEvolutionContext = WrapperComponent => ({ children }) => {
         setTreatmentList(result);
       }
     } catch (e) {
-      RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-getTestList');
+      RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-getTreatmentList');
     }
-  }, [RegisterMessage, filters]);
+  }, [filters, RegisterMessage]);
+
+  const retriveDateFormDB = useCallback(async () => {
+    if (filters.rangeDate && filters.rangeDate[0] && filters.rangeDate[1] && filters['user.id']) {
+      setLoadingList(true);
+      try {
+        await Promise.all([await getTreatmentList(), await getTestList()]);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-retriveDateFormDB');
+      } finally {
+        setLoadingList(false);
+      }
+    }
+  }, [filters, getTreatmentList, getTestList, RegisterMessage]);
 
   return (
     <EvolutionContext.Provider
       value={{
-        getTestList,
-        getTreatmentList,
+        retriveDateFormDB,
+        loadingList,
         testList,
         treatments,
         filters,
@@ -93,8 +119,8 @@ export const useEvolutionContext = () => {
   if (!values) throw new Error('this only works inside EvolutionContextProvider.');
 
   return {
-    getTestList: values.getTestList,
-    getTreatmentList: values.getTreatmentList,
+    retriveDateFormDB: values.retriveDateFormDB,
+    loadingList: values.loadingList,
     testList: values.testList,
     treatments: values.treatments,
     filters: values.filters,
