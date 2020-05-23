@@ -7,7 +7,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles(theme => ({
   popover: {
     pointerEvents: 'none',
-    maxWidth: 230,
+    width: 'auto',
     textAlign: 'justify'
   },
   paper: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PopoverComponent({ className, title }) {
+function PopoverComponent({ className, title, content }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -70,9 +70,7 @@ function PopoverComponent({ className, title }) {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography component="div" className={classes.title}>
-          {title}
-        </Typography>
+        {content}
       </Popover>
     </div>
   );

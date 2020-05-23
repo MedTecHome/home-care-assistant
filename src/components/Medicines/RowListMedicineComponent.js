@@ -31,7 +31,7 @@ function RowListMedicineComponent({ cells, row, selected, selectRow, onModalVisi
           <Fragment key={uuid()}>
             <TableCell align={cell.numeric || !row[cell.id] ? 'center' : 'inherit'} className={classes.largeCells}>
               {cell.id === 'name' ? (
-                <PopoverComponent className={classes.textCells} title={value} />
+                <PopoverComponent className={classes.textCells} title={value} content={value} />
               ) : (
                 <Typography>{value}</Typography>
               )}
