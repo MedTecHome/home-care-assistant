@@ -17,6 +17,7 @@ import { AddOrEditMedicineForm } from '../Medicines/forms/AddOrEditMedicineCompo
 import { EDIT_FORM_TEXT } from '../../commons/globalText';
 import { getPropValue } from '../../helpers/utils';
 import MedicineDetailItemListComponent from '../Medicines/MedicineDetailItemListComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -117,6 +118,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function MedicinesFieldComponent({ required, label, setMedicine, errors, defaultValue = [] }) {
+  const {
+    currentUserProfile: { hospital }
+  } = useAuthContext();
   const [medicines, setMedicines] = useState([]);
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
@@ -155,9 +159,9 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
   useEffect(() => {
     getMedicinesListAction({
       limit: 5,
-      filters: { ...(filterNameMemoize ? { name: filterNameMemoize } : {}) }
+      filters: { 'hospital.id': hospital.id, ...(filterNameMemoize ? { name: filterNameMemoize } : {}) }
     }).then(result => setMedicines(result));
-  }, [filterNameMemoize]);
+  }, [filterNameMemoize, hospital]);
 
   const handleClick = () => {
     setPendingValue(value);

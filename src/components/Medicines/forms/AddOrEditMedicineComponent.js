@@ -14,6 +14,7 @@ import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 import { getPropValue } from '../../../helpers/utils';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleCloseForm }) {
   return (
@@ -91,12 +92,13 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
 
 function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
+  const { currentUserProfile } = useAuthContext();
   const handleCloseForm = () => {
     setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
   const onSubmit = async values => {
-    await saveMedicineValues(values, formType);
+    await saveMedicineValues({ ...values, hospital: currentUserProfile.hospital }, formType);
     setModalVisible(false, null);
   };
 

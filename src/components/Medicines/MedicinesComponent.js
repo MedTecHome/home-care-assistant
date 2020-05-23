@@ -22,13 +22,13 @@ function MedicinesComponent() {
     formType,
     filters
   } = useMedicinesContext();
-  const { currentUserProfile } = useAuthContext();
+  const { isDoctor, currentUserProfile } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [medicineHeadCells[0]] : medicineHeadCells;
 
   const handleReloadList = useCallback(() => {
-    getMedicinesList({ filters });
-  }, [getMedicinesList, filters]);
+    getMedicinesList({ filters: { 'hospital.id': currentUserProfile.hospital.id, ...filters } });
+  }, [getMedicinesList, filters, currentUserProfile]);
 
   useEffect(() => {
     if (formType === null) handleReloadList();
@@ -51,7 +51,7 @@ function MedicinesComponent() {
         loadingList={loadingList}
         setModalVisible={setModalVisible}
         selected={selected}
-        addRole={currentUserProfile && currentUserProfile.role.id === 'doctor'}
+        addRole={isDoctor}
         render={(row, index) => (
           <RowListMedicineComponent
             key={uuid()}
