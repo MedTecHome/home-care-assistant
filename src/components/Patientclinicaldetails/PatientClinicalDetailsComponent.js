@@ -72,8 +72,8 @@ function PatientClinicalDetailsComponent() {
             indicatorColor="primary"
           >
             {isDoctor && <Tab label="Evolución" value="evolution" />}
-            {isDoctor && <Tab label="Tratamientos" value="treatments" />}
             <Tab label="Pruebas clínicas" value="clinictest" />
+            {isDoctor && <Tab label="Tratamientos" value="treatments" />}
           </Tabs>
         </Paper>
 
