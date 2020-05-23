@@ -17,7 +17,7 @@ function MonitoringComponent() {
       headMonitoringCells;
 
   useEffect(() => {
-    getListToMonitoring({ filters });
+    getListToMonitoring({ filters: { 'doctor.id': '', ...filters } });
   }, [getListToMonitoring, filters]);
 
   return (

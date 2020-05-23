@@ -1,11 +1,11 @@
 const headMonitoringCells = [
   {
-    id: 'fullname',
+    id: 'user.fullname',
     numeric: false,
     label: 'Nombre y  Apellidos'
   },
   {
-    id: 'age',
+    id: 'user.age',
     numeric: true,
     label: 'Edad'
   },
@@ -42,7 +42,7 @@ const headMonitoringCells = [
   {
     id: 'exercises.steps',
     numeric: true,
-    label: 'Pasos'
+    label: 'Actividad'
   },
   {
     id: 'inr.INR',

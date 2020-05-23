@@ -13,6 +13,7 @@ const PatientHealthForm = lazy(() => import('../components/MedicalForms/PatientM
 const PatientClinicalDetailsComponent = lazy(() =>
   import('../components/Patientclinicaldetails/PatientClinicalDetailsComponent')
 );
+const TreatmentsComponentWithContext = lazy(() => import('../components/Treatments/TreatmentsComponentWithContext'));
 const MedicinesComponent = lazy(() => import('../components/Medicines/MedicinesComponent'));
 
 const RouteListConfig = [
@@ -77,15 +78,22 @@ const RouteListConfig = [
   {
     path: '/prueba/medica',
     component: PatientHealthForm,
-    label: 'Pruebas',
+    label: 'Entrada de parámetros',
     roles: ['patient'],
     navegation: true
   },
   {
-    path: '/detallesclinicos',
+    path: '/historial',
     component: PatientClinicalDetailsComponent,
     label: 'Detalles clínicos',
     roles: ['patient', 'doctor'],
+    navegation: ['patient']
+  },
+  {
+    path: '/tratamientos',
+    component: TreatmentsComponentWithContext,
+    label: 'Tratamientos',
+    roles: ['patient'],
     navegation: ['patient']
   },
   {

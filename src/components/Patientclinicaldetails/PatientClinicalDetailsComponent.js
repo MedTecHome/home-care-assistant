@@ -14,9 +14,9 @@ import EvolutionComponent from './EvolutionComponent';
 import { withEvolutionContext, useEvolutionContext } from './EvolutionContext';
 
 function PatientClinicalDetailsComponent() {
-  const [tab, setTab] = useState('treatments');
   const { state } = useLocation();
   const { currentUserProfile, isDoctor } = useAuthContext();
+  const [tab, setTab] = useState(isDoctor ? 'treatments' : 'clinictest');
 
   const [patient, setPatient] = useState(null);
   const { setFilters: setFiltersTreatments } = useTreatmentsContext();
@@ -66,9 +66,9 @@ function PatientClinicalDetailsComponent() {
             textColor="primary"
             indicatorColor="primary"
           >
-            <Tab label="Tratamientos" value="treatments" />
-            <Tab label="Pruebas clínicas" value="clinictest" />
             {isDoctor && <Tab label="Evolución" value="evolution" />}
+            {isDoctor && <Tab label="Tratamientos" value="treatments" />}
+            <Tab label="Pruebas clínicas" value="clinictest" />
           </Tabs>
         </Paper>
 

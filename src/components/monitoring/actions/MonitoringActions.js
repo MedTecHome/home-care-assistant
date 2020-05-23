@@ -12,6 +12,7 @@ import {
 
 const getMonitoringListAction = async ({ filters }) => {
   const profiles = await getProfilesAction({ filters: { 'role.id': 'patient', ...filters } });
+
   const resultList = profiles.map(async profile => {
     const promiseList = await Promise.all([
       getBloodPressureAction({ limit: 1, 'user.id': profile.id }),
@@ -24,7 +25,7 @@ const getMonitoringListAction = async ({ filters }) => {
       getExercisesAction({ limit: 1, 'user.id': profile.id })
     ]);
 
-    let result = profile;
+    let result = { user: profile };
     const aux = promiseList
       .reduce((previousValue, currentValue) => {
         return [...previousValue, ...currentValue];
