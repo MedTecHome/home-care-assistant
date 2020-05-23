@@ -85,9 +85,15 @@ const RouteListConfig = [
   {
     path: '/historial',
     component: PatientClinicalDetailsComponent,
-    label: 'Detalles clínicos',
+    label: 'Historial',
     roles: ['patient', 'doctor'],
     navegation: ['patient']
+  },
+  {
+    path: '/detallesclinicos',
+    component: PatientClinicalDetailsComponent,
+    label: 'Detalles clínicos',
+    roles: ['doctor']
   },
   {
     path: '/tratamientos',
