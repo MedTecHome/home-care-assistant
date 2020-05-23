@@ -11,6 +11,49 @@ import useCustomStyles from '../../../jss/globalStyles';
 import { getPropValue } from '../../../helpers/utils';
 import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
+export function DetailsContentMedicineComponent({ data, classes }) {
+  return (
+    <Grid item xs={12} className={classes.contentDetail}>
+      <Typography component="div">
+        <strong>{`Nombre: `}</strong>
+        {getPropValue(data, 'name') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong>{`Cantidad Concentración: `}</strong>
+        {getPropValue(data, 'oncentrationCant') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong>{`Tipo Concentración: `}</strong>
+        {getPropValue(data, 'concentrationType.name') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong>{`Dosis: `}</strong>
+        {getPropValue(data, 'dose') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong>{`Tipo dosis: `}</strong>
+        {getPropValue(data, 'doseType.name') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong> {`Via Administración: `}</strong>
+        {getPropValue(data, 'administrationType.name') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong> {`Motivo Administración: `}</strong>
+        {getPropValue(data, 'administrationReason') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong>{`Frecuencia: `}</strong>
+        {getPropValue(data, 'frequency') || '?'}
+      </Typography>
+      <Typography component="div">
+        <strong> {`Observaciones: `}</strong>
+        {getPropValue(data, 'observations') || '?'}
+      </Typography>
+    </Grid>
+  );
+}
+
 function DetailsMedicineComponent() {
   const { selected, setModalVisible } = useMedicinesContext();
   const classes = useCustomStyles();
@@ -26,44 +69,7 @@ function DetailsMedicineComponent() {
           <Grid item xs={12} sm={6} md={6} lg={6} xl={6} container justify="center" alignItems="center">
             <Image src="#" aspectRatio={4 / 3} />
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} className={classes.textDetailStyle}>
-            <Typography>
-              {`Nombre: `}
-              <strong>{getPropValue(selected, 'name') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Cantidad Concentración: `}
-              <strong>{getPropValue(selected, 'oncentrationCant') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Tipo Concentración: `}
-              <strong>{getPropValue(selected, 'concentrationType.name') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Dosis: `}
-              <strong>{getPropValue(selected, 'dose') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Tipo dosis: `}
-              <strong>{getPropValue(selected, 'doseType.name') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Via Administración: `}
-              <strong>{getPropValue(selected, 'administrationType.name') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Motivo Administración: `}
-              <strong>{getPropValue(selected, 'administrationReason') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Frecuencia: `}
-              <strong>{getPropValue(selected, 'frequency') || '?'}</strong>
-            </Typography>
-            <Typography>
-              {`Observaciones: `}
-              <strong>{getPropValue(selected, 'observations') || '?'}</strong>
-            </Typography>
-          </Grid>
+          <DetailsContentMedicineComponent classes={classes} data={selected} />
         </Grid>
       </DialogContent>
       <DialogActions>

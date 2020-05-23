@@ -18,12 +18,14 @@ import FiltersEvolutionComponent from './FiltersEvolutionComponent';
 import { useEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
 import PopupTestTypeComponent from './PopupTestTypeComponet';
+import PopupMedicineDetailComponent from './PopupMedicineDetailComponent';
 
 const useStyles = makeStyles({
   divRoot: {
     marginBottom: 40
   },
   tableRoot: {
+    border: '1px solid #ccc',
     '& th, td': {
       border: '1px solid #ccc'
     }
@@ -188,9 +190,11 @@ function EvolutionComponent({ setTab }) {
                           moment.unix(treatment.endDate).format('YYYY-MM-DD'),
                           undefined,
                           '[]'
-                        )
-                          ? treatment.frequency || '-'
-                          : ''}
+                        ) ? (
+                          <PopupMedicineDetailComponent data={treatment} />
+                        ) : (
+                          ''
+                        )}
                       </TableCell>
                     ))}
                   </TableRow>

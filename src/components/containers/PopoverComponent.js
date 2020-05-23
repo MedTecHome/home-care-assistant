@@ -7,7 +7,8 @@ import clsx from 'clsx';
 const useStyles = makeStyles(theme => ({
   popover: {
     pointerEvents: 'none',
-    width: 'auto',
+    width: '100%',
+    maxWidth: 400,
     textAlign: 'justify'
   },
   paper: {
@@ -43,6 +44,7 @@ function PopoverComponent({ className, title, content }) {
   return (
     <div>
       <Typography
+        componen="div"
         className={clsx(className, classes.content)}
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
