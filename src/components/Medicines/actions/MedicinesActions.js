@@ -1,27 +1,26 @@
 import { dbRef } from '../../../firebaseConfig';
+import { apiData } from '../../../axiosApiRequest';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { getNomById } from '../../../nomenc/NomencAction';
-import { isEmpty } from '../../../helpers/utils';
+import { getNomenclatorByIdActions } from '../../../Nomenclators/NomenclatorsAction';
+import { isEmpty, queryFromParams } from '../../../helpers/utils';
 
 const MedicinesRef = dbRef('medicine').collection('medicines');
 
 export const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
-  ...(concentrationType ? { concentrationType: await getNomById('concentrations')(concentrationType) } : {}),
-  ...(doseType ? { doseType: await getNomById('dosis')(doseType) } : {}),
-  ...(administrationType ? { administrationType: await getNomById('administrationroute')(administrationType) } : {})
+  ...(concentrationType
+    ? { concentrationType: await getNomenclatorByIdActions('concentrations', concentrationType) }
+    : {}),
+  ...(doseType ? { doseType: await getNomenclatorByIdActions('dosis', doseType) } : {}),
+  ...(administrationType
+    ? { administrationType: await getNomenclatorByIdActions('administrationroute', administrationType) }
+    : {})
 });
 
-export const getMedicinesListAction = async ({ filters }) => {
-  let ref = MedicinesRef;
-  Object.keys(filters).map(k => {
-    if (k === 'name') {
-      ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
-    } else {
-      ref = ref.where(k, '==', filters[k]);
-    }
-    return null;
-  });
-  return (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+export const getMedicinesListAction = async ({ limit, offset, filters }) => {
+  const params = { limit, offset, ...filters };
+  const query = queryFromParams(params);
+  const response = await apiData(`/getMedicines${query && `?${query}`}`);
+  return response.data;
 };
 
 export const getMedicineByIdAction = async (id, fields = []) => {

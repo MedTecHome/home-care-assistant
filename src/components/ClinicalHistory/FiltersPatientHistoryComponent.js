@@ -10,7 +10,7 @@ import { DesktopDatePicker, LocalizationProvider } from '@material-ui/pickers';
 import MomentAdapter from '@material-ui/pickers/adapter/moment';
 import TextField from '@material-ui/core/TextField';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { getNomList } from '../../nomenc/NomencAction';
+import { getNomenclatorListActions } from '../../Nomenclators/NomenclatorsAction';
 
 const useStyles = makeStyles({
   formControl: {
@@ -30,8 +30,8 @@ function FiltersPatientHistoryComponent() {
 
   useEffect(() => {
     async function loadList() {
-      const result = await getNomList('medicalforms')();
-      setOptions(result);
+      const result = await getNomenclatorListActions('medicalforms');
+      setOptions(result.data);
     }
     loadList();
   }, []);

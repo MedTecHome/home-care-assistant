@@ -4,7 +4,7 @@ import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../Hospital/actions/HospitalActions';
-import { getNomById } from '../../../nomenc/NomencAction';
+import { getNomenclatorByIdActions } from '../../../Nomenclators/NomenclatorsAction';
 import { isEmpty, queryFromParams } from '../../../helpers/utils';
 
 const profilesRef = dbRef('profile').collection('profiles');
@@ -52,7 +52,7 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex, sname = '',
   ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
   ...(role ? { role: await getRoleByIdAction(role) } : {}),
   ...(hospital ? { hospital: await getHospitalByIdAction(hospital, ['name']) } : {}),
-  ...(sex ? { sex: await getNomById('sex')(sex) } : {})
+  ...(sex ? { sex: await getNomenclatorByIdActions('sex', sex) } : {})
 });
 
 const addValuesAction = async ({ id, email, password, username, ...values }) => {

@@ -23,6 +23,7 @@ function PaginationComponent({ total }) {
       onChangePage={handleChangePage}
       rowsPerPage={pageSize}
       onChangeRowsPerPage={handleChangeRowsPerPage}
+      rowsPerPageOptions={[2, 5, 10, 25, 50, 100]}
     />
   );
 }

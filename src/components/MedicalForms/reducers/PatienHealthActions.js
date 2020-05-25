@@ -9,8 +9,8 @@ import {
   tempratureModel,
   weightModel
 } from './models';
-import { getNomById } from '../../../nomenc/NomencAction';
-import { getListOfData } from '../../../commons/reducers/GlobalActions';
+import { getNomenclatorByIdActions } from '../../../Nomenclators/NomenclatorsAction';
+import { getListOfData } from '../../../commons/actions/GlobalActions';
 
 const PressureRef = dbRef('health').collection('pressure');
 const TemperatureRef = dbRef('health').collection('temperature');
@@ -51,48 +51,48 @@ export const saveHealthDataAction = async ({ forms, ...values }) => {
 };
 
 export const getBloodPressureAction = async params => {
-  const type = await getNomById('medicalforms')('pressure');
+  const type = await getNomenclatorByIdActions('medicalforms', 'pressure');
   const data = await getListOfData(PressureRef, params);
   return data.map(el => ({ ...el, type }));
 };
 
 export const getTemperatureAction = async params => {
-  const type = await getNomById('medicalforms')('temperature');
+  const type = await getNomenclatorByIdActions('medicalforms', 'temperature');
   const data = await getListOfData(TemperatureRef, params);
   return data.map(el => ({ ...el, type }));
 };
 
 export const getWeightAction = async params => {
-  const type = await getNomById('medicalforms')('weight');
+  const type = await getNomenclatorByIdActions('medicalforms', 'weight');
   const data = await getListOfData(WeightRef, params);
   return data.map(el => ({ ...el, type }));
 };
 
 export const getGlucoseAction = async params => {
-  const type = await getNomById('medicalforms')('glucose');
+  const type = await getNomenclatorByIdActions('medicalforms', 'glucose');
   const data = await getListOfData(GlucoseRef, params);
   return data.map(el => ({ ...el, type }));
 };
 
 export const getBreathingAction = async params => {
-  const type = await getNomById('medicalforms')('breathing');
+  const type = await getNomenclatorByIdActions('medicalforms', 'breathing');
   const data = await getListOfData(BreathingRef, params);
   return data.map(el => ({ ...el, type }));
 };
 export const getINRAction = async params => {
-  const type = await getNomById('medicalforms')('inr');
+  const type = await getNomenclatorByIdActions('medicalforms', 'inr');
   const data = await getListOfData(INRRef, params);
   return data.map(el => ({ ...el, type }));
 };
 
 export const getOxygenAction = async params => {
-  const type = await getNomById('medicalforms')('oxygen');
+  const type = await getNomenclatorByIdActions('medicalforms', 'oxygen');
   const data = await getListOfData(OxygenRef, params);
   return data.map(el => ({ ...el, type }));
 };
 
 export const getExercisesAction = async params => {
-  const type = await getNomById('medicalforms')('exercises');
+  const type = await getNomenclatorByIdActions('medicalforms', 'exercises');
   const data = await getListOfData(ExericesRef, params);
   return data.map(el => ({ ...el, type }));
 };

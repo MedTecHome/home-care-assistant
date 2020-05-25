@@ -1,5 +1,5 @@
 import { formatDateWithTime } from '../../../helpers/utils';
-import { getNomById } from '../../../nomenc/NomencAction';
+import { getNomenclatorByIdActions } from '../../../Nomenclators/NomenclatorsAction';
 
 export const pressureModel = ({
   user,
@@ -48,7 +48,7 @@ export const glucoseModel = async ({
 }) => ({
   user,
   sugarConcentration,
-  shedule: await getNomById('shedules')(shedule),
+  shedule: await getNomenclatorByIdActions('shedules', shedule),
   intakeTime,
   glucoseUnity,
   clinicalDate: formatDateWithTime(glucoseDate, glucoseTime),

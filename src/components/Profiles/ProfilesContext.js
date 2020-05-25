@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
 
-import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
+import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
-import setModalVisibleAction from '../../commons/reducers/GlobalActions';
+import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 

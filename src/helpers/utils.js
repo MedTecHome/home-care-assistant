@@ -75,6 +75,6 @@ export const queryFromParams = params => {
         }
         return `${k}=${params[k]}`;
       })
-      .join('&') || undefined
+      .join('&') || ''
   );
 };

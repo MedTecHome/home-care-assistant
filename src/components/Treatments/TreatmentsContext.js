@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
-import setModalVisibleAction from '../../commons/reducers/GlobalActions';
+import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
+import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { getListTreatmentsAction, saveValuesAction } from './reducers/TreatmentActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';

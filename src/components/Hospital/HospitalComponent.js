@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import uuid from 'uuid4';
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery, Typography } from '@material-ui/core';
 import { useHospitalContext, withHospitalContext } from './HospitalContext';
 import HospitalForms from './forms/HospitalForms';
 import ModalComponent from '../ModalComponent';
@@ -9,7 +9,7 @@ import hospitalHeadCells from './hospitalHeadCells';
 import RowTableHospitalComponent from './RowTableHospitalComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
-import PaginationComponent from '../pagination/PaginationComponet';
+import PaginationComponent from '../pagination/PaginationComponent';
 import FiltersHospitalComponent from './FilterHospitalComponent';
 
 function HospitalComponent() {
@@ -52,6 +52,11 @@ function HospitalComponent() {
         <HospitalForms formType={formType} onFormClose={handleFormClose} />
       </ModalComponent>
       <TableComponent
+        extraText={
+          <Typography>
+            <strong>Total: </strong>({total})
+          </Typography>
+        }
         filters={<FiltersHospitalComponent />}
         addRole={currentUserProfile && currentUserProfile.role.id === 'admin'}
         title="Lista de hospitales"
