@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import useDebounceCustom from '../../commons/useDebounceCustom';
-import { getProfilesAction } from '../Profiles/reducers/ProfileActions';
+import { getPatientsAction } from '../Profiles/reducers/ProfileActions';
 
 function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
   const [profiles, setProfiles] = useState([]);
@@ -14,13 +14,13 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getProfilesAction({
+    getPatientsAction({
       filters: {
         'role.id': filterRole,
         'doctor.id': doctor,
         ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
       }
-    }).then(res => setProfiles(res));
+    }).then(res => setProfiles(res.data));
   }, [filterRole, filterNameMemoize, doctor]);
 
   const handleInputChange = event => {
