@@ -1,6 +1,6 @@
 import { Autocomplete } from 'mui-rff';
 import React, { useEffect, useMemo, useState } from 'react';
-import { getProfilesAction } from '../Profiles/reducers/ProfileActions';
+import { getPatientsAction, fetchProfilesAction } from '../Profiles/reducers/ProfileActions';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 
 function ProfileFieldComponent({
@@ -20,9 +20,9 @@ function ProfileFieldComponent({
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getProfilesAction({
+    fetchProfilesAction({
       filters: { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }
-    }).then(res => setProfiles(res));
+    }).then(res => setProfiles(res.data));
   }, [filterRole, filterNameMemoize]);
 
   const handleInputChange = event => {

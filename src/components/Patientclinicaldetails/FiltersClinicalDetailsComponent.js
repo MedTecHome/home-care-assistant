@@ -52,7 +52,7 @@ function FiltersClinicalDetails({ patient, setPatient, doctor }) {
     <List>
       <ListItem>
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6} md={4}>
             <ProfileSearchComponent
               value={patient}
               onSelect={setPatient}

@@ -1,35 +1,17 @@
 import moment from 'moment';
 import { dbRef } from '../../../firebaseConfig';
+import { apiData } from '../../../axiosApiRequest';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import mutateTreatmentValues from './mutations';
-import { isEmpty } from '../../../helpers/utils';
+import { isEmpty, queryFromParams } from '../../../helpers/utils';
 
 const TreatmentRef = dbRef('treatment').collection('treatments');
 
-export const getListTreatmentsAction = async ({ limit = 2, next, prev, filters }) => {
-  let ref = TreatmentRef;
-  if (next) {
-    ref = ref.orderBy('startDate').startAfter(next.startDate.toDate());
-  } else if (prev) {
-    ref = ref.orderBy('startDate').endBefore(prev.startDate.toDate());
-  }
-  if (filters) {
-    Object.keys(filters).map(k => {
-      if (k === 'name') {
-        ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
-      } else if (k === 'startDate' || k === 'endDate') {
-        const start = moment(filters[k][0]).isValid() ? moment(filters[k][0]).unix() : 0;
-        const end = moment(filters[k][1]).isValid() ? moment(filters[k][1]).unix() : 0;
-        ref = ref.where(k, '>=', start).where(k, '<=', end);
-      } else {
-        ref = ref.where(k, '==', filters[k]);
-      }
-      return null;
-    });
-  }
-  if (prev) ref = ref.limitToLast(limit);
-  else ref = ref.limit(limit);
-  return (await ref.get()).docChanges().map(({ doc }) => ({ id: doc.id, ...doc.data() }));
+export const getListTreatmentsAction = async ({ limit, offset, filters }) => {
+  const params = { limit, offset, ...filters };
+  const query = queryFromParams(params);
+  const response = await apiData.get(`/getTreatments${query && `?${query}`}`);
+  return response.data;
 };
 
 export const findByIdAction = async (id, fields = []) => {

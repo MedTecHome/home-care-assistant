@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import uuid from 'uuid4';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ListItem from '@material-ui/core/ListItem';
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery, Typography } from '@material-ui/core';
 import { useTreatmentsContext } from './TreatmentsContext';
 import TableComponent from '../table/TableComponent';
 import treatmentsHeadCells from './treatmentsHeadCells';
@@ -12,30 +8,30 @@ import ModalComponent from '../ModalComponent';
 import TreatmentsFormComponent from './forms/TreatmentsFormComponent';
 import RowListTreatmentsComponent from './RowListTreatmentsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
-import useCustomStyles from '../../jss/globalStyles';
+import { useCustomPaginationContext, withCustomPaginationContext } from '../pagination/PaginationContext';
+import PaginationComponent from '../pagination/PaginationComponent';
 
 function TreatmentsComponent() {
+  const { pageSize, offset } = useCustomPaginationContext();
   const {
     listTreatments,
+    total,
     modalVisible,
     getListOfTreatments,
     loadingList,
     selected,
     setModalVisible,
     formType,
-    selectFromList,
-    filters
+    selectFromList
   } = useTreatmentsContext();
   const { isDoctor } = useAuthContext();
   const [open, setOpen] = useState(null);
-  const [page, setPage] = useState({});
-  const classes = useCustomStyles();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [treatmentsHeadCells[0]] : treatmentsHeadCells;
 
   const handleLoadList = useCallback(() => {
-    getListOfTreatments({ filters, ...page });
-  }, [getListOfTreatments, filters, page]);
+    getListOfTreatments({ limit: pageSize, offset });
+  }, [getListOfTreatments, pageSize, offset]);
 
   useEffect(() => {
     if (formType === null) handleLoadList();
@@ -51,6 +47,11 @@ function TreatmentsComponent() {
         <TreatmentsFormComponent formType={formType} />
       </ModalComponent>
       <TableComponent
+        extraText={
+          <Typography>
+            <strong>Total: </strong>({total})
+          </Typography>
+        }
         addRole={isDoctor}
         disableElevation
         headCells={cells}
@@ -74,22 +75,9 @@ function TreatmentsComponent() {
           />
         )}
       />
-      <ListItem className={classes.footerList}>
-        <div className={classes.pagination}>
-          {!loadingList && (
-            <>
-              <IconButton onClick={() => setPage({ prev: listTreatments[0] })}>
-                <ArrowBackIosIcon fontSize="small" />
-              </IconButton>
-              <IconButton onClick={() => setPage({ next: listTreatments[listTreatments.length - 1] })}>
-                <ArrowForwardIosIcon fontSize="small" />
-              </IconButton>
-            </>
-          )}
-        </div>
-      </ListItem>
+      <PaginationComponent total={total} />
     </>
   );
 }
 
-export default TreatmentsComponent;
+export default withCustomPaginationContext(TreatmentsComponent);
