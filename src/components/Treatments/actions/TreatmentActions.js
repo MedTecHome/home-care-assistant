@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { dbRef } from '../../../firebaseConfig';
 import { apiData } from '../../../axiosApiRequest';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
