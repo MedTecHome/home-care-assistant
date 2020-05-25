@@ -36,7 +36,8 @@ export function AuthContextProvider({ children }) {
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
           hospital: {
-            id: 'q3fi3hFCIF8gLOPl3I7o'
+            id: 'q3fi3hFCIF8gLOPl3I7o',
+            name: 'Hopistal 1 abla bla'
           },
           role: {
             // id: 'admin'

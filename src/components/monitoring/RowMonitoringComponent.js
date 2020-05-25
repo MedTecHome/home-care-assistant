@@ -5,6 +5,7 @@ import { TableRow, TableCell, Typography } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { getPropValue } from '../../helpers/utils';
 import healthyStandards from '../../helpers/healthyStandards';
+import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 
 function RowMonitoringComponent({ cells = [], row, selected, selectRow }) {
   const handleRowSelect = id => {
@@ -61,7 +62,11 @@ function RowMonitoringComponent({ cells = [], row, selected, selectRow }) {
           </TableCell>
         );
       })}
-      <TableCell key={uuid()} />
+      <TableCell key={uuid()} align="center">
+        <NavLink to={{ pathname: '/detallesclinicos', state: { profile: row.user } }}>
+          <MedicalDetailButtonIcon />
+        </NavLink>
+      </TableCell>
     </TableRow>
   );
 }
