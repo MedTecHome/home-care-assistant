@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
-import { getHospitalByIdAction } from './Hospital/reducers/HospitalActions';
+import { getHospitalByIdAction } from './Hospital/actions/HospitalActions';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import DetailTextComponent from './DetailTextComponent';
 

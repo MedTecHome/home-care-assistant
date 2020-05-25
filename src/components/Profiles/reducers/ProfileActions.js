@@ -3,7 +3,7 @@ import { apiData } from '../../../axiosApiRequest';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
-import { getHospitalByIdAction } from '../../Hospital/reducers/HospitalActions';
+import { getHospitalByIdAction } from '../../Hospital/actions/HospitalActions';
 import { getNomById } from '../../../nomenc/NomencAction';
 import { isEmpty, queryFromParams } from '../../../helpers/utils';
 
