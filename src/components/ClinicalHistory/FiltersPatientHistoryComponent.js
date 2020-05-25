@@ -44,7 +44,7 @@ function FiltersPatientHistoryComponent() {
     setDateValue(value);
     setFilters({
       ...filters,
-      ...(value ? { clinicalDate: value.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate() } : {})
+      ...(value ? { clinicalDate: value.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).unix() } : {})
     });
   };
 
@@ -52,7 +52,7 @@ function FiltersPatientHistoryComponent() {
     <List>
       <ListItem divider>
         <Grid container spacing={2} justify="flex-start" className={classes.containerFilters}>
-          <Grid item xs={12} sm={6} md={3} container alignContent="flex-end">
+          <Grid item xs={12} sm={4} md={6} container alignContent="flex-end">
             <Select
               className={classes.formControl}
               value={(filters && filters.type) || ''}
@@ -66,7 +66,7 @@ function FiltersPatientHistoryComponent() {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={4} md={6}>
             <LocalizationProvider dateAdapter={MomentAdapter}>
               <DesktopDatePicker
                 className={classes.formControl}
