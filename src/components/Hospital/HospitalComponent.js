@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import uuid from 'uuid4';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ListItem from '@material-ui/core/ListItem';
 import { useMediaQuery } from '@material-ui/core';
 import { useHospitalContext, withHospitalContext } from './HospitalContext';
 import HospitalForms from './forms/HospitalForms';
@@ -11,14 +7,18 @@ import ModalComponent from '../ModalComponent';
 import TableComponent from '../table/TableComponent';
 import hospitalHeadCells from './hospitalHeadCells';
 import RowTableHospitalComponent from './RowTableHospitalComponent';
-import useCustomStyles from '../../jss/globalStyles';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import PaginationComponent from '../pagination/PaginationComponet';
+import FiltersHospitalComponent from './FilterHospitalComponent';
 
 function HospitalComponent() {
+  const { offset, pageSize } = useCustomPaginationContext();
   const {
     selected,
     loadingList,
     hospitalsList,
+    total,
     modalVisible,
     setModalVisible,
     formType,
@@ -29,12 +29,9 @@ function HospitalComponent() {
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [hospitalHeadCells[0]] : hospitalHeadCells;
 
-  const [page, setPage] = React.useState({});
-  const classes = useCustomStyles();
-
   const handleReloadList = useCallback(() => {
-    getListHospitals(page);
-  }, [getListHospitals, page]);
+    getListHospitals({ limit: pageSize, offset });
+  }, [getListHospitals, offset, pageSize]);
 
   useEffect(() => {
     if (formType === null) handleReloadList();
@@ -55,7 +52,7 @@ function HospitalComponent() {
         <HospitalForms formType={formType} onFormClose={handleFormClose} />
       </ModalComponent>
       <TableComponent
-        filters={<></>}
+        filters={<FiltersHospitalComponent />}
         addRole={currentUserProfile && currentUserProfile.role.id === 'admin'}
         title="Lista de hospitales"
         selected={selected}
@@ -75,22 +72,9 @@ function HospitalComponent() {
           />
         )}
       />
-      <ListItem className={classes.footerList}>
-        <div className={classes.pagination}>
-          {!loadingList && (
-            <>
-              <IconButton onClick={() => setPage({ prev: hospitalsList[0] })}>
-                <ArrowBackIosIcon fontSize="small" />
-              </IconButton>
-              <IconButton onClick={() => setPage({ next: hospitalsList[hospitalsList.length - 1] })}>
-                <ArrowForwardIosIcon fontSize="small" />
-              </IconButton>
-            </>
-          )}
-        </div>
-      </ListItem>
+      <PaginationComponent total={total} />
     </>
   );
 }
 
-export default withHospitalContext(HospitalComponent);
+export default withHospitalContext(withCustomPaginationContext(HospitalComponent));

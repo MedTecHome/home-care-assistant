@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { fetchHospitalsAction, saveHospitalValuesAction } from './reducers/HospitalActions';
+import { fetchHospitalsAction, saveHospitalValuesAction } from './actions/HospitalActions';
 import setModalVisibleAction from '../../commons/reducers/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
@@ -10,6 +10,7 @@ const HospitalContext = createContext({});
 const HospitalContextProvider = ({ children }) => {
   const { RegisterMessage } = useMessageContext();
   const [hospitals, setHospitals] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
   const [slected, setSelected] = useState(null);
   const [filters, setFilters] = useState({});
@@ -22,13 +23,17 @@ const HospitalContextProvider = ({ children }) => {
   const getListHospitals = useCallback(
     async params => {
       setLoadingList(true);
-      const result = await fetchHospitalsAction(params).catch(e =>
-        RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext')
-      );
-      setHospitals(result);
-      setLoadingList(false);
+      try {
+        const result = await fetchHospitalsAction({ filters, ...params });
+        setHospitals(result.data);
+        setTotal(result.total);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext');
+      } finally {
+        setLoadingList(false);
+      }
     },
-    [RegisterMessage]
+    [filters, RegisterMessage]
   );
 
   const selectHospital = useCallback(
@@ -62,7 +67,9 @@ const HospitalContextProvider = ({ children }) => {
         selectHospital,
         saveHospitalValues,
         setModalVisible,
-        setFilters
+        setFilters,
+        total,
+        setTotal
       }}
     >
       {children}
@@ -84,7 +91,9 @@ export const useHospitalContext = () => {
     selectHospital: values.selectHospital,
     saveHospitalValues: values.saveHospitalValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters
+    setFilters: values.setFilters,
+    total: values.total,
+    setTotal: values.setTotal
   };
 };
 

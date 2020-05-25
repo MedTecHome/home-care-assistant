@@ -16,7 +16,7 @@ function PaginationComponent({ total }) {
 
   return (
     <TablePagination
-      labelRowsPerPage="Pacientes por página"
+      labelRowsPerPage="Elementos por página"
       component="div"
       count={total}
       page={page}
