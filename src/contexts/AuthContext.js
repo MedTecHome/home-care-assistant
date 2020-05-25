@@ -26,8 +26,8 @@ export function AuthContextProvider({ children }) {
           setCurrentUserProfile({ id: profile.id, ...profile.data() });
         }
       } else {
-        // setCurrentUserProfile(null);
-        setCurrentUserProfile({
+        setCurrentUserProfile(null);
+        /* setCurrentUserProfile({
           // id: 'I1vSS10EraPTIeCXKMjzVUGzkky2', // admin id
           // id: '0jiMdIL37AYxMlvCKsmaOBWpcYi2', // clinic id
           id: 'YNugQQvF5fhcFfXAN4UbQkYcakV2', // doctor id
@@ -45,7 +45,7 @@ export function AuthContextProvider({ children }) {
             id: 'doctor'
             //  id: 'patient'
           }
-        });
+        }); */
       }
     });
 
