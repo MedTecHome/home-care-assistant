@@ -155,9 +155,14 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
+
       <Typography component="div">
         <strong>Fecha: </strong>
-        {selected && moment.unix(selected.clinicalDate).format('DD/MM/YYYY hh:mma')}
+        {selected && moment.unix(selected.clinicalDate).format('DD/MM/YYYY')}
+      </Typography>
+      <Typography component="div">
+        <strong>Hora: </strong>
+        {selected && moment.unix(selected.clinicalDate).format('hh:mma')}
       </Typography>
       <Typography component="div">
         <strong>Nota: </strong>

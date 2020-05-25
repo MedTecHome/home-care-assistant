@@ -5,7 +5,7 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../Hospital/reducers/HospitalActions';
 import { getNomById } from '../../../nomenc/NomencAction';
-import { isEmpty } from '../../../helpers/utils';
+import { isEmpty, queryFromParams } from '../../../helpers/utils';
 
 const profilesRef = dbRef('profile').collection('profiles');
 
@@ -13,6 +13,13 @@ export const getProfileByIdAction = async (id, fields = []) => {
   const ref = await profilesRef.doc(id).get();
   const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
+};
+
+export const getPatientsAction = async ({ limit = 0, offset = 0, filters }) => {
+  const params = { limit, offset, ...filters };
+  const query = queryFromParams(params);
+  const response = await apiData.get(`/getPatients${query && `?${query}`}`);
+  return response.data;
 };
 
 export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => {

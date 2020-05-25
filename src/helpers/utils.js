@@ -63,3 +63,17 @@ export const enumerateDaysBetweenDates = (startDate, endDate) => {
   }
   return dates;
 };
+
+export const queryFromParams = params => {
+  return (
+    Object.keys(params)
+      .map(k => {
+        const type = Object.prototype.toString.call(params[k]);
+        if (type === '[object Array]') {
+          return params[k].map((f, index) => `${k}[${index}]=${f}`).join('&');
+        }
+        return `${k}=${params[k]}`;
+      })
+      .join('&') || undefined
+  );
+};
