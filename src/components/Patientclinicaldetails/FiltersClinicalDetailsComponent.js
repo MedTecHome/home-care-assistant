@@ -16,7 +16,6 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
   useEffect(() => {
     getPatientsAction({
       filters: {
-        'role.id': filterRole,
         'doctor.id': doctor,
         ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
       }
