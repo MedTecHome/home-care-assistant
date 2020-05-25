@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { getProfileByIdAction } from '../../Profiles/reducers/ProfileActions';
-import { mutateNomenc } from '../../Medicines/reducers/MedicinesActions';
+import { mutateNomenc } from '../../Medicines/actions/MedicinesActions';
 
 const parseStringJsonMedicines = async string => {
   const medicines = JSON.parse(string);

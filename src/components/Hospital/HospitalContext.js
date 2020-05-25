@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
 import { fetchHospitalsAction, saveHospitalValuesAction } from './actions/HospitalActions';
-import setModalVisibleAction from '../../commons/reducers/GlobalActions';
-import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
+import setModalVisibleAction from '../../commons/actions/GlobalActions';
+import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 

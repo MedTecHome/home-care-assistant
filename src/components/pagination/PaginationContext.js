@@ -8,9 +8,7 @@ export const withCustomPaginationContext = WrapperComponent => props => {
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    return () => {
-      setOffset(page * pageSize);
-    };
+    setOffset(page * pageSize);
   }, [page, pageSize]);
 
   return (

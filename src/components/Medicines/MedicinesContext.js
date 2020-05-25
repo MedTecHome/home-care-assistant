@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { GlobalReducer, initialGlobalState } from '../../commons/reducers/GlobalReducers';
-import setModalVisibleAction from '../../commons/reducers/GlobalActions';
-import { getMedicinesListAction, saveMedicineValuesActions } from './reducers/MedicinesActions';
+import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
+import setModalVisibleAction from '../../commons/actions/GlobalActions';
+import { getMedicinesListAction, saveMedicineValuesActions } from './actions/MedicinesActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 
@@ -10,6 +10,7 @@ const MedicinesContext = createContext({});
 export const withMedicinesContext = WrapperComponent => props => {
   const { RegisterMessage } = useMessageContext();
   const [medicList, setMedicinesList] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loadList, setLoadingList] = useState(false);
   const [seletd, setSelected] = useState(null);
   const [filters, setFilters] = useState({});
@@ -23,14 +24,16 @@ export const withMedicinesContext = WrapperComponent => props => {
     async params => {
       setLoadingList(true);
       try {
-        const result = await getMedicinesListAction(params);
-        setMedicinesList(result);
+        const result = await getMedicinesListAction({ ...params, filters });
+        setMedicinesList(result.data);
+        setTotal(result.total);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext');
+      } finally {
+        setLoadingList(false);
       }
-      setLoadingList(false);
     },
-    [RegisterMessage]
+    [filters, RegisterMessage]
   );
 
   const saveMedicineValues = useCallback(
@@ -61,6 +64,8 @@ export const withMedicinesContext = WrapperComponent => props => {
         loadingList,
         selected,
         filters,
+        total,
+        setTotal,
         ...globalState,
         getMedicinesList,
         selectMedicineFromList,
@@ -84,12 +89,14 @@ export const useMedicinesContext = () => {
     loadingList: values.loadingList,
     selected: values.selected,
     filters: values.filters,
+    total: values.total,
     formType: values.formType,
     modalVisible: values.modalVisible,
     getMedicinesList: values.getMedicinesList,
     selectMedicineFromList: values.selectMedicineFromList,
     saveMedicineValues: values.saveMedicineValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters
+    setFilters: values.setFilters,
+    setTotal: values.setTotal
   };
 };
