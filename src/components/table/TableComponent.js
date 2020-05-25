@@ -32,13 +32,9 @@ function TableComponent({
         <EnhancedTableToolbar filters={filters} selected={selected && selected.id} onAdd={handleModalVisible} />
       )}
       {extraText && (
-        <CardHeader
-          title={
-            <div className={classes.extraText}>
-              <Typography>{extraText}</Typography>
-            </div>
-          }
-        />
+        <div className={classes.extraText}>
+          <div style={{ width: '100%' }}>{extraText}</div>
+        </div>
       )}
       {loadingList ? (
         <div className={classes.root}>

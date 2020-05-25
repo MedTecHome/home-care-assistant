@@ -130,8 +130,7 @@ const useCustomStyles = makeStyles(theme => ({
     color: '#666666',
     whiteSpace: 'noWrap',
     '& > *': {
-      fontSize: '0.842rem',
-      marginRight: 60
+      fontSize: '0.842rem'
     }
   },
   paperDetails: {

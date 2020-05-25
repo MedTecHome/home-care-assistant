@@ -26,8 +26,8 @@ export function AuthContextProvider({ children }) {
           setCurrentUserProfile({ id: profile.id, ...profile.data() });
         }
       } else {
-        setCurrentUserProfile(null);
-        /* setCurrentUserProfile({
+        // setCurrentUserProfile(null);
+        setCurrentUserProfile({
           // id: 'I1vSS10EraPTIeCXKMjzVUGzkky2', // admin id
           // id: '0jiMdIL37AYxMlvCKsmaOBWpcYi2', // clinic id
           id: 'YNugQQvF5fhcFfXAN4UbQkYcakV2', // doctor id
@@ -36,7 +36,8 @@ export function AuthContextProvider({ children }) {
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
           hospital: {
-            id: 'q3fi3hFCIF8gLOPl3I7o'
+            id: 'q3fi3hFCIF8gLOPl3I7o',
+            name: 'Hopistal 1 abla bla'
           },
           role: {
             // id: 'admin'
@@ -44,7 +45,7 @@ export function AuthContextProvider({ children }) {
             id: 'doctor'
             //  id: 'patient'
           }
-        }); */
+        });
       }
     });
 
