@@ -165,7 +165,7 @@ function MedicinesFieldComponent({
     getMedicinesListAction({
       limit: 5,
       filters: { 'hospital.id': hospital.id, ...(filterNameMemoize ? { name: filterNameMemoize } : {}) }
-    }).then(result => setMedicines(result.data.data));
+    }).then(result => setMedicines(result.data));
   }, [filterNameMemoize, hospital]);
 
   const handleClick = () => {

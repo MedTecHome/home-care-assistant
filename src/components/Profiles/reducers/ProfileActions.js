@@ -22,6 +22,20 @@ export const getPatientsAction = async ({ limit = 0, offset = 0, filters }) => {
   return response.data;
 };
 
+export const getDoctorsAction = async ({ limit = 0, offset = 0, filters }) => {
+  const params = { limit, offset, ...filters };
+  const query = queryFromParams(params);
+  const response = await apiData.get(`/getDoctors${query && `?${query}`}`);
+  return response.data;
+};
+
+export const fetchProfilesAction = async ({ limit = 0, offset = 0, filters }) => {
+  const params = { limit, offset, ...filters };
+  const query = queryFromParams(params);
+  const response = await apiData.get(`/getProfiles${query && `?${query}`}`);
+  return response.data;
+};
+
 export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => {
   let ref = profilesRef;
   if (next) {

@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { getListTreatmentsAction, saveValuesAction } from './reducers/TreatmentActions';
+import { getListTreatmentsAction, saveValuesAction } from './actions/TreatmentActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 
@@ -10,6 +10,7 @@ const TreatmentsContext = createContext({});
 export const withTreatmentsContext = WrapperComponent => props => {
   const { RegisterMessage } = useMessageContext();
   const [list, setList] = useState([]);
+  const [total, setTotal] = useState(0);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
   const [filters, setFilters] = useState({});
@@ -21,15 +22,16 @@ export const withTreatmentsContext = WrapperComponent => props => {
     async params => {
       setLoadingList(true);
       try {
-        const result = await getListTreatmentsAction(params);
-        setList(result);
+        const result = await getListTreatmentsAction({ ...params, filters });
+        setList(result.data);
+        setTotal(result.total);
       } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext');
+        RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments');
       } finally {
         setLoadingList(false);
       }
     },
-    [RegisterMessage]
+    [filters, RegisterMessage]
   );
 
   const selectFromList = useCallback(
@@ -55,10 +57,12 @@ export const withTreatmentsContext = WrapperComponent => props => {
     <TreatmentsContext.Provider
       value={{
         listTreatments,
+        total,
         selected,
         loadingList,
         filters,
         ...globalState,
+        setTotal,
         getListOfTreatments,
         selectFromList,
         saveValues,
@@ -83,6 +87,8 @@ export const useTreatmentsContext = () => {
     filters: values.filters,
     formType: values.formType,
     modalVisible: values.modalVisible,
+    total: values.total,
+    setTotal: values.setTotal,
     getListOfTreatments: values.getListOfTreatments,
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
