@@ -10,6 +10,7 @@ import RowListTreatmentsComponent from './RowListTreatmentsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { useCustomPaginationContext, withCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
+import FiltersTreatmentComponent from './FiltersTreatmentComponent';
 
 function TreatmentsComponent() {
   const { pageSize, offset } = useCustomPaginationContext();
@@ -22,12 +23,19 @@ function TreatmentsComponent() {
     selected,
     setModalVisible,
     formType,
-    selectFromList
+    selectFromList,
+    setFilters
   } = useTreatmentsContext();
-  const { isDoctor } = useAuthContext();
+  const { isDoctor, currentUserProfile } = useAuthContext();
   const [open, setOpen] = useState(null);
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [treatmentsHeadCells[0]] : treatmentsHeadCells;
+
+  useEffect(() => {
+    if (!isDoctor) {
+      setFilters({ 'user.id': currentUserProfile.id });
+    }
+  }, [currentUserProfile, setFilters, isDoctor]);
 
   const handleLoadList = useCallback(() => {
     getListOfTreatments({ limit: pageSize, offset });
@@ -52,6 +60,7 @@ function TreatmentsComponent() {
             <strong>Total: </strong>({total})
           </Typography>
         }
+        filters={<FiltersTreatmentComponent currentUserProfile={currentUserProfile} />}
         addRole={isDoctor}
         disableElevation
         headCells={cells}
