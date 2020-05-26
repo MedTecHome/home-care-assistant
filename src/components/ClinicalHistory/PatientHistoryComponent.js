@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
+import { useMediaQuery } from '@material-ui/core';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
-import useCustomStyles from '../../jss/globalStyles';
 import FilterPatientHistoryGraficsComponent from './FilterPatientHistoryGraficsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import PaginationComponent from '../pagination/PaginationComponent';
 
 function PatientHistoryComponent() {
-  const { getPatientHistory, historyList, loadingList, modalVisible, filters, setFilters } = usePatientHistoryContext();
+  const { pageSize, offset } = useCustomPaginationContext();
+  const { getPatientHistory, modalVisible, total } = usePatientHistoryContext();
   const { isDoctor } = useAuthContext();
-  const [page, setPage] = useState({});
-  const classes = useCustomStyles();
+  const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    getPatientHistory({ filters, ...page });
-  }, [setFilters, getPatientHistory, filters, page]);
+    getPatientHistory({ limit: pageSize, offset });
+  }, [getPatientHistory, pageSize, offset]);
 
   return (
     <>
@@ -28,23 +27,12 @@ function PatientHistoryComponent() {
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
       <Grid container>
-        <Grid item xs={12} sm={isDoctor ? 5 : 12}>
+        <Grid item xs={11} sm={isDoctor ? 11 : 12} md={isDoctor ? 5 : 12}>
           <FiltersPatientHistoryComponent />
           <ListPatientHistoryComponent />
-          <div className={classes.pagination}>
-            {!loadingList && (
-              <>
-                <IconButton onClick={() => setPage({ prev: historyList[0] })}>
-                  <ArrowBackIosIcon fontSize="small" />
-                </IconButton>
-                <IconButton onClick={() => setPage({ next: historyList[historyList.length - 1] })}>
-                  <ArrowForwardIosIcon fontSize="small" />
-                </IconButton>
-              </>
-            )}
-          </div>
+          <PaginationComponent total={total} />
         </Grid>
-        {isDoctor && (
+        {isDoctor && !match && (
           <Grid item xs={12} sm={7} container>
             <FilterPatientHistoryGraficsComponent />
           </Grid>
@@ -54,4 +42,4 @@ function PatientHistoryComponent() {
   );
 }
 
-export default PatientHistoryComponent;
+export default withCustomPaginationContext(PatientHistoryComponent);

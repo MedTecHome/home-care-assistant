@@ -6,7 +6,7 @@ import { Form } from 'react-final-form';
 import { isEmpty } from '../../helpers/utils';
 import SaveButton from '../buttons/SaveButton';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { saveHealthDataAction } from './reducers/PatienHealthActions';
+import { saveHealthDataAction } from './actions/PatienHealthActions';
 import SelectedChecboxForm from './SelectedCheckboxForm';
 import BreathingForm from './BreathingForm';
 import PressureForm from './PressureForm';

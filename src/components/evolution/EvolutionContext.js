@@ -20,7 +20,7 @@ export const withEvolutionContext = WrapperComponent => ({ children }) => {
         const rDate = filters.rangeDate.map(date => moment(date).unix());
         const response1 = await getEvolutionClinical({ ...filters, rangeDate: rDate });
         const response2 = await getEvolutionTreatments({ ...filters, rangeDate: rDate });
-        setTestList(response1);
+        setTestList(response1.data);
         setTreatmentList(response2);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-retriveDateFormDB');

@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { getAllPatientHistoryAction } from '../MedicalForms/reducers/PatienHealthActions';
+import { getAllPatientHistoryAction } from '../MedicalForms/actions/PatienHealthActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
@@ -10,6 +10,7 @@ const PatientHistoryContext = createContext({});
 const PatientHistoryContextProvider = ({ children }) => {
   const { RegisterMessage } = useMessageContext();
   const [list, setHistoryList] = useState([]);
+  const [total, setTotal] = useState(0);
   const [slcted, setSelected] = useState(null);
   const [filters, setFilters] = useState({});
   const [loadingList, setLoadingList] = useState(false);
@@ -22,20 +23,21 @@ const PatientHistoryContextProvider = ({ children }) => {
     async params => {
       try {
         setLoadingList(true);
-        const response = await getAllPatientHistoryAction(params);
-        const result = response.sort((a, b) => {
+        const response = await getAllPatientHistoryAction({ ...params, filters });
+        const result = response.data.sort((a, b) => {
           const c = a.clinicalDate;
           const d = b.clinicalDate;
           return d - c;
         });
         setHistoryList(result);
+        setTotal(response.total);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatientHistoryContext');
       } finally {
         setLoadingList(false);
       }
     },
-    [RegisterMessage]
+    [filters, RegisterMessage]
   );
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
@@ -49,11 +51,13 @@ const PatientHistoryContextProvider = ({ children }) => {
         loadingList,
         selected,
         filters,
+        total,
         ...modalState,
         selectMedicalForm,
         getPatientHistory,
         setFilters,
-        setModalVisible
+        setModalVisible,
+        setTotal
       }}
     >
       {children}
@@ -79,10 +83,12 @@ export const usePatientHistoryContext = () => {
     filters: values.filters,
     modalVisible: values.modalVisible,
     selected: values.selected,
+    total: values.total,
     selectMedicalForm: values.selectMedicalForm,
     formType: values.formType,
     getPatientHistory: values.getPatientHistory,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters
+    setFilters: values.setFilters,
+    setTotal: values.setTotal
   };
 };
