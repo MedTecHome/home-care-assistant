@@ -1,39 +1,44 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
 
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
-import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
+import { saveProfileValuesAction } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import getProfiles from '../../services/profiles';
 
 const ProfilesContext = createContext({});
 
 export const withProfileContext = WrapperComponent => props => {
   const { RegisterMessage } = useMessageContext();
   const [list, setProfileList] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
   const [slected, setSelected] = useState(null);
-  const [filters, setFilters] = useState({});
+  const [params, setParams] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const profileList = useMemo(() => list, [list]);
   const selected = useMemo(() => slected, [slected]);
 
   // eslint-disable-next-line no-unused-vars
-  const getProfilesList = useCallback(
-    async params => {
+  useEffect(() => {
+    if (globalState.formType === null) {
+      const { limit, offset, ...filters } = params;
       setLoadingList(true);
-      try {
-        const result = await getProfilesAction(params);
-        setProfileList(result);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'ProfilesContext');
-      } finally {
-        setLoadingList(false);
-      }
-    },
-    [RegisterMessage]
-  );
+      getProfiles(limit, offset, filters)
+        .then(result => {
+          setProfileList(result.data);
+          setTotal(result.total);
+        })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'ProfilesContext');
+        })
+        .finally(() => {
+          setLoadingList(false);
+        });
+    }
+  }, [params, globalState.formType, RegisterMessage]);
 
   const saveProfileValues = useCallback(
     async (values, formType) => {
@@ -65,13 +70,13 @@ export const withProfileContext = WrapperComponent => props => {
         profileList,
         loadingList,
         selected,
-        filters,
+        params,
         ...globalState,
-        getProfilesList,
         selectProfileFromList,
         saveProfileValues,
         setModalVisible,
-        setFilters
+        setParams,
+        total
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -93,7 +98,8 @@ export const useProfilesContext = () => {
     selectProfileFromList: values.selectProfileFromList,
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
-    filters: values.filters,
-    setFilters: values.setFilters
+    params: values.params,
+    setParams: values.setParams,
+    total: values.total
   };
 };

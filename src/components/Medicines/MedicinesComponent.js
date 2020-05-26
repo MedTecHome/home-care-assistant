@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import uuid from 'uuid4';
 import { useMediaQuery, Typography } from '@material-ui/core';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
@@ -11,12 +11,12 @@ import TableComponent from '../table/TableComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
+import { getPropValue } from '../../helpers/utils';
 
 function MedicinesComponent() {
   const { pageSize, offset } = useCustomPaginationContext();
   const { currentUserProfile } = useAuthContext();
   const {
-    getMedicinesList,
     medicineList,
     loadingList,
     selectMedicineFromList,
@@ -24,18 +24,14 @@ function MedicinesComponent() {
     modalVisible,
     setModalVisible,
     formType,
+    setParams,
     total
   } = useMedicinesContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [medicineHeadCells[0]] : medicineHeadCells;
-
-  const handleReloadList = useCallback(() => {
-    getMedicinesList({ limit: pageSize, offset });
-  }, [getMedicinesList, pageSize, offset]);
-
   useEffect(() => {
-    if (formType === null) handleReloadList();
-  }, [formType, handleReloadList]);
+    setParams({ limit: pageSize, offset });
+  }, [pageSize, offset, setParams]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -72,7 +68,11 @@ function MedicinesComponent() {
           />
         )}
       />
-      <PaginationComponent total={total} />
+      <PaginationComponent
+        total={total}
+        first={getPropValue(medicineList[0], 'name')}
+        last={getPropValue(medicineList[medicineList.length - 1], 'name')}
+      />
     </>
   );
 }

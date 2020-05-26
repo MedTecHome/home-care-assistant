@@ -22,15 +22,15 @@ import listAccess from '../../commons/access';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 
 export function InputSearchByFullname() {
-  const { filters, setFilters } = useProfilesContext();
+  const { params, setParams } = useProfilesContext();
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    if (filters.fullname !== filterNameMemoize) setFilters({ ...filters, fullname: filterNameMemoize });
-  }, [setFilters, filterNameMemoize, filters]);
+    if (params.fullname !== filterNameMemoize) setParams({ ...params, fullname: filterNameMemoize });
+  }, [setParams, filterNameMemoize, params]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);
@@ -52,7 +52,7 @@ export function InputSearchByFullname() {
 }
 
 function FiltersProfileComponent({ onClickAdd }) {
-  const { filters, setFilters } = useProfilesContext();
+  const { params, setParams } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
   const { roles, getRoles } = useRolesContext();
   const classes = useCustomStyles();
@@ -78,8 +78,8 @@ function FiltersProfileComponent({ onClickAdd }) {
                 <InputLabel>Tipo de perfil</InputLabel>
                 <Select
                   name="filter-roles"
-                  value={roles.length > 0 ? filters['role.id'] || '' : ''}
-                  onChange={event => setFilters({ ...filters, 'role.id': event.target.value })}
+                  value={roles.length > 0 ? params['role.id'] || '' : ''}
+                  onChange={event => setParams({ ...params, 'role.id': event.target.value })}
                 >
                   {roles
                     .filter(rl => listAccess[currentUserProfile.role.id].includes(rl.id))

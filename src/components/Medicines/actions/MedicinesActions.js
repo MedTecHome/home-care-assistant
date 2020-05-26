@@ -1,27 +1,15 @@
 import { dbRef } from '../../../firebaseConfig';
-import { apiData } from '../../../axiosApiRequest';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { getNomenclatorByIdActions } from '../../../Nomenclators/NomenclatorsAction';
-import { isEmpty, queryFromParams } from '../../../helpers/utils';
+import { isEmpty } from '../../../helpers/utils';
+import getNomenclator from '../../../services/nomenclators';
 
 const MedicinesRef = dbRef('medicine').collection('medicines');
 
 export const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
-  ...(concentrationType
-    ? { concentrationType: await getNomenclatorByIdActions('concentrations', concentrationType) }
-    : {}),
-  ...(doseType ? { doseType: await getNomenclatorByIdActions('dosis', doseType) } : {}),
-  ...(administrationType
-    ? { administrationType: await getNomenclatorByIdActions('administrationroute', administrationType) }
-    : {})
+  ...(concentrationType ? { concentrationType: await getNomenclator('concentrations', concentrationType) } : {}),
+  ...(doseType ? { doseType: await getNomenclator('dosis', doseType) } : {}),
+  ...(administrationType ? { administrationType: await getNomenclator('administrationroute', administrationType) } : {})
 });
-
-export const getMedicinesListAction = async ({ limit, offset, filters }) => {
-  const params = { limit, offset, ...filters };
-  const query = queryFromParams(params);
-  const response = await apiData(`/getMedicines${query && `?${query}`}`);
-  return response.data;
-};
 
 export const getMedicineByIdAction = async (id, fields = []) => {
   const ref = await MedicinesRef.doc(id).get();

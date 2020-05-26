@@ -78,3 +78,5 @@ export const queryFromParams = params => {
       .join('&') || ''
   );
 };
+
+export const mutateDoc = doc => ({ id: doc.id, ...doc.data() });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import uuid from 'uuid4';
 import { Field, Form } from 'react-final-form';
 import createDecorator from 'final-form-calculate';
@@ -41,12 +41,16 @@ function AddOrEditProfilesComponent({ title }) {
     setModalVisible(false, CANCEL_FORM_TEXT);
   };
 
-  const calculator = createDecorator({
-    field: 'ramdomPassword',
-    updates: {
-      password: ramdomPasswordValue => (ramdomPasswordValue ? uuid() : '')
-    }
-  });
+  const calculator = useMemo(
+    () =>
+      createDecorator({
+        field: 'ramdomPassword',
+        updates: {
+          password: ramdomPasswordValue => (ramdomPasswordValue ? uuid() : '')
+        }
+      }),
+    []
+  );
 
   return (
     <>
@@ -74,7 +78,7 @@ function AddOrEditProfilesComponent({ title }) {
         render={({ handleSubmit, values, form, submitting, pristine, invalid }) => {
           return (
             <form
-              autoComplete="off"
+              autoComplete="new-password"
               onSubmit={event => {
                 if (!invalid) {
                   handleSubmit(event).then(() => {

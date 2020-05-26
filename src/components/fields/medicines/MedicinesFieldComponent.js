@@ -10,11 +10,11 @@ import { ButtonBase, InputBase } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Typography from '@material-ui/core/Typography';
 import { withMedicinesContext } from '../../Medicines/MedicinesContext';
-import { getMedicinesListAction } from '../../Medicines/actions/MedicinesActions';
 import useDebounceCustom from '../../../commons/useDebounceCustom';
 import { getPropValue } from '../../../helpers/utils';
 import MedicineDetailItemListComponent from '../../Medicines/MedicineDetailItemListComponent';
 import { useAuthContext } from '../../../contexts/AuthContext';
+import getMedicines from '../../../services/medicines';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -162,9 +162,9 @@ function MedicinesFieldComponent({
   }, [value, medicineEdited, setMedicineEdited, setSelectedMedicine]);
 
   useEffect(() => {
-    getMedicinesListAction({
-      limit: 5,
-      filters: { 'hospital.id': hospital.id, ...(filterNameMemoize ? { name: filterNameMemoize } : {}) }
+    getMedicines(5, 0, {
+      'hospital.id': hospital.id,
+      ...(filterNameMemoize ? { name: filterNameMemoize } : {})
     }).then(result => setMedicines(result.data));
   }, [filterNameMemoize, hospital]);
 

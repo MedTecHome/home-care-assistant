@@ -1,15 +1,16 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useCallback } from 'react';
 
 const PaginationContext = createContext({});
 
 export const withCustomPaginationContext = WrapperComponent => props => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState({});
 
-  useEffect(() => {
-    setOffset(page * pageSize);
-  }, [page, pageSize]);
+  const resetPagination = useCallback(() => {
+    setPage(0);
+    setOffset({});
+  }, []);
 
   return (
     <PaginationContext.Provider
@@ -17,8 +18,10 @@ export const withCustomPaginationContext = WrapperComponent => props => {
         page,
         pageSize,
         offset,
+        setOffset,
         setPage,
-        setPageSize
+        setPageSize,
+        resetPagination
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -35,7 +38,9 @@ export const useCustomPaginationContext = () => {
     page: values.page,
     pageSize: values.pageSize,
     offset: values.offset,
+    setOffset: values.setOffset,
     setPage: values.setPage,
-    setPageSize: values.setPageSize
+    setPageSize: values.setPageSize,
+    resetPagination: values.resetPagination
   };
 };
