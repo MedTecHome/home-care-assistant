@@ -1,7 +1,7 @@
-import React, { createContext, useState, useCallback, useContext } from 'react';
+import React, { createContext, useState, useCallback, useContext, useEffect } from 'react';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
-import getMonitoringListAction from './actions/MonitoringActions';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import getMonitoring from '../../services/monitoring';
 
 const MonitoringContext = createContext({});
 
@@ -11,28 +11,19 @@ export const withMonitoringContext = WrapperComponent => () => {
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
   const [selected, setSlcted] = useState(null);
-  const [filters, setFiltersAction] = useState({});
+  const [params, setParams] = useState({ 'doctor.id': '' });
   const [legend, setLegend] = useState({ totalRed: 0, totalYellow: 0, totalGreen: 0 });
 
-  const getListToMonitoring = useCallback(
-    async params => {
-      setLoadingList(true);
-      try {
-        const result = await getMonitoringListAction({ ...params, filters });
-        setListAction(result.data);
-        setTotal(result.total);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext - getList');
-      } finally {
-        setLoadingList(false);
-      }
-    },
-    [filters, RegisterMessage]
-  );
-
-  const setFilters = useCallback(f => {
-    setFiltersAction(f);
-  }, []);
+  useEffect(() => {
+    getMonitoring(10000, 0, params)
+      .then(res => {
+        setLoadingList(true);
+        setListAction(res.data);
+        setTotal(res.total);
+      })
+      .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext-getMonitoring'))
+      .finally(() => setLoadingList(false));
+  }, [params, RegisterMessage]);
 
   const setSelected = useCallback(
     id => {
@@ -51,11 +42,10 @@ export const withMonitoringContext = WrapperComponent => () => {
         loadingList,
         selected,
         setSelected,
-        filters,
+        params,
         legend,
         setLegend,
-        setFilters,
-        getListToMonitoring
+        setParams
       }}
     >
       <WrapperComponent />
@@ -70,13 +60,11 @@ export const useMonitoringContext = () => {
   return {
     list: values.list,
     total: values.total,
-    setTotal: values.setTotal,
-    getListToMonitoring: values.getListToMonitoring,
     loadingList: values.loadingList,
     selected: values.selected,
     setSelected: values.setSelected,
-    filters: values.filters,
-    setFilters: values.setFilters,
+    params: values.params,
+    setParams: values.setParams,
     legend: values.legend,
     setLegend: values.setLegend
   };

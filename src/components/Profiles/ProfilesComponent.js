@@ -10,14 +10,14 @@ import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/g
 import useCustomStyles from '../../jss/globalStyles';
 
 function ProfilesComponent() {
-  const { formType, setModalVisible, modalVisible, setFilters } = useProfilesContext();
+  const { formType, setModalVisible, modalVisible, setParams } = useProfilesContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
     if (formType === null) {
-      setFilters({});
+      setParams({});
     }
-  }, [setFilters, formType]);
+  }, [setParams, formType]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);

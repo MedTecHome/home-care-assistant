@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { dbFirebase } from '../firebaseConfig';
+import { mutateDoc } from '../helpers/utils';
 
 const globalPath = 'home-care-assistant';
 
@@ -56,19 +57,9 @@ const retriveData = async (path, limit = 0, offset = 0, filters, field, sort) =>
       dataRef = dataRef.orderBy(field, sort);
     }
     dataRef = setFilters(dataRef, filters);
-    const data = await dataRef.limit(limit).offset(offset).get();
-    return data;
-  } catch (e) {
-    throw new Error(e);
-  }
-};
-
-const retriveTotal = async (path, filters) => {
-  try {
-    let dataRef = dbFirebase.collection(`${globalPath}/${path}`);
-    dataRef = setFilters(dataRef, filters);
     const total = (await dataRef.get()).size;
-    return total;
+    const data = (await dataRef.limit(limit).get()).docChanges().map(({ doc }) => mutateDoc(doc));
+    return { total, data };
   } catch (e) {
     throw new Error(e);
   }
@@ -78,10 +69,10 @@ const retriveDoc = async path => {
   try {
     const doc = await dbFirebase.doc(`${globalPath}/${path}`).get();
     if (!doc.data()) throw new Error('El Elemento no existe.');
-    return doc;
+    return mutateDoc(doc);
   } catch (e) {
     throw new Error(e);
   }
 };
 
-export { retriveData, retriveTotal, retriveDoc };
+export { retriveData, retriveDoc };

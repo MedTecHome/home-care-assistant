@@ -13,13 +13,13 @@ import PaginationComponent from '../pagination/PaginationComponent';
 
 function PatientHistoryComponent() {
   const { pageSize, offset } = useCustomPaginationContext();
-  const { getPatientHistory, modalVisible, total } = usePatientHistoryContext();
+  const { setParams, modalVisible, total } = usePatientHistoryContext();
   const { isDoctor } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    getPatientHistory({ limit: pageSize, offset });
-  }, [getPatientHistory, pageSize, offset]);
+    setParams({});
+  }, [setParams, pageSize, offset]);
 
   return (
     <>

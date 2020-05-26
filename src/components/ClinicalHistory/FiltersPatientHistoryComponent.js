@@ -10,7 +10,7 @@ import { DesktopDatePicker, LocalizationProvider } from '@material-ui/pickers';
 import MomentAdapter from '@material-ui/pickers/adapter/moment';
 import TextField from '@material-ui/core/TextField';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { getNomenclatorListActions } from '../../Nomenclators/NomenclatorsAction';
+import getNomenclator from '../../services/nomenclators';
 
 const useStyles = makeStyles({
   formControl: {
@@ -23,27 +23,28 @@ const useStyles = makeStyles({
 });
 
 function FiltersPatientHistoryComponent() {
-  const { filters, setFilters } = usePatientHistoryContext();
+  const { params, setParams } = usePatientHistoryContext();
   const [dateValue, setDateValue] = useState(null);
   const [options, setOptions] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
     async function loadList() {
-      const result = await getNomenclatorListActions('medicalforms');
-      setOptions(result.data);
+      getNomenclator('medicalforms').then(res => {
+        setOptions(res.data);
+      });
     }
     loadList();
   }, []);
 
   const handleSetTypeHistory = event => {
-    setFilters({ ...filters, type: event.target.value });
+    setParams({ ...params, type: event.target.value });
   };
 
   const handleFilterDate = value => {
     setDateValue(value);
-    setFilters({
-      ...filters,
+    setParams({
+      ...params,
       ...(value ? { clinicalDate: value.set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).unix() } : {})
     });
   };
@@ -55,7 +56,7 @@ function FiltersPatientHistoryComponent() {
           <Grid item xs={12} sm={4} md={6} container alignContent="flex-end">
             <Select
               className={classes.formControl}
-              value={(filters && filters.type) || ''}
+              value={(params && params.type) || ''}
               label="tipos historial"
               onChange={handleSetTypeHistory}
             >

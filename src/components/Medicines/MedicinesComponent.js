@@ -16,7 +16,6 @@ function MedicinesComponent() {
   const { pageSize, offset } = useCustomPaginationContext();
   const { currentUserProfile } = useAuthContext();
   const {
-    getMedicinesList,
     medicineList,
     loadingList,
     selectMedicineFromList,
@@ -24,14 +23,16 @@ function MedicinesComponent() {
     modalVisible,
     setModalVisible,
     formType,
+    params,
+    setParams,
     total
   } = useMedicinesContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [medicineHeadCells[0]] : medicineHeadCells;
 
   const handleReloadList = useCallback(() => {
-    getMedicinesList({ limit: pageSize, offset });
-  }, [getMedicinesList, pageSize, offset]);
+    setParams(params);
+  }, [params, setParams]);
 
   useEffect(() => {
     if (formType === null) handleReloadList();

@@ -1,9 +1,10 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { getListTreatmentsAction, saveValuesAction } from './actions/TreatmentActions';
+import { saveValuesAction } from './actions/TreatmentActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import getTreatments from '../../services/treatments';
 
 const TreatmentsContext = createContext({});
 
@@ -13,26 +14,21 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const [total, setTotal] = useState(0);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [params, setParmas] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const selected = useMemo(() => slected, [slected]);
   const listTreatments = useMemo(() => list, [list]);
 
-  const getListOfTreatments = useCallback(
-    async params => {
-      setLoadingList(true);
-      try {
-        const result = await getListTreatmentsAction({ ...params, filters });
-        setList(result.data);
-        setTotal(result.total);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments');
-      } finally {
-        setLoadingList(false);
-      }
-    },
-    [filters, RegisterMessage]
-  );
+  useEffect(() => {
+    setLoadingList(true);
+    getTreatments(1000, 0, params)
+      .then(res => {
+        setList(res.data);
+        setTotal(res.total);
+      })
+      .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
+      .finally(() => setLoadingList(false));
+  }, [params, RegisterMessage]);
 
   const selectFromList = useCallback(
     id => {
@@ -60,13 +56,12 @@ export const withTreatmentsContext = WrapperComponent => props => {
         total,
         selected,
         loadingList,
-        filters,
+        params,
         ...globalState,
         setTotal,
-        getListOfTreatments,
         selectFromList,
         saveValues,
-        setFilters,
+        setParmas,
         setModalVisible
       }}
     >
@@ -84,7 +79,7 @@ export const useTreatmentsContext = () => {
     listTreatments: values.listTreatments,
     selected: values.selected,
     loadingList: values.loadingList,
-    filters: values.filters,
+    params: values.params,
     formType: values.formType,
     modalVisible: values.modalVisible,
     total: values.total,
@@ -92,7 +87,7 @@ export const useTreatmentsContext = () => {
     getListOfTreatments: values.getListOfTreatments,
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
-    setFilters: values.setFilters,
+    setParmas: values.setParmas,
     setModalVisible: values.setModalVisible
   };
 };

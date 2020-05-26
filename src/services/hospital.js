@@ -1,6 +1,6 @@
 import { retriveData } from './utils';
 
-const getHopitals = async (limit, offset, filters) => {
+const getHospitals = async (limit, offset, filters) => {
   try {
     return await retriveData('hospital/hospitals', limit, offset, filters, undefined, undefined);
   } catch (e) {
@@ -8,4 +8,4 @@ const getHopitals = async (limit, offset, filters) => {
   }
 };
 
-export default getHopitals;
+export default getHospitals;

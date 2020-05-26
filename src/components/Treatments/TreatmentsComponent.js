@@ -18,13 +18,12 @@ function TreatmentsComponent() {
     listTreatments,
     total,
     modalVisible,
-    getListOfTreatments,
+    setParams,
     loadingList,
     selected,
     setModalVisible,
     formType,
-    selectFromList,
-    setFilters
+    selectFromList
   } = useTreatmentsContext();
   const { isDoctor, currentUserProfile } = useAuthContext();
   const [open, setOpen] = useState(null);
@@ -33,13 +32,13 @@ function TreatmentsComponent() {
 
   useEffect(() => {
     if (!isDoctor) {
-      setFilters({ 'user.id': currentUserProfile.id });
+      setParams({ 'user.id': currentUserProfile.id });
     }
-  }, [currentUserProfile, setFilters, isDoctor]);
+  }, [currentUserProfile, setParams, isDoctor]);
 
   const handleLoadList = useCallback(() => {
-    getListOfTreatments({ limit: pageSize, offset });
-  }, [getListOfTreatments, pageSize, offset]);
+    // setParams({ limit: pageSize, offset });
+  }, []);
 
   useEffect(() => {
     if (formType === null) handleLoadList();

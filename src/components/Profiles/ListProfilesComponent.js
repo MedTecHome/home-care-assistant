@@ -21,25 +21,11 @@ import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
 
 function ListProfilesComponent({ onClickDelete, onClickEdit }) {
-  const {
-    profileList,
-    getProfilesList,
-    selectProfileFromList,
-    profileSelected,
-    filters,
-    loadingList,
-    formType
-  } = useProfilesContext();
+  const { profileList, selectProfileFromList, profileSelected, loadingList } = useProfilesContext();
   const [page, setPage] = React.useState({});
   const classes = useCustomStyles();
   const up500 = useMediaQuery(theme => theme.breakpoints.up(500));
   const up400 = useMediaQuery(theme => theme.breakpoints.up(400));
-
-  useEffect(() => {
-    if (formType === null) {
-      getProfilesList({ filters, ...page });
-    }
-  }, [getProfilesList, filters, page, formType]);
 
   const handleSelectItemOnClick = id => {
     selectProfileFromList(id);

@@ -1,9 +1,19 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { getAllPatientHistoryAction } from '../MedicalForms/actions/PatienHealthActions';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import {
+  getClinicalTests,
+  getPressure,
+  getTemperature,
+  getWeight,
+  getGlucose,
+  getINR,
+  getOxygen,
+  getExercises,
+  getBreathing
+} from '../../services/clinicaltest';
 
 const PatientHistoryContext = createContext({});
 
@@ -12,18 +22,29 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [list, setHistoryList] = useState([]);
   const [total, setTotal] = useState(0);
   const [slcted, setSelected] = useState(null);
-  const [filters, setFilters] = useState({});
+  const [params, setParams] = useState({});
   const [loadingList, setLoadingList] = useState(false);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const historyList = useMemo(() => list, [list]);
   const selected = useMemo(() => slcted, [slcted]);
 
-  const getPatientHistory = useCallback(
-    async params => {
-      try {
-        setLoadingList(true);
-        const response = await getAllPatientHistoryAction({ ...params, filters });
+  useEffect(() => {
+    setLoadingList(true);
+    const { type, ...filters } = params;
+    const clinicaltest =
+      (!type && getClinicalTests) ||
+      (type === 'pressure' && getPressure) ||
+      (type === 'temperature' && getTemperature) ||
+      (type === 'weight' && getWeight) ||
+      (type === 'glucose' && getGlucose) ||
+      (type === 'breathing' && getBreathing) ||
+      (type === 'inr' && getINR) ||
+      (type === 'oxygen' && getOxygen) ||
+      (type === 'exercises' && getExercises);
+
+    clinicaltest(100, 0, filters)
+      .then(response => {
         const result = response.data.sort((a, b) => {
           const c = a.clinicalDate;
           const d = b.clinicalDate;
@@ -31,14 +52,14 @@ const PatientHistoryContextProvider = ({ children }) => {
         });
         setHistoryList(result);
         setTotal(response.total);
-      } catch (e) {
+      })
+      .catch(e => {
         RegisterMessage(ERROR_MESSAGE, e, 'PatientHistoryContext');
-      } finally {
+      })
+      .finally(() => {
         setLoadingList(false);
-      }
-    },
-    [filters, RegisterMessage]
-  );
+      });
+  }, [params, RegisterMessage]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 
@@ -50,12 +71,11 @@ const PatientHistoryContextProvider = ({ children }) => {
         historyList,
         loadingList,
         selected,
-        filters,
+        params,
         total,
         ...modalState,
         selectMedicalForm,
-        getPatientHistory,
-        setFilters,
+        setParams,
         setModalVisible,
         setTotal
       }}
@@ -80,7 +100,7 @@ export const usePatientHistoryContext = () => {
   return {
     historyList: values.historyList,
     loadingList: values.loadingList,
-    filters: values.filters,
+    params: values.params,
     modalVisible: values.modalVisible,
     selected: values.selected,
     total: values.total,
@@ -88,7 +108,7 @@ export const usePatientHistoryContext = () => {
     formType: values.formType,
     getPatientHistory: values.getPatientHistory,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
+    setParams: values.setParams,
     setTotal: values.setTotal
   };
 };

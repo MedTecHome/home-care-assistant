@@ -1,9 +1,10 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { fetchHospitalsAction, saveHospitalValuesAction } from './actions/HospitalActions';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
+import { saveHospitalValuesAction } from './actions/HospitalActions';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import getHospitals from '../../services/hospital';
 
 const HospitalContext = createContext({});
 
@@ -13,28 +14,29 @@ const HospitalContextProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
   const [slected, setSelected] = useState(null);
-  const [filters, setFilters] = useState({});
-  const [modalState, modalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const [params, setParams] = useState({});
+  const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const hospitalsList = useMemo(() => hospitals, [hospitals]);
   const selected = useMemo(() => slected, [slected]);
 
   // eslint-disable-next-line no-unused-vars
-  const getListHospitals = useCallback(
-    async params => {
+  useEffect(() => {
+    if (globalState.formType === null) {
       setLoadingList(true);
-      try {
-        const result = await fetchHospitalsAction({ filters, ...params });
-        setHospitals(result.data);
-        setTotal(result.total);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext');
-      } finally {
-        setLoadingList(false);
-      }
-    },
-    [filters, RegisterMessage]
-  );
+      getHospitals(100, 0, params)
+        .then(result => {
+          setHospitals(result.data);
+          setTotal(result.total);
+        })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext');
+        })
+        .finally(() => {
+          setLoadingList(false);
+        });
+    }
+  }, [params, globalState.formType, RegisterMessage]);
 
   const selectHospital = useCallback(
     id => {
@@ -52,7 +54,7 @@ const HospitalContextProvider = ({ children }) => {
   );
 
   const setModalVisible = useCallback((visible, formType) => {
-    modalDispatch(setModalVisibleAction(visible, formType));
+    globalDispatch(setModalVisibleAction(visible, formType));
   }, []);
 
   return (
@@ -61,13 +63,12 @@ const HospitalContextProvider = ({ children }) => {
         hospitalsList,
         loadingList,
         selected,
-        filters,
-        ...modalState,
-        getListHospitals,
+        params,
+        ...globalState,
         selectHospital,
         saveHospitalValues,
         setModalVisible,
-        setFilters,
+        setParams,
         total,
         setTotal
       }}
@@ -91,9 +92,8 @@ export const useHospitalContext = () => {
     selectHospital: values.selectHospital,
     saveHospitalValues: values.saveHospitalValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
-    total: values.total,
-    setTotal: values.setTotal
+    setParams: values.setParams,
+    total: values.total
   };
 };
 

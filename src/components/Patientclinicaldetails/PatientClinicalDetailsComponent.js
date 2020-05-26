@@ -19,8 +19,8 @@ function PatientClinicalDetailsComponent() {
   const [tab, setTab] = useState(isDoctor ? 'evolution' : 'clinictest');
 
   const [patient, setPatient] = useState(null);
-  const { setFilters: setFiltersTreatments } = useTreatmentsContext();
-  const { setFilters: setFiltersHistory, filters: historyFilters } = usePatientHistoryContext();
+  const { setParmas: setParamsTreatments } = useTreatmentsContext();
+  const { setParams: setParamsHistory, params: historyParams } = usePatientHistoryContext();
   const { setFilters: setFiltersEvolution } = useEvolutionContext();
 
   useEffect(() => {
@@ -32,10 +32,10 @@ function PatientClinicalDetailsComponent() {
   }, [state, currentUserProfile]);
 
   useEffect(() => {
-    setFiltersTreatments({ 'user.id': getPropValue(patient, 'id') || '' });
-    setFiltersHistory({ 'user.id': getPropValue(patient, 'id') || '' });
+    setParamsTreatments({ 'user.id': getPropValue(patient, 'id') || '' });
+    setParamsHistory({ 'user.id': getPropValue(patient, 'id') || '' });
     setFiltersEvolution({ 'user.id': getPropValue(patient, 'id') || '' });
-  }, [setFiltersTreatments, patient, setFiltersHistory, setFiltersEvolution]);
+  }, [setParamsTreatments, patient, setParamsHistory, setFiltersEvolution]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
@@ -47,7 +47,7 @@ function PatientClinicalDetailsComponent() {
 
   const handleTabFromEvolution = (tb, filter) => {
     setTab(tb);
-    setFiltersHistory({ ...historyFilters, type: filter });
+    setParamsHistory({ ...historyParams, type: filter });
   };
 
   return (

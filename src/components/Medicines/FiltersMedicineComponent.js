@@ -9,15 +9,15 @@ import { useMedicinesContext } from './MedicinesContext';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 
 function FiltersMedicineComponent({ currentUserProfile }) {
-  const { setFilters } = useMedicinesContext();
+  const { setParams } = useMedicinesContext();
   const [name, setName] = useState('');
   const debounceValue = useDebounceCustom(name, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    setFilters({ 'hospital.id': currentUserProfile.hospital.id, name: filterNameMemoize });
-  }, [filterNameMemoize, setFilters, currentUserProfile]);
+    setParams({ 'hospital.id': currentUserProfile.hospital.id, name: filterNameMemoize });
+  }, [filterNameMemoize, setParams, currentUserProfile]);
 
   return (
     <FormControl className={classes.formControl}>

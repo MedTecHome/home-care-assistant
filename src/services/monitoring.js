@@ -1,10 +1,9 @@
-import { retriveData } from './utils';
-import { getPatient } from './profiles';
+import getProfiles from './profiles';
 import { getClinicalTests } from './clinicaltest';
 
 const getMonitoring = async (limit, offset, filters) => {
   try {
-    const profiles = await getPatient(limit, offset, filters);
+    const profiles = await getProfiles(limit, offset, filters);
     const resultList = profiles.data.map(async item => {
       const clinicalTest = await getClinicalTests(1, 0, { 'user.id': item.id });
 

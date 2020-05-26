@@ -9,15 +9,15 @@ import useDebounceCustom from '../../commons/useDebounceCustom';
 import { useHospitalContext } from './HospitalContext';
 
 function FiltersHospitalComponent() {
-  const { setFilters } = useHospitalContext();
+  const { setParams } = useHospitalContext();
   const [name, setName] = useState('');
   const debounceValue = useDebounceCustom(name, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    setFilters({ name: filterNameMemoize });
-  }, [filterNameMemoize, setFilters]);
+    setParams({ name: filterNameMemoize });
+  }, [filterNameMemoize, setParams]);
 
   return (
     <FormControl className={classes.formControl}>

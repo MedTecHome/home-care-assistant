@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
 import { validateSex } from '../MedicalForms/validateMedicalForms';
-import { getNomenclatorListActions } from '../../Nomenclators/NomenclatorsAction';
+import getNomenclator from '../../services/nomenclators';
 
 function SexFieldComponent({ required, name, label, className }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    getNomenclatorListActions('sex').then(result => {
-      setOptions(result.data);
+    getNomenclator('sex').then(res => {
+      setOptions(res.data);
     });
   }, []);
   return (

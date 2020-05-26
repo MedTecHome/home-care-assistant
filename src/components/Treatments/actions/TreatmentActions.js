@@ -1,17 +1,9 @@
 import { dbRef } from '../../../firebaseConfig';
-import { apiData } from '../../../axiosApiRequest';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import mutateTreatmentValues from './mutations';
-import { isEmpty, queryFromParams } from '../../../helpers/utils';
+import { isEmpty } from '../../../helpers/utils';
 
 const TreatmentRef = dbRef('treatment').collection('treatments');
-
-export const getListTreatmentsAction = async ({ limit, offset, filters }) => {
-  const params = { limit, offset, ...filters };
-  const query = queryFromParams(params);
-  const response = await apiData.get(`/getTreatments${query && `?${query}`}`);
-  return response.data;
-};
 
 export const findByIdAction = async (id, fields = []) => {
   const result = await TreatmentRef.doc(id).get();

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
-import { getNomenclatorListActions } from '../../Nomenclators/NomenclatorsAction';
+import getNomenclator from '../../services/nomenclators';
 
 function ConcentrationFieldComponent({ required, name, label, validate }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    getNomenclatorListActions('concentrations').then(result => {
-      setOptions(result.data);
+    getNomenclator('concentrations').then(res => {
+      setOptions(res.data);
     });
   }, []);
   return (

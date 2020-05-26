@@ -1,9 +1,10 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { getMedicinesListAction, saveMedicineValuesActions } from './actions/MedicinesActions';
+import { saveMedicineValuesActions } from './actions/MedicinesActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import getMedicines from '../../services/medicines';
 
 const MedicinesContext = createContext({});
 
@@ -13,28 +14,25 @@ export const withMedicinesContext = WrapperComponent => props => {
   const [total, setTotal] = useState(0);
   const [loadList, setLoadingList] = useState(false);
   const [seletd, setSelected] = useState(null);
-  const [filters, setFilters] = useState({});
+  const [params, setParams] = useState({});
   const [globalState, globalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const medicineList = useMemo(() => medicList, [medicList]);
   const loadingList = useMemo(() => loadList, [loadList]);
   const selected = useMemo(() => seletd, [seletd]);
 
-  const getMedicinesList = useCallback(
-    async params => {
+  useEffect(() => {
+    if (globalState.formType === null) {
       setLoadingList(true);
-      try {
-        const result = await getMedicinesListAction({ ...params, filters });
-        setMedicinesList(result.data);
-        setTotal(result.total);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext');
-      } finally {
-        setLoadingList(false);
-      }
-    },
-    [filters, RegisterMessage]
-  );
+      getMedicines(10, 0, params)
+        .then(res => {
+          setMedicinesList(res.data);
+          setTotal(res.total);
+        })
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'))
+        .finally(() => setLoadingList(false));
+    }
+  }, [params, globalState.formType, RegisterMessage]);
 
   const saveMedicineValues = useCallback(
     async (values, formType) => {
@@ -63,15 +61,14 @@ export const withMedicinesContext = WrapperComponent => props => {
         medicineList,
         loadingList,
         selected,
-        filters,
+        params,
         total,
         setTotal,
         ...globalState,
-        getMedicinesList,
         selectMedicineFromList,
         saveMedicineValues,
         setModalVisible,
-        setFilters
+        setParams
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -88,15 +85,13 @@ export const useMedicinesContext = () => {
     medicineList: values.medicineList,
     loadingList: values.loadingList,
     selected: values.selected,
-    filters: values.filters,
+    params: values.params,
     total: values.total,
     formType: values.formType,
     modalVisible: values.modalVisible,
-    getMedicinesList: values.getMedicinesList,
     selectMedicineFromList: values.selectMedicineFromList,
     saveMedicineValues: values.saveMedicineValues,
     setModalVisible: values.setModalVisible,
-    setFilters: values.setFilters,
-    setTotal: values.setTotal
+    setParams: values.setParams
   };
 };

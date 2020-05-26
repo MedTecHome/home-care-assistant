@@ -22,7 +22,6 @@ function HospitalComponent() {
     modalVisible,
     setModalVisible,
     formType,
-    getListHospitals,
     selectHospital
   } = useHospitalContext();
   const { currentUserProfile } = useAuthContext();
@@ -30,8 +29,8 @@ function HospitalComponent() {
   const cells = match ? [hospitalHeadCells[0]] : hospitalHeadCells;
 
   const handleReloadList = useCallback(() => {
-    getListHospitals({ limit: pageSize, offset });
-  }, [getListHospitals, offset, pageSize]);
+    //
+  }, []);
 
   useEffect(() => {
     if (formType === null) handleReloadList();

@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useMonitoringContext } from './MonitoringContext';
 
 function FiltersMonitoringComponent({ currentUserProfile }) {
-  const { setFilters } = useMonitoringContext();
+  const { setParams } = useMonitoringContext();
 
   useEffect(() => {
-    if (currentUserProfile) setFilters({ 'doctor.id': currentUserProfile.id });
-  }, [setFilters, currentUserProfile]);
+    if (currentUserProfile) setParams({ 'doctor.id': currentUserProfile.id });
+  }, [setParams, currentUserProfile]);
 
   return <></>;
 }

@@ -2,8 +2,10 @@ import { retriveData, retriveDoc } from './utils';
 
 const getNomenclator = async (nomenclator, id = undefined) => {
   if (id) {
-    return await retriveDoc(`nomenclators/${nomenclator}/${id}`);
+    const result = await retriveDoc(`nomenclators/${nomenclator}/${id}`);
+    return result;
   }
-  return await retriveData(`nomenclators/${nomenclator}`, 10000, 0, {}, null, null);
+  const result = await retriveData(`nomenclators/${nomenclator}`, 10000, 0, {}, null, null);
+  return result;
 };
 export default getNomenclator;
