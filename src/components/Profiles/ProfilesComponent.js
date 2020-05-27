@@ -9,10 +9,22 @@ import ProfilesFormComponent from './forms/ProfilesFormsComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import useCustomStyles from '../../jss/globalStyles';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import { getPropValue } from '../../helpers/utils';
+import PaginationComponent from '../pagination/PaginationComponent';
 
 function ProfilesComponent() {
   const { pageSize, offset } = useCustomPaginationContext();
-  const { formType, setModalVisible, modalVisible, setParams } = useProfilesContext();
+  const {
+    formType,
+    setModalVisible,
+    modalVisible,
+    setParams,
+    profileList,
+    total,
+    selectProfileFromList,
+    profileSelected,
+    loadingList
+  } = useProfilesContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
@@ -42,9 +54,24 @@ function ProfilesComponent() {
         </Typography>
       </Breadcrumbs>
       <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
-      <ListProfilesComponent onClickDelete={handleOnClickDelete} onClickEdit={handleOnClickEdit} />
+      <Typography>
+        <strong>Total: </strong>({total})
+      </Typography>
+      <ListProfilesComponent
+        loadingList={loadingList}
+        profileList={profileList}
+        profileSelected={profileSelected}
+        selectProfileFromList={selectProfileFromList}
+        onClickDelete={handleOnClickDelete}
+        onClickEdit={handleOnClickEdit}
+      />
+      <PaginationComponent
+        total={total}
+        first={getPropValue(profileList[0], 'fullname')}
+        last={getPropValue(profileList[profileList.length - 1], 'fullname')}
+      />
     </>
   );
 }
 
-export default withProfileContext(withCustomPaginationContext(ProfilesComponent));
+export default withCustomPaginationContext(withProfileContext(ProfilesComponent));

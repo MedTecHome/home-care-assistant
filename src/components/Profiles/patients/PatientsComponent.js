@@ -9,9 +9,22 @@ import ToolbarProfileComponent from '../FiltersProfilesComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import useCustomStyles from '../../../jss/globalStyles';
+import PaginationComponent from '../../pagination/PaginationComponent';
+import { getPropValue } from '../../../helpers/utils';
+import { withCustomPaginationContext } from '../../pagination/PaginationContext';
 
 function PatientsComponent() {
-  const { setModalVisible, modalVisible, formType, setParams } = useProfilesContext();
+  const {
+    formType,
+    setModalVisible,
+    modalVisible,
+    setParams,
+    profileList,
+    total,
+    selectProfileFromList,
+    profileSelected,
+    loadingList
+  } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useCustomStyles();
 
@@ -34,6 +47,8 @@ function PatientsComponent() {
     setModalVisible(true, ADD_FORM_TEXT);
   };
 
+  console.log(profileList, total);
+
   return (
     <>
       <ModalComponent visible={modalVisible}>
@@ -45,9 +60,26 @@ function PatientsComponent() {
         </Typography>
       </Breadcrumbs>
       <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
-      <ListProfilesComponent onClickDelete={handleOnClickDelete} onClickEdit={handleOnClickEdit} />
+      <Typography>
+        <strong>Total: </strong>({total})
+      </Typography>
+      <ListProfilesComponent
+        loadingList={loadingList}
+        profileList={profileList}
+        profileSelected={profileSelected}
+        selectProfileFromList={selectProfileFromList}
+        onClickDelete={handleOnClickDelete}
+        onClickEdit={handleOnClickEdit}
+      />
+      {!loadingList && (
+        <PaginationComponent
+          total={total}
+          first={getPropValue(profileList[0], 'fullname')}
+          last={getPropValue(profileList[profileList.length - 1], 'fullname')}
+        />
+      )}
     </>
   );
 }
 
-export default withProfileContext(PatientsComponent);
+export default withCustomPaginationContext(withProfileContext(PatientsComponent));

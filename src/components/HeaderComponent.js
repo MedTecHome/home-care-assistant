@@ -14,6 +14,7 @@ import Menu from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useMediaQuery } from '@material-ui/core';
 import IconMenu from '@material-ui/icons/Menu';
+import logo from '../images/homeCareView1.png';
 import { useAuthContext } from '../contexts/AuthContext';
 import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationComponent';
 
@@ -29,6 +30,10 @@ const useStyles = makeStyles({
   },
   currentUser: {
     fontSize: '0.9rem'
+  },
+  logo: {
+    textAlign: 'right',
+    height: 44
   }
 });
 
@@ -60,13 +65,14 @@ function HeaderComponent({ history }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="sticky" variant="outlined">
+      <AppBar position="sticky" variant="outlined" color="inherit">
         <Toolbar className={classes.toolbar} variant="dense">
           <div className={classes.title}>
-            <Button color="inherit" onClick={handleHomeClick}>
-              Inicio
-            </Button>
+            <Typography color="inherit" onClick={handleHomeClick}>
+              <img src={logo} className={classes.logo} alt="logo" />
+            </Typography>
           </div>
+
           {!currentUser && (
             <Button disableElevation color="inherit" onClick={handleClickLogin}>
               Login
