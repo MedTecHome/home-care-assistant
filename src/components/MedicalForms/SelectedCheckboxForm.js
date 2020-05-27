@@ -24,9 +24,9 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
         </Typography>
       </FormLabel>
       <FormGroup className={justifyCheckbox} row defaultValue={defaultValues}>
-        {Object.entries(testFormsNames).map(([key, value]) => (
+        {testFormsNames.map(value => (
           <FormControlLabel
-            key={key}
+            key={value.id}
             control={
               <Checkbox
                 className={noHoverBackground}
@@ -35,8 +35,8 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
                 disableFocusRipple
                 disableTouchRipple
                 onChange={({ target: { checked, name } }) => onCheckboxChange(checked, name)}
-                checked={defaultValues.includes(key)}
-                name={key}
+                checked={defaultValues.includes(value.id)}
+                name={value.id}
               />
             }
             label={
@@ -45,7 +45,7 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
                 style={{
                   fontWeight: 550
                 }}
-              >{`${value}`}</Typography>
+              >{`${value.name}`}</Typography>
             }
           />
         ))}

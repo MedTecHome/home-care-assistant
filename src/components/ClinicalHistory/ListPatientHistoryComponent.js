@@ -50,7 +50,9 @@ function ListPatientHistoryComponent() {
                   <Grid container spacing={1}>
                     <Grid item xs={12} sm={4}>
                       <Typography component="span" className={classes.textLabel}>
-                        {getPropValue(report, 'type.name')}
+                        {getPropValue(report, 'type.id') === 'others'
+                          ? report.othersName
+                          : getPropValue(report, 'type.name')}
                       </Typography>
                     </Grid>
                     <TypeMedicalFormComponent data={report} />

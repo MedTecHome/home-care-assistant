@@ -1,4 +1,5 @@
 import { formatDateWithTime } from '../../../helpers/utils';
+import { severityConstant } from '../../../helpers/constants';
 import getNomenclator from '../../../services/nomenclators';
 
 export const pressureModel = ({
@@ -91,10 +92,19 @@ export const oxygenModel = ({ user, SpO2, heartbeat, oxygenPI, oxygenDate, oxyge
   ...(oxygenNote ? { note: oxygenNote } : {})
 });
 
-export const exercicesModel = ({ distance, time, steps, exercisesDate, exercisesTime, exercisesNote }) => ({
+export const exercicesModel = ({ user, distance, time, steps, exercisesDate, exercisesTime, exercisesNote }) => ({
+  user,
   distance,
   time,
   steps,
   clinicalDate: formatDateWithTime(exercisesDate, exercisesTime),
   ...(exercisesNote ? { note: exercisesNote } : {})
+});
+
+export const othersModel = ({ user, othersName, severity, othersDate, othersTime, othersNote = '' }) => ({
+  user,
+  othersName,
+  severity: severityConstant.find(sev => sev.id === severity),
+  clinicalDate: formatDateWithTime(othersDate, othersTime),
+  note: othersNote
 });

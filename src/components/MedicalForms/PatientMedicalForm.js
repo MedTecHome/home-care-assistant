@@ -18,6 +18,7 @@ import ExercisesForm from './ExercisesForm';
 import CoagulationForm from './CoagulationForm';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
+import OthersForms from './OthersForm';
 
 const useStyles = makeStyles(theme => ({
   formContainer: {
@@ -91,7 +92,7 @@ const PatientMedicalForm = () => {
         <Grid item xs={12} sm={9} container direction="column">
           <Form
             onSubmit={onSubmit}
-            render={({ handleSubmit, form, submitting, pristine, invalid }) => {
+            render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {
               return (
                 <form
                   autoComplete="off"
@@ -139,6 +140,11 @@ const PatientMedicalForm = () => {
                     {selectedForms.includes('exercises') && (
                       <Grid item xs={12} sm={10} md={6}>
                         <ExercisesForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('others') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <OthersForms classStyle={classes} testName={values.othersName} />
                       </Grid>
                     )}
                   </Grid>

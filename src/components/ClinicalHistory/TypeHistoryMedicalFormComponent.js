@@ -77,6 +77,11 @@ function TypeHistoryMedicalFormComponent({ data }) {
           two={<TextLabelAndValue label="Tiempo" value={data.time || ' - '} />}
         />
       )}
+      {idType === 'others' && (
+        <ListItemTextComponent
+          one={<TextLabelAndValue label="Severidad" value={getPropValue(data, 'severity.name')} />}
+        />
+      )}
     </>
   );
 }

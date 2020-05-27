@@ -156,6 +156,19 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         </>
       )}
 
+      {selected.type.id === 'others' && (
+        <>
+          <Typography component="div">
+            <strong>Nombre: </strong>
+            {getPropValue(selected, 'othersName') || '-'}
+          </Typography>
+          <Typography component="div">
+            <strong>Severidad: </strong>
+            {getPropValue(selected, 'severity.name') || '-'}
+          </Typography>
+        </>
+      )}
+
       <Typography component="div">
         <strong>Fecha: </strong>
         {selected && moment.unix(selected.clinicalDate).format('DD/MM/YYYY')}
@@ -203,7 +216,7 @@ function DetailHistoryMedicalFormComponent() {
                 <ListItemText
                   primary={
                     <Typography>
-                      Paciente: <strong>{getPropValue(selected, 'user.fullname') || '-'}</strong>
+                      <strong>{getPropValue(selected, 'user.fullname') || '-'}</strong>
                     </Typography>
                   }
                 />

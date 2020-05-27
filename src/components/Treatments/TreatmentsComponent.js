@@ -32,7 +32,9 @@ function TreatmentsComponent({ patient }) {
   const cells = match ? [treatmentsHeadCells[0]] : treatmentsHeadCells;
 
   useEffect(() => {
-    setParams({ 'user.id': getPropValue(patient, 'id'), limit: pageSize, offset });
+    if (getPropValue(patient, 'id')) {
+      setParams({ 'user.id': getPropValue(patient, 'id'), limit: pageSize, offset });
+    }
   }, [patient, setParams, pageSize, offset]);
 
   const handleModalVisible = fType => {

@@ -118,3 +118,13 @@ export const validateGlucoseUnity = value => {
   if (!value) return REQUIRED_FIELD;
   return null;
 };
+
+export const validateOthersName = value => {
+  if (!value) return REQUIRED_FIELD;
+  return null;
+};
+
+export const validateOthersSeverity = value => {
+  if (!value) return REQUIRED_FIELD;
+  return null;
+};
