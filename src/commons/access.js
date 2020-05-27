@@ -1,5 +1,6 @@
 const listAccess = {
-  admin: ['clinic', 'doctor', 'patient', 'admin'],
+  develop: ['clinic', 'doctor', 'patient', 'admin'],
+  admin: ['clinic'],
   clinic: ['doctor'],
   doctor: ['patient'],
   developer: ['patient', 'doctor', 'admin']

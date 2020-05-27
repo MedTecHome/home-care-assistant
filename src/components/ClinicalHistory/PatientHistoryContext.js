@@ -12,7 +12,8 @@ import {
   getINR,
   getOxygen,
   getExercises,
-  getBreathing
+  getBreathing,
+  getOthers
 } from '../../services/clinicaltest';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
@@ -45,7 +46,8 @@ const PatientHistoryContextProvider = ({ children }) => {
       (type === 'breathing' && getBreathing) ||
       (type === 'inr' && getINR) ||
       (type === 'oxygen' && getOxygen) ||
-      (type === 'exercises' && getExercises);
+      (type === 'exercises' && getExercises) ||
+      (type === 'others' && getOthers);
 
     clinicaltest(pageSize, offset, filters)
       .then(response => {

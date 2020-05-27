@@ -8,7 +8,8 @@ import {
   oxygenModel,
   pressureModel,
   tempratureModel,
-  weightModel
+  weightModel,
+  othersModel
 } from './models';
 import { queryFromParams } from '../../../helpers/utils';
 
@@ -20,6 +21,7 @@ const BreathingRef = dbRef('health').collection('breathing');
 const INRRef = dbRef('health').collection('inr');
 const OxygenRef = dbRef('health').collection('oxygen');
 const ExericesRef = dbRef('health').collection('exercises');
+const OthersRef = dbRef('health').collection('others');
 
 export const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('pressure')) {
@@ -35,7 +37,6 @@ export const saveHealthDataAction = async ({ forms, ...values }) => {
     const result = await glucoseModel(values);
     await GlucoseRef.add(result);
   }
-
   if (forms.includes('breathing')) {
     await BreathingRef.add(breathingModel(values));
   }
@@ -47,6 +48,9 @@ export const saveHealthDataAction = async ({ forms, ...values }) => {
   }
   if (forms.includes('exercises')) {
     await ExericesRef.add(exercicesModel(values));
+  }
+  if (forms.includes('others')) {
+    await OthersRef.add(othersModel(values));
   }
 };
 

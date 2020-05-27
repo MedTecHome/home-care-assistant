@@ -9,6 +9,7 @@ import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormCompone
 import FilterPatientHistoryGraficsComponent from './FilterPatientHistoryGraficsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import { getPropValue } from '../../helpers/utils';
 
 function PatientHistoryComponent({ patient }) {
   const { resetPagination } = useCustomPaginationContext();
@@ -17,8 +18,8 @@ function PatientHistoryComponent({ patient }) {
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    setParams({ 'user.id': patient.id });
-  }, [patient.id, setParams]);
+    setParams({ 'user.id': getPropValue(patient, 'id') || null });
+  }, [patient, setParams]);
 
   const handleSelectDate = date => {
     setParams({ ...params, clinicalDate: date });
