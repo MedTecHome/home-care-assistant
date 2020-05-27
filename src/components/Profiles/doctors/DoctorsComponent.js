@@ -9,20 +9,33 @@ import ToolbarProfileComponent from '../FiltersProfilesComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import useCustomStyles from '../../../jss/globalStyles';
+import PaginationComponent from '../../pagination/PaginationComponent';
+import { getPropValue } from '../../../helpers/utils';
+import { withCustomPaginationContext } from '../../pagination/PaginationContext';
 
 function DoctorsComponent() {
-  const { setModalVisible, modalVisible, formType, setFilters } = useProfilesContext();
+  const {
+    formType,
+    setModalVisible,
+    modalVisible,
+    setParams,
+    profileList,
+    total,
+    selectProfileFromList,
+    profileSelected,
+    loadingList
+  } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
     if (formType === null) {
-      setFilters({
+      setParams({
         'role.id': 'doctor',
         ...(currentUserProfile ? { 'hospital.id': currentUserProfile.hospital.id } : {})
       });
     }
-  }, [setFilters, currentUserProfile, formType]);
+  }, [setParams, currentUserProfile, formType]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -47,9 +60,26 @@ function DoctorsComponent() {
         </Typography>
       </Breadcrumbs>
       <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
-      <ListProfilesComponent onClickDelete={handleOnClickDelete} onClickEdit={handleOnClickEdit} />
+      <Typography>
+        <strong>Total: </strong>({total})
+      </Typography>
+      <ListProfilesComponent
+        loadingList={loadingList}
+        profileList={profileList}
+        profileSelected={profileSelected}
+        selectProfileFromList={selectProfileFromList}
+        onClickDelete={handleOnClickDelete}
+        onClickEdit={handleOnClickEdit}
+      />
+      {!loadingList && (
+        <PaginationComponent
+          total={total}
+          first={getPropValue(profileList[0], 'fullname')}
+          last={getPropValue(profileList[profileList.length - 1], 'fullname')}
+        />
+      )}
     </>
   );
 }
 
-export default withProfileContext(DoctorsComponent);
+export default withCustomPaginationContext(withProfileContext(DoctorsComponent));

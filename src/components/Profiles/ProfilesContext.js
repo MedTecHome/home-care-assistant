@@ -6,6 +6,7 @@ import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getProfiles from '../../services/profiles';
+import { isEmpty } from '../../helpers/utils';
 
 const ProfilesContext = createContext({});
 
@@ -23,8 +24,8 @@ export const withProfileContext = WrapperComponent => props => {
 
   // eslint-disable-next-line no-unused-vars
   useEffect(() => {
-    if (globalState.formType === null) {
-      const { limit, offset, ...filters } = params;
+    const { limit, offset, ...filters } = params;
+    if (globalState.formType === null && !isEmpty(filters)) {
       setLoadingList(true);
       getProfiles(limit, offset, filters)
         .then(result => {
