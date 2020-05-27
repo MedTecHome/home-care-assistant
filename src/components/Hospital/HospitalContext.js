@@ -23,8 +23,9 @@ const HospitalContextProvider = ({ children }) => {
   // eslint-disable-next-line no-unused-vars
   useEffect(() => {
     if (globalState.formType === null) {
+      const { limit, offset, ...filters } = params;
       setLoadingList(true);
-      getHospitals(100, 0, params)
+      getHospitals(limit, offset, filters)
         .then(result => {
           setHospitals(result.data);
           setTotal(result.total);

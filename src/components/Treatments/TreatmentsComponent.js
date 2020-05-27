@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import uuid from 'uuid4';
 import { useMediaQuery, Typography } from '@material-ui/core';
-import { useTreatmentsContext } from './TreatmentsContext';
+import { useTreatmentsContext, withTreatmentsContext } from './TreatmentsContext';
 import TableComponent from '../table/TableComponent';
 import treatmentsHeadCells from './treatmentsHeadCells';
 import ModalComponent from '../ModalComponent';
@@ -11,8 +11,9 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { useCustomPaginationContext, withCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
 import FiltersTreatmentComponent from './FiltersTreatmentComponent';
+import { getPropValue } from '../../helpers/utils';
 
-function TreatmentsComponent() {
+function TreatmentsComponent({ patient }) {
   const { pageSize, offset } = useCustomPaginationContext();
   const {
     listTreatments,
@@ -25,24 +26,14 @@ function TreatmentsComponent() {
     formType,
     selectFromList
   } = useTreatmentsContext();
-  const { isDoctor, currentUserProfile } = useAuthContext();
+  const { isDoctor } = useAuthContext();
   const [open, setOpen] = useState(null);
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [treatmentsHeadCells[0]] : treatmentsHeadCells;
 
   useEffect(() => {
-    if (!isDoctor) {
-      setParams({ 'user.id': currentUserProfile.id });
-    }
-  }, [currentUserProfile, setParams, isDoctor]);
-
-  const handleLoadList = useCallback(() => {
-    // setParams({ limit: pageSize, offset });
-  }, []);
-
-  useEffect(() => {
-    if (formType === null) handleLoadList();
-  }, [formType, handleLoadList]);
+    setParams({ 'user.id': getPropValue(patient, 'id'), limit: pageSize, offset });
+  }, [patient, setParams, pageSize, offset]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -59,7 +50,7 @@ function TreatmentsComponent() {
             <strong>Total: </strong>({total})
           </Typography>
         }
-        filters={<FiltersTreatmentComponent currentUserProfile={currentUserProfile} />}
+        filters={<FiltersTreatmentComponent />}
         addRole={isDoctor}
         disableElevation
         headCells={cells}
@@ -83,9 +74,13 @@ function TreatmentsComponent() {
           />
         )}
       />
-      <PaginationComponent total={total} />
+      <PaginationComponent
+        total={total}
+        first={getPropValue(listTreatments[0], 'name')}
+        last={getPropValue(listTreatments[listTreatments.length - 1], 'name')}
+      />
     </>
   );
 }
 
-export default withCustomPaginationContext(TreatmentsComponent);
+export default withCustomPaginationContext(withTreatmentsContext(TreatmentsComponent));

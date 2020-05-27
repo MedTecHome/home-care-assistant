@@ -8,16 +8,16 @@ import ModalComponent from '../ModalComponent';
 import ProfilesFormComponent from './forms/ProfilesFormsComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import useCustomStyles from '../../jss/globalStyles';
+import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 
 function ProfilesComponent() {
+  const { pageSize, offset } = useCustomPaginationContext();
   const { formType, setModalVisible, modalVisible, setParams } = useProfilesContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
-    if (formType === null) {
-      setParams({});
-    }
-  }, [setParams, formType]);
+    setParams({ limit: pageSize, offset });
+  }, [setParams, pageSize, offset]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -47,4 +47,4 @@ function ProfilesComponent() {
   );
 }
 
-export default withProfileContext(ProfilesComponent);
+export default withProfileContext(withCustomPaginationContext(ProfilesComponent));

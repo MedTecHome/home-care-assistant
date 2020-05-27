@@ -14,9 +14,10 @@ import EmptyComponent from '../EmptyComponent';
 import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
 import { getPropValue } from '../../helpers/utils';
+import PaginationComponent from '../pagination/PaginationComponent';
 
 function ListPatientHistoryComponent() {
-  const { historyList, loadingList, setModalVisible, selectMedicalForm, selected } = usePatientHistoryContext();
+  const { historyList, total, loadingList, setModalVisible, selectMedicalForm, selected } = usePatientHistoryContext();
   const classes = useCustomStyles();
 
   const handleSelect = el => {
@@ -35,37 +36,44 @@ function ListPatientHistoryComponent() {
           <LinearProgress />
         </div>
       ) : (
-        <List className={classes.root}>
-          {historyList.length === 0 && <EmptyComponent />}
-          {historyList.map(report => {
-            return (
-              <ListItem
-                key={report.id}
-                className={clsx(classes.itemList, selected && selected.id === report.id && classes.selectedItemList)}
-                divider
-                onClick={() => handleSelect(report)}
-              >
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={4}>
-                    <Typography component="span" className={classes.textLabel}>
-                      {getPropValue(report, 'type.name')}
-                    </Typography>
+        <>
+          <List className={classes.root}>
+            {historyList.length === 0 && <EmptyComponent />}
+            {historyList.map(report => {
+              return (
+                <ListItem
+                  key={report.id}
+                  className={clsx(classes.itemList, selected && selected.id === report.id && classes.selectedItemList)}
+                  divider
+                  onClick={() => handleSelect(report)}
+                >
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={4}>
+                      <Typography component="span" className={classes.textLabel}>
+                        {getPropValue(report, 'type.name')}
+                      </Typography>
+                    </Grid>
+                    <TypeMedicalFormComponent data={report} />
+                    <Grid item xs={12} className={classes.extraText}>
+                      <Typography variant="body2">
+                        <span className={classes.textLabel}>Fecha:</span>
+                        {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY hh:mma')}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <TypeMedicalFormComponent data={report} />
-                  <Grid item xs={12} className={classes.extraText}>
-                    <Typography variant="body2">
-                      <span className={classes.textLabel}>Fecha:</span>
-                      {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY hh:mma')}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <ListItemSecondaryAction>
-                  <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
-        </List>
+                  <ListItemSecondaryAction>
+                    <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              );
+            })}
+          </List>
+          <PaginationComponent
+            total={total}
+            first={getPropValue(historyList[0], 'clinicalDate')}
+            last={getPropValue(historyList[historyList.length - 1], 'clinicalDate')}
+          />
+        </>
       )}
     </>
   );

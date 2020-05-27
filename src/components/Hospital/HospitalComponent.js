@@ -11,6 +11,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
 import FiltersHospitalComponent from './FilterHospitalComponent';
+import { getPropValue } from '../../helpers/utils';
 
 function HospitalComponent() {
   const { offset, pageSize } = useCustomPaginationContext();
@@ -22,15 +23,16 @@ function HospitalComponent() {
     modalVisible,
     setModalVisible,
     formType,
-    selectHospital
+    selectHospital,
+    setParams
   } = useHospitalContext();
   const { currentUserProfile } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [hospitalHeadCells[0]] : hospitalHeadCells;
 
   const handleReloadList = useCallback(() => {
-    //
-  }, []);
+    setParams({ limit: pageSize, offset });
+  }, [pageSize, offset, setParams]);
 
   useEffect(() => {
     if (formType === null) handleReloadList();
@@ -76,7 +78,11 @@ function HospitalComponent() {
           />
         )}
       />
-      <PaginationComponent total={total} />
+      <PaginationComponent
+        total={total}
+        first={getPropValue(hospitalsList[0], 'name')}
+        last={getPropValue(hospitalsList[hospitalsList.lenght - 1], 'name')}
+      />
     </>
   );
 }

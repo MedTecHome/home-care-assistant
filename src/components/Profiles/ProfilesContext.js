@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
 
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
-import { getProfilesAction, saveProfileValuesAction } from './reducers/ProfileActions';
+import { saveProfileValuesAction } from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
@@ -23,9 +23,10 @@ export const withProfileContext = WrapperComponent => props => {
 
   // eslint-disable-next-line no-unused-vars
   useEffect(() => {
-    setLoadingList(true);
     if (globalState.formType === null) {
-      getProfiles(100, 0, params)
+      const { limit, offset, ...filters } = params;
+      setLoadingList(true);
+      getProfiles(limit, offset, filters)
         .then(result => {
           setProfileList(result.data);
           setTotal(result.total);

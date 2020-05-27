@@ -5,23 +5,16 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TreatmentsComponent from '../Treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
-import { useTreatmentsContext, withTreatmentsContext } from '../Treatments/TreatmentsContext';
-import { usePatientHistoryContext, withPatientHistoryContext } from '../ClinicalHistory/PatientHistoryContext';
 import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 import EvolutionComponent from '../evolution/EvolutionComponent';
-import { withEvolutionContext, useEvolutionContext } from '../evolution/EvolutionContext';
 
 function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
   const { currentUserProfile, isDoctor } = useAuthContext();
   const [tab, setTab] = useState(isDoctor ? 'evolution' : 'clinictest');
-
   const [patient, setPatient] = useState(null);
-  const { setParmas: setParamsTreatments } = useTreatmentsContext();
-  const { setParams: setParamsHistory, params: historyParams } = usePatientHistoryContext();
-  const { setFilters: setFiltersEvolution } = useEvolutionContext();
 
   useEffect(() => {
     if (getPropValue(currentUserProfile, 'role.id') === 'patient') {
@@ -30,12 +23,6 @@ function PatientClinicalDetailsComponent() {
       setPatient(state.profile);
     }
   }, [state, currentUserProfile]);
-
-  useEffect(() => {
-    setParamsTreatments({ 'user.id': getPropValue(patient, 'id') || '' });
-    setParamsHistory({ 'user.id': getPropValue(patient, 'id') || '' });
-    setFiltersEvolution({ 'user.id': getPropValue(patient, 'id') || '' });
-  }, [setParamsTreatments, patient, setParamsHistory, setFiltersEvolution]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
@@ -47,7 +34,8 @@ function PatientClinicalDetailsComponent() {
 
   const handleTabFromEvolution = (tb, filter) => {
     setTab(tb);
-    setParamsHistory({ ...historyParams, type: filter });
+    // eslint-disable-next-line no-console
+    console.log(filter);
   };
 
   return (
@@ -77,11 +65,11 @@ function PatientClinicalDetailsComponent() {
           </Tabs>
         </Paper>
 
-        {tab === 'treatments' && <TreatmentsComponent />}
-        {tab === 'clinictest' && <PatientHistoryComponent />}
-        {tab === 'evolution' && isDoctor && <EvolutionComponent setTab={handleTabFromEvolution} />}
+        {tab === 'treatments' && <TreatmentsComponent patient={patient} />}
+        {tab === 'clinictest' && <PatientHistoryComponent patient={patient} />}
+        {tab === 'evolution' && isDoctor && <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />}
       </div>
     </>
   );
 }
-export default withTreatmentsContext(withPatientHistoryContext(withEvolutionContext(PatientClinicalDetailsComponent)));
+export default PatientClinicalDetailsComponent;

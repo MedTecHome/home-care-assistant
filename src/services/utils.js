@@ -17,7 +17,7 @@ const setFilters = (Reference, filters) => {
         break;
       }
       case 'clinicalDate': {
-        const customDate = parseInt(filters[k]);
+        const customDate = parseInt(filters[k], 10);
         const tomorrow = moment.unix(customDate).add(1, 'days').unix();
         ref = ref.orderBy(k, 'desc').where(k, '>=', customDate).where(k, '<', tomorrow);
         break;
@@ -50,7 +50,7 @@ const setFilters = (Reference, filters) => {
   return ref;
 };
 
-const retriveData = async (path, limit = 0, offset = 0, filters, field, sort) => {
+const retriveData = async (path, limit = 10, offset = '', filters, field, sort) => {
   try {
     let dataRef = dbFirebase.collection(`${globalPath}/${path}`);
     if (field && sort) {
@@ -58,7 +58,14 @@ const retriveData = async (path, limit = 0, offset = 0, filters, field, sort) =>
     }
     dataRef = setFilters(dataRef, filters);
     const total = (await dataRef.get()).size;
-    const data = (await dataRef.limit(limit).get()).docChanges().map(({ doc }) => mutateDoc(doc));
+    if (offset.next) {
+      dataRef = dataRef.startAfter(offset.next).limit(limit);
+    } else if (offset.prev) {
+      dataRef = dataRef.endBefore(offset.prev).limitToLast(limit);
+    } else {
+      dataRef = dataRef.limit(limit);
+    }
+    const data = (await dataRef.get()).docChanges().map(({ doc }) => mutateDoc(doc));
     return { total, data };
   } catch (e) {
     throw new Error(e);

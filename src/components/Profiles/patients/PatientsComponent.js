@@ -11,18 +11,16 @@ import { useAuthContext } from '../../../contexts/AuthContext';
 import useCustomStyles from '../../../jss/globalStyles';
 
 function PatientsComponent() {
-  const { setModalVisible, modalVisible, formType, setFilters } = useProfilesContext();
+  const { setModalVisible, modalVisible, formType, setParams } = useProfilesContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useCustomStyles();
 
   useEffect(() => {
-    if (formType === null) {
-      setFilters({
-        'role.id': 'patient',
-        ...(currentUserProfile ? { 'doctor.id': currentUserProfile.id } : {})
-      });
-    }
-  }, [setFilters, currentUserProfile, formType]);
+    setParams({
+      'role.id': 'patient',
+      ...(currentUserProfile ? { 'doctor.id': currentUserProfile.id } : {})
+    });
+  }, [setParams, currentUserProfile, formType]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { useMediaQuery } from '@material-ui/core';
-import { usePatientHistoryContext } from './PatientHistoryContext';
+import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../ModalComponent';
@@ -9,17 +9,26 @@ import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormCompone
 import FilterPatientHistoryGraficsComponent from './FilterPatientHistoryGraficsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
-import PaginationComponent from '../pagination/PaginationComponent';
 
-function PatientHistoryComponent() {
-  const { pageSize, offset } = useCustomPaginationContext();
-  const { setParams, modalVisible, total } = usePatientHistoryContext();
+function PatientHistoryComponent({ patient }) {
+  const { resetPagination } = useCustomPaginationContext();
+  const { modalVisible, params, setParams } = usePatientHistoryContext();
   const { isDoctor } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    setParams({});
-  }, [setParams, pageSize, offset]);
+    setParams({ 'user.id': patient.id });
+  }, [patient.id, setParams]);
+
+  const handleSelectDate = date => {
+    setParams({ ...params, clinicalDate: date });
+    resetPagination();
+  };
+
+  const handleSelectType = type => {
+    setParams({ ...params, type });
+    resetPagination();
+  };
 
   return (
     <>
@@ -28,9 +37,8 @@ function PatientHistoryComponent() {
       </ModalComponent>
       <Grid container>
         <Grid item xs={11} sm={isDoctor ? 11 : 12} md={isDoctor ? 5 : 12}>
-          <FiltersPatientHistoryComponent />
+          <FiltersPatientHistoryComponent onSelectDate={handleSelectDate} onSelectType={handleSelectType} />
           <ListPatientHistoryComponent />
-          <PaginationComponent total={total} />
         </Grid>
         {isDoctor && !match && (
           <Grid item xs={12} sm={7} container>
@@ -42,4 +50,4 @@ function PatientHistoryComponent() {
   );
 }
 
-export default withCustomPaginationContext(PatientHistoryComponent);
+export default withCustomPaginationContext(withPatientHistoryContext(PatientHistoryComponent));

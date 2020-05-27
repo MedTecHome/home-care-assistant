@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 import FiltersEvolutionComponent from './FiltersEvolutionComponent';
-import { useEvolutionContext } from './EvolutionContext';
+import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
 import PopupTestTypeComponent from './PopupTestTypeComponet';
 import PopupMedicineDetailComponent from './PopupMedicineDetailComponent';
@@ -216,4 +216,4 @@ function EvolutionComponent({ setTab }) {
   );
 }
 
-export default EvolutionComponent;
+export default withEvolutionContext(EvolutionComponent);

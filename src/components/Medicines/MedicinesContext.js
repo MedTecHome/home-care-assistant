@@ -24,7 +24,8 @@ export const withMedicinesContext = WrapperComponent => props => {
   useEffect(() => {
     if (globalState.formType === null) {
       setLoadingList(true);
-      getMedicines(10, 0, params)
+      const { limit, offset, ...filters } = params;
+      getMedicines(limit, offset, filters)
         .then(res => {
           setMedicinesList(res.data);
           setTotal(res.total);

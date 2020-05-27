@@ -91,7 +91,7 @@ function AddOrEditMedicineForm({ selected, onSubmit }) {
 }
 
 function AddOrEditFormComponent({ title }) {
-  const { setModalVisible, selected, saveValues, formType, filters } = useTreatmentsContext();
+  const { setModalVisible, selected, saveValues, formType, params } = useTreatmentsContext();
   const [medicineSelected, setSelectedMedicine] = useState(null);
   const [medicineEdited, setMedicineEdited] = useState(null);
   const classes = useCustomStyles();
@@ -133,7 +133,7 @@ function AddOrEditFormComponent({ title }) {
                     startDate: moment.unix(selected.startDate),
                     endDate: moment.unix(selected.endDate)
                   }),
-                ...(formType === ADD_FORM_TEXT && filters && filters['user.id'] && { user: filters['user.id'] })
+                ...(formType === ADD_FORM_TEXT && params && params['user.id'] && { user: params['user.id'] })
               }}
               onSubmit={onSubmit}
               render={({ handleSubmit, form, submitting, pristine, invalid, values, errors }) => (

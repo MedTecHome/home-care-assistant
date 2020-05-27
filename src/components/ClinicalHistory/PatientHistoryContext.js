@@ -14,6 +14,7 @@ import {
   getExercises,
   getBreathing
 } from '../../services/clinicaltest';
+import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const PatientHistoryContext = createContext({});
 
@@ -22,9 +23,12 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [list, setHistoryList] = useState([]);
   const [total, setTotal] = useState(0);
   const [slcted, setSelected] = useState(null);
-  const [params, setParams] = useState({});
+  const [prms, setParams] = useState({});
+  const { pageSize, offset } = useCustomPaginationContext();
   const [loadingList, setLoadingList] = useState(false);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
+
+  const params = useMemo(() => prms, [prms]);
 
   const historyList = useMemo(() => list, [list]);
   const selected = useMemo(() => slcted, [slcted]);
@@ -43,7 +47,7 @@ const PatientHistoryContextProvider = ({ children }) => {
       (type === 'oxygen' && getOxygen) ||
       (type === 'exercises' && getExercises);
 
-    clinicaltest(100, 0, filters)
+    clinicaltest(pageSize, offset, filters)
       .then(response => {
         const result = response.data.sort((a, b) => {
           const c = a.clinicalDate;
@@ -59,7 +63,7 @@ const PatientHistoryContextProvider = ({ children }) => {
       .finally(() => {
         setLoadingList(false);
       });
-  }, [params, RegisterMessage]);
+  }, [params, pageSize, offset, RegisterMessage]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback, useContext, useEffect } from 'react';
+import React, { createContext, useState, useCallback, useContext, useEffect, useMemo } from 'react';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getMonitoring from '../../services/monitoring';
@@ -11,18 +11,26 @@ export const withMonitoringContext = WrapperComponent => () => {
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
   const [selected, setSlcted] = useState(null);
-  const [params, setParams] = useState({ 'doctor.id': '' });
+  const [prms, setPrms] = useState({});
   const [legend, setLegend] = useState({ totalRed: 0, totalYellow: 0, totalGreen: 0 });
 
+  const setParams = useCallback(values => {
+    setPrms(prevP => ({ ...prevP, ...values }));
+  }, []);
+  const params = useMemo(() => prms, [prms]);
+
   useEffect(() => {
-    getMonitoring(10000, 0, params)
-      .then(res => {
-        setLoadingList(true);
-        setListAction(res.data);
-        setTotal(res.total);
-      })
-      .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext-getMonitoring'))
-      .finally(() => setLoadingList(false));
+    const { 'doctor.id': doctorId, limit, offset, ...filters } = params;
+    if (doctorId) {
+      setLoadingList(true);
+      getMonitoring(limit, offset, { 'doctor.id': doctorId, ...filters })
+        .then(res => {
+          setListAction(res.data);
+          setTotal(res.total);
+        })
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext-getMonitoring'))
+        .finally(() => setLoadingList(false));
+    }
   }, [params, RegisterMessage]);
 
   const setSelected = useCallback(

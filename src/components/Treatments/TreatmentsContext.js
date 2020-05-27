@@ -14,14 +14,21 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const [total, setTotal] = useState(0);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
-  const [params, setParmas] = useState({});
+  const [prms, setPrms] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const selected = useMemo(() => slected, [slected]);
   const listTreatments = useMemo(() => list, [list]);
 
+  const setParams = useCallback(values => {
+    setPrms(prev => ({ ...prev, ...values }));
+  }, []);
+
+  const params = useMemo(() => prms, [prms]);
+
   useEffect(() => {
     setLoadingList(true);
-    getTreatments(1000, 0, params)
+    const { limit, offset, ...filters } = params;
+    getTreatments(limit, offset, filters)
       .then(res => {
         setList(res.data);
         setTotal(res.total);
@@ -61,7 +68,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
         setTotal,
         selectFromList,
         saveValues,
-        setParmas,
+        setParams,
         setModalVisible
       }}
     >
@@ -87,7 +94,7 @@ export const useTreatmentsContext = () => {
     getListOfTreatments: values.getListOfTreatments,
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
-    setParmas: values.setParmas,
+    setParams: values.setParams,
     setModalVisible: values.setModalVisible
   };
 };

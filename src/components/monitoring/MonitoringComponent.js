@@ -60,7 +60,7 @@ function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGree
 
 function MonitoringComponent() {
   const { pageSize, offset } = useCustomPaginationContext();
-  const { list, total, loadingList, selected, setSelected, legend } = useMonitoringContext();
+  const { list, total, loadingList, selected, setSelected, legend, setParams } = useMonitoringContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useStyles();
   const matchXS = useMediaQuery(theme => theme.breakpoints.down('xs'));
@@ -69,6 +69,10 @@ function MonitoringComponent() {
     ? [headMonitoringCells[0], headMonitoringCells[1]]
     : (matchSM && [headMonitoringCells[0], headMonitoringCells[1], headMonitoringCells[2], headMonitoringCells[3]]) ||
       headMonitoringCells;
+
+  useEffect(() => {
+    setParams({ limit: pageSize, offset });
+  }, [pageSize, offset, setParams]);
 
   return (
     <>
@@ -101,7 +105,11 @@ function MonitoringComponent() {
           />
         )}
       />
-      <PaginationComponent total={total} />
+      <PaginationComponent
+        total={total}
+        first={getPropValue(list[0], 'fullname')}
+        last={getPropValue(list[list.length - 1], 'fullname')}
+      />
     </>
   );
 }
