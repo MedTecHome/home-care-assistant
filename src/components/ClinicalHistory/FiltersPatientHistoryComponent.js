@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid';
 import { DesktopDatePicker, LocalizationProvider } from '@material-ui/pickers';
 import MomentAdapter from '@material-ui/pickers/adapter/moment';
 import TextField from '@material-ui/core/TextField';
-import getNomenclator from '../../services/nomenclators';
 import { testFormsNames } from '../../helpers/constants';
 
 const useStyles = makeStyles({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
