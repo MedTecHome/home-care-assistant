@@ -1,5 +1,4 @@
 import { dbRef } from '../../../firebaseConfig';
-import { apiData } from '../../../axiosApiRequest';
 import {
   breathingModel,
   exercicesModel,
@@ -11,7 +10,6 @@ import {
   weightModel,
   othersModel
 } from './models';
-import { queryFromParams } from '../../../helpers/utils';
 
 const PressureRef = dbRef('health').collection('pressure');
 const TemperatureRef = dbRef('health').collection('temperature');
@@ -23,7 +21,7 @@ const OxygenRef = dbRef('health').collection('oxygen');
 const ExericesRef = dbRef('health').collection('exercises');
 const OthersRef = dbRef('health').collection('others');
 
-export const saveHealthDataAction = async ({ forms, ...values }) => {
+const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('pressure')) {
     await PressureRef.add(pressureModel(values));
   }
@@ -54,11 +52,4 @@ export const saveHealthDataAction = async ({ forms, ...values }) => {
   }
 };
 
-export const getAllPatientHistoryAction = async ({ limit, offset, filters }) => {
-  const { type, ...rest } = filters;
-  const params = { limit, offset, type, ...rest };
-  const query = queryFromParams(params);
-  const response = await apiData.get(`/getClinicalTests${query && `?${query}`}`);
-
-  return response.data;
-};
+export default saveHealthDataAction;

@@ -8,7 +8,7 @@ import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
 import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
-import EvolutionComponent from '../evolution/EvolutionComponent';
+import EvolutionComponent from '../Evolution/EvolutionComponent';
 
 function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
