@@ -13,15 +13,15 @@ const defaultStart = today.clone().add(-3, 'days');
 const defaultEnd = today.clone().add(10, 'days');
 
 function FiltersEvolutionComponent() {
-  const { setFilters, filters } = useEvolutionContext();
+  const { setParams, params } = useEvolutionContext();
   const classes = useCustomStyles();
   const [dateValue, setDateValue] = useState([defaultStart, defaultEnd]);
 
   useEffect(() => {
-    if (filters.rangeDate !== dateValue) {
-      setFilters({ ...filters, rangeDate: dateValue });
+    if (params.rangeDate !== dateValue) {
+      setParams({ ...params, rangeDate: dateValue });
     }
-  }, [setFilters, filters, dateValue]);
+  }, [setParams, params, dateValue]);
 
   const handleOnChange = values => {
     setDateValue(values);

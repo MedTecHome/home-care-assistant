@@ -4,7 +4,7 @@ import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
 import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../Hospital/actions/HospitalActions';
-import { isEmpty, queryFromParams } from '../../../helpers/utils';
+import { isEmpty } from '../../../helpers/utils';
 import getNomenclator from '../../../services/nomenclators';
 
 const profilesRef = dbRef('profile').collection('profiles');
@@ -13,49 +13,6 @@ export const getProfileByIdAction = async (id, fields = []) => {
   const ref = await profilesRef.doc(id).get();
   const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
-};
-
-export const getPatientsAction = async ({ limit = 0, offset = 0, filters }) => {
-  const params = { limit, offset, ...filters };
-  const query = queryFromParams(params);
-  const response = await apiData.get(`/getPatients${query && `?${query}`}`);
-  return response.data;
-};
-
-export const getDoctorsAction = async ({ limit = 0, offset = 0, filters }) => {
-  const params = { limit, offset, ...filters };
-  const query = queryFromParams(params);
-  const response = await apiData.get(`/getDoctors${query && `?${query}`}`);
-  return response.data;
-};
-
-export const fetchProfilesAction = async ({ limit = 0, offset = 0, filters }) => {
-  const params = { limit, offset, ...filters };
-  const query = queryFromParams(params);
-  const response = await apiData.get(`/getProfiles${query && `?${query}`}`);
-  return response.data;
-};
-
-export const getProfilesAction = async ({ limit = 10, next, prev, filters }) => {
-  let ref = profilesRef;
-  if (next) {
-    ref = ref.orderBy('fullname').startAfter(next.fullname);
-  } else if (prev) {
-    ref = ref.orderBy('fullname').endBefore(prev.fullname);
-  }
-  if (filters) {
-    Object.keys(filters).map(k => {
-      if (k === 'fullname') {
-        ref = ref.where(k, '>=', filters[k]).where(k, '<=', `${filters[k]}\uf8ff`);
-      } else {
-        ref = ref.where(k, '==', filters[k]);
-      }
-      return null;
-    });
-  }
-  if (prev) ref = ref.limitToLast(limit);
-  else ref = ref.limit(limit);
-  return (await ref.get()).docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
 const mutateValues = async ({ birthday, doctor, role, hospital, sex, sname = '', secondaryPhone = '' }) => ({

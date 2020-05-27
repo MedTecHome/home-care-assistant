@@ -47,8 +47,6 @@ function PatientsComponent() {
     setModalVisible(true, ADD_FORM_TEXT);
   };
 
-  console.log(profileList, total);
-
   return (
     <>
       <ModalComponent visible={modalVisible}>
