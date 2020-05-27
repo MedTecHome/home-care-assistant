@@ -1,16 +1,8 @@
 import { dbRef } from '../../../firebaseConfig';
-import { apiData } from '../../../axiosApiRequest';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { isEmpty, queryFromParams } from '../../../helpers/utils';
+import { isEmpty } from '../../../helpers/utils';
 
 const hospitalRef = dbRef('hospital');
-
-export const fetchHospitalsAction = async ({ limit = 0, offset = 0, filters }) => {
-  const params = { limit, offset, ...filters };
-  const query = queryFromParams(params);
-  const response = await apiData.get(`/getHospitals${query && `?${query}`}`);
-  return response.data;
-};
 
 export const getHospitalByIdAction = async (id, fields = []) => {
   const ref = await hospitalRef.collection('hospitals').doc(id).get();

@@ -1,8 +1,8 @@
 import React, { useContext, useState, createContext, useEffect } from 'react';
-import moment from 'moment';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
-import { getEvolutionClinical, getEvolutionTreatments } from './actions/EvolutionActions';
+import getEvolution from '../../services/evolution';
+import { isEmpty } from '../../helpers/utils';
 
 const EvolutionContext = createContext({});
 
@@ -14,21 +14,15 @@ export const withEvolutionContext = WrapperComponent => ({ patient, children }) 
   const [loadingList, setLoadingList] = useState(false);
 
   useEffect(() => {
-    if (params.rangeDate && params.rangeDate[0] && params.rangeDate[1] && params['user.id']) {
+    const { limit, offset, ...filters } = params;
+    if (!isEmpty(filters)) {
       setLoadingList(true);
-      const rDate = params.rangeDate.map(date => moment(date).unix());
-      getEvolutionClinical({ ...params, rangeDate: rDate })
-        .then(response1 => {
-          getEvolutionTreatments({ ...params, rangeDate: rDate })
-            .then(response2 => {
-              setTestList(response1.data);
-              setTreatmentList(response2);
-            })
-            .catch(e => e);
+      getEvolution(filters)
+        .then(response => {
+          setTreatmentList(response.treatments);
+          setTestList(response.clinicaltest);
         })
-        .catch(e => {
-          RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-retriveDateFormDB');
-        })
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-getEvolution'))
         .finally(() => {
           setLoadingList(false);
         });
