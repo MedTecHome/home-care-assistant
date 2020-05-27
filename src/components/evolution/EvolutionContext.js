@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext, useCallback } from 'react';
+import React, { useContext, useState, createContext, useEffect } from 'react';
 import moment from 'moment';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
@@ -6,42 +6,46 @@ import { getEvolutionClinical, getEvolutionTreatments } from './actions/Evolutio
 
 const EvolutionContext = createContext({});
 
-export const withEvolutionContext = WrapperComponent => ({ children }) => {
+export const withEvolutionContext = WrapperComponent => ({ patient, children }) => {
   const { RegisterMessage } = useMessageContext();
-  const [filters, setFilters] = useState({});
+  const [params, setParams] = useState({});
   const [treatments, setTreatmentList] = useState([]);
   const [testList, setTestList] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
 
-  const retriveDateFormDB = useCallback(async () => {
-    if (filters.rangeDate && filters.rangeDate[0] && filters.rangeDate[1] && filters['user.id']) {
+  useEffect(() => {
+    if (params.rangeDate && params.rangeDate[0] && params.rangeDate[1] && params['user.id']) {
       setLoadingList(true);
-      try {
-        const rDate = filters.rangeDate.map(date => moment(date).unix());
-        const response1 = await getEvolutionClinical({ ...filters, rangeDate: rDate });
-        const response2 = await getEvolutionTreatments({ ...filters, rangeDate: rDate });
-        setTestList(response1.data);
-        setTreatmentList(response2);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-retriveDateFormDB');
-      } finally {
-        setLoadingList(false);
-      }
+      const rDate = params.rangeDate.map(date => moment(date).unix());
+      getEvolutionClinical({ ...params, rangeDate: rDate })
+        .then(response1 => {
+          getEvolutionTreatments({ ...params, rangeDate: rDate })
+            .then(response2 => {
+              setTestList(response1.data);
+              setTreatmentList(response2);
+            })
+            .catch(e => e);
+        })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-retriveDateFormDB');
+        })
+        .finally(() => {
+          setLoadingList(false);
+        });
     }
-  }, [filters, RegisterMessage]);
+  }, [params, RegisterMessage]);
 
   return (
     <EvolutionContext.Provider
       value={{
-        retriveDateFormDB,
         loadingList,
         testList,
         treatments,
-        filters,
-        setFilters
+        params,
+        setParams
       }}
     >
-      <WrapperComponent>{children}</WrapperComponent>
+      <WrapperComponent patient={patient}>{children}</WrapperComponent>
     </EvolutionContext.Provider>
   );
 };
@@ -55,7 +59,7 @@ export const useEvolutionContext = () => {
     loadingList: values.loadingList,
     testList: values.testList,
     treatments: values.treatments,
-    filters: values.filters,
-    setFilters: values.setFilters
+    params: values.params,
+    setParams: values.setParams
   };
 };

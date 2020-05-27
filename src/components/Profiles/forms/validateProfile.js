@@ -7,7 +7,7 @@ import {
   REGEX_PHONE,
   REGEX_ONLY_ALPHANUMERIC
 } from '../../../commons/globalText';
-import { getProfilesAction } from '../reducers/ProfileActions';
+import getProfiles from '../../../services/profiles';
 
 const validateProfile = values => {
   const errors = {};
@@ -85,7 +85,7 @@ const validatePassword = value => {
 };
 
 const validateEmail = async value => {
-  const response = await getProfilesAction({ filters: { email: value } });
+  const response = await getProfiles(1, {}, { email: value });
   return response.length > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
 };
 

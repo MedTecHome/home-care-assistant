@@ -44,14 +44,15 @@ const useStyles = makeStyles({
   }
 });
 
-function EvolutionComponent({ setTab }) {
-  const { filters, loadingList, retriveDateFormDB, treatments, testList } = useEvolutionContext();
+function EvolutionComponent({ setTab, patient }) {
+  const { params, setParams, loadingList, treatments, testList } = useEvolutionContext();
   const classes = useStyles();
-  useEffect(() => {
-    retriveDateFormDB();
-  }, [filters, retriveDateFormDB]);
 
-  const aux = filters.rangeDate ? enumerateDaysBetweenDates(filters.rangeDate[0], filters.rangeDate[1]) : [];
+  useEffect(() => {
+    setParams({ 'user.id': getPropValue(patient, 'id') });
+  }, [patient, setParams]);
+
+  const aux = params.rangeDate ? enumerateDaysBetweenDates(params.rangeDate[0], params.rangeDate[1]) : [];
 
   const weeks = aux.filter(
     (thing, index, self) =>

@@ -5,6 +5,7 @@ import { saveValuesAction } from './actions/TreatmentActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getTreatments from '../../services/treatments';
+import { isEmpty } from '../../helpers/utils';
 
 const TreatmentsContext = createContext({});
 
@@ -20,22 +21,24 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const listTreatments = useMemo(() => list, [list]);
 
   const setParams = useCallback(values => {
-    setPrms(prev => ({ ...prev, ...values }));
+    setPrms(values);
   }, []);
 
   const params = useMemo(() => prms, [prms]);
 
   useEffect(() => {
-    setLoadingList(true);
     const { limit, offset, ...filters } = params;
-    getTreatments(limit, offset, filters)
-      .then(res => {
-        setList(res.data);
-        setTotal(res.total);
-      })
-      .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
-      .finally(() => setLoadingList(false));
-  }, [params, RegisterMessage]);
+    if (globalState.formType === null && !isEmpty(filters)) {
+      setLoadingList(true);
+      getTreatments(limit, offset, filters)
+        .then(res => {
+          setList(res.data);
+          setTotal(res.total);
+        })
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
+        .finally(() => setLoadingList(false));
+    }
+  }, [globalState.formType, params, RegisterMessage]);
 
   const selectFromList = useCallback(
     id => {
