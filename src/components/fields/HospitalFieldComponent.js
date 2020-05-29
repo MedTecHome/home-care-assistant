@@ -1,21 +1,25 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Autocomplete } from 'mui-rff';
 import { CircularProgress } from '@material-ui/core';
 import { ExpandMoreOutlined as ExpandMoreIcon } from '@material-ui/icons';
-import { useHospitalContext, withHospitalContext } from '../Hospital/HospitalContext';
 import useCustomStyles from '../../jss/globalStyles';
 import useDebounceCustom from '../../commons/useDebounceCustom';
+import getHospitals from '../../services/hospital';
 
 function HospitalFieldComponent({ validate, disabled }) {
-  const { getListHospitals, loadingList, hospitalsList } = useHospitalContext();
+  const [hospitalsList, setHospitalList] = useState([]);
+  const [loadingList, setLoadingList] = useState(false);
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    getListHospitals({ limit: 5, filters: { name: filterNameMemoize } });
-  }, [getListHospitals, filterNameMemoize]);
+    setLoadingList(true);
+    getHospitals(5, {}, { name: filterNameMemoize })
+      .then(result => setHospitalList(result.data))
+      .finally(() => setLoadingList(false));
+  }, [filterNameMemoize]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);
@@ -49,4 +53,4 @@ function HospitalFieldComponent({ validate, disabled }) {
   );
 }
 
-export default memo(withHospitalContext(HospitalFieldComponent));
+export default HospitalFieldComponent;

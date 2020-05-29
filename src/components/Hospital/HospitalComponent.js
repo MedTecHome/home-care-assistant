@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import uuid from 'uuid4';
 import { useMediaQuery, Typography } from '@material-ui/core';
 import { useHospitalContext, withHospitalContext } from './HospitalContext';
@@ -34,10 +34,6 @@ function HospitalComponent() {
     setParams({ limit: pageSize, offset });
   }, [pageSize, offset, setParams]);
 
-  useEffect(() => {
-    if (formType === null) handleReloadList();
-  }, [formType, handleReloadList]);
-
   const handleFormClose = useCallback(() => {
     handleReloadList();
     selectHospital(null);
@@ -59,7 +55,7 @@ function HospitalComponent() {
           </Typography>
         }
         filters={<FiltersHospitalComponent />}
-        addRole={currentUserProfile && currentUserProfile.role.id === 'admin'}
+        addRole={currentUserProfile && currentUserProfile.role.id === 'superadmin'}
         title="Lista de hospitales"
         selected={selected}
         headCells={cells}

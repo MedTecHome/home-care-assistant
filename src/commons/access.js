@@ -1,9 +1,8 @@
 const listAccess = {
-  develop: ['clinic', 'doctor', 'patient', 'admin'],
+  superadmin: ['superadmin', 'admin', 'clinic', 'doctor', 'patient'],
   admin: ['clinic'],
   clinic: ['doctor'],
-  doctor: ['patient'],
-  developer: ['patient', 'doctor', 'admin']
+  doctor: ['patient']
 };
 
 export default listAccess;

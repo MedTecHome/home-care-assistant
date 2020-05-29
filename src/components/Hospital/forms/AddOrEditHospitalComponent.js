@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { Form } from 'react-final-form';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import { ADD_FORM_TEXT, CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import validateHospital from './validateHospital';
@@ -14,7 +14,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 export default function AddOrEditHospitalComponent() {
   const { formType, selected, saveHospitalValues, setModalVisible } = useHospitalContext();
   const handleCancel = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
 
   const onSubmit = async values => {

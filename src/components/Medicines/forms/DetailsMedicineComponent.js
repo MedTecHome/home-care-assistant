@@ -9,7 +9,6 @@ import { useMedicinesContext } from '../MedicinesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import { getPropValue } from '../../../helpers/utils';
-import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 export function DetailsContentMedicineComponent({ data, classes }) {
   return (
@@ -59,7 +58,7 @@ function DetailsMedicineComponent() {
   const classes = useCustomStyles();
 
   const handleCloseForm = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
   return (
     <>

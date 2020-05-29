@@ -7,6 +7,7 @@ import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getProfiles from '../../services/profiles';
 import { isEmpty } from '../../helpers/utils';
+import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const ProfilesContext = createContext({});
 
@@ -15,8 +16,10 @@ export const withProfileContext = WrapperComponent => props => {
   const [list, setProfileList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [slected, setSelected] = useState(null);
   const [params, setParams] = useState({});
+  const { pageSize: limit, offset } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const profileList = useMemo(() => list, [list]);
@@ -24,10 +27,10 @@ export const withProfileContext = WrapperComponent => props => {
 
   // eslint-disable-next-line no-unused-vars
   useEffect(() => {
-    const { limit, offset, ...filters } = params;
-    if (globalState.formType === null && !isEmpty(filters)) {
+    //  const { limit, offset, ...filters } = params;
+    if (!loadingSave && !isEmpty(params)) {
       setLoadingList(true);
-      getProfiles(limit, offset, filters)
+      getProfiles(limit, offset, params)
         .then(result => {
           setProfileList(result.data);
           setTotal(result.total);
@@ -39,14 +42,17 @@ export const withProfileContext = WrapperComponent => props => {
           setLoadingList(false);
         });
     }
-  }, [params, globalState.formType, RegisterMessage]);
+  }, [params, offset, limit, loadingSave, RegisterMessage]);
 
   const saveProfileValues = useCallback(
     async (values, formType) => {
+      setLoadingSave(true);
       try {
         await saveProfileValuesAction(values, formType);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'ProfileContext-saveProfileValues');
+      } finally {
+        setLoadingSave(false);
       }
     },
     [RegisterMessage]
