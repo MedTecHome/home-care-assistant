@@ -15,6 +15,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const [total, setTotal] = useState(0);
   const [slected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [prms, setPrms] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const selected = useMemo(() => slected, [slected]);
@@ -28,7 +29,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
 
   useEffect(() => {
     const { limit, offset, ...filters } = params;
-    if (globalState.formType === null && !isEmpty(filters)) {
+    if (!loadingSave && !isEmpty(filters)) {
       setLoadingList(true);
       getTreatments(limit, offset, filters)
         .then(res => {
@@ -38,7 +39,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
         .finally(() => setLoadingList(false));
     }
-  }, [globalState.formType, params, RegisterMessage]);
+  }, [loadingSave, params, RegisterMessage]);
 
   const selectFromList = useCallback(
     id => {
@@ -50,7 +51,14 @@ export const withTreatmentsContext = WrapperComponent => props => {
 
   const saveValues = useCallback(
     async (values, formType) => {
-      await saveValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmentsContext'));
+      setLoadingSave(true);
+      try {
+        await saveValuesAction(values, formType);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'TreatmentsContext');
+      } finally {
+        setLoadingSave(false);
+      }
     },
     [RegisterMessage]
   );

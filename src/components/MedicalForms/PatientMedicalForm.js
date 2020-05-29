@@ -91,6 +91,9 @@ const PatientMedicalForm = () => {
         </Grid>
         <Grid item xs={12} sm={9} container direction="column">
           <Form
+            initialValues={{
+              glucoseUnity: 'mg/dl'
+            }}
             onSubmit={onSubmit}
             render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {
               return (

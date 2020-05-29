@@ -12,17 +12,17 @@ export const withMedicinesContext = WrapperComponent => props => {
   const { RegisterMessage } = useMessageContext();
   const [medicList, setMedicinesList] = useState([]);
   const [total, setTotal] = useState(0);
-  const [loadList, setLoadingList] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [seletd, setSelected] = useState(null);
   const [params, setParams] = useState({});
   const [globalState, globalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
 
   const medicineList = useMemo(() => medicList, [medicList]);
-  const loadingList = useMemo(() => loadList, [loadList]);
   const selected = useMemo(() => seletd, [seletd]);
 
   useEffect(() => {
-    if (globalState.formType === null) {
+    if (!loadingSave) {
       setLoadingList(true);
       const { limit, offset, ...filters } = params;
       getMedicines(limit, offset, filters)
@@ -33,13 +33,18 @@ export const withMedicinesContext = WrapperComponent => props => {
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'))
         .finally(() => setLoadingList(false));
     }
-  }, [params, globalState.formType, RegisterMessage]);
+  }, [params, loadingSave, RegisterMessage]);
 
   const saveMedicineValues = useCallback(
     async (values, formType) => {
-      await saveMedicineValuesActions(values, formType).catch(e =>
-        RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext')
-      );
+      setLoadingSave(true);
+      try {
+        await saveMedicineValuesActions(values, formType);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext');
+      } finally {
+        setLoadingSave(false);
+      }
     },
     [RegisterMessage]
   );

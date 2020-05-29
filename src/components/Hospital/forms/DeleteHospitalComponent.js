@@ -6,14 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { useHospitalContext } from '../HospitalContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import SaveButton from '../../buttons/SaveButton';
-import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 export default function DeleteHospitalComponent() {
   const { setModalVisible, selected, saveHospitalValues, formType } = useHospitalContext();
   const [saving, setSaving] = useState(false);
 
   const handleCancel = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
 
   const onDelete = async () => {

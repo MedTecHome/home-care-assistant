@@ -13,6 +13,7 @@ const HospitalContextProvider = ({ children }) => {
   const [hospitals, setHospitals] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [slected, setSelected] = useState(null);
   const [params, setParams] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
@@ -22,7 +23,7 @@ const HospitalContextProvider = ({ children }) => {
 
   // eslint-disable-next-line no-unused-vars
   useEffect(() => {
-    if (globalState.formType === null) {
+    if (!loadingSave) {
       const { limit, offset, ...filters } = params;
       setLoadingList(true);
       getHospitals(limit, offset, filters)
@@ -37,7 +38,7 @@ const HospitalContextProvider = ({ children }) => {
           setLoadingList(false);
         });
     }
-  }, [params, globalState.formType, RegisterMessage]);
+  }, [params, loadingSave, RegisterMessage]);
 
   const selectHospital = useCallback(
     id => {
@@ -49,7 +50,14 @@ const HospitalContextProvider = ({ children }) => {
 
   const saveHospitalValues = useCallback(
     async (values, formType) => {
-      await saveHospitalValuesAction(values, formType).catch(e => RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext'));
+      setLoadingSave(true);
+      try {
+        await saveHospitalValuesAction(values, formType);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'HospitalContext');
+      } finally {
+        setLoadingSave(false);
+      }
     },
     [RegisterMessage]
   );

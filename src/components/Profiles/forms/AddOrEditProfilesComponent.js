@@ -6,14 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import { CANCEL_FORM_TEXT, EDIT_FORM_TEXT, ADD_FORM_TEXT } from '../../../commons/globalText';
+import { EDIT_FORM_TEXT, ADD_FORM_TEXT } from '../../../commons/globalText';
 import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
-import { useProfilesContext } from '../ProfilesContext';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
-import RoleFieldComponent from '../../fields/roles/RoleFieldComponent';
-import { useAuthContext } from '../../../contexts/AuthContext';
+
 import { DialogTitleComponent } from '../../ModalComponent';
-import { withRolesContext } from '../../fields/roles/RolesContext';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
@@ -26,10 +23,17 @@ import {
   validatePassword,
   agreementValidate
 } from './validateProfile';
+import RoleFieldComponent from '../../fields/RoleFieldComponent';
 
-function AddOrEditProfilesComponent({ title }) {
-  const { currentUserProfile, isAdmin } = useAuthContext();
-  const { selected, saveProfileValues, formType, setModalVisible } = useProfilesContext();
+function AddOrEditProfilesComponent({
+  title,
+  currentUserProfile,
+  saveProfileValues,
+  setModalVisible,
+  formType,
+  selected,
+  isSuperadmin
+}) {
   const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
   const onSubmit = async values => {
@@ -38,7 +42,7 @@ function AddOrEditProfilesComponent({ title }) {
   };
 
   const handleCancel = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
 
   const calculator = useMemo(
@@ -94,7 +98,7 @@ function AddOrEditProfilesComponent({ title }) {
                 }}
               >
                 <Grid container spacing={3}>
-                  {isAdmin && (
+                  {isSuperadmin && (
                     <Grid item xs={12}>
                       <RoleFieldComponent disabled={listAccess[authRole].length === 1} userRole={authRole} />
                     </Grid>
@@ -116,7 +120,7 @@ function AddOrEditProfilesComponent({ title }) {
                     <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" type="number" />
                   </Grid>
                   {values && values.role === 'patient' && <PatientsBlockFieldComponent />}
-                  {isAdmin && values.role !== 'admin' && (
+                  {isSuperadmin && (
                     <Grid item xs={12}>
                       <HospitalFieldComponent validate={validateHospital} />
                     </Grid>
@@ -189,4 +193,4 @@ function AddOrEditProfilesComponent({ title }) {
   );
 }
 
-export default withRolesContext(AddOrEditProfilesComponent);
+export default AddOrEditProfilesComponent;

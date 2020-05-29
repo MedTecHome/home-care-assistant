@@ -6,14 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { useProfilesContext } from '../ProfilesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import SaveButton from '../../buttons/SaveButton';
-import { CANCEL_FORM_TEXT } from '../../../commons/globalText';
 
 export default function DeleteProfilesComponent() {
   const [saving, setSaving] = useState(false);
   const { setModalVisible, selected, saveProfileValues, formType } = useProfilesContext();
 
   const handleCancel = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
 
   const onDelete = async () => {

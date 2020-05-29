@@ -2,10 +2,10 @@ import moment from 'moment';
 import { apiData } from '../../../axiosApiRequest';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
-import { getRoleByIdAction } from '../../fields/roles/reducers/RoleActions';
 import { getHospitalByIdAction } from '../../Hospital/actions/HospitalActions';
 import { isEmpty } from '../../../helpers/utils';
 import getNomenclator from '../../../services/nomenclators';
+import { getRoleById } from '../../../services/roles';
 
 const profilesRef = dbRef('profile').collection('profiles');
 
@@ -21,7 +21,7 @@ const mutateValues = async ({ birthday, doctor, role, hospital, sex, sname = '',
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
-  ...(role ? { role: await getRoleByIdAction(role) } : {}),
+  ...(role ? { role: await getRoleById(role) } : {}),
   ...(hospital ? { hospital: await getHospitalByIdAction(hospital, ['name']) } : {}),
   ...(sex ? { sex: await getNomenclator('sex', sex) } : {})
 });

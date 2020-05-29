@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import uuid from 'uuid4';
 import {
   Grid,
@@ -13,24 +13,26 @@ import {
   ListItem
 } from '@material-ui/core';
 import { Search as SearchIcon } from '@material-ui/icons/';
-import { useRolesContext, withRolesContext } from '../fields/roles/RolesContext';
-import { useProfilesContext } from './ProfilesContext';
 import { useAuthContext } from '../../contexts/AuthContext';
 import AddButtonIcon from '../buttons/AddButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
 import listAccess from '../../commons/access';
 import useDebounceCustom from '../../commons/useDebounceCustom';
+import getRoles from '../../services/roles';
+import { useProfilesContext } from './ProfilesContext';
 
 export function InputSearchByFullname() {
-  const { params, setParams } = useProfilesContext();
+  const { setParams, params } = useProfilesContext();
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    if (params.fullname !== filterNameMemoize) setParams({ ...params, fullname: filterNameMemoize });
-  }, [setParams, filterNameMemoize, params]);
+    if (params.fullname !== filterNameMemoize) {
+      setParams({ ...params, fullname: filterNameMemoize });
+    }
+  }, [params, filterNameMemoize, setParams]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);
@@ -52,15 +54,15 @@ export function InputSearchByFullname() {
 }
 
 function FiltersProfileComponent({ onClickAdd }) {
-  const { params, setParams } = useProfilesContext();
+  const { setParams } = useProfilesContext();
+  const [roles, setRoles] = useState([]);
   const { currentUserProfile } = useAuthContext();
-  const { roles, getRoles } = useRolesContext();
   const classes = useCustomStyles();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   useEffect(() => {
-    getRoles();
-  }, [getRoles]);
+    getRoles(100, {}, {}).then(result => setRoles(result.data));
+  }, []);
 
   return (
     <List>
@@ -72,14 +74,14 @@ function FiltersProfileComponent({ onClickAdd }) {
           <Grid item xs={12} sm={5} md={4} container justify="flex-end">
             <InputSearchByFullname />
           </Grid>
-          {currentUserProfile && currentUserProfile.role.id === 'admin' && (
+          {currentUserProfile && currentUserProfile.role.id === 'superadmin' && (
             <Grid item xs={12} sm={4} md={3}>
               <FormControl className={classes.formControl}>
                 <InputLabel>Tipo de perfil</InputLabel>
                 <Select
                   name="filter-roles"
-                  value={roles.length > 0 ? params['role.id'] || '' : ''}
-                  onChange={event => setParams({ ...params, 'role.id': event.target.value })}
+                  value={roles.length > 0 ? '' : ''}
+                  onChange={event => setParams({ 'role.id': event.target.value })}
                 >
                   {roles
                     .filter(rl => listAccess[currentUserProfile.role.id].includes(rl.id))
@@ -98,4 +100,4 @@ function FiltersProfileComponent({ onClickAdd }) {
   );
 }
 
-export default withRolesContext(memo(FiltersProfileComponent));
+export default FiltersProfileComponent;

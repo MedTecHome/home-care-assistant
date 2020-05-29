@@ -4,9 +4,10 @@ const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
 const LoginComponent = lazy(() => import('../components/Login/LoginComponent'));
 const HospitalComponent = lazy(() => import('../components/Hospital/HospitalComponent'));
 const ProfilesComponent = lazy(() => import('../components/Profiles/ProfilesComponent'));
+const ClinicsComponent = lazy(() => import('../components/Profiles/clinics/ClinicsComponent'));
+const DoctorsComponent = lazy(() => import('../components/Profiles/doctors/DoctorsComponent'));
 const PatientsComponent = lazy(() => import('../components/Profiles/patients/PatientsComponent'));
 const MonitoringComponent = lazy(() => import('../components/Monitoring/MonitoringComponent'));
-const DoctorsComponent = lazy(() => import('../components/Profiles/doctors/DoctorsComponent'));
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const HomeInfoComponent = lazy(() => import('../components/HomeInfoComponent'));
 const PatientHealthForm = lazy(() => import('../components/MedicalForms/PatientMedicalForm'));
@@ -36,7 +37,7 @@ const RouteListConfig = [
   {
     path: '/perfiles',
     component: ProfilesComponent,
-    roles: ['admin'],
+    roles: ['superadmin'],
     label: 'Perfiles',
     navegation: true
   },
@@ -44,7 +45,14 @@ const RouteListConfig = [
     path: '/hospitales',
     component: HospitalComponent,
     label: 'Hospitales',
+    roles: ['superadmin'],
+    navegation: true
+  },
+  {
+    path: '/clinicas',
+    component: ClinicsComponent,
     roles: ['admin'],
+    label: 'Clinicas',
     navegation: true
   },
   {

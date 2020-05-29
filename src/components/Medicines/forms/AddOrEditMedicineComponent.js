@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useMedicinesContext } from '../MedicinesContext';
-import { CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { EDIT_FORM_TEXT } from '../../../commons/globalText';
 import formValidate from './formValidate';
 import SaveButton from '../../buttons/SaveButton';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
@@ -99,7 +99,7 @@ function AddOrEditMedicineComponent({ title }) {
   const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
   const { currentUserProfile } = useAuthContext();
   const handleCloseForm = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
 
   const onSubmit = async values => {

@@ -13,7 +13,7 @@ import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
 import MedicinesFieldComponent from '../../fields/medicines/MedicinesFieldComponent';
 import { validateDoctor } from '../../Profiles/forms/validateProfile';
-import { ADD_FORM_TEXT, CANCEL_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
@@ -98,7 +98,7 @@ function AddOrEditFormComponent({ title }) {
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   const handleCloseModal = () => {
-    setModalVisible(false, CANCEL_FORM_TEXT);
+    setModalVisible(false, null);
   };
 
   const onSubmit = async values => {
