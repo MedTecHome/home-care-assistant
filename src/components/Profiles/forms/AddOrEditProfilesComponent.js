@@ -36,8 +36,9 @@ function AddOrEditProfilesComponent({
 }) {
   const authRole = getPropValue(currentUserProfile, 'role.id') || null;
 
-  const onSubmit = async values => {
+  const onSubmit = async (values, form) => {
     await saveProfileValues(values, formType);
+    setTimeout(form.reset);
     setModalVisible(false, null);
   };
 
@@ -85,9 +86,7 @@ function AddOrEditProfilesComponent({
               autoComplete="new-password"
               onSubmit={event => {
                 if (!invalid) {
-                  handleSubmit(event).then(() => {
-                    form.reset();
-                  });
+                  handleSubmit(event);
                 }
               }}
             >
@@ -183,7 +182,7 @@ function AddOrEditProfilesComponent({
                 <Button disableElevation variant="contained" onClick={handleCancel}>
                   cancelar
                 </Button>
-                <SaveButton pristine={pristine} submitting={submitting} />
+                <SaveButton pristine={pristine} submitting={submitting} invalid={invalid} />
               </DialogActions>
             </form>
           );

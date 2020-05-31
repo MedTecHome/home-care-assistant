@@ -5,7 +5,6 @@ import {
   REGEX_POSITIVE_NUMBER_AND_DECIMAL,
   REQUIRED_FIELD,
   REGEX_PHONE,
-  REGEX_ONLY_ALPHANUMERIC,
   REGEX_ONLY_ALPHANUMERIC_AND_DOT
 } from '../../../commons/globalText';
 import getProfiles from '../../../services/profiles';
@@ -86,8 +85,8 @@ const validatePassword = value => {
 };
 
 const validateEmail = async value => {
-  const response = await getProfiles(1, {}, { email: value });
-  return response.length > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
+  const response = await getProfiles(1, {}, { email: value }, false);
+  return response.total > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
 };
 
 const agreementValidate = value => {
