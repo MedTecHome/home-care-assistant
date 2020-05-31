@@ -111,13 +111,13 @@ function AddOrEditProfilesComponent({
                     <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
                   </Grid>
                   <Grid item xs={8}>
-                    <CustomTextFieldComponent required label="Teléfono principal:" name="primaryPhone" type="number" />
+                    <CustomTextFieldComponent required label="Teléfono principal:" name="primaryPhone" />
                   </Grid>
                   <Grid item xs={4}>
                     <CheckboxesFieldComponent label="Visible" namee="phoneVisible" />
                   </Grid>
                   <Grid item xs={8}>
-                    <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" type="number" />
+                    <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" />
                   </Grid>
                   {values && values.role === 'patient' && <PatientsBlockFieldComponent />}
                   {isSuperadmin && (
