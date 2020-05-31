@@ -28,11 +28,11 @@ export function AuthContextProvider({ children }) {
         }
       } else {
         setCurrentUserProfile(null);
-        /*  setCurrentUserProfile({
-          // id: 'I1vSS10EraPTIeCXKMjzVUGzkky2', // admin id
+        setCurrentUserProfile({
+          id: 'I1vSS10EraPTIeCXKMjzVUGzkky2', // admin id
           // id: '0jiMdIL37AYxMlvCKsmaOBWpcYi2', // clinic id
           // id: 'YNugQQvF5fhcFfXAN4UbQkYcakV2', // doctor id
-          id: 'WnXuxUETcvMk6b0exGRLUC5slTf2', // paciente id
+          // id: 'WnXuxUETcvMk6b0exGRLUC5slTf2', // paciente id
 
           user: { email: 'localhost@local' },
           fullname: 'bla bla bla',
@@ -41,12 +41,12 @@ export function AuthContextProvider({ children }) {
             name: 'Hopistal 1 abla bla'
           },
           role: {
-            // id: 'admin'
+            id: 'admin'
             // id: 'clinic'
             //   id: 'doctor'
-            id: 'patient'
+            // id: 'patient'
           }
-        }); */
+        });
       }
     });
 
