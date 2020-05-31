@@ -5,7 +5,8 @@ import {
   REGEX_POSITIVE_NUMBER_AND_DECIMAL,
   REQUIRED_FIELD,
   REGEX_PHONE,
-  REGEX_ONLY_ALPHANUMERIC
+  REGEX_ONLY_ALPHANUMERIC,
+  REGEX_ONLY_ALPHANUMERIC_AND_DOT
 } from '../../../commons/globalText';
 import getProfiles from '../../../services/profiles';
 
@@ -45,7 +46,7 @@ const validateProfile = values => {
     errors.username = REQUIRED_FIELD;
   }
   if (values.username) {
-    if (!REGEX_ONLY_ALPHANUMERIC.test(values.username)) {
+    if (!REGEX_ONLY_ALPHANUMERIC_AND_DOT.test(values.username)) {
       errors.username = 'Solo se admite numeros y letras';
     }
   }
