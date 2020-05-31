@@ -5,19 +5,17 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import useCustomStyles from '../../jss/globalStyles';
-import { useMedicinesContext } from './MedicinesContext';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 
-function FiltersMedicineComponent({ currentUserProfile }) {
-  const { setParams } = useMedicinesContext();
+function FiltersMedicineComponent({ setParams, params, currentUserProfile }) {
   const [name, setName] = useState('');
   const debounceValue = useDebounceCustom(name, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    setParams({ 'hospital.id': currentUserProfile.hospital.id, name: filterNameMemoize });
-  }, [filterNameMemoize, setParams, currentUserProfile]);
+    if (params.name !== filterNameMemoize) setParams({ ...params, name: filterNameMemoize });
+  }, [params, filterNameMemoize, setParams, currentUserProfile]);
 
   return (
     <FormControl className={classes.formControl}>

@@ -5,11 +5,14 @@ import { saveMedicineValuesActions } from './actions/MedicinesActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getMedicines from '../../services/medicines';
+import { isEmpty } from '../../helpers/utils';
+import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const MedicinesContext = createContext({});
 
 export const withMedicinesContext = WrapperComponent => props => {
   const { RegisterMessage } = useMessageContext();
+  const { pageSize: limit, offset, resetPagination } = useCustomPaginationContext();
   const [medicList, setMedicinesList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
@@ -22,10 +25,9 @@ export const withMedicinesContext = WrapperComponent => props => {
   const selected = useMemo(() => seletd, [seletd]);
 
   useEffect(() => {
-    if (!loadingSave) {
+    if (!loadingSave && !isEmpty(params)) {
       setLoadingList(true);
-      const { limit, offset, ...filters } = params;
-      getMedicines(limit, offset, filters)
+      getMedicines(limit, offset, params)
         .then(res => {
           setMedicinesList(res.data);
           setTotal(res.total);
@@ -33,7 +35,7 @@ export const withMedicinesContext = WrapperComponent => props => {
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'))
         .finally(() => setLoadingList(false));
     }
-  }, [params, loadingSave, RegisterMessage]);
+  }, [params, limit, offset, loadingSave, RegisterMessage]);
 
   const saveMedicineValues = useCallback(
     async (values, formType) => {
@@ -74,7 +76,8 @@ export const withMedicinesContext = WrapperComponent => props => {
         selectMedicineFromList,
         saveMedicineValues,
         setModalVisible,
-        setParams
+        setParams,
+        resetPagination
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -98,6 +101,7 @@ export const useMedicinesContext = () => {
     selectMedicineFromList: values.selectMedicineFromList,
     saveMedicineValues: values.saveMedicineValues,
     setModalVisible: values.setModalVisible,
-    setParams: values.setParams
+    setParams: values.setParams,
+    resetPagination: values.resetPagination
   };
 };

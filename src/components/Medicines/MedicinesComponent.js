@@ -4,7 +4,6 @@ import { useMediaQuery, Typography } from '@material-ui/core';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
 import medicineHeadCells from './medicineHeadCells';
-import FormsMedicineComponent from './forms/FormsMedicineComponent';
 import FiltersMedicineComponent from './FiltersMedicineComponent';
 import RowListMedicineComponent from './RowListMedicineComponent';
 import TableComponent from '../table/TableComponent';
@@ -12,9 +11,12 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
 import { getPropValue } from '../../helpers/utils';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';
+import AddOrEditMedicineComponent from './forms/AddOrEditMedicineComponent';
+import DeleteMedicineComponent from './forms/DeleteMedicineComponent';
+import DetailsMedicineComponent from './forms/DetailsMedicineComponent';
 
 function MedicinesComponent() {
-  const { pageSize, offset } = useCustomPaginationContext();
   const { currentUserProfile } = useAuthContext();
   const {
     medicineList,
@@ -23,15 +25,22 @@ function MedicinesComponent() {
     selected,
     modalVisible,
     setModalVisible,
+    saveMedicineValues,
     formType,
     setParams,
-    total
+    params,
+    total,
+    resetPagination
   } = useMedicinesContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const cells = match ? [medicineHeadCells[0]] : medicineHeadCells;
+
   useEffect(() => {
-    setParams({ limit: pageSize, offset });
-  }, [pageSize, offset, setParams]);
+    resetPagination();
+  }, [params, resetPagination]);
+  useEffect(() => {
+    setParams({ 'clinic.id': getPropValue(currentUserProfile, 'parent.id') });
+  }, [currentUserProfile, setParams]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -40,7 +49,28 @@ function MedicinesComponent() {
   return (
     <>
       <ModalComponent visible={modalVisible}>
-        <FormsMedicineComponent formType={formType} />
+        {([ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
+          <AddOrEditMedicineComponent
+            title={`${(ADD_FORM_TEXT && 'Adicionar') || (EDIT_FORM_TEXT && 'Editar')} medicamento`}
+            setModalVisible={setModalVisible}
+            selected={selected}
+            formType={formType}
+            saveMedicineValues={saveMedicineValues}
+            clinic={currentUserProfile.parent}
+          />
+        )) ||
+          (formType === DELETE_FORM_TEXT && (
+            <DeleteMedicineComponent
+              selected={selected}
+              formType={formType}
+              saveMedicineValues={saveMedicineValues}
+              setModalVisible={setModalVisible}
+            />
+          )) ||
+          (formType === DETAILS_FORM_TEXT && (
+            <DetailsMedicineComponent setModalVisible={setModalVisible} selected={selected} />
+          )) ||
+          null}
       </ModalComponent>
       <TableComponent
         title="Listado de medicamentos"
@@ -49,7 +79,9 @@ function MedicinesComponent() {
             <strong>Total: </strong>({total})
           </Typography>
         }
-        filters={<FiltersMedicineComponent currentUserProfile={currentUserProfile} />}
+        filters={
+          <FiltersMedicineComponent setParams={setParams} params={params} currentUserProfile={currentUserProfile} />
+        }
         headCells={cells}
         list={medicineList}
         loadingList={loadingList}
@@ -77,4 +109,4 @@ function MedicinesComponent() {
   );
 }
 
-export default withMedicinesContext(withCustomPaginationContext(MedicinesComponent));
+export default withCustomPaginationContext(withMedicinesContext(MedicinesComponent));

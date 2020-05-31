@@ -2,7 +2,6 @@ import moment from 'moment';
 import { apiData } from '../../../axiosApiRequest';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
-import { getHospitalByIdAction } from '../../Hospital/actions/HospitalActions';
 import { isEmpty } from '../../../helpers/utils';
 import getNomenclator from '../../../services/nomenclators';
 import { getRoleById } from '../../../services/roles';
@@ -15,14 +14,24 @@ export const getProfileByIdAction = async (id, fields = []) => {
   return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
 };
 
-const mutateValues = async ({ birthday, doctor, role, hospital, sex, sname = '', secondaryPhone = '' }) => ({
+const mutateValues = async ({
+  birthday,
+  parent,
+  maxDoctors,
+  maxPatients,
+  role,
+  sex,
+  sname = '',
+  secondaryPhone = ''
+}) => ({
   sname,
   secondaryPhone,
+  ...(maxDoctors ? { maxDoctors } : {}),
+  ...(maxPatients ? { maxPatients } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
-  ...(doctor ? { doctor: await getProfileByIdAction(doctor, ['fullname']) } : {}),
+  parent: parent ? await getProfileByIdAction(parent, ['fullname']) : null,
   ...(role ? { role: await getRoleById(role) } : {}),
-  ...(hospital ? { hospital: await getHospitalByIdAction(hospital, ['name']) } : {}),
   ...(sex ? { sex: await getNomenclator('sex', sex) } : {})
 });
 

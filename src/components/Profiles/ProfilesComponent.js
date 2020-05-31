@@ -34,7 +34,7 @@ function TitleProfilesComponent({ filterRole }) {
 }
 
 function ProfilesComponent({ filterRole }) {
-  const { currentUserProfile } = useAuthContext();
+  const { currentUserProfile, isSuperadmin } = useAuthContext();
   const { resetPagination } = useCustomPaginationContext();
   const {
     formType,
@@ -47,7 +47,6 @@ function ProfilesComponent({ filterRole }) {
     selected,
     loadingList,
     saveProfileValues,
-    isSuperadmin,
     params
   } = useProfilesContext();
 
@@ -58,8 +57,8 @@ function ProfilesComponent({ filterRole }) {
   }, [params.fullname, roleId, resetPagination]);
 
   useEffect(() => {
-    setParams({ 'role.id': filterRole || null });
-  }, [filterRole, setParams]);
+    setParams({ 'role.id': filterRole || null, 'parent.id': currentUserProfile.id });
+  }, [filterRole, currentUserProfile, setParams]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);

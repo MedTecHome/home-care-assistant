@@ -16,14 +16,9 @@ import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
 import { getPropValue } from '../../../helpers/utils';
-import {
-  validateProfile,
-  validateHospital,
-  validateEmail,
-  validatePassword,
-  agreementValidate
-} from './validateProfile';
+import { validateProfile, validateEmail, validatePassword, agreementValidate } from './validateProfile';
 import RoleFieldComponent from '../../fields/RoleFieldComponent';
+import ClinicBlockFieldComponent from '../../fields/ClinicBlockFieldComponent';
 
 function AddOrEditProfilesComponent({
   title,
@@ -64,18 +59,17 @@ function AddOrEditProfilesComponent({
         initialValues={{
           phoneVisible: false,
           emailVisible: false,
-          hospital: getPropValue(currentUserProfile, 'hospital.id'),
           role: listAccess[authRole][0],
           ...(formType === EDIT_FORM_TEXT && selected
             ? {
                 ...selected,
-                ...(selected.role ? { role: selected.role.id } : {}),
-                ...(selected.doctor ? { doctor: selected.doctor.id } : {}),
-                ...(selected.hospital ? { hospital: selected.hospital.id } : {}),
-                ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {}),
-                ...(selected.sex ? { sex: selected.sex.id } : {})
+                ...(selected.role ? { role: getPropValue(selected, 'role.id') } : {}),
+                parent: getPropValue(selected, 'parent.id'),
+                ...(selected.sex ? { sex: getPropValue(selected, 'sex.id') } : {}),
+                ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {})
               }
-            : currentUserProfile && currentUserProfile.role.id === 'doctor' && { doctor: currentUserProfile.id })
+            : {}),
+          parent: currentUserProfile.id
         }}
         decorators={[calculator]}
         validate={validateProfile}
@@ -106,9 +100,14 @@ function AddOrEditProfilesComponent({
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent required label="Nombre:" name="name" />
                   </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
-                  </Grid>
+                  {getPropValue(values, 'role') !== 'clinic' ? (
+                    <Grid item xs={12} sm={12} md={12}>
+                      <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
+                    </Grid>
+                  ) : (
+                    <ClinicBlockFieldComponent />
+                  )}
+                  {getPropValue(values, 'role') === 'patient' ? <PatientsBlockFieldComponent /> : null}
                   <Grid item xs={8}>
                     <CustomTextFieldComponent required label="Teléfono principal:" name="primaryPhone" />
                   </Grid>
@@ -118,12 +117,11 @@ function AddOrEditProfilesComponent({
                   <Grid item xs={8}>
                     <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" />
                   </Grid>
-                  {values && values.role === 'patient' && <PatientsBlockFieldComponent />}
-                  {isSuperadmin && (
-                    <Grid item xs={12}>
-                      <HospitalFieldComponent validate={validateHospital} />
+                  {['patient', 'clinic'].includes(getPropValue(values, 'role')) ? (
+                    <Grid item xs={12} sm={8}>
+                      <CustomTextFieldComponent name="address" label="Dirección" />
                     </Grid>
-                  )}
+                  ) : null}
                   <Grid item xs={8}>
                     <CustomTextFieldComponent
                       required

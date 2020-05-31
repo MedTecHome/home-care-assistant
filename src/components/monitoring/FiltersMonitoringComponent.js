@@ -5,7 +5,7 @@ function FiltersMonitoringComponent({ currentUserProfile }) {
   const { setParams } = useMonitoringContext();
 
   useEffect(() => {
-    if (currentUserProfile) setParams({ 'doctor.id': currentUserProfile.id });
+    if (currentUserProfile) setParams({ 'parent.id': currentUserProfile.id });
   }, [setParams, currentUserProfile]);
 
   return <></>;

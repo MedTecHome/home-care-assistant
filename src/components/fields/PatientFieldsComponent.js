@@ -32,6 +32,7 @@ function PatientsFieldComponent() {
           }}
         />
       </Grid>
+      <Grid item xs={4} />
       <Grid item xs={8} sm={4}>
         <SexFieldComponent className={classes.formControl} name="sex" label="Género" required />
       </Grid>
@@ -44,10 +45,6 @@ function PatientsFieldComponent() {
           textAlign="right"
           placeholder="cm"
         />
-      </Grid>
-
-      <Grid item xs={12} sm={8}>
-        <CustomTextFieldComponent name="address" label="Dirección" />
       </Grid>
       {isAdmin && (
         <Grid item xs={12} md={12}>

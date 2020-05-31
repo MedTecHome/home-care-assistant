@@ -2,7 +2,6 @@ import { lazy } from 'react';
 
 const PageNotFound = lazy(() => import('../components/NotFoundComponent'));
 const LoginComponent = lazy(() => import('../components/Login/LoginComponent'));
-const HospitalComponent = lazy(() => import('../components/Hospital/HospitalComponent'));
 const ProfilesComponent = lazy(() => import('../components/Profiles/ProfilesComponent'));
 const ClinicsComponent = lazy(() => import('../components/Profiles/clinics/ClinicsComponent'));
 const DoctorsComponent = lazy(() => import('../components/Profiles/doctors/DoctorsComponent'));
@@ -39,13 +38,6 @@ const RouteListConfig = [
     component: ProfilesComponent,
     roles: ['superadmin'],
     label: 'Perfiles',
-    navegation: true
-  },
-  {
-    path: '/hospitales',
-    component: HospitalComponent,
-    label: 'Hospitales',
-    roles: ['superadmin'],
     navegation: true
   },
   {

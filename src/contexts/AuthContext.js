@@ -27,26 +27,16 @@ export function AuthContextProvider({ children }) {
           setCurrentUserProfile({ id: profile.id, ...profile.data() });
         }
       } else {
-        setCurrentUserProfile(null);
-        setCurrentUserProfile({
-          id: 'I1vSS10EraPTIeCXKMjzVUGzkky2', // admin id
-          // id: '0jiMdIL37AYxMlvCKsmaOBWpcYi2', // clinic id
-          // id: 'YNugQQvF5fhcFfXAN4UbQkYcakV2', // doctor id
-          // id: 'WnXuxUETcvMk6b0exGRLUC5slTf2', // paciente id
+        // setCurrentUserProfile(null);
 
-          user: { email: 'localhost@local' },
-          fullname: 'bla bla bla',
-          hospital: {
-            id: 'q3fi3hFCIF8gLOPl3I7o',
-            name: 'Hopistal 1 abla bla'
-          },
-          role: {
-            id: 'admin'
-            // id: 'clinic'
-            //   id: 'doctor'
-            // id: 'patient'
-          }
-        });
+        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
+        // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
+        const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
+        // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
+        const profile = await dbRef('profile').collection('profiles').doc(id).get();
+        if (profile.data()) {
+          setCurrentUserProfile({ id: profile.id, ...profile.data() });
+        }
       }
     });
 

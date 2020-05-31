@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
-import { getHospitalByIdAction } from './Hospital/actions/HospitalActions';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import DetailTextComponent from './DetailTextComponent';
 
@@ -41,7 +40,7 @@ function PaperHospitalInfoComponent({ hospital }) {
 function PatientHomeComponent({ patient }) {
   const [doctor, setDoctor] = useState(null);
   const [hospital, setHospital] = useState(null);
-  const doctorId = getPropValue(patient, 'doctor.id');
+  const doctorId = getPropValue(patient, 'parent.id');
   const hospitalId = getPropValue(patient, 'hospital.id');
 
   useEffect(() => {
@@ -52,10 +51,7 @@ function PatientHomeComponent({ patient }) {
   }, [doctorId]);
 
   useEffect(() => {
-    if (hospitalId)
-      getHospitalByIdAction(hospitalId).then(h => {
-        setHospital(h);
-      });
+    if (hospitalId) setHospital(hospitalId);
   }, [hospitalId]);
 
   return (
@@ -80,7 +76,7 @@ function DoctorHomeComponent({ doctor }) {
     async function getById() {
       if (hospitalId) {
         setLoading(true);
-        const result = await getHospitalByIdAction(hospitalId);
+        const result = {};
         setHospital(result);
         setLoading(false);
       }
