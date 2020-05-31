@@ -53,8 +53,7 @@ export function DetailsContentMedicineComponent({ data, classes }) {
   );
 }
 
-function DetailsMedicineComponent() {
-  const { selected, setModalVisible } = useMedicinesContext();
+function DetailsMedicineComponent({ selected, setModalVisible }) {
   const classes = useCustomStyles();
 
   const handleCloseForm = () => {

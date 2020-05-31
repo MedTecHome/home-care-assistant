@@ -16,17 +16,18 @@ import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFi
 import { getPropValue } from '../../../helpers/utils';
 import { useAuthContext } from '../../../contexts/AuthContext';
 
-export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleCloseForm }) {
+export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleCloseForm, currentUserProfile }) {
   return (
     <Form
       initialValues={
-        formType === EDIT_FORM_TEXT &&
-        selected && {
-          ...selected,
-          concentrationType: getPropValue(selected, 'concentrationType.id') || '',
-          doseType: getPropValue(selected, 'doseType.id') || '',
-          administrationType: getPropValue(selected, 'administrationType.id') || ''
-        }
+        formType === EDIT_FORM_TEXT && selected
+          ? {
+              ...selected,
+              concentrationType: getPropValue(selected, 'concentrationType.id') || '',
+              doseType: getPropValue(selected, 'doseType.id') || '',
+              administrationType: getPropValue(selected, 'administrationType.id') || ''
+            }
+          : { clinic: getPropValue(currentUserProfile, 'parent.id') }
       }
       validate={formValidate}
       onSubmit={onSubmit}
@@ -95,15 +96,13 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
   );
 }
 
-function AddOrEditMedicineComponent({ title }) {
-  const { formType, selected, setModalVisible, saveMedicineValues } = useMedicinesContext();
-  const { currentUserProfile } = useAuthContext();
+function AddOrEditMedicineComponent({ title, formType, selected, setModalVisible, saveMedicineValues, clinic }) {
   const handleCloseForm = () => {
     setModalVisible(false, null);
   };
 
   const onSubmit = async values => {
-    await saveMedicineValues({ ...values, hospital: currentUserProfile.hospital }, formType);
+    await saveMedicineValues({ ...values, clinic }, formType);
     setModalVisible(false, null);
   };
 

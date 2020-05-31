@@ -22,7 +22,8 @@ function ListProfilesComponent({
   selectProfileFromList,
   loadingList,
   profileList,
-  profileSelected
+  profileSelected,
+  isSuperadmin
 }) {
   const classes = useCustomStyles();
   const up500 = useMediaQuery(theme => theme.breakpoints.up(500));
@@ -65,9 +66,11 @@ function ListProfilesComponent({
                 primary={<Typography>{`${profile.name} ${profile.lastName}`}</Typography>}
                 secondary={
                   <>
-                    <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
-                      Tipo: <strong>{profile.role ? profile.role.name : '?'}</strong>
-                    </Typography>
+                    {isSuperadmin && (
+                      <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                        Tipo: <strong>{profile.role ? profile.role.name : '?'}</strong>
+                      </Typography>
+                    )}
                   </>
                 }
               />

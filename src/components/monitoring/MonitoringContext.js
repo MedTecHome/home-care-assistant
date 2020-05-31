@@ -20,10 +20,10 @@ export const withMonitoringContext = WrapperComponent => () => {
   const params = useMemo(() => prms, [prms]);
 
   useEffect(() => {
-    const { 'doctor.id': doctorId, limit, offset, ...filters } = params;
-    if (doctorId) {
+    const { 'parent.id': parentId, limit, offset, ...filters } = params;
+    if (parentId) {
       setLoadingList(true);
-      getMonitoring(limit, offset, { 'doctor.id': doctorId, ...filters })
+      getMonitoring(limit, offset, { 'parent.id': parentId, ...filters })
         .then(res => {
           setListAction(res.data);
           setTotal(res.total);
