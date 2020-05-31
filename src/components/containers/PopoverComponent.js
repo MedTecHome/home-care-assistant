@@ -3,13 +3,13 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { DialogTitle, DialogContent } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   popover: {
     pointerEvents: 'none',
     width: '100%',
-    maxWidth: 400,
-    textAlign: 'justify'
+    maxWidth: 400
   },
   paper: {
     padding: theme.spacing(1)
@@ -17,16 +17,23 @@ const useStyles = makeStyles(theme => ({
   title: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    '& *': {
-      fontSize: '0.834rem'
+    whiteSpace: 'nowrap',
+    '& span': {
+      fontSize: '0.834rem',
+      fontWeight: 600,
+      textDecoration: 'underline'
     }
   },
   content: {
-    textDecoration: 'underline'
+    minWidth: 150,
+    borderBottom: 'none'
+  },
+  titleDialog: {
+    padding: 3
   }
 }));
 
-function PopoverComponent({ className, title, content }) {
+function PopoverComponent({ className, header, label, title, content }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,14 +51,15 @@ function PopoverComponent({ className, title, content }) {
   return (
     <div>
       <Typography
-        componen="div"
-        className={clsx(className, classes.content)}
+        component="div"
+        className={clsx(className, classes.title)}
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
       >
-        {title}
+        {label ? `${label}: ` : null}
+        <span>{title}</span>
       </Typography>
       <Popover
         id="mouse-over-popover"
@@ -72,7 +80,10 @@ function PopoverComponent({ className, title, content }) {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        {content}
+        <DialogTitle className={classes.titleDialog}>{header || 'Información'} </DialogTitle>
+        <DialogContent dividers className={classes.content}>
+          {content}
+        </DialogContent>
       </Popover>
     </div>
   );

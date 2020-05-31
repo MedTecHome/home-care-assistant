@@ -134,7 +134,7 @@ function MedicinesFieldComponent({
   const [pendingValue, setPendingValue] = React.useState(value);
 
   const {
-    currentUserProfile: { hospital }
+    currentUserProfile: { parent }
   } = useAuthContext();
 
   const classes = useStyles();
@@ -163,10 +163,10 @@ function MedicinesFieldComponent({
 
   useEffect(() => {
     getMedicines(5, 0, {
-      'hospital.id': hospital.id,
+      'clinic.id': parent.id,
       ...(filterNameMemoize ? { name: filterNameMemoize } : {})
     }).then(result => setMedicines(result.data));
-  }, [filterNameMemoize, hospital]);
+  }, [filterNameMemoize, parent]);
 
   const handleClick = () => {
     setPendingValue(value);

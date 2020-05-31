@@ -5,7 +5,8 @@ import getNomenclator from '../../../services/nomenclators';
 
 const MedicinesRef = dbRef('medicine').collection('medicines');
 
-export const mutateNomenc = async ({ concentrationType, doseType, administrationType }) => ({
+export const mutateNomenc = async ({ concentrationType, doseType, administrationType, observations = '' }) => ({
+  observations,
   ...(concentrationType ? { concentrationType: await getNomenclator('concentrations', concentrationType) } : {}),
   ...(doseType ? { doseType: await getNomenclator('dosis', doseType) } : {}),
   ...(administrationType ? { administrationType: await getNomenclator('administrationroute', administrationType) } : {})
@@ -25,6 +26,7 @@ const addValuesAction = async ({ id, ...values }) => {
 
 const editValuesAction = async ({ id, ...values }) => {
   const mut = await mutateNomenc(values);
+
   const result = { ...values, ...mut };
   await MedicinesRef.doc(id).update(result);
 };

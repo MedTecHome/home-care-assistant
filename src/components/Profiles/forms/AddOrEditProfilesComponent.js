@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { EDIT_FORM_TEXT, ADD_FORM_TEXT } from '../../../commons/globalText';
-import HospitalFieldComponent from '../../fields/HospitalFieldComponent';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
 
 import { DialogTitleComponent } from '../../ModalComponent';
