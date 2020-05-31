@@ -44,7 +44,7 @@ const addValuesAction = async ({ id, email, password, username, ...values }) => 
   });
 };
 
-const editValuesAction = async ({ id, email, ...values }) => {
+const editValuesAction = async ({ id, ...values }) => {
   const result = { ...values, ...(await mutateValues(values)) };
   await profilesRef.doc(id).update({
     ...result,

@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 function SaveButton({
   submitting,
   pristine,
+  invalid,
   title = 'guardar',
   color = 'primary',
   className,
@@ -32,7 +33,7 @@ function SaveButton({
   return (
     <div className={classes.wrapper}>
       <Button
-        disabled={submitting || pristine}
+        disabled={submitting || pristine || invalid}
         disableElevation={disableElevation}
         variant="contained"
         type={onClick ? 'button' : 'submit'}
