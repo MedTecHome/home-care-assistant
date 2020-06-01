@@ -45,7 +45,7 @@ export default function MessageComponent() {
 
   return (
     <>
-      {true && (
+      {currentUser && (
         <div className={classes.root}>
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
