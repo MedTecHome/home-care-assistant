@@ -36,35 +36,37 @@ const PatientHistoryContextProvider = ({ children }) => {
 
   useEffect(() => {
     setLoadingList(true);
-    const { type, ...filters } = params;
-    const clinicaltest =
-      (!type && getClinicalTests) ||
-      (type === 'pressure' && getPressure) ||
-      (type === 'temperature' && getTemperature) ||
-      (type === 'weight' && getWeight) ||
-      (type === 'glucose' && getGlucose) ||
-      (type === 'breathing' && getBreathing) ||
-      (type === 'inr' && getINR) ||
-      (type === 'oxygen' && getOxygen) ||
-      (type === 'exercises' && getExercises) ||
-      (type === 'others' && getOthers);
+    const { type, 'user.id': userId, ...filters } = params;
+    if (userId) {
+      const clinicaltest =
+        (!type && getClinicalTests) ||
+        (type === 'pressure' && getPressure) ||
+        (type === 'temperature' && getTemperature) ||
+        (type === 'weight' && getWeight) ||
+        (type === 'glucose' && getGlucose) ||
+        (type === 'breathing' && getBreathing) ||
+        (type === 'inr' && getINR) ||
+        (type === 'oxygen' && getOxygen) ||
+        (type === 'exercises' && getExercises) ||
+        (type === 'others' && getOthers);
 
-    clinicaltest(pageSize, offset, filters)
-      .then(response => {
-        const result = response.data.sort((a, b) => {
-          const c = a.clinicalDate;
-          const d = b.clinicalDate;
-          return d - c;
+      clinicaltest(pageSize, offset, { 'user.id': userId, ...filters })
+        .then(response => {
+          const result = response.data.sort((a, b) => {
+            const c = a.clinicalDate;
+            const d = b.clinicalDate;
+            return d - c;
+          });
+          setHistoryList(result);
+          setTotal(response.total);
+        })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'PatientHistoryContext');
+        })
+        .finally(() => {
+          setLoadingList(false);
         });
-        setHistoryList(result);
-        setTotal(response.total);
-      })
-      .catch(e => {
-        RegisterMessage(ERROR_MESSAGE, e, 'PatientHistoryContext');
-      })
-      .finally(() => {
-        setLoadingList(false);
-      });
+    }
   }, [params, pageSize, offset, RegisterMessage]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
@@ -91,11 +93,13 @@ const PatientHistoryContextProvider = ({ children }) => {
   );
 };
 
-export const withPatientHistoryContext = WrapperComponent => props => {
+export const withPatientHistoryContext = WrapperComponent => ({ defaultTest, patient, children }) => {
   return (
     <PatientHistoryContextProvider>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <WrapperComponent {...props} />
+      <WrapperComponent defaultTest={defaultTest} patient={patient}>
+        {children}
+      </WrapperComponent>
     </PatientHistoryContextProvider>
   );
 };

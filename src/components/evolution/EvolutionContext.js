@@ -6,7 +6,7 @@ import { isEmpty } from '../../helpers/utils';
 
 const EvolutionContext = createContext({});
 
-export const withEvolutionContext = WrapperComponent => ({ patient, children }) => {
+export const withEvolutionContext = WrapperComponent => ({ setTab, patient, children }) => {
   const { RegisterMessage } = useMessageContext();
   const [params, setParams] = useState({});
   const [treatments, setTreatmentList] = useState([]);
@@ -39,7 +39,9 @@ export const withEvolutionContext = WrapperComponent => ({ patient, children }) 
         setParams
       }}
     >
-      <WrapperComponent patient={patient}>{children}</WrapperComponent>
+      <WrapperComponent setTab={setTab} patient={patient}>
+        {children}
+      </WrapperComponent>
     </EvolutionContext.Provider>
   );
 };

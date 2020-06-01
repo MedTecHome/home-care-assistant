@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,10 +21,14 @@ const useStyles = makeStyles({
   }
 });
 
-function FiltersPatientHistoryComponent({ onSelectType, onSelectDate }) {
+function FiltersPatientHistoryComponent({ defaultType, onSelectType, onSelectDate }) {
   const [dateValue, setDateValue] = useState(null);
   const [valueType, setValueType] = useState('');
   const classes = useStyles();
+
+  useEffect(() => {
+    setValueType(defaultType);
+  }, [defaultType]);
 
   const handleSetTypeHistory = event => {
     setValueType(event.target.value);
