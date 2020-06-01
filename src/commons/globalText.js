@@ -29,4 +29,4 @@ export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada
 export const ERROR_MESSAGE = 'error';
 export const WARNING_MESSAGE = 'warning';
 export const INFO_MESSAGE = 'info';
-export const SUCCES_MESSAGE = 'success';
+export const SUCCESS_MESSAGE = 'success';

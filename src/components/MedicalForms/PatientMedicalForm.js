@@ -18,7 +18,7 @@ import OxygenForm from './OxygenForm';
 import ExercisesForm from './ExercisesForm';
 import CoagulationForm from './CoagulationForm';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE, SUCCES_MESSAGE } from '../../commons/globalText';
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../commons/globalText';
 import OthersForms from './OthersForm';
 
 const useStyles = makeStyles(theme => ({
@@ -59,7 +59,7 @@ const PatientMedicalForm = () => {
     if (!isEmpty(values)) {
       try {
         await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms });
-        RegisterMessage(SUCCES_MESSAGE, 'Información guardada', 'PatientMedicalForm');
+        RegisterMessage(SUCCESS_MESSAGE, 'Información guardada', 'PatientMedicalForm');
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm');
       }
