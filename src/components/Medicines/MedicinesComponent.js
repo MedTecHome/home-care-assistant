@@ -51,7 +51,9 @@ function MedicinesComponent() {
       <ModalComponent visible={modalVisible}>
         {([ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
           <AddOrEditMedicineComponent
-            title={`${(ADD_FORM_TEXT && 'Adicionar') || (EDIT_FORM_TEXT && 'Editar')} medicamento`}
+            title={`${
+              (formType === ADD_FORM_TEXT && 'Adicionar') || (formType === EDIT_FORM_TEXT && 'Editar')
+            } medicamento`}
             setModalVisible={setModalVisible}
             selected={selected}
             formType={formType}

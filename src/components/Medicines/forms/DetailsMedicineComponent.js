@@ -14,39 +14,36 @@ export function DetailsContentMedicineComponent({ data, classes }) {
     <Grid item xs={12} className={classes.contentDetail}>
       <Typography component="div">
         <strong>{`Nombre: `}</strong>
-        {getPropValue(data, 'name') || '?'}
+        {getPropValue(data, 'name') || '-'}
       </Typography>
       <Typography component="div">
-        <strong>{`Cantidad Concentración: `}</strong>
-        {getPropValue(data, 'oncentrationCant') || '?'}
-      </Typography>
-      <Typography component="div">
-        <strong>{`Tipo Concentración: `}</strong>
-        {getPropValue(data, 'concentrationType.name') || '?'}
+        <strong>{`Concentración: `}</strong>
+        {`${getPropValue(data, 'concentrationCant')} ${
+          getPropValue(data, 'concentrationType.measure') || getPropValue(data, 'concentrationType.name')
+        }
+        ` || '-'}
       </Typography>
       <Typography component="div">
         <strong>{`Dosis: `}</strong>
-        {getPropValue(data, 'dose') || '?'}
-      </Typography>
-      <Typography component="div">
-        <strong>{`Tipo dosis: `}</strong>
-        {getPropValue(data, 'doseType.name') || '?'}
+        {`${getPropValue(data, 'doseCant')} ${
+          getPropValue(data, 'doseType.abbreviation') || getPropValue(data, 'doseType.name')
+        }` || '-'}
       </Typography>
       <Typography component="div">
         <strong> {`Via Administración: `}</strong>
-        {getPropValue(data, 'administrationType.name') || '?'}
+        {getPropValue(data, 'administrationType.name') || '-'}
       </Typography>
       <Typography component="div">
         <strong> {`Motivo Administración: `}</strong>
-        {getPropValue(data, 'administrationReason') || '?'}
+        {getPropValue(data, 'administrationReason') || '-'}
       </Typography>
       <Typography component="div">
         <strong>{`Frecuencia: `}</strong>
-        {getPropValue(data, 'frequency') || '?'}
+        {getPropValue(data, 'frequency') || '-'}
       </Typography>
       <Typography component="div">
         <strong> {`Observaciones: `}</strong>
-        {getPropValue(data, 'observations') || '?'}
+        {getPropValue(data, 'observations') || '-'}
       </Typography>
     </Grid>
   );
