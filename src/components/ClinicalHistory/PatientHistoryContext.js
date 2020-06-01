@@ -39,7 +39,7 @@ const PatientHistoryContextProvider = ({ children }) => {
     const { type, 'user.id': userId, ...filters } = params;
     if (userId) {
       const clinicaltest =
-        (!type && getClinicalTests) ||
+        ((type === 'recently' || !type) && getClinicalTests) ||
         (type === 'pressure' && getPressure) ||
         (type === 'temperature' && getTemperature) ||
         (type === 'weight' && getWeight) ||

@@ -5,11 +5,11 @@ export const testFormsNames = [
   },
   { id: 'temperature', name: 'Temperatura' },
   { id: 'glucose', name: 'Glucosa' },
-  { id: 'weight', name: 'Peso' },
-  { id: 'breathing', name: 'Respiración' },
-  { id: 'inr', name: 'INR' },
-  { id: 'oxygen', name: 'Oxígeno' },
-  { id: 'exercises', name: 'Actividad fisica' },
+  { id: 'weight', name: 'Peso Coporal' },
+  { id: 'breathing', name: 'Respiración (Capnometría)' },
+  { id: 'inr', name: 'Coagulación(INR)' },
+  { id: 'oxygen', name: 'Oximetría Pulso (SpO2)' },
+  { id: 'exercises', name: 'Actividad Física' },
   { id: 'others', name: 'Otros' }
 ];
 
