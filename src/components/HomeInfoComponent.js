@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { Redirect } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import DetailTextComponent from './DetailTextComponent';
+import DoctorsComponent from './Profiles/doctors/DoctorsComponent';
 
 function PaperDetailComponent({ title, children }) {
   return (
@@ -88,12 +90,13 @@ function DoctorHomeComponent({ doctor }) {
 }
 
 function HomeInfoComponent() {
-  const { currentUserProfile, isDoctor, isPatient } = useAuthContext();
+  const { currentUserProfile, isDoctor, isPatient, isClinic } = useAuthContext();
   return (
     <>
       <Grid container spacing={3}>
         {isPatient && <PatientHomeComponent patient={currentUserProfile} />}
         {isDoctor && <DoctorHomeComponent doctor={currentUserProfile} />}
+        {isClinic && <Redirect to="/doctores" />}
       </Grid>
     </>
   );

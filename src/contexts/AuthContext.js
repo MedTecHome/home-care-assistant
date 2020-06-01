@@ -30,8 +30,8 @@ export function AuthContextProvider({ children }) {
         // setCurrentUserProfile(null);
 
         // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
-        // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
-        const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
+        const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
+        // const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
         // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
         const profile = await dbRef('profile').collection('profiles').doc(id).get();
         if (profile.data()) {
