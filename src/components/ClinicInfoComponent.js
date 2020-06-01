@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 });
 
 function ClinicInfoComponent() {
-  const { currentUserProfile, isClinic, isDoctor, isPatient } = useAuthContext();
+  const { currentUser, currentUserProfile, isClinic, isDoctor, isPatient } = useAuthContext();
   const [clinicInfo, setClinicInfo] = useState(null);
   const [open, setOpen] = useState(false);
   const classes = useStyles();
@@ -69,24 +69,28 @@ function ClinicInfoComponent() {
   };
 
   return (
-    <List className={classes.root}>
-      <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
-        {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-      </IconButton>
-      <ListItem>
-        <Typography className={classes.itemTitle} component="div">
-          {getPropValue(clinicInfo, 'fullname')}
-        </Typography>
-      </ListItem>
-      <ListItem>
-        <Collapse className={classes.collapseItem} in={open} component={Container} maxWidth="sm">
-          <div className={classes.collapseContent}>
-            <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
-            <Typography>Teléfono: {getPropValue(clinicInfo, 'primaryPhone')}</Typography>
-          </div>
-        </Collapse>
-      </ListItem>
-    </List>
+    <>
+      {true ? (
+        <List className={classes.root}>
+          <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+          <ListItem>
+            <Typography className={classes.itemTitle} component="div">
+              {getPropValue(clinicInfo, 'fullname')}
+            </Typography>
+          </ListItem>
+          <ListItem>
+            <Collapse className={classes.collapseItem} in={open} component={Container} maxWidth="sm">
+              <div className={classes.collapseContent}>
+                <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
+                <Typography>Teléfono: {getPropValue(clinicInfo, 'primaryPhone')}</Typography>
+              </div>
+            </Collapse>
+          </ListItem>
+        </List>
+      ) : null}
+    </>
   );
 }
 export default ClinicInfoComponent;
