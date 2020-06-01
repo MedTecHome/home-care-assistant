@@ -1,4 +1,4 @@
-import React, { useState, useEffect, version } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,11 +48,11 @@ function FiltersPatientHistoryComponent({ defaultType, onSelectType, onSelectDat
             <Select
               className={classes.formControl}
               value={valueType}
-              label="tipos historial"
+              label="Tipo de prueba"
               onChange={handleSetTypeHistory}
             >
               <MenuItem key={uuid()} value="recently">
-                Mediciones recientes
+                Pruebas recientes
               </MenuItem>
               {testFormsNames.map(types => (
                 <MenuItem key={uuid()} value={types.id}>

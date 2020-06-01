@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, ListItem, makeStyles, Grid, Collapse, Container, IconButton } from '@material-ui/core';
-import { ArrowBack, ArrowDownward, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import { Typography, List, ListItem, makeStyles, Collapse, Container, IconButton } from '@material-ui/core';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import { getPropValue } from '../helpers/utils';
