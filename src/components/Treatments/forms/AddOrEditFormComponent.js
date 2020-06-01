@@ -149,7 +149,7 @@ function AddOrEditFormComponent({ title }) {
                 >
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
-                      <CustomTextFieldComponent required variant="outlined" label="Tipo de tratamiento" name="name" />
+                      <CustomTextFieldComponent variant="outlined" label="Motivo de tratamiento" name="name" />
                     </Grid>
                     <Grid item xs={12}>
                       <ProfileFieldComponent
