@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, version } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ function FiltersPatientHistoryComponent({ defaultType, onSelectType, onSelectDat
   const classes = useStyles();
 
   useEffect(() => {
-    setValueType(defaultType);
+    setValueType(defaultType || 'recently');
   }, [defaultType]);
 
   const handleSetTypeHistory = event => {
@@ -51,6 +51,9 @@ function FiltersPatientHistoryComponent({ defaultType, onSelectType, onSelectDat
               label="tipos historial"
               onChange={handleSetTypeHistory}
             >
+              <MenuItem key={uuid()} value="recently">
+                Mediciones recientes
+              </MenuItem>
               {testFormsNames.map(types => (
                 <MenuItem key={uuid()} value={types.id}>
                   {types.name}
