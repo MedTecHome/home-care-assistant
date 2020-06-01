@@ -40,7 +40,12 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
           >
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
+                <CustomTextFieldComponent
+                  disabled={formType === EDIT_FORM_TEXT}
+                  required
+                  label="Nombre medicamento"
+                  name="name"
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <ConcentrationFieldComponent label="Tipo Concentración" name="concentrationType" />
@@ -48,7 +53,7 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
               <Grid item xs={6}>
                 <CustomTextFieldComponent
                   type="number"
-                  label="Cant. Concentración"
+                  label="Concentración"
                   name="concentrationCant"
                   labelStyle={{
                     fontSize: 12
@@ -65,7 +70,7 @@ export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleClos
                 <AdministrationRouteFielComponent label="Via Administración" name="administrationType" />
               </Grid>
               <Grid item xs={6}>
-                <CustomTextFieldComponent label="Frecuencia" name="frequency" type="number" />
+                <CustomTextFieldComponent label="Frecuencia" name="frequency" />
               </Grid>
               <Grid item xs={12}>
                 <CustomTextFieldComponent label="Motivo Administración" name="administrationReason" />
