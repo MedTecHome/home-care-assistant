@@ -7,6 +7,7 @@ import { getPropValue } from '../helpers/utils';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import DetailTextComponent from './DetailTextComponent';
 import DoctorsComponent from './Profiles/doctors/DoctorsComponent';
+import MonitoringComponent from './Monitoring/MonitoringComponent';
 
 function PaperDetailComponent({ title, children }) {
   return (
@@ -95,7 +96,7 @@ function HomeInfoComponent() {
     <>
       <Grid container spacing={3}>
         {isPatient && <PatientHomeComponent patient={currentUserProfile} />}
-        {isDoctor && <DoctorHomeComponent doctor={currentUserProfile} />}
+        {isDoctor && <Redirect to="/monitorear" />}
         {isClinic && <Redirect to="/doctores" />}
       </Grid>
     </>
