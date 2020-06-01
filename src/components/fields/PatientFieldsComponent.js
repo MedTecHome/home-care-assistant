@@ -8,8 +8,9 @@ import useCustomStyles from '../../jss/globalStyles';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import SexFieldComponent from './SexFieldComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { EDIT_FORM_TEXT } from '../../commons/globalText';
 
-function PatientsFieldComponent() {
+function PatientsFieldComponent({ formType }) {
   const classes = useCustomStyles();
   const { isAdmin } = useAuthContext();
   return (
@@ -17,6 +18,7 @@ function PatientsFieldComponent() {
       <Grid item xs={12} sm={8}>
         <KeyboardDatePicker
           required
+          disabled={formType === EDIT_FORM_TEXT}
           dateFunsUtils={MomentUtils}
           className={classes.formControl}
           size="small"
@@ -34,16 +36,23 @@ function PatientsFieldComponent() {
       </Grid>
       <Grid item xs={4} />
       <Grid item xs={8} sm={4}>
-        <SexFieldComponent className={classes.formControl} name="sex" label="Género" required />
+        <SexFieldComponent
+          className={classes.formControl}
+          name="sex"
+          label="Género"
+          required
+          disabled={formType === EDIT_FORM_TEXT}
+        />
       </Grid>
       <Grid item xs={4}>
         <CustomTextFieldComponent
           validate={validateHeight}
           name="height"
-          label="Estatura"
+          label="Estatura (cm)"
           required
           textAlign="right"
           placeholder="cm"
+          disabled={formType === EDIT_FORM_TEXT}
         />
       </Grid>
       {isAdmin && (

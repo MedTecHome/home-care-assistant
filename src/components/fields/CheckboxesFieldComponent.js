@@ -2,11 +2,12 @@ import React from 'react';
 import { Checkbox as MuiCheckbox, FormControlLabel, Typography } from '@material-ui/core';
 import { Field } from 'react-final-form';
 
-function CheckboxesFieldComponent({ required, namee, label, labelStyle, validate }) {
+function CheckboxesFieldComponent({ required, disabled = false, namee, label, labelStyle, validate }) {
   return (
     <FormControlLabel
       required={required}
       name={namee}
+      disabled={disabled}
       label={<Typography style={labelStyle}>{label}</Typography>}
       control={
         <Field
@@ -15,6 +16,7 @@ function CheckboxesFieldComponent({ required, namee, label, labelStyle, validate
           validate={validate}
           render={({ input: { name, value, onChange, checked, ...restInput } }) => (
             <MuiCheckbox
+              disabled={disabled}
               name={name}
               value={value}
               onChange={onChange}
