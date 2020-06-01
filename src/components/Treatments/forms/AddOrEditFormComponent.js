@@ -182,7 +182,7 @@ function AddOrEditFormComponent({ title }) {
                       <MedicinesFieldComponent
                         required
                         name="medicines"
-                        label="Medicamentos"
+                        label="Búsque Medicamentos"
                         errors={errors.medicines}
                         setMedicine={form.mutators.setMedicine}
                         defaultValue={(formType === EDIT_FORM_TEXT && getPropValue(selected, 'medicines')) || []}
