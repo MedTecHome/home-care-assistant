@@ -52,8 +52,10 @@ function ClinicInfoComponent() {
           setClinicInfo(currentUserProfile);
           return false;
         }
-        const clinic = await getProfileByIdAction(clinicId);
-        setClinicInfo(clinic);
+        if (clinicId) {
+          const clinic = await getProfileByIdAction(clinicId);
+          setClinicInfo(clinic);
+        }
         return true;
       } catch (e) {
         throw new Error(e);
