@@ -83,20 +83,6 @@ function TypeProfileCardComponent({
                     Nació: <strong>{moment(profile.birthday.toDate()).format('DD-MM-YYYY')}</strong>
                   </>
                 )) ||
-                  (getPropValue(profile, 'role.id') === 'doctor' && (
-                    <>
-                      <Typography component="div">
-                        {profile.parent && (
-                          <PopoverComponent
-                            header="Clínica"
-                            label="Clínica"
-                            title={<strong>{getPropValue(profile, 'parent.fullname')}</strong>}
-                            content={getPropValue(profile, 'parent.fullname')}
-                          />
-                        )}
-                      </Typography>
-                    </>
-                  )) ||
                   (getPropValue(profile, 'role.id') === 'clinic' && (
                     <>
                       Max. Doctores: <strong>{getPropValue(profile, 'maxDoctors')}</strong>
