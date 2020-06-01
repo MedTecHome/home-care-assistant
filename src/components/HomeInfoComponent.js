@@ -6,8 +6,6 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue } from '../helpers/utils';
 import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import DetailTextComponent from './DetailTextComponent';
-import DoctorsComponent from './Profiles/doctors/DoctorsComponent';
-import MonitoringComponent from './Monitoring/MonitoringComponent';
 
 function PaperDetailComponent({ title, children }) {
   return (
@@ -68,26 +66,6 @@ function PatientHomeComponent({ patient }) {
       </PaperDetailComponent>
     </>
   );
-}
-
-function DoctorHomeComponent({ doctor }) {
-  const [hospital, setHospital] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const hospitalId = getPropValue(doctor, 'hospital.id');
-
-  useEffect(() => {
-    async function getById() {
-      if (hospitalId) {
-        setLoading(true);
-        const result = {};
-        setHospital(result);
-        setLoading(false);
-      }
-    }
-    getById();
-  }, [hospitalId]);
-
-  return <>{!loading && <PaperHospitalInfoComponent hospital={hospital} />}</>;
 }
 
 function HomeInfoComponent() {

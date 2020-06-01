@@ -9,8 +9,8 @@ import useCustomStyles from '../../jss/globalStyles';
 import { useEvolutionContext } from './EvolutionContext';
 
 const today = moment();
-const defaultStart = today.clone().add(-3, 'days');
-const defaultEnd = today.clone().add(10, 'days');
+const defaultStart = today.clone().add(-10, 'days');
+const defaultEnd = today.clone().add(3, 'days');
 
 function FiltersEvolutionComponent() {
   const { setParams, params } = useEvolutionContext();
