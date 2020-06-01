@@ -1,3 +1,4 @@
+export const NAME_APP = 'HomeCare-View';
 export const USERNAME_DOMAIN = '@homecareassistant.com';
 
 /** text reducers actions */

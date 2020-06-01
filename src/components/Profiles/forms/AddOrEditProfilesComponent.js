@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import { EDIT_FORM_TEXT, ADD_FORM_TEXT } from '../../../commons/globalText';
+import { EDIT_FORM_TEXT, ADD_FORM_TEXT, NAME_APP } from '../../../commons/globalText';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
 
 import { DialogTitleComponent } from '../../ModalComponent';
@@ -97,16 +97,28 @@ function AddOrEditProfilesComponent({
                   )}
                   {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
                   <Grid item xs={12} sm={12} md={12}>
-                    <CustomTextFieldComponent required label="Nombre:" name="name" />
+                    <CustomTextFieldComponent
+                      required
+                      label="Nombre:"
+                      name="name"
+                      disabled={formType === EDIT_FORM_TEXT}
+                    />
                   </Grid>
                   {getPropValue(values, 'role') !== 'clinic' ? (
                     <Grid item xs={12} sm={12} md={12}>
-                      <CustomTextFieldComponent required label="Apellidos:" name="lastName" />
+                      <CustomTextFieldComponent
+                        required
+                        label="Apellidos:"
+                        name="lastName"
+                        disabled={formType === EDIT_FORM_TEXT}
+                      />
                     </Grid>
                   ) : (
                     <ClinicBlockFieldComponent />
                   )}
-                  {getPropValue(values, 'role') === 'patient' ? <PatientsBlockFieldComponent /> : null}
+                  {getPropValue(values, 'role') === 'patient' ? (
+                    <PatientsBlockFieldComponent formType={formType} />
+                  ) : null}
                   <Grid item xs={8}>
                     <CustomTextFieldComponent required label="Teléfono principal:" name="primaryPhone" />
                   </Grid>
@@ -163,12 +175,13 @@ function AddOrEditProfilesComponent({
                     <Grid item xs={12}>
                       <CheckboxesFieldComponent
                         required
+                        disabled={formType === EDIT_FORM_TEXT}
                         labelStyle={{
                           fontSize: '0.766rem',
                           textAlign: 'justify'
                         }}
                         namee="agreement"
-                        label="Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema '?' no es un sistema de respuesta de emergencia"
+                        label={`Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema ${NAME_APP} no es un sistema de respuesta de emergencia`}
                         validate={agreementValidate}
                       />
                     </Grid>

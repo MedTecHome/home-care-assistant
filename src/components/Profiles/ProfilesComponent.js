@@ -80,7 +80,7 @@ function ProfilesComponent({ filterRole }) {
       <ModalComponent visible={modalVisible}>
         {[ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
           <AddOrEditProfilesComponent
-            title="Adicionar"
+            title={(formType === ADD_FORM_TEXT && 'Adicionar') || (formType === EDIT_FORM_TEXT && 'Editar') || ''}
             formType={formType}
             selected={selected}
             selectProfileFromList={selectProfileFromList}

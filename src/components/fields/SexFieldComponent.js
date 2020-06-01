@@ -3,7 +3,7 @@ import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
 import { validateSex } from '../MedicalForms/validateMedicalForms';
 import getNomenclator from '../../services/nomenclators';
 
-function SexFieldComponent({ required, name, label, className }) {
+function SexFieldComponent({ required, name, label, className, disabled }) {
   const [options, setOptions] = useState([]);
   //  const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -13,6 +13,7 @@ function SexFieldComponent({ required, name, label, className }) {
   }, []);
   return (
     <CustomSelectFieldComponent
+      disabled={disabled}
       className={className}
       required={required}
       name={name}
