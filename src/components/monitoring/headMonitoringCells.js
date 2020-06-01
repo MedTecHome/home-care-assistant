@@ -7,7 +7,7 @@ const headMonitoringCells = [
   {
     id: 'user.age',
     numeric: true,
-    label: 'Edad'
+    label: 'Edad(años)'
   },
   {
     id: 'latestDate',
@@ -22,12 +22,12 @@ const headMonitoringCells = [
   {
     id: 'oxygen.heartbeat',
     numeric: true,
-    label: 'Pulso'
+    label: 'Pulso(LPM)'
   },
   {
     id: 'weight.weight',
     numeric: true,
-    label: 'Peso'
+    label: 'Peso(kg)'
   },
   {
     id: 'glucose.sugarConcentration',
@@ -37,7 +37,7 @@ const headMonitoringCells = [
   {
     id: 'temperature.celsiusDegree',
     numeric: true,
-    label: 'Temperatura'
+    label: 'Temperatura(℃)'
   },
   {
     id: 'exercises.steps',

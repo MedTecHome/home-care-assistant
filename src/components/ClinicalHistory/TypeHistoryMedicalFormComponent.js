@@ -47,10 +47,10 @@ function TypeHistoryMedicalFormComponent({ data }) {
         />
       )}
       {idType === 'temperature' && (
-        <ListItemTextComponent one={<TextLabelAndValue label="Grados" value={data.celsiusDegree || ' - '} />} />
+        <ListItemTextComponent one={<TextLabelAndValue label="Grados" value={`${data.celsiusDegree || '-'}℃`} />} />
       )}
       {idType === 'weight' && (
-        <ListItemTextComponent one={<TextLabelAndValue label="Peso" value={data.weight || ' - '} />} />
+        <ListItemTextComponent one={<TextLabelAndValue label="Peso" value={`${data.weight || '-'}kg`} />} />
       )}
       {idType === 'glucose' && (
         <ListItemTextComponent
@@ -60,21 +60,21 @@ function TypeHistoryMedicalFormComponent({ data }) {
       )}
       {idType === 'breathing' && (
         <ListItemTextComponent
-          one={<TextLabelAndValue label="EtCO" value={data.EtCO || ' - '} />}
-          two={<TextLabelAndValue label="PI" value={data.breathingPI || ' - '} />}
+          one={<TextLabelAndValue label="EtCO" value={`${data.EtCO || '-'}mmHg`} />}
+          two={<TextLabelAndValue label="PI" value={`${data.breathingPI || '-'}%`} />}
         />
       )}
-      {idType === 'inr' && <ListItemTextComponent one={<TextLabelAndValue label="INR" value={data.INR || ' - '} />} />}
+      {idType === 'inr' && <ListItemTextComponent one={<TextLabelAndValue label="INR" value={`${data.INR}`} />} />}
       {idType === 'oxygen' && (
         <ListItemTextComponent
-          one={<TextLabelAndValue label="Pulso" value={data.heartbeat || ' - '} />}
-          two={<TextLabelAndValue label="SpO2" value={data.SpO2 || ' - '} />}
+          one={<TextLabelAndValue label="Pulso" value={`${data.heartbeat || '-'}LPM`} />}
+          two={<TextLabelAndValue label="SpO2" value={`${data.SpO2 || '-'}%`} />}
         />
       )}
       {idType === 'exercises' && (
         <ListItemTextComponent
-          one={<TextLabelAndValue label="Distancia" value={data.distance || ' - '} />}
-          two={<TextLabelAndValue label="Tiempo" value={data.time || ' - '} />}
+          one={<TextLabelAndValue label="Distancia" value={`${data.distance || '-'}m`} />}
+          two={<TextLabelAndValue label="Tiempo" value={`${data.time || '-'}min`} />}
         />
       )}
       {idType === 'others' && (
