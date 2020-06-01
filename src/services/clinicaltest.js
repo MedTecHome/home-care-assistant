@@ -18,6 +18,23 @@ const getPressure = async (limit, offset, filters) => {
   }
 };
 
+const getHeartrate = async (limit, offset, filters) => {
+  try {
+    const type = testFormsNames.find(tf => tf.id === 'heartrate');
+    const result = await retriveData(
+      'health/heartrate',
+      limit,
+      offset,
+      filters,
+      filters.clinicalDate ? undefined : 'clinicalDate',
+      filters.clinicalDate ? undefined : 'desc'
+    );
+    return { ...result, data: result.data.map(item => ({ ...item, type })) };
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 const getTemperature = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'temperature');
@@ -34,7 +51,6 @@ const getTemperature = async (limit, offset, filters) => {
     throw new Error(e);
   }
 };
-
 const getWeight = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'weight');
@@ -157,6 +173,7 @@ const getClinicalTests = async (limit, offset, params) => {
   const { 'user.id': userId, ...filters } = params;
   try {
     const pressure = await getPressure(1, 0, { 'user.id': userId || 'none', ...filters });
+    const heartrate = await getHeartrate(1, 0, { 'user.id': userId || 'none', ...filters });
     const temperature = await getTemperature(1, 0, { 'user.id': userId || 'none', ...filters });
     const weight = await getWeight(1, 0, { 'user.id': userId || 'none', ...filters });
     const glucose = await getGlucose(1, 0, { 'user.id': userId || 'none', ...filters });
@@ -169,6 +186,7 @@ const getClinicalTests = async (limit, offset, params) => {
     return {
       total:
         pressure.data.length +
+        heartrate.data.length +
         temperature.data.length +
         breathing.data.length +
         weight.data.length +
@@ -179,6 +197,7 @@ const getClinicalTests = async (limit, offset, params) => {
         others.data.length,
       data: [
         ...pressure.data,
+        ...heartrate.data,
         ...temperature.data,
         ...breathing.data,
         ...weight.data,
@@ -196,6 +215,7 @@ const getClinicalTests = async (limit, offset, params) => {
 
 export {
   getPressure,
+  getHeartrate,
   getTemperature,
   getWeight,
   getGlucose,

@@ -47,6 +47,14 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
+      {selected.type.id === 'heartrate' && (
+        <>
+          <Typography component="div">
+            <strong>Frecuencia Cardiaca: </strong>
+            {getPropValue(selected, 'heartrate') || '-'}
+          </Typography>
+        </>
+      )}
       {selected.type.id === 'temperature' && (
         <>
           <Typography component="div">

@@ -23,6 +23,11 @@ function TypeHistoryMedicalFormComponent({ data }) {
           <TextLabelAndValue label="Frecuencia Cardiaca" value={data.heartrate || ' - '} />
         </>
       )}
+      {idType === 'heartrate' && (
+        <>
+          <TextLabelAndValue label="Frecuencia Cardiaca" value={data.heartrate || ' - '} />
+        </>
+      )}
       {idType === 'temperature' && <TextLabelAndValue label="Grados" value={`${data.celsiusDegree || '-'}℃`} />}
       {idType === 'weight' && <TextLabelAndValue label="Peso" value={`${data.weight || '-'}kg`} />}
       {idType === 'glucose' && (
