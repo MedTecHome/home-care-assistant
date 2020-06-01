@@ -1,6 +1,18 @@
 import React, { Fragment } from 'react';
 import uuid from 'uuid4';
-import { TableRow, TableCell, Typography, ButtonGroup, Collapse, IconButton, Grid } from '@material-ui/core';
+import {
+  TableRow,
+  TableCell,
+  Typography,
+  ButtonGroup,
+  Collapse,
+  IconButton,
+  Grid,
+  TableContainer,
+  TableHead,
+  Table,
+  TableBody
+} from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
 import { makeStyles, fade } from '@material-ui/core/styles';
@@ -44,6 +56,33 @@ const useStyles = makeStyles({
   }
 });
 
+function TableMedicines({ medicines }) {
+  return (
+    <TableContainer>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Nombre</TableCell>
+            <TableCell align="center">Dosis</TableCell>
+            <TableCell align="center">Frecuencia</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {medicines.map(medicine => (
+            <TableRow key={uuid()}>
+              <TableCell>{getPropValue(medicine, 'name')}</TableCell>
+              <TableCell align="center">{`${getPropValue(medicine, 'doseCant') || '-'} ${
+                getPropValue(medicine, 'doseType.measure') || getPropValue(medicine, 'doseType.name') || ''
+              }`}</TableCell>
+              <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
 function DetailTreatmentRowCellComponent({ open, data }) {
   const classes = useStyles();
   return (
@@ -83,16 +122,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                 <Grid item xs={12} sm={6}>
                   <Fieldset title="Medicamentos">
                     <div className={classes.containerDetailDiv}>
-                      {data.medicines.map(medicine => (
-                        <div key={uuid()} className={classes.rowMedicineDetail}>
-                          <Typography component="span">
-                            <strong>{medicine.name}</strong>
-                          </Typography>
-                          <Typography component="span" style={{ margin: 'auto' }}>
-                            <strong>{medicine.edited && 'Editado'}</strong>
-                          </Typography>
-                        </div>
-                      ))}
+                      <TableMedicines medicines={data.medicines} />
                     </div>
                   </Fieldset>
                 </Grid>
@@ -152,8 +182,9 @@ function RowListTreatmentsComponent({
                 <TableCell className={classes.largeCells}>
                   <PopoverComponent
                     className={classes.textCells}
+                    header="Medicamentos"
                     title={row[cell.id].map(medicine => medicine.name).join(', ')}
-                    content={row[cell.id].map(medicine => medicine.name).join(', ')}
+                    content={<TableMedicines medicines={row[cell.id]} />}
                   />
                 </TableCell>
               ) : (

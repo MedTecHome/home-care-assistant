@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, Typography, Tooltip } from '@material-ui/core';
 import { testFormsNames } from '../../helpers/constants';
 import useCustomStyles from '../../jss/globalStyles';
 
@@ -40,12 +40,14 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
               />
             }
             label={
-              <Typography
-                variant="button"
-                style={{
-                  fontWeight: 550
-                }}
-              >{`${value.name}`}</Typography>
+              <Tooltip title={value.name}>
+                <Typography
+                  variant="button"
+                  style={{
+                    fontWeight: 550
+                  }}
+                >{`${value.name}`}</Typography>
+              </Tooltip>
             }
           />
         ))}

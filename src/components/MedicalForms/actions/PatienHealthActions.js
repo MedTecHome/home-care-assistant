@@ -6,12 +6,14 @@ import {
   inrModel,
   oxygenModel,
   pressureModel,
+  heartrateModel,
   tempratureModel,
   weightModel,
   othersModel
 } from './models';
 
 const PressureRef = dbRef('health').collection('pressure');
+const HeartrateRef = dbRef('health').collection('heartrate');
 const TemperatureRef = dbRef('health').collection('temperature');
 const WeightRef = dbRef('health').collection('weight');
 const GlucoseRef = dbRef('health').collection('glucose');
@@ -24,6 +26,9 @@ const OthersRef = dbRef('health').collection('others');
 const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('pressure')) {
     await PressureRef.add(pressureModel(values));
+  }
+  if (forms.includes('heartrate')) {
+    await HeartrateRef.add(heartrateModel(values));
   }
   if (forms.includes('temperature')) {
     await TemperatureRef.add(tempratureModel(values));

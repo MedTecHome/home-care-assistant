@@ -45,7 +45,7 @@ export default function MessageComponent() {
 
   return (
     <>
-      {currentUser && (
+      {true && (
         <div className={classes.root}>
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -53,11 +53,13 @@ export default function MessageComponent() {
             autoHideDuration={6000}
             onClose={handleClose}
           >
-            <Alert variant="filled" onClose={handleClose} severity={getPropValue(messages, 'type') || 'error'}>
-              <Typography className={classes.messageText}>{`${
-                getPropValue(messages, 'message') || 'A ocurrido un error interno.'
-              }`}</Typography>
-            </Alert>
+            {getPropValue(messages, 'type') ? (
+              <Alert variant="filled" onClose={handleClose} severity={getPropValue(messages, 'type') || 'error'}>
+                <Typography className={classes.messageText}>{`${
+                  getPropValue(messages, 'message') || 'A ocurrido un error interno.'
+                }`}</Typography>
+              </Alert>
+            ) : null}
           </Snackbar>
         </div>
       )}

@@ -18,6 +18,12 @@ export const pressureModel = ({
   clinicalDate: formatDateWithTime(bloodPressureDate, bloodPressureTime),
   ...(bloodPressureNota ? { note: bloodPressureNota } : {})
 });
+export const heartrateModel = ({ user, heartrate, heartrateNota, heartrateDate, heartrateTime }) => ({
+  user,
+  heartrate,
+  clinicalDate: formatDateWithTime(heartrateDate, heartrateTime),
+  ...(heartrateNota ? { note: heartrateNota } : {})
+});
 
 export const tempratureModel = ({ user, celsiusDegree, temperatureNote, temperatureDate, temperatureTime }) => ({
   user,
@@ -64,7 +70,7 @@ export const breathingModel = ({
   user,
   EtCO,
   breathingFrecuency,
-  breathingtPI,
+  breathingPI,
   breathingtDate,
   breathingTime,
   breathingNote
@@ -72,7 +78,7 @@ export const breathingModel = ({
   user,
   EtCO,
   breathingFrecuency,
-  breathingtPI,
+  breathingPI,
   clinicalDate: formatDateWithTime(breathingtDate, breathingTime),
   ...(breathingNote ? { note: breathingNote } : {})
 });

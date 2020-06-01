@@ -13,7 +13,8 @@ import {
   getOxygen,
   getExercises,
   getBreathing,
-  getOthers
+  getOthers,
+  getHeartrate
 } from '../../services/clinicaltest';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
@@ -41,6 +42,7 @@ const PatientHistoryContextProvider = ({ children }) => {
       const clinicaltest =
         ((type === 'recently' || !type) && getClinicalTests) ||
         (type === 'pressure' && getPressure) ||
+        (type === 'heartrate' && getHeartrate) ||
         (type === 'temperature' && getTemperature) ||
         (type === 'weight' && getWeight) ||
         (type === 'glucose' && getGlucose) ||

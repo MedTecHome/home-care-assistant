@@ -1,7 +1,11 @@
 export const testFormsNames = [
   {
     id: 'pressure',
-    name: 'Presión'
+    name: 'Tensión Arterial'
+  },
+  {
+    id: 'heartrate',
+    name: 'Frecuencia Cardiaca'
   },
   { id: 'temperature', name: 'Temperatura' },
   { id: 'glucose', name: 'Glucosa' },

@@ -10,6 +10,7 @@ import saveHealthDataAction from './actions/PatienHealthActions';
 import SelectedChecboxForm from './SelectedCheckboxForm';
 import BreathingForm from './BreathingForm';
 import PressureForm from './PressureForm';
+import HeartrateForm from './HeartrateForm';
 import TemperatureForm from './TemperatureForm';
 import GlucoseForm from './GlucoseForm';
 import WeightForm from './WeightForm';
@@ -17,7 +18,7 @@ import OxygenForm from './OxygenForm';
 import ExercisesForm from './ExercisesForm';
 import CoagulationForm from './CoagulationForm';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
+import { ERROR_MESSAGE, SUCCES_MESSAGE } from '../../commons/globalText';
 import OthersForms from './OthersForm';
 
 const useStyles = makeStyles(theme => ({
@@ -55,10 +56,14 @@ const PatientMedicalForm = () => {
   const [selectedForms, setSelectedForms] = useState([]);
 
   const onSubmit = async (values, form) => {
-    if (!isEmpty(values))
-      await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms }).catch(e =>
-        RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm')
-      );
+    if (!isEmpty(values)) {
+      try {
+        await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms });
+        RegisterMessage(SUCCES_MESSAGE, 'Información guardada', 'PatientMedicalForm');
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm');
+      }
+    }
     setTimeout(form.reset);
   };
 
@@ -108,6 +113,11 @@ const PatientMedicalForm = () => {
                     {selectedForms.includes('pressure') && (
                       <Grid item xs={12} sm={10} md={6}>
                         <PressureForm classStyle={classes} />
+                      </Grid>
+                    )}
+                    {selectedForms.includes('heartrate') && (
+                      <Grid item xs={12} sm={10} md={6}>
+                        <HeartrateForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('temperature') && (
