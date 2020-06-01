@@ -57,7 +57,10 @@ function ProfilesComponent({ filterRole }) {
   }, [params.fullname, roleId, resetPagination]);
 
   useEffect(() => {
-    setParams({ 'role.id': filterRole || null, 'parent.id': currentUserProfile.id });
+    setParams({
+      'role.id': filterRole || null,
+      ...(filterRole !== 'clinic' ? { 'parent.id': currentUserProfile.id } : {})
+    });
   }, [filterRole, currentUserProfile, setParams]);
 
   const handleOnClickDelete = () => {

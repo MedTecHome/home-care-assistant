@@ -8,7 +8,7 @@ import FiltersMedicineComponent from './FiltersMedicineComponent';
 import RowListMedicineComponent from './RowListMedicineComponent';
 import TableComponent from '../table/TableComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
 import { getPropValue } from '../../helpers/utils';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';

@@ -5,7 +5,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { DialogTitleComponent } from '../../ModalComponent';
-import { useMedicinesContext } from '../MedicinesContext';
 import { EDIT_FORM_TEXT } from '../../../commons/globalText';
 import formValidate from './formValidate';
 import SaveButton from '../../buttons/SaveButton';
@@ -14,7 +13,6 @@ import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 import { getPropValue } from '../../../helpers/utils';
-import { useAuthContext } from '../../../contexts/AuthContext';
 
 export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleCloseForm, currentUserProfile }) {
   return (
