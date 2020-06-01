@@ -13,7 +13,17 @@ import { getPropValue } from '../../helpers/utils';
 
 function PatientHistoryComponent({ patient, defaultTest }) {
   const { resetPagination } = useCustomPaginationContext();
-  const { modalVisible, params, setParams } = usePatientHistoryContext();
+  const {
+    historyList,
+    loadingList,
+    modalVisible,
+    params,
+    setParams,
+    setModalVisible,
+    selectMedicalForm,
+    selected,
+    total
+  } = usePatientHistoryContext();
   const { isDoctor } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
@@ -31,8 +41,6 @@ function PatientHistoryComponent({ patient, defaultTest }) {
     resetPagination();
   };
 
-  console.log(params);
-
   return (
     <>
       <ModalComponent visible={modalVisible}>
@@ -45,7 +53,15 @@ function PatientHistoryComponent({ patient, defaultTest }) {
             onSelectDate={handleSelectDate}
             onSelectType={handleSelectType}
           />
-          <ListPatientHistoryComponent />
+          <ListPatientHistoryComponent
+            defaultType={params.type}
+            historyList={historyList}
+            loadingList={loadingList}
+            selectMedicalForm={selectMedicalForm}
+            selected={selected}
+            setModalVisible={setModalVisible}
+            total={total}
+          />
         </Grid>
         {isDoctor && !match && (
           <Grid item xs={12} sm={7} container>

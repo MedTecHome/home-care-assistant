@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
+import { intakeTimeSource } from '../../helpers/constants';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -66,7 +67,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>Concentración de azucar: </strong>
-            {getPropValue(selected, 'sugarConcentration') || '-'}
+            {`${getPropValue(selected, 'sugarConcentration')} ${getPropValue(selected, 'glucoseUnity')}` || '-'}
           </Typography>
           <Typography component="div">
             <strong>Horario: </strong>
@@ -74,12 +75,9 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
           <Typography component="div">
             <strong>Momento de ingesta: </strong>
-            {getPropValue(selected, 'intakeTime') || '-'}
+            {intakeTimeSource.find(item => item.id === getPropValue(selected, 'intakeTime')).name || '-'}
           </Typography>
-          <Typography component="div">
-            <strong>Unidad glucosa: </strong>
-            {getPropValue(selected, 'glucoseUnity') || '-'}
-          </Typography>
+          <Typography component="div" />
           <Typography component="div">
             <strong>HbA1c: </strong>
             {getPropValue(selected, 'hba1c') || '-'}
