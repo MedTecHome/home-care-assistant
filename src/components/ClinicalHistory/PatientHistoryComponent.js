@@ -11,15 +11,15 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
 
-function PatientHistoryComponent({ patient }) {
+function PatientHistoryComponent({ patient, defaultTest }) {
   const { resetPagination } = useCustomPaginationContext();
   const { modalVisible, params, setParams } = usePatientHistoryContext();
   const { isDoctor } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    setParams({ 'user.id': getPropValue(patient, 'id') || null });
-  }, [patient, setParams]);
+    setParams({ 'user.id': getPropValue(patient, 'id') || null, type: defaultTest });
+  }, [patient, defaultTest, setParams]);
 
   const handleSelectDate = date => {
     setParams({ ...params, clinicalDate: date });
@@ -31,6 +31,8 @@ function PatientHistoryComponent({ patient }) {
     resetPagination();
   };
 
+  console.log(params);
+
   return (
     <>
       <ModalComponent visible={modalVisible}>
@@ -38,7 +40,11 @@ function PatientHistoryComponent({ patient }) {
       </ModalComponent>
       <Grid container>
         <Grid item xs={11} sm={isDoctor ? 11 : 12} md={isDoctor ? 5 : 12}>
-          <FiltersPatientHistoryComponent onSelectDate={handleSelectDate} onSelectType={handleSelectType} />
+          <FiltersPatientHistoryComponent
+            defaultType={defaultTest}
+            onSelectDate={handleSelectDate}
+            onSelectType={handleSelectType}
+          />
           <ListPatientHistoryComponent />
         </Grid>
         {isDoctor && !match && (

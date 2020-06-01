@@ -14,6 +14,7 @@ function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
   const { currentUserProfile, isDoctor } = useAuthContext();
   const [tab, setTab] = useState(isDoctor ? 'evolution' : 'clinictest');
+  const [defaultTest, setDefaultTest] = useState('');
   const [patient, setPatient] = useState(null);
 
   useEffect(() => {
@@ -34,8 +35,7 @@ function PatientClinicalDetailsComponent() {
 
   const handleTabFromEvolution = (tb, filter) => {
     setTab(tb);
-    // eslint-disable-next-line no-console
-    console.log(filter);
+    setDefaultTest(filter);
   };
 
   return (
@@ -64,9 +64,8 @@ function PatientClinicalDetailsComponent() {
             {isDoctor && <Tab label="Tratamientos" value="treatments" />}
           </Tabs>
         </Paper>
-
         {tab === 'treatments' && <TreatmentsComponent patient={patient} />}
-        {tab === 'clinictest' && <PatientHistoryComponent patient={patient} />}
+        {tab === 'clinictest' && <PatientHistoryComponent patient={patient} defaultTest={defaultTest} />}
         {tab === 'evolution' && isDoctor && <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />}
       </div>
     </>
