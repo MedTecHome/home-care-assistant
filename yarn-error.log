@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add final-form-material-ui -S
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add ract-firebase-file-uploader
 
 PATH: 
   C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\AOMEI Backupper;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Yunior\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PhpStorm 2019.2.4\bin;C:\Program Files\JetBrains\WebStorm 2019.3.3\bin;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\JetBrains\DataGrip 2019.3.3\bin;C:\Users\Yunior\AppData\Local\.meteor;C:\Users\Yunior\AppData\Local\Programs\Microsoft VS Code\bin
@@ -14,7 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\workspace\MedTechHome\home-care-assistant\node_modules\http-signature\node_modules\.bin'
+  Error: https://registry.yarnpkg.com/ract-firebase-file-uploader: Not found
+      at Request.params.callback [as _callback] (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:66987:18)
+      at Request.self.callback (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:210:5)
+      at Request.<anonymous> (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:210:5)
+      at IncomingMessage.<anonymous> (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:299:28)
+      at IncomingMessage.emit (events.js:215:7)
+      at endReadableNT (_stream_readable.js:1183:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
@@ -39,6 +49,7 @@ npm manifest:
       "clsx": "latest",
       "final-form": "^4.19.1",
       "final-form-calculate": "^1.3.1",
+      "final-form-material-ui": "^0.3.0",
       "firebase": "^7.14.0",
       "just-debounce": "^1.0.0",
       "material-ui-image": "^3.2.3",
@@ -4398,6 +4409,11 @@ Lockfile:
       acorn "^5.2.1"
       defined "^1.0.0"
   
+  dhtmlx-scheduler@^5.3.8:
+    version "5.3.8"
+    resolved "https://registry.yarnpkg.com/dhtmlx-scheduler/-/dhtmlx-scheduler-5.3.8.tgz#c3ff8bce8ca53c354051d624bc088e802eef77fb"
+    integrity sha512-1Xeb+xqvaPnwtFYmNKpVE4CXzpapipXaS5XJvFs4rqHpS7N+8jY0XnpLz69Vg7vh1mDEKnO7P1tFfwUT++39HA==
+  
   diff-sequences@^24.9.0:
     version "24.9.0"
     resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-24.9.0.tgz#5715d6244e2aa65f48bba0bc972db0b0b11e95b5"
@@ -5398,6 +5414,11 @@ Lockfile:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/final-form-calculate/-/final-form-calculate-1.3.1.tgz#463089114245afa97fea94712bfbfca11da8413e"
     integrity sha512-vZCvQ08w9FIoHLkZMcJSIXQr5TAVLxHfLD0thmm50zcNyJESruqhgvurSjWYPLoJGnIgbIb94Rumdg5ZXX5WiQ==
+  
+  final-form-material-ui@^0.3.0:
+    version "0.3.0"
+    resolved "https://registry.yarnpkg.com/final-form-material-ui/-/final-form-material-ui-0.3.0.tgz#fea6d00071549c515594f50c13b3e1b080412830"
+    integrity sha512-A2rjTvJTG2xD0fIEH1rK+xaxG7HxSv3IU3exT6Z5AiGBm4XQ/m/knAUmJTCQHxukaHZleWT8paKIex8VXoX4Bw==
   
   final-form@^4.19.1:
     version "4.19.1"

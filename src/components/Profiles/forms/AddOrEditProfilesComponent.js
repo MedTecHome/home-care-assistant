@@ -55,6 +55,11 @@ function AddOrEditProfilesComponent({
     <>
       <DialogTitleComponent onClose={handleCancel}>{title}</DialogTitleComponent>
       <Form
+        mutators={{
+          setLogoUrl: (args, state, utils) => {
+            utils.changeValue(state, 'logoUrl', () => (args[0].length > 0 ? args[0] : ''));
+          }
+        }}
         initialValues={{
           phoneVisible: false,
           emailVisible: false,
@@ -114,7 +119,10 @@ function AddOrEditProfilesComponent({
                       />
                     </Grid>
                   ) : (
-                    <ClinicBlockFieldComponent />
+                    <ClinicBlockFieldComponent
+                      defaultLogo={getPropValue(selected, 'logoUrl')}
+                      setLogoUrl={form.mutators.setLogoUrl}
+                    />
                   )}
                   {getPropValue(values, 'role') === 'patient' ? (
                     <PatientsBlockFieldComponent formType={formType} />
