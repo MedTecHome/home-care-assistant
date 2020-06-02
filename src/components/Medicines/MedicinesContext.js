@@ -7,6 +7,7 @@ import { ERROR_MESSAGE } from '../../commons/globalText';
 import getMedicines from '../../services/medicines';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
+import getNomenclator from '../../services/nomenclators';
 
 const MedicinesContext = createContext({});
 
@@ -29,11 +30,23 @@ export const withMedicinesContext = WrapperComponent => props => {
       setLoadingList(true);
       getMedicines(limit, offset, params)
         .then(res => {
-          setMedicinesList(res.data);
-          setTotal(res.total);
+          const medicines = res.data.map(async medicine => {
+            const administrationTypeObj = await getNomenclator('administrationroute', medicine.administrationType);
+            const concentrationObj = await getNomenclator('concentrations', medicine.concentrationType);
+            const doseTypeObj = await getNomenclator('dosis', medicine.doseType);
+            return { ...medicine, administrationTypeObj, doseTypeObj, concentrationObj };
+          });
+          Promise.all(medicines)
+            .then(data => {
+              setMedicinesList(data);
+              setTotal(res.total);
+            })
+            .catch(e => {
+              throw new Error(e);
+            })
+            .finally(() => setLoadingList(false));
         })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'))
-        .finally(() => setLoadingList(false));
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'));
     }
   }, [params, limit, offset, loadingSave, RegisterMessage]);
 

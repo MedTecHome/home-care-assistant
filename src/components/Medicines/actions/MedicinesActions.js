@@ -5,29 +5,50 @@ import getNomenclator from '../../../services/nomenclators';
 
 const MedicinesRef = dbRef('medicine').collection('medicines');
 
-export const mutateNomenc = async ({ concentrationType, doseType, administrationType, observations = '' }) => ({
+export const medicineModel = ({
+  concentrationCant = '',
+  doseCant = '',
+  frequency = '',
+  concentrationType = '',
+  doseType = '',
+  administrationType = '',
+  observations = ''
+}) => ({
+  concentrationCant,
+  doseCant,
+  frequency,
   observations,
-  ...(concentrationType ? { concentrationType: await getNomenclator('concentrations', concentrationType) } : {}),
-  ...(doseType ? { doseType: await getNomenclator('dosis', doseType) } : {}),
-  ...(administrationType ? { administrationType: await getNomenclator('administrationroute', administrationType) } : {})
+  concentrationType,
+  doseType,
+  administrationType
 });
 
 export const getMedicineByIdAction = async (id, fields = []) => {
   const ref = await MedicinesRef.doc(id).get();
   const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
-  return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
+  let result = isEmpty(fields) ? ref.data() : data;
+  if (result.administrationType) {
+    const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);
+    result = { ...result, administrationTypeObj };
+  }
+  if (result.doseType) {
+    const doseTypeObj = await getNomenclator('dosis', result.doseType);
+    result = { ...result, doseTypeObj };
+  }
+  if (result.concentrationType) {
+    const concentrationTypeObj = await getNomenclator('concentrations', result.concentrationType);
+    result = { ...result, concentrationTypeObj };
+  }
+  return { id: ref.id, ...result };
 };
 
 const addValuesAction = async ({ id, ...values }) => {
-  const mut = await mutateNomenc(values);
-  const result = { ...values, ...mut };
+  const result = { ...values, ...medicineModel(values) };
   await MedicinesRef.add(result);
 };
 
 const editValuesAction = async ({ id, ...values }) => {
-  const mut = await mutateNomenc(values);
-
-  const result = { ...values, ...mut };
+  const result = { ...values, ...medicineModel(values) };
   await MedicinesRef.doc(id).update(result);
 };
 

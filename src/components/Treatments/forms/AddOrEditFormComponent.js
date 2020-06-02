@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { Field, Form } from 'react-final-form';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery, makeStyles } from '@material-ui/core';
+import { Form } from 'react-final-form';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useTreatmentsContext } from '../TreatmentsContext';
 import DateFieldComponent from '../../fields/DateFieldComponent';
@@ -17,74 +17,40 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
+import EditButtonIcon from '../../buttons/EditButtonIcon';
+import { getMedicineByIdAction, medicineModel } from '../../Medicines/actions/MedicinesActions';
+import { AddOrEditMedicineFormComponent } from '../../Medicines/forms/AddOrEditMedicineComponent';
 import { getPropValue } from '../../../helpers/utils';
-import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
-import DosisFieldComponent from '../../fields/DosisFielComponent';
-import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 
-function AddOrEditMedicineForm({ selected, onSubmit }) {
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: '#f5f5f6',
+    padding: 16,
+    borderRadius: 4
+  }
+});
+
+function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCancel }) {
+  const [selected, setSelected] = useState(null);
+  const classes = useStyles();
+
+  useEffect(() => {
+    getMedicineByIdAction(selectedId).then(result => {
+      setSelected(result);
+    });
+  }, [selectedId, onSubmit]);
+
+  const handleSubmit = values => {
+    onSubmit(medicineModel(values));
+  };
+
   return (
-    <div
-      style={{
-        backgroundColor: '#f5f5f6',
-        padding: 16,
-        borderRadius: 4
-      }}
-    >
-      <Form
-        initialValues={
-          selected && {
-            ...selected,
-            concentrationType: getPropValue(selected, 'concentrationType.id') || '',
-            doseType: getPropValue(selected, 'doseType.id') || '',
-            administrationType: getPropValue(selected, 'administrationType.id') || ''
-          }
-        }
-        onSubmit={onSubmit}
-        render={({ handleSubmit, submitting, pristine, invalid }) => (
-          <form noValidate onSubmit={event => !invalid && handleSubmit(event)} autoComplete="off">
-            <input type="hidden" name="id" />
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <CustomTextFieldComponent required label="Nombre medicamento" name="name" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <ConcentrationFieldComponent label="Tipo Concentración" name="concentrationType" />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextFieldComponent
-                  type="number"
-                  label="Cant. Concentración"
-                  name="concentrationCant"
-                  labelStyle={{
-                    fontSize: 12
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <DosisFieldComponent label="Tipo dosis" name="doseType" />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextFieldComponent label="Cant. Dosis" name="doseCant" type="number" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <AdministrationRouteFielComponent label="Via Administración" name="administrationType" />
-              </Grid>
-              <Grid item xs={6}>
-                <CustomTextFieldComponent label="Frecuencia" name="frequency" type="number" />
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTextFieldComponent label="Motivo Administración" name="administrationReason" />
-              </Grid>
-              <Grid item xs={12}>
-                <CustomTextFieldComponent label="Observaciones" name="observations" multiline rows={3} rowsMax={5} />
-              </Grid>
-            </Grid>
-            <DialogActions>
-              <SaveButton submitting={submitting} invalid={invalid} pristine={pristine} />
-            </DialogActions>
-          </form>
-        )}
+    <div className={classes.root}>
+      <AddOrEditMedicineFormComponent
+        formType={EDIT_FORM_TEXT}
+        selected={{ ...selected, ...defaultValue }}
+        onSubmit={handleSubmit}
+        handleCloseForm={onFormCancel}
       />
     </div>
   );
@@ -93,19 +59,27 @@ function AddOrEditMedicineForm({ selected, onSubmit }) {
 function AddOrEditFormComponent({ title }) {
   const { setModalVisible, selected, saveValues, formType, params } = useTreatmentsContext();
   const [medicineSelected, setSelectedMedicine] = useState(null);
-  const [medicineEdited, setMedicineEdited] = useState(null);
+  const [medicineEdited, setMedicineEdited] = useState('{}');
   const classes = useCustomStyles();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+
+  useEffect(() => {
+    if (getPropValue(selected, 'medicineSetting')) {
+      setMedicineEdited(getPropValue(selected, 'medicineSetting'));
+    }
+  }, [selected]);
 
   const handleCloseModal = () => {
     setModalVisible(false, null);
   };
 
-  const onSubmit = async values => {
-    await saveValues(values, formType);
+  const onSubmit = async (values, form) => {
+    await saveValues({ ...values, medicineSetting: medicineEdited }, formType);
+    setTimeout(form.reset);
     setModalVisible(false, null);
   };
 
+  const changed = getPropValue(selected, 'medicineSetting') !== medicineEdited;
   return (
     <div
       style={{
@@ -118,94 +92,80 @@ function AddOrEditFormComponent({ title }) {
           <Grid item xs={12} sm={medicineSelected ? 6 : 12}>
             <Form
               validate={validateForm}
-              mutators={{
-                setMedicine: (args, state, utils) => {
-                  utils.changeValue(state, 'medicines', () =>
-                    args[0].length > 0 ? JSON.stringify({ medicines: args[0] }) : undefined
-                  );
-                }
-              }}
               initialValues={{
                 ...(formType === EDIT_FORM_TEXT &&
                   selected && {
                     ...selected,
-                    user: selected.user.id,
                     startDate: moment.unix(selected.startDate),
                     endDate: moment.unix(selected.endDate)
                   }),
-                ...(formType === ADD_FORM_TEXT && params && params['user.id'] && { user: params['user.id'] })
+                ...(formType === ADD_FORM_TEXT && params && params.user && { user: params.user })
               }}
               onSubmit={onSubmit}
-              render={({ handleSubmit, form, submitting, pristine, invalid, values, errors }) => (
-                <form
-                  noValidate
-                  autoComplete="off"
-                  onSubmit={event => {
-                    if (!invalid)
-                      handleSubmit(event).then(() => {
-                        form.reset();
-                      });
-                  }}
-                >
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <CustomTextFieldComponent variant="outlined" label="Motivo de tratamiento" name="name" />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <ProfileFieldComponent
-                        required
-                        disabled={!!form.getState().initialValues.user}
-                        label="Paciente"
-                        name="user"
-                        filterRole="patient"
-                        userRole="doctor"
+              render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {
+                return (
+                  <form
+                    noValidate
+                    autoComplete="off"
+                    onSubmit={event => {
+                      if (!invalid) handleSubmit(event);
+                    }}
+                  >
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <CustomTextFieldComponent variant="outlined" label="Motivo de tratamiento" name="name" />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <ProfileFieldComponent
+                          required
+                          disabled={!!form.getState().initialValues.user}
+                          label="Paciente"
+                          name="user"
+                          filterRole="patient"
+                          userRole="doctor"
+                          classes={classes}
+                          validate={validateDoctor}
+                        />
+                      </Grid>
+                      <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
+                      <DateFieldComponent
+                        label="Fecha fin"
+                        name="endDate"
                         classes={classes}
-                        validate={validateDoctor}
+                        minDate={values.startDate}
                       />
+                      <Grid item xs={10}>
+                        <MedicinesFieldComponent required name="medicines" label="Medicamento" />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <EditButtonIcon
+                          onClick={() => setSelectedMedicine(values.medicines)}
+                          buttonColor={values.medicines ? 'primary' : 'default'}
+                          disabled={!values.medicines}
+                        />
+                      </Grid>
                     </Grid>
-                    <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
-                    <DateFieldComponent label="Fecha fin" name="endDate" classes={classes} minDate={values.startDate} />
-                    <Grid item xs={12}>
-                      <Field
-                        name="medicines"
-                        render={({ input }) => (
-                          <input
-                            type="hidden"
-                            name={input.name}
-                            onChange={input.onChange}
-                            onBlur={input.onBlur}
-                            onFocus={input.onFocus}
-                            value={input.value}
-                          />
-                        )}
-                      />
-                      <MedicinesFieldComponent
-                        required
-                        name="medicines"
-                        label="Búsque Medicamentos"
-                        errors={errors.medicines}
-                        setMedicine={form.mutators.setMedicine}
-                        defaultValue={(formType === EDIT_FORM_TEXT && getPropValue(selected, 'medicines')) || []}
-                        medicineSelected={medicineSelected}
-                        medicineEdited={medicineEdited}
-                        setMedicineEdited={setMedicineEdited}
-                        setSelectedMedicine={setSelectedMedicine}
-                      />
-                    </Grid>
-                  </Grid>
-                  <DialogActions>
-                    <Button disableElevation variant="contained" onClick={handleCloseModal} size="small">
-                      cancelar
-                    </Button>
-                    <SaveButton submitting={submitting} pristine={pristine} invalid={invalid} />
-                  </DialogActions>
-                </form>
-              )}
+                    <DialogActions>
+                      <Button disableElevation variant="contained" onClick={handleCloseModal} size="small">
+                        cancelar
+                      </Button>
+                      <SaveButton submitting={submitting} pristine={pristine && !changed} invalid={invalid} />
+                    </DialogActions>
+                  </form>
+                );
+              }}
             />
           </Grid>
           {!match && (
             <Grid item xs={12} sm={6}>
-              {medicineSelected && <AddOrEditMedicineForm selected={medicineSelected} onSubmit={setMedicineEdited} />}
+              {medicineSelected && (
+                <AddOrEditMedicineForm
+                  defaultValue={JSON.parse(medicineEdited)}
+                  selectedId={medicineSelected}
+                  onSubmit={values => setMedicineEdited(JSON.stringify(values))}
+                  onFormCancel={() => setSelectedMedicine(null)}
+                />
+              )}
             </Grid>
           )}
         </Grid>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, ButtonBase, makeStyles, Typography, CircularProgress } from '@material-ui/core';
+import { Grid, makeStyles, Typography, CircularProgress } from '@material-ui/core';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import { Field } from 'react-final-form';
-import { CheckCircle, CheckRounded } from '@material-ui/icons';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { storageFirebase } from '../../firebaseConfig';
 import { ERROR_MESSAGE } from '../../commons/globalText';
@@ -105,7 +104,7 @@ function ClinicBlockFieldComponent({ setLogoUrl, defaultLogo }) {
           </div>
         ) : (
           <Typography>
-            <a href={downloadUrl} target="_blank" rel="noreferrer">
+            <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
               {logoname}
             </a>
           </Typography>

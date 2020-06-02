@@ -12,12 +12,12 @@ import Typography from '@material-ui/core/Typography';
 import { withMedicinesContext } from '../Medicines/MedicinesContext';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 import ModalComponent from '../ModalComponent';
-import { AddOrEditMedicineForm } from '../Medicines/forms/AddOrEditMedicineComponent';
 import { EDIT_FORM_TEXT } from '../../commons/globalText';
 import { getPropValue } from '../../helpers/utils';
 import MedicineDetailItemListComponent from '../Medicines/MedicineDetailItemListComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import getMedicines from '../../services/medicines';
+import { AddOrEditMedicineFormComponent } from '../Medicines/forms/AddOrEditMedicineComponent';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -200,7 +200,7 @@ function MedicinesFieldComponent({ required, label, setMedicine, errors, default
   return (
     <>
       <ModalComponent visible={modalVisible}>
-        <AddOrEditMedicineForm
+        <AddOrEditMedicineFormComponent
           formType={EDIT_FORM_TEXT}
           onSubmit={handleMedicineValues}
           selected={medicineSelected}
