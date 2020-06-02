@@ -29,6 +29,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.4.0",
+    "react-firebase-file-uploader": "^2.4.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "rechart": "^0.0.1",
@@ -82,6 +83,7 @@
     "eslint-plugin-react-hooks": "^2.5.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.3",
-    "prettier": "^2.0.4"
+    "prettier": "^2.0.4",
+    "why-did-you-render": "^1.0.1"
   }
 }
