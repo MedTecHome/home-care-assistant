@@ -91,6 +91,8 @@ function ClinicBlockFieldComponent({ setLogoUrl, defaultLogo }) {
             onUploadStart={handleUploadStart}
             onUploadError={handleUploadError}
             onUploadSuccess={handleUploadSuccess}
+            maxHeight={100}
+            maxWidth={100}
           >
             Seleccione una imagen
           </CustomUploadButton>
