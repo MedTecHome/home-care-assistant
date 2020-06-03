@@ -6,6 +6,8 @@ import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getTreatments from '../../services/treatments';
 import { isEmpty } from '../../helpers/utils';
+import { getMedicineByIdAction } from '../Medicines/actions/MedicinesActions';
+import getNomenclator from '../../services/nomenclators';
 
 const TreatmentsContext = createContext({});
 
@@ -33,11 +35,34 @@ export const withTreatmentsContext = WrapperComponent => props => {
       setLoadingList(true);
       getTreatments(limit, offset, filters)
         .then(res => {
-          setList(res.data);
-          setTotal(res.total);
+          const treatments = res.data.map(async treat => {
+            const medicines = await getMedicineByIdAction(treat.medicines);
+            let result = { ...medicines, ...JSON.parse(treat.medicineSetting) };
+            if (result.administrationType) {
+              const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);
+              result = { ...result, administrationTypeObj };
+            }
+            if (result.doseType) {
+              const doseTypeObj = await getNomenclator('dosis', result.doseType);
+              result = { ...result, doseTypeObj };
+            }
+            if (result.concentrationType) {
+              const concentrationTypeObj = await getNomenclator('concentrations', result.concentrationType);
+              result = { ...result, concentrationTypeObj };
+            }
+            return { ...treat, medicineObject: result };
+          });
+          Promise.all(treatments)
+            .then(data => {
+              setList(data);
+              setTotal(res.total);
+            })
+            .catch(e => {
+              throw new Error(e);
+            })
+            .finally(() => setLoadingList(false));
         })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
-        .finally(() => setLoadingList(false));
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'));
     }
   }, [loadingSave, params, RegisterMessage]);
 

@@ -33,7 +33,7 @@ function TreatmentsComponent({ patient }) {
 
   useEffect(() => {
     if (getPropValue(patient, 'id')) {
-      setParams({ 'user.id': getPropValue(patient, 'id'), limit: pageSize, offset });
+      setParams({ user: getPropValue(patient, 'id'), limit: pageSize, offset });
     }
   }, [patient, setParams, pageSize, offset]);
 

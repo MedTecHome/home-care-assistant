@@ -14,18 +14,11 @@ import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 import { getPropValue } from '../../../helpers/utils';
 
-export function AddOrEditMedicineForm({ formType, selected, onSubmit, handleCloseForm, currentUserProfile }) {
+export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, handleCloseForm, currentUserProfile }) {
   return (
     <Form
       initialValues={
-        formType === EDIT_FORM_TEXT && selected
-          ? {
-              ...selected,
-              concentrationType: getPropValue(selected, 'concentrationType.id') || '',
-              doseType: getPropValue(selected, 'doseType.id') || '',
-              administrationType: getPropValue(selected, 'administrationType.id') || ''
-            }
-          : { clinic: getPropValue(currentUserProfile, 'parent.id') }
+        formType === EDIT_FORM_TEXT && selected ? selected : { clinic: getPropValue(currentUserProfile, 'parent.id') }
       }
       validate={formValidate}
       onSubmit={onSubmit}
@@ -112,7 +105,7 @@ function AddOrEditMedicineComponent({ title, formType, selected, setModalVisible
   return (
     <>
       <DialogTitleComponent onClose={handleCloseForm}>{title}</DialogTitleComponent>
-      <AddOrEditMedicineForm
+      <AddOrEditMedicineFormComponent
         formType={formType}
         selected={selected}
         onSubmit={onSubmit}

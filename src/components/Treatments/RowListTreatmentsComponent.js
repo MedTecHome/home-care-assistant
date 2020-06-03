@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import uuid from 'uuid4';
 import {
   TableRow,
@@ -21,7 +21,6 @@ import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../containers/fieldset';
-import PopoverComponent from '../containers/PopoverComponent';
 import { getPropValue } from '../../helpers/utils';
 
 const useStyles = makeStyles({
@@ -72,9 +71,9 @@ function TableMedicines({ medicines }) {
             <TableRow key={uuid()}>
               <TableCell>{getPropValue(medicine, 'name')}</TableCell>
               <TableCell align="center">{`${getPropValue(medicine, 'doseCant') || '-'} ${
-                getPropValue(medicine, 'doseType.measure') || getPropValue(medicine, 'doseType.name') || ''
+                getPropValue(medicine, 'doseTypeObj.abbreviation') || getPropValue(medicine, 'doseTypeObj.name') || ''
               }`}</TableCell>
-              <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>
+              <TableCell align="center">{getPropValue(medicine, 'frequency')}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -122,7 +121,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                 <Grid item xs={12} sm={6}>
                   <Fieldset title="Medicamentos">
                     <div className={classes.containerDetailDiv}>
-                      <TableMedicines medicines={data.medicines} />
+                      <TableMedicines medicines={[data.medicineObject]} />
                     </div>
                   </Fieldset>
                 </Grid>
@@ -135,17 +134,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
   );
 }
 
-function RowListTreatmentsComponent({
-  cells,
-  row,
-  open,
-  setOpen,
-  selected,
-  selectRow,
-  onModalVisible,
-  editRole,
-  delRole
-}) {
+function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, onModalVisible, editRole, delRole }) {
   const classes = useStyles();
   const handleRowClick = id => {
     selectRow(id);
@@ -171,30 +160,15 @@ function RowListTreatmentsComponent({
         key={uuid()}
         selected={selected && selected.id === row.id}
       >
-        {cells.map(cell => {
-          const value =
-            cell.id === 'startDate' || cell.id === 'endDate'
-              ? moment.unix(row[cell.id]).format('DD/MM/YYYY')
-              : row[cell.id];
-          return (
-            <Fragment key={uuid()}>
-              {cell.id === 'medicines' ? (
-                <TableCell className={classes.largeCells}>
-                  <PopoverComponent
-                    className={classes.textCells}
-                    header="Medicamentos"
-                    title={row[cell.id].map(medicine => medicine.name).join(', ')}
-                    content={<TableMedicines medicines={row[cell.id]} />}
-                  />
-                </TableCell>
-              ) : (
-                <TableCell align={cell.numeric ? 'center' : 'inherit'}>
-                  <Typography>{value}</Typography>
-                </TableCell>
-              )}
-            </Fragment>
-          );
-        })}
+        <TableCell>{getPropValue(row, 'medicineObject.name')}</TableCell>
+        <TableCell align="center">{`${getPropValue(row, 'medicineObject.doseCant')} ${
+          getPropValue(row, 'medicineObject.doseTypeObj.abbreviation') ||
+          getPropValue(row, 'medicineObject.doseTypeObj.name') ||
+          ''
+        }`}</TableCell>
+        <TableCell align="center">{getPropValue(row, 'medicineObject.frequency')}</TableCell>
+        <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>
+        <TableCell align="center">{moment.unix(row.endDate).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center" key={uuid()} style={{ whiteSpace: 'nowrap' }}>
           <IconButton aria-label="expand row" size="small" onClick={() => handleRowClick(row.id)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
