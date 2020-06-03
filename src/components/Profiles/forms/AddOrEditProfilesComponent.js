@@ -28,7 +28,7 @@ function AddOrEditProfilesComponent({
   selected,
   isSuperadmin
 }) {
-  const authRole = getPropValue(currentUserProfile, 'role.id') || null;
+  const authRole = getPropValue(currentUserProfile, 'role') || null;
 
   const onSubmit = async (values, form) => {
     await saveProfileValues(values, formType);
@@ -67,9 +67,9 @@ function AddOrEditProfilesComponent({
           ...(formType === EDIT_FORM_TEXT && selected
             ? {
                 ...selected,
-                ...(selected.role ? { role: getPropValue(selected, 'role.id') } : {}),
-                parent: getPropValue(selected, 'parent.id'),
-                ...(selected.sex ? { sex: getPropValue(selected, 'sex.id') } : {}),
+                ...(selected.role ? { role: getPropValue(selected, 'role') } : {}),
+                parent: getPropValue(selected, 'parent'),
+                ...(selected.sex ? { sex: getPropValue(selected, 'sex') } : {}),
                 ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {})
               }
             : {}),

@@ -33,11 +33,11 @@ function NavigationMenu({ onClick }) {
       {currentUserProfile &&
         RouteListConfig.filter(route => {
           if (route.navegation) {
-            return route.navegation instanceof Array ? route.navegation.includes(currentUserProfile.role.id) : true;
+            return route.navegation instanceof Array ? route.navegation.includes(currentUserProfile.role) : true;
           }
           return false;
         })
-          .filter(route => route.roles.includes(currentUserProfile.role.id))
+          .filter(route => route.roles.includes(currentUserProfile.role))
           .map(route => (
             <MenuItem
               color="inherit"
@@ -69,11 +69,11 @@ export function NavigationLargeComponent() {
           {currentUserProfile &&
             RouteListConfig.filter(route => {
               if (route.navegation) {
-                return route.navegation instanceof Array ? route.navegation.includes(currentUserProfile.role.id) : true;
+                return route.navegation instanceof Array ? route.navegation.includes(currentUserProfile.role) : true;
               }
               return false;
             })
-              .filter(route => route.roles.includes(currentUserProfile.role.id))
+              .filter(route => route.roles.includes(currentUserProfile.role))
               .map(route => (
                 <Button
                   color="inherit"

@@ -18,7 +18,7 @@ export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, h
   return (
     <Form
       initialValues={
-        formType === EDIT_FORM_TEXT && selected ? selected : { clinic: getPropValue(currentUserProfile, 'parent.id') }
+        formType === EDIT_FORM_TEXT && selected ? selected : { clinic: getPropValue(currentUserProfile, 'parent') }
       }
       validate={formValidate}
       onSubmit={onSubmit}

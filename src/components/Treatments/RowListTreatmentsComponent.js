@@ -22,6 +22,7 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../containers/fieldset';
 import { getPropValue } from '../../helpers/utils';
+import TextFromProfileComponent from '../Profiles/TextFromProfileComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -93,9 +94,9 @@ function DetailTreatmentRowCellComponent({ open, data }) {
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <Fieldset title="Paciente">
-                    <Typography>
+                    <Typography component="label" noWrap>
                       <strong>Nombre Y Apellidos: </strong>
-                      {getPropValue(data, 'user.fullname')}
+                      <TextFromProfileComponent profileId={getPropValue(data, 'user')} />
                     </Typography>
                   </Fieldset>
                 </Grid>

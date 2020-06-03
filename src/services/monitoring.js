@@ -5,7 +5,7 @@ const getMonitoring = async (limit, offset, filters) => {
   try {
     const profiles = await getProfiles(limit, offset, filters);
     const resultList = profiles.data.map(async item => {
-      const clinicalTest = await getClinicalTests(1, 0, { 'user.id': item.id });
+      const clinicalTest = await getClinicalTests(1, 0, { user: item.id });
 
       let result = { user: item };
       const aux = clinicalTest.data.sort((a, b) => {

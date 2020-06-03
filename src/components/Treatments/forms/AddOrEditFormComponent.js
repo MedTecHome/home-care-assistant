@@ -18,9 +18,10 @@ import useCustomStyles from '../../../jss/globalStyles';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
 import EditButtonIcon from '../../buttons/EditButtonIcon';
-import { getMedicineByIdAction, medicineModel } from '../../Medicines/actions/MedicinesActions';
+import { medicineModel } from '../../Medicines/actions/MedicinesActions';
 import { AddOrEditMedicineFormComponent } from '../../Medicines/forms/AddOrEditMedicineComponent';
 import { getPropValue } from '../../../helpers/utils';
+import { getMedicineById } from '../../../services/medicines';
 
 const useStyles = makeStyles({
   root: {
@@ -35,7 +36,7 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   const classes = useStyles();
 
   useEffect(() => {
-    getMedicineByIdAction(selectedId).then(result => {
+    getMedicineById(selectedId).then(result => {
       setSelected(result);
     });
   }, [selectedId, onSubmit]);

@@ -14,7 +14,7 @@ function RoutesComponent() {
         route =>
           isEmpty(route.roles) ||
           !route.roles ||
-          (route.roles && currentUserProfile && route.roles.includes(currentUserProfile.role.id))
+          (route.roles && currentUserProfile && route.roles.includes(currentUserProfile.role))
       ).map(({ path, roles, component }) => {
         if (!isEmpty(roles) && roles) {
           return <PrivateRoutes key={uuid()} path={path} exact component={component} />;

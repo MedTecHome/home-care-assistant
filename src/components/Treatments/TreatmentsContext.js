@@ -1,13 +1,13 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { saveValuesAction } from './actions/TreatmentActions';
+import saveValuesAction from './actions/TreatmentActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getTreatments from '../../services/treatments';
 import { isEmpty } from '../../helpers/utils';
-import { getMedicineByIdAction } from '../Medicines/actions/MedicinesActions';
 import getNomenclator from '../../services/nomenclators';
+import { getMedicineById } from '../../services/medicines';
 
 const TreatmentsContext = createContext({});
 
@@ -36,7 +36,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
       getTreatments(limit, offset, filters)
         .then(res => {
           const treatments = res.data.map(async treat => {
-            const medicines = await getMedicineByIdAction(treat.medicines);
+            const medicines = await getMedicineById(treat.medicines);
             let result = { ...medicines, ...JSON.parse(treat.medicineSetting) };
             if (result.administrationType) {
               const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);

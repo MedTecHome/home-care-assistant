@@ -1,6 +1,4 @@
 import { formatDateWithTime } from '../../../helpers/utils';
-import { severityConstant } from '../../../helpers/constants';
-import getNomenclator from '../../../services/nomenclators';
 
 export const pressureModel = ({
   user,
@@ -39,7 +37,7 @@ export const weightModel = ({ user, weight, weightDate, weightTime, weightNote }
   ...(weightNote ? { note: weightNote } : {})
 });
 
-export const glucoseModel = async ({
+export const glucoseModel = ({
   user,
   sugarConcentration,
   shedule,
@@ -55,7 +53,7 @@ export const glucoseModel = async ({
 }) => ({
   user,
   sugarConcentration,
-  shedule: await getNomenclator('shedules', shedule),
+  shedule,
   intakeTime,
   glucoseUnity,
   clinicalDate: formatDateWithTime(glucoseDate, glucoseTime),
@@ -110,7 +108,7 @@ export const exercicesModel = ({ user, distance, time, steps, exercisesDate, exe
 export const othersModel = ({ user, othersName, severity, othersDate, othersTime, othersNote = '' }) => ({
   user,
   othersName,
-  severity: severityConstant.find(sev => sev.id === severity),
+  severity,
   clinicalDate: formatDateWithTime(othersDate, othersTime),
   note: othersNote
 });

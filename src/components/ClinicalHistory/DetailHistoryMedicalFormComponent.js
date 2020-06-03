@@ -16,6 +16,7 @@ import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import { intakeTimeSource } from '../../helpers/constants';
+import TextFromProfileComponent from '../Profiles/TextFromProfileComponent';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -218,13 +219,7 @@ function DetailHistoryMedicalFormComponent() {
                     <ImageIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Typography>
-                      <strong>{getPropValue(selected, 'user.fullname') || '-'}</strong>
-                    </Typography>
-                  }
-                />
+                <ListItemText primary={<TextFromProfileComponent profileId={getPropValue(selected, 'user')} />} />
               </ListItem>
             </List>
           </Grid>

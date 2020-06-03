@@ -49,7 +49,7 @@ function EvolutionComponent({ setTab, patient }) {
   const classes = useStyles();
 
   useEffect(() => {
-    setParams({ 'user.id': getPropValue(patient, 'id') });
+    setParams({ user: getPropValue(patient, 'id') });
   }, [patient, setParams]);
 
   const aux = params.rangeDate ? enumerateDaysBetweenDates(params.rangeDate[0], params.rangeDate[1]) : [];

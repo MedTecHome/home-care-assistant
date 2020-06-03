@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import uuid from 'uuid4';
-import { useMediaQuery, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
 import medicineHeadCells from './medicineHeadCells';
@@ -32,14 +32,12 @@ function MedicinesComponent() {
     total,
     resetPagination
   } = useMedicinesContext();
-  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
-  const cells = match ? [medicineHeadCells[0]] : medicineHeadCells;
 
   useEffect(() => {
     resetPagination();
   }, [params, resetPagination]);
   useEffect(() => {
-    setParams({ 'clinic.id': getPropValue(currentUserProfile, 'parent.id') });
+    setParams({ clinic: getPropValue(currentUserProfile, 'parent') });
   }, [currentUserProfile, setParams]);
 
   const handleModalVisible = fType => {
@@ -84,7 +82,7 @@ function MedicinesComponent() {
         filters={
           <FiltersMedicineComponent setParams={setParams} params={params} currentUserProfile={currentUserProfile} />
         }
-        headCells={cells}
+        headCells={medicineHeadCells}
         list={medicineList}
         loadingList={loadingList}
         setModalVisible={setModalVisible}
@@ -93,7 +91,6 @@ function MedicinesComponent() {
         render={(row, index) => (
           <RowListMedicineComponent
             key={uuid()}
-            cells={cells}
             row={row}
             index={index}
             selectRow={selectMedicineFromList}

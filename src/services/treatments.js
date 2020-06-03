@@ -1,4 +1,4 @@
-import { retriveData } from './utils';
+import { retriveData, retriveDoc } from './utils';
 
 const getTreatments = async (limit, offset, filters) => {
   try {
@@ -13,6 +13,10 @@ const getTreatments = async (limit, offset, filters) => {
   } catch (e) {
     throw new Error(e);
   }
+};
+
+export const getTreatmentById = async id => {
+  return retriveDoc(`treatment/treatments/${id}`);
 };
 
 export default getTreatments;

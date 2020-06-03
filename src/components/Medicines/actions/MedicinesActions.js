@@ -1,7 +1,5 @@
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
-import { isEmpty } from '../../../helpers/utils';
-import getNomenclator from '../../../services/nomenclators';
 
 const MedicinesRef = dbRef('medicine').collection('medicines');
 
@@ -22,25 +20,6 @@ export const medicineModel = ({
   doseType,
   administrationType
 });
-
-export const getMedicineByIdAction = async (id, fields = []) => {
-  const ref = await MedicinesRef.doc(id).get();
-  const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
-  let result = isEmpty(fields) ? ref.data() : data;
-  if (result.administrationType) {
-    const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);
-    result = { ...result, administrationTypeObj };
-  }
-  if (result.doseType) {
-    const doseTypeObj = await getNomenclator('dosis', result.doseType);
-    result = { ...result, doseTypeObj };
-  }
-  if (result.concentrationType) {
-    const concentrationTypeObj = await getNomenclator('concentrations', result.concentrationType);
-    result = { ...result, concentrationTypeObj };
-  }
-  return { id: ref.id, ...result };
-};
 
 const addValuesAction = async ({ id, ...values }) => {
   const result = { ...values, ...medicineModel(values) };

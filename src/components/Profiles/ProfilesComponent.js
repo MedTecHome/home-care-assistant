@@ -27,7 +27,7 @@ function TitleProfilesComponent({ filterRole }) {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>
-        {roleDetails ? `Lista de ${roleDetails.name}${roleDetails.plural}` : 'Todos'}
+        {roleDetails ? `Lista de ${roleDetails.name}${getPropValue(roleDetails, 'plural') || ''}` : 'Todos'}
       </Typography>
     </Breadcrumbs>
   );
@@ -50,7 +50,7 @@ function ProfilesComponent({ filterRole }) {
     params
   } = useProfilesContext();
 
-  const { 'role.id': roleId } = params;
+  const { role: roleId } = params;
 
   useEffect(() => {
     resetPagination();
@@ -58,8 +58,8 @@ function ProfilesComponent({ filterRole }) {
 
   useEffect(() => {
     setParams({
-      'role.id': filterRole || null,
-      ...(filterRole !== 'clinic' ? { 'parent.id': currentUserProfile.id } : {})
+      role: filterRole || null,
+      ...(filterRole !== 'clinic' ? { parent: currentUserProfile.id } : {})
     });
   }, [filterRole, currentUserProfile, setParams]);
 

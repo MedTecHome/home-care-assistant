@@ -18,8 +18,8 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
       5,
       {},
       {
-        'role.id': 'patient',
-        'doctor.id': doctor,
+        role: 'patient',
+        parent: doctor,
         ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
       }
     ).then(res => setProfiles(res.data));

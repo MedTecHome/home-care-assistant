@@ -14,14 +14,24 @@
     "sourceType": "module"
   },
   "plugins": ["react", "prettier", "only-warn"],
-  "extends": ["airbnb", "airbnb/hooks", "plugin:react/recommended", "prettier", "prettier/react", "plugin:prettier/recommended"],
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/react",
+    "plugin:prettier/recommended"
+  ],
   "rules": {
-    "max-len": ["error", {
-      "code": 120,
-      "ignoreUrls": true,
-      "ignoreStrings": true,
-      "ignoreTemplateLiterals": true
-    }],
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
     "comma-dangle": 0,
     "react/prop-types": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]

@@ -18,16 +18,19 @@ export function DetailsContentMedicineComponent({ data, classes }) {
       </Typography>
       <Typography component="div">
         <strong>{`Concentración: `}</strong>
-        {`${getPropValue(data, 'concentrationCant')} ${
-          getPropValue(data, 'concentrationType.measure') || getPropValue(data, 'concentrationType.name')
-        }
-        ` || '-'}
+        {`${getPropValue(data, 'concentrationCant') || '-'} ${
+          getPropValue(data, 'concentrationType.measure') || getPropValue(data, 'concentrationType.name') || ''
+        }` || '-'}
       </Typography>
       <Typography component="div">
         <strong>{`Dosis: `}</strong>
-        {`${getPropValue(data, 'doseCant')} ${
-          getPropValue(data, 'doseType.abbreviation') || getPropValue(data, 'doseType.name')
-        }` || '-'}
+        {`${getPropValue(data, 'doseCant') || '-'} ${
+          getPropValue(data, 'doseType.abbreviation') || getPropValue(data, 'doseType.name') || ''
+        }`}
+      </Typography>
+      <Typography component="div">
+        <strong>{`Frecuencia: `}</strong>
+        {getPropValue(data, 'frequency') || '-'}
       </Typography>
       <Typography component="div">
         <strong> {`Via Administración: `}</strong>
@@ -36,10 +39,6 @@ export function DetailsContentMedicineComponent({ data, classes }) {
       <Typography component="div">
         <strong> {`Motivo Administración: `}</strong>
         {getPropValue(data, 'administrationReason') || '-'}
-      </Typography>
-      <Typography component="div">
-        <strong>{`Frecuencia: `}</strong>
-        {getPropValue(data, 'frequency') || '-'}
       </Typography>
       <Typography component="div">
         <strong> {`Observaciones: `}</strong>

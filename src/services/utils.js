@@ -1,8 +1,20 @@
 import moment from 'moment';
+// import { apiDataLocal } from '../axiosApiRequest';
 import { dbFirebase } from '../firebaseConfig';
-import { mutateDoc } from '../helpers/utils';
+import { mutateDoc /* , queryFromParams */ } from '../helpers/utils';
 
 const globalPath = 'home-care-assistant';
+
+/* const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
+  const query = queryFromParams(filters);
+  const response = await apiDataLocal.get(`/${path}${query && `?${query}`}`);
+  return response.data;
+};
+
+const retriveDocApi = async path => {
+  const response = await apiDataLocal.get(`/${path}`);
+  return response.data;
+}; */
 
 const setFilters = (Reference, filters) => {
   let ref = Reference;
@@ -50,7 +62,7 @@ const setFilters = (Reference, filters) => {
   return ref;
 };
 
-const retriveData = async (path, limit = 10, offset = '', filters, field, sort) => {
+const retriveDataFirebase = async (path, limit = 10, offset = '', filters, field, sort) => {
   try {
     let dataRef = dbFirebase.collection(`${globalPath}/${path}`);
     if (field && sort) {
@@ -72,7 +84,7 @@ const retriveData = async (path, limit = 10, offset = '', filters, field, sort) 
   }
 };
 
-const retriveDoc = async path => {
+const retriveDocFirebase = async path => {
   try {
     const doc = await dbFirebase.doc(`${globalPath}/${path}`).get();
     if (!doc.data()) throw new Error('El Elemento no existe.');
@@ -81,5 +93,11 @@ const retriveDoc = async path => {
     throw new Error(e);
   }
 };
+
+const retriveData = retriveDataFirebase;
+const retriveDoc = retriveDocFirebase;
+
+// const retriveData = retriveDataApi;
+// const retriveDoc = retriveDocApi;
 
 export { retriveData, retriveDoc };

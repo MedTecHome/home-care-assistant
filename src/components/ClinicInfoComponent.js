@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Typography, List, ListItem, makeStyles, Collapse, Container, IconButton } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
-import { getProfileByIdAction } from './Profiles/reducers/ProfileActions';
 import { getPropValue } from '../helpers/utils';
+import { getProfileById } from '../services/profiles';
 
 const useStyles = makeStyles({
   root: {
@@ -44,16 +44,16 @@ function ClinicInfoComponent() {
       try {
         let clinicId = null;
         if (isDoctor) {
-          clinicId = getPropValue(currentUserProfile, 'parent.id');
+          clinicId = getPropValue(currentUserProfile, 'parent');
         } else if (isPatient) {
-          const doctor = await getProfileByIdAction(getPropValue(currentUserProfile, 'parent.id'));
-          clinicId = getPropValue(doctor, 'parent.id');
+          const doctor = await getProfileById(getPropValue(currentUserProfile, 'parent'));
+          clinicId = getPropValue(doctor, 'parent');
         } else if (isClinic) {
           setClinicInfo(currentUserProfile);
           return false;
         }
         if (clinicId) {
-          const clinic = await getProfileByIdAction(clinicId);
+          const clinic = await getProfileById(clinicId);
           setClinicInfo(clinic);
         }
         return true;
