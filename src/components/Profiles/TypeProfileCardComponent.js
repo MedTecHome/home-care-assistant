@@ -58,7 +58,7 @@ function TypeProfileCardComponent({
                 Tipo: <strong>{profile.role ? profile.role.name : '-'}</strong>
               </Typography>
             )}
-            {['clinic', 'patient'].includes(getPropValue(profile, 'role.id')) ? (
+            {['clinic', 'patient'].includes(getPropValue(profile, 'role')) ? (
               <Typography component="div" className={clsx(classes.itemListContentPrimary)}>
                 {profile.address ? (
                   <PopoverComponent
@@ -78,19 +78,19 @@ function TypeProfileCardComponent({
           <Grid item xs={4}>
             <div>
               <Typography component="div" className={classes.itemListContentPrimary}>
-                {(getPropValue(profile, 'role.id') === 'patient' && profile.birthday && (
+                {(getPropValue(profile, 'role') === 'patient' && profile.birthday && (
                   <>
                     Nació: <strong>{moment(profile.birthday.toDate()).format('DD-MM-YYYY')}</strong>
                   </>
                 )) ||
-                  (getPropValue(profile, 'role.id') === 'clinic' && (
+                  (getPropValue(profile, 'role') === 'clinic' && (
                     <>
                       Max. Doctores: <strong>{getPropValue(profile, 'maxDoctors')}</strong>
                     </>
                   ))}
               </Typography>
               <Typography component="div" className={classes.itemListContentPrimary}>
-                {profile.role && profile.role.id === 'patient' && (
+                {profile.role && profile.role === 'patient' && (
                   <>
                     Edad: <strong>{profile.age}</strong>
                   </>
@@ -113,7 +113,7 @@ function TypeProfileCardComponent({
         )}
       </Grid>
       <div className={localClass.actionContent}>
-        {profile.role && profile.role.id === 'patient' && (
+        {profile.role && profile.role === 'patient' && (
           <NavLink to={{ pathname: '/detallesclinicos', state: { profile } }}>
             <MedicalDetailButtonIcon />
           </NavLink>

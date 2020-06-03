@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 const PatientMedicalForm = () => {
   const { RegisterMessage } = useMessageContext();
   const {
-    currentUserProfile: { id, fullname }
+    currentUserProfile: { id }
   } = useAuthContext();
   const classes = useStyles();
   const [selectedForms, setSelectedForms] = useState([]);
@@ -58,7 +58,7 @@ const PatientMedicalForm = () => {
   const onSubmit = async (values, form) => {
     if (!isEmpty(values)) {
       try {
-        await saveHealthDataAction({ ...values, user: { id, fullname }, forms: selectedForms });
+        await saveHealthDataAction({ ...values, user: id, forms: selectedForms });
         RegisterMessage(SUCCESS_MESSAGE, 'Información guardada', 'PatientMedicalForm');
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm');

@@ -30,9 +30,9 @@ const mutateValues = async ({
   ...(maxPatients ? { maxPatients } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
-  parent: parent ? await getProfileByIdAction(parent, ['fullname']) : null,
-  ...(role ? { role: await getRoleById(role) } : {}),
-  ...(sex ? { sex: await getNomenclator('sex', sex) } : {})
+  parent: parent || null,
+  role,
+  ...(sex ? { sex } : {})
 });
 
 const addValuesAction = async ({ id, email, password, username, ...values }) => {

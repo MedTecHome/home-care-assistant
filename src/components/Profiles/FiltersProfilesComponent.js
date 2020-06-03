@@ -74,19 +74,19 @@ function FiltersProfileComponent({ onClickAdd }) {
           <Grid item xs={12} sm={5} md={4} container justify="flex-end">
             <InputSearchByFullname />
           </Grid>
-          {currentUserProfile && currentUserProfile.role.id === 'superadmin' && (
+          {currentUserProfile && currentUserProfile.role === 'superadmin' && (
             <Grid item xs={12} sm={4} md={3}>
               <FormControl className={classes.formControl}>
                 <InputLabel>Tipo de perfil</InputLabel>
                 <Select
                   name="filter-roles"
                   value={roles.length > 0 ? '' : ''}
-                  onChange={event => setParams({ 'role.id': event.target.value })}
+                  onChange={event => setParams({ role: event.target.value })}
                 >
                   {roles
-                    .filter(rl => listAccess[currentUserProfile.role.id].includes(rl.id))
+                    .filter(rl => listAccess[currentUserProfile.role].includes(rl.id))
                     .map(role => (
-                      <MenuItem key={uuid()} value={role.id}>
+                      <MenuItem key={uuid()} value={role}>
                         {role.name}
                       </MenuItem>
                     ))}

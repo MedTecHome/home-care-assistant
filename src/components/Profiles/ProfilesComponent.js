@@ -50,7 +50,7 @@ function ProfilesComponent({ filterRole }) {
     params
   } = useProfilesContext();
 
-  const { 'role.id': roleId } = params;
+  const { role: roleId } = params;
 
   useEffect(() => {
     resetPagination();
@@ -58,8 +58,8 @@ function ProfilesComponent({ filterRole }) {
 
   useEffect(() => {
     setParams({
-      'role.id': filterRole || null,
-      ...(filterRole !== 'clinic' ? { 'parent.id': currentUserProfile.id } : {})
+      role: filterRole || null,
+      ...(filterRole !== 'clinic' ? { parent: currentUserProfile.id } : {})
     });
   }, [filterRole, currentUserProfile, setParams]);
 

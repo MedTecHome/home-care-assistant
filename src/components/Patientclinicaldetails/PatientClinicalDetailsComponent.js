@@ -18,9 +18,9 @@ function PatientClinicalDetailsComponent() {
   const [patient, setPatient] = useState(null);
 
   useEffect(() => {
-    if (getPropValue(currentUserProfile, 'role.id') === 'patient') {
+    if (getPropValue(currentUserProfile, 'role') === 'patient') {
       setPatient(currentUserProfile);
-    } else if (getPropValue(state, 'profile.role.id') === 'patient') {
+    } else if (getPropValue(state, 'profile.role') === 'patient') {
       setPatient(state.profile);
     }
   }, [state, currentUserProfile]);

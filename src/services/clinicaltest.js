@@ -170,18 +170,18 @@ const getOthers = async (limit, offset, filters) => {
 };
 
 const getClinicalTests = async (limit, offset, params) => {
-  const { 'user.id': userId, ...filters } = params;
+  const { user, ...filters } = params;
   try {
-    const pressure = await getPressure(1, 0, { 'user.id': userId || 'none', ...filters });
-    const heartrate = await getHeartrate(1, 0, { 'user.id': userId || 'none', ...filters });
-    const temperature = await getTemperature(1, 0, { 'user.id': userId || 'none', ...filters });
-    const weight = await getWeight(1, 0, { 'user.id': userId || 'none', ...filters });
-    const glucose = await getGlucose(1, 0, { 'user.id': userId || 'none', ...filters });
-    const breathing = await getBreathing(1, 0, { 'user.id': userId || 'none', ...filters });
-    const inr = await getINR(1, 0, { 'user.id': userId || 'none', ...filters });
-    const oxygen = await getOxygen(1, 0, { 'user.id': userId || 'none', ...filters });
-    const exercises = await getExercises(1, 0, { 'user.id': userId || 'none', ...filters });
-    const others = await getOthers(1, 0, { 'user.id': userId || 'none', ...filters });
+    const pressure = await getPressure(1, 0, { user: user || 'none', ...filters });
+    const heartrate = await getHeartrate(1, 0, { user: user || 'none', ...filters });
+    const temperature = await getTemperature(1, 0, { user: user || 'none', ...filters });
+    const weight = await getWeight(1, 0, { user: user || 'none', ...filters });
+    const glucose = await getGlucose(1, 0, { user: user || 'none', ...filters });
+    const breathing = await getBreathing(1, 0, { user: user || 'none', ...filters });
+    const inr = await getINR(1, 0, { user: user || 'none', ...filters });
+    const oxygen = await getOxygen(1, 0, { user: user || 'none', ...filters });
+    const exercises = await getExercises(1, 0, { user: user || 'none', ...filters });
+    const others = await getOthers(1, 0, { user: user || 'none', ...filters });
 
     return {
       total:

@@ -37,8 +37,8 @@ const PatientHistoryContextProvider = ({ children }) => {
 
   useEffect(() => {
     setLoadingList(true);
-    const { type, 'user.id': userId, ...filters } = params;
-    if (userId) {
+    const { type, user = 'none', ...filters } = params;
+    if (user) {
       const clinicaltest =
         ((type === 'recently' || !type) && getClinicalTests) ||
         (type === 'pressure' && getPressure) ||
@@ -52,7 +52,7 @@ const PatientHistoryContextProvider = ({ children }) => {
         (type === 'exercises' && getExercises) ||
         (type === 'others' && getOthers);
 
-      clinicaltest(pageSize, offset, { 'user.id': userId, ...filters })
+      clinicaltest(pageSize, offset, { user, ...filters })
         .then(response => {
           const result = response.data.sort((a, b) => {
             const c = a.clinicalDate;

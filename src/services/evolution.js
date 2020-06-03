@@ -1,11 +1,13 @@
 import { getClinicalTests } from './clinicaltest';
 import getTreatments from './treatments';
+import { getMedicineByIdAction } from '../components/Medicines/actions/MedicinesActions';
+import getNomenclator from './nomenclators';
 
-const getEvolutionTreatments = async ({ rangeDate, ...rest }) => {
+const getEvolutionTreatments = async ({ rangeDate, user = 'none', ...rest }) => {
   try {
     if (rangeDate && rangeDate.length === 2) {
       const rDate = rangeDate.map(date => date.unix());
-      const filters = { 'user.id': 'none', ...rest };
+      const filters = { user, ...rest };
       const response1 = await getTreatments(
         365,
         {},
@@ -31,26 +33,25 @@ const getEvolutionTreatments = async ({ rangeDate, ...rest }) => {
           })
       );
 
-      let medicines = [];
-      response.map(t => {
-        const aux = t.medicines.map(m => ({
-          ...m,
-          startDate: t.startDate,
-          endDate: t.endDate
-        }));
-        medicines = [...medicines, ...aux];
-        return null;
+      const treatments = response.map(async t => {
+        const medicine = await getMedicineByIdAction(t.medicines);
+        let result = { ...medicine, ...JSON.parse(t.medicineSetting) };
+        if (result.administrationType) {
+          const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);
+          result = { ...result, administrationTypeObj };
+        }
+        if (result.doseType) {
+          const doseTypeObj = await getNomenclator('dosis', result.doseType);
+          result = { ...result, doseTypeObj };
+        }
+        if (result.concentrationType) {
+          const concentrationTypeObj = await getNomenclator('concentrations', result.concentrationType);
+          result = { ...result, concentrationTypeObj };
+        }
+        return { ...t, medicineObject: result, startDate: t.startDate, endDate: t.endDate };
       });
 
-      const result = medicines.filter(
-        (thing, index, self) =>
-          index ===
-          self.findIndex(t => {
-            return t.id === thing.id;
-          })
-      );
-
-      return result;
+      return Promise.all(treatments);
     }
     return [];
   } catch (e) {
@@ -58,7 +59,7 @@ const getEvolutionTreatments = async ({ rangeDate, ...rest }) => {
   }
 };
 
-const getEvolutionClinical = async ({ rangeDate, ...filters }) => {
+const getEvolutionClinical = async ({ rangeDate, user, ...filters }) => {
   try {
     if (rangeDate && rangeDate.length === 2) {
       const rDate = rangeDate.map(date => date.unix());
@@ -66,7 +67,7 @@ const getEvolutionClinical = async ({ rangeDate, ...filters }) => {
         1,
         {},
         {
-          'user.id': 'none',
+          user: user || 'none',
           ...filters,
           rangeDate: rDate
         }

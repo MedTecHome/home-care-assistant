@@ -44,10 +44,10 @@ function ClinicInfoComponent() {
       try {
         let clinicId = null;
         if (isDoctor) {
-          clinicId = getPropValue(currentUserProfile, 'parent.id');
+          clinicId = getPropValue(currentUserProfile, 'parent');
         } else if (isPatient) {
-          const doctor = await getProfileByIdAction(getPropValue(currentUserProfile, 'parent.id'));
-          clinicId = getPropValue(doctor, 'parent.id');
+          const doctor = await getProfileByIdAction(getPropValue(currentUserProfile, 'parent'));
+          clinicId = getPropValue(doctor, 'parent');
         } else if (isClinic) {
           setClinicInfo(currentUserProfile);
           return false;
@@ -72,7 +72,7 @@ function ClinicInfoComponent() {
 
   return (
     <>
-      {currentUser && (isClinic || isDoctor || isPatient) ? (
+      {true && (isClinic || isDoctor || isPatient) ? (
         <List className={classes.root}>
           <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}

@@ -10,11 +10,11 @@ export function AuthContextProvider({ children }) {
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
   const [errorState, setErrorState] = useState(null);
 
-  const isSuperadmin = getPropValue(currentUserProfile, 'role.id') === 'superadmin';
-  const isAdmin = getPropValue(currentUserProfile, 'role.id') === 'admin';
-  const isClinic = getPropValue(currentUserProfile, 'role.id') === 'clinic';
-  const isDoctor = getPropValue(currentUserProfile, 'role.id') === 'doctor';
-  const isPatient = getPropValue(currentUserProfile, 'role.id') === 'patient';
+  const isSuperadmin = getPropValue(currentUserProfile, 'role') === 'superadmin';
+  const isAdmin = getPropValue(currentUserProfile, 'role') === 'admin';
+  const isClinic = getPropValue(currentUserProfile, 'role') === 'clinic';
+  const isDoctor = getPropValue(currentUserProfile, 'role') === 'doctor';
+  const isPatient = getPropValue(currentUserProfile, 'role') === 'patient';
 
   useEffect(() => {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {

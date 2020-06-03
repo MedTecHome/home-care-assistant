@@ -39,7 +39,7 @@ function MedicinesComponent() {
     resetPagination();
   }, [params, resetPagination]);
   useEffect(() => {
-    setParams({ 'clinic.id': getPropValue(currentUserProfile, 'parent.id') });
+    setParams({ clinic: getPropValue(currentUserProfile, 'parent') });
   }, [currentUserProfile, setParams]);
 
   const handleModalVisible = fType => {

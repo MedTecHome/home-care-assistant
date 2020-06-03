@@ -28,7 +28,7 @@ function PatientHistoryComponent({ patient, defaultTest }) {
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    setParams({ 'user.id': getPropValue(patient, 'id') || null, type: defaultTest });
+    setParams({ user: getPropValue(patient, 'id') || null, type: defaultTest });
   }, [patient, defaultTest, setParams]);
 
   const handleSelectDate = date => {

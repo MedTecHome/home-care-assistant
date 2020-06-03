@@ -20,11 +20,9 @@ function ProfileFieldComponent({
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getProfiles(
-      5,
-      {},
-      { 'role.id': filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }
-    ).then(res => setProfiles(res.data));
+    getProfiles(5, {}, { role: filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }).then(res =>
+      setProfiles(res.data)
+    );
   }, [filterRole, filterNameMemoize]);
 
   const handleInputChange = event => {
