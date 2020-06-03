@@ -24,7 +24,7 @@ export function AuthContextProvider({ children }) {
         const idToken = await user.getIdToken();
         localStorage.setItem('AuthToken', `Bearer ${idToken}`);
         const profile = await getProfileById(user.uid);
-        if (profile.data()) {
+        if (profile) {
           setCurrentUserProfile(profile);
         }
       } else {
