@@ -8,7 +8,7 @@ function FiltersMonitoringComponent({ currentUserProfile }) {
     if (currentUserProfile) setParams({ parent: currentUserProfile.id });
   }, [setParams, currentUserProfile]);
 
-  return <></>;
+  return <div />;
 }
 
 export default FiltersMonitoringComponent;
