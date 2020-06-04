@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import uuid from 'uuid4';
-import { useMediaQuery, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { useTreatmentsContext, withTreatmentsContext } from './TreatmentsContext';
 import TableComponent from '../table/TableComponent';
 import treatmentsHeadCells from './treatmentsHeadCells';
@@ -28,8 +28,6 @@ function TreatmentsComponent({ patient }) {
   } = useTreatmentsContext();
   const { isDoctor } = useAuthContext();
   const [open, setOpen] = useState(null);
-  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
-  const cells = match ? [treatmentsHeadCells[0]] : treatmentsHeadCells;
 
   useEffect(() => {
     if (getPropValue(patient, 'id')) {
@@ -55,14 +53,13 @@ function TreatmentsComponent({ patient }) {
         filters={<FiltersTreatmentComponent />}
         addRole={isDoctor}
         disableElevation
-        headCells={cells}
+        headCells={treatmentsHeadCells}
         loadingList={loadingList}
         list={listTreatments}
         setModalVisible={setModalVisible}
         selected={selected}
         render={(row, index) => (
           <RowListTreatmentsComponent
-            cells={cells}
             key={uuid()}
             open={open}
             setOpen={setOpen}

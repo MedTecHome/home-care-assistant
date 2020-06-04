@@ -2,17 +2,8 @@ import moment from 'moment';
 import { apiData } from '../../../axiosApiRequest';
 import { dbRef } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
-import { isEmpty } from '../../../helpers/utils';
-import getNomenclator from '../../../services/nomenclators';
-import { getRoleById } from '../../../services/roles';
 
 const profilesRef = dbRef('profile').collection('profiles');
-
-export const getProfileByIdAction = async (id, fields = []) => {
-  const ref = await profilesRef.doc(id).get();
-  const data = fields.map(k => ({ [k]: ref.data()[k] })).reduce((a, b) => ({ ...a, ...b }), {});
-  return { id: ref.id, ...(isEmpty(fields) ? ref.data() : data) };
-};
 
 const mutateValues = async ({
   birthday,
@@ -66,7 +57,7 @@ const deleteValuesAction = async ({ id }) => {
   await profilesRef.doc(id).delete();
 };
 
-export const saveProfileValuesAction = async (values, formType) => {
+const saveProfileValuesAction = async (values, formType) => {
   if (formType === ADD_FORM_TEXT) {
     await addValuesAction(values);
   }
@@ -78,3 +69,5 @@ export const saveProfileValuesAction = async (values, formType) => {
   }
   return Promise;
 };
+
+export default saveProfileValuesAction;

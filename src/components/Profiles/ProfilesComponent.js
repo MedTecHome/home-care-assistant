@@ -27,7 +27,7 @@ function TitleProfilesComponent({ filterRole }) {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>
-        {roleDetails ? `Lista de ${roleDetails.name}${roleDetails.plural}` : 'Todos'}
+        {roleDetails ? `Lista de ${roleDetails.name}${getPropValue(roleDetails, 'plural') || ''}` : 'Todos'}
       </Typography>
     </Breadcrumbs>
   );

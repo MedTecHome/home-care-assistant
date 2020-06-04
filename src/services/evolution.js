@@ -1,7 +1,7 @@
 import { getClinicalTests } from './clinicaltest';
 import getTreatments from './treatments';
-import { getMedicineByIdAction } from '../components/Medicines/actions/MedicinesActions';
 import getNomenclator from './nomenclators';
+import { getMedicineById } from './medicines';
 
 const getEvolutionTreatments = async ({ rangeDate, user = 'none', ...rest }) => {
   try {
@@ -34,7 +34,7 @@ const getEvolutionTreatments = async ({ rangeDate, user = 'none', ...rest }) => 
       );
 
       const treatments = response.map(async t => {
-        const medicine = await getMedicineByIdAction(t.medicines);
+        const medicine = await getMedicineById(t.medicines);
         let result = { ...medicine, ...JSON.parse(t.medicineSetting) };
         if (result.administrationType) {
           const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);

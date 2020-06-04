@@ -7,7 +7,7 @@ const PrivateRoutes = ({ path, component, exact }) => {
   const history = useHistory();
   const { currentUser } = useAuthContext();
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (!currentUser) {
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('toUrl', pathname);
@@ -16,7 +16,7 @@ const PrivateRoutes = ({ path, component, exact }) => {
         search: urlSearchParams.toString()
       });
     }
-  }, [currentUser, history, pathname]); */
+  }, [currentUser, history, pathname]);
 
   return <Route history={history} path={path} component={component} exact={exact} />;
 };

@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { authFirebase, dbRef } from '../firebaseConfig';
+import { authFirebase } from '../firebaseConfig';
 import { getPropValue } from '../helpers/utils';
 import { USERNAME_DOMAIN } from '../commons/globalText';
+import { getProfileById } from '../services/profiles';
 
 const AuthContext = createContext({});
 
@@ -22,21 +23,21 @@ export function AuthContextProvider({ children }) {
       if (user) {
         const idToken = await user.getIdToken();
         localStorage.setItem('AuthToken', `Bearer ${idToken}`);
-        const profile = await dbRef('profile').collection('profiles').doc(user.uid).get();
+        const profile = await getProfileById(user.id);
         if (profile.data()) {
-          setCurrentUserProfile({ id: profile.id, ...profile.data() });
+          setCurrentUserProfile(profile);
         }
       } else {
-        // setCurrentUserProfile(null);
+        setCurrentUserProfile(null);
 
-        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
+        /* // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
         // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
-        const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
-        // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
-        const profile = await dbRef('profile').collection('profiles').doc(id).get();
-        if (profile.data()) {
-          setCurrentUserProfile({ id: profile.id, ...profile.data() });
-        }
+        // const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
+       // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
+        const profile = await getProfileById(id);
+        if (profile) {
+          setCurrentUserProfile(profile);
+        } */
       }
     });
 

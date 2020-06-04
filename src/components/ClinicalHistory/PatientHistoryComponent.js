@@ -8,11 +8,10 @@ import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import FilterPatientHistoryGraficsComponent from './FilterPatientHistoryGraficsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
 
 function PatientHistoryComponent({ patient, defaultTest }) {
-  const { resetPagination } = useCustomPaginationContext();
   const {
     historyList,
     loadingList,
@@ -22,8 +21,10 @@ function PatientHistoryComponent({ patient, defaultTest }) {
     setModalVisible,
     selectMedicalForm,
     selected,
-    total
+    total,
+    resetPagination
   } = usePatientHistoryContext();
+
   const { isDoctor } = useAuthContext();
   const match = useMediaQuery(theme => theme.breakpoints.down('sm'));
 

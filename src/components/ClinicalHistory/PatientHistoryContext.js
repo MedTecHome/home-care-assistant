@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useState, useEffect, useRef } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
@@ -22,23 +22,17 @@ const PatientHistoryContext = createContext({});
 
 const PatientHistoryContextProvider = ({ children }) => {
   const { RegisterMessage } = useMessageContext();
-  const [list, setHistoryList] = useState([]);
+  const [historyList, setHistoryList] = useState([]);
   const [total, setTotal] = useState(0);
-  const [slcted, setSelected] = useState(null);
-  const [prms, setParams] = useState({});
-  const { pageSize, offset } = useCustomPaginationContext();
+  const [selected, setSelected] = useState(null);
+  const [params, setParams] = useState({});
+  const { pageSize, offset, resetPagination } = useCustomPaginationContext();
   const [loadingList, setLoadingList] = useState(false);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const mounted = useRef(true);
 
-  const params = useMemo(() => prms, [prms]);
-
-  const historyList = useMemo(() => list, [list]);
-  const selected = useMemo(() => slcted, [slcted]);
-
-  useEffect(() => {
-    setLoadingList(true);
-    const { type, user = 'none', ...filters } = params;
-    if (user) {
+  const fetchPatientHistory = useCallback(
+    async (user, type, limit, skip, filters) => {
       const clinicaltest =
         ((type === 'recently' || !type) && getClinicalTests) ||
         (type === 'pressure' && getPressure) ||
@@ -51,25 +45,37 @@ const PatientHistoryContextProvider = ({ children }) => {
         (type === 'oxygen' && getOxygen) ||
         (type === 'exercises' && getExercises) ||
         (type === 'others' && getOthers);
-
-      clinicaltest(pageSize, offset, { user, ...filters })
-        .then(response => {
-          const result = response.data.sort((a, b) => {
-            const c = a.clinicalDate;
-            const d = b.clinicalDate;
-            return d - c;
-          });
+      try {
+        const response = await clinicaltest(limit, skip, { user, ...filters });
+        const result = response.data.sort((a, b) => {
+          const c = a.clinicalDate;
+          const d = b.clinicalDate;
+          return d - c;
+        });
+        if (mounted.current) {
           setHistoryList(result);
           setTotal(response.total);
-        })
-        .catch(e => {
-          RegisterMessage(ERROR_MESSAGE, e, 'PatientHistoryContext');
-        })
-        .finally(() => {
-          setLoadingList(false);
-        });
+        }
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'PatienhistoryCOmponent');
+      } finally {
+        setLoadingList(false);
+      }
+    },
+    [RegisterMessage]
+  );
+
+  useEffect(() => {
+    mounted.current = true;
+    setLoadingList(true);
+    const { type, user, ...filters } = params;
+    if (user) {
+      fetchPatientHistory(user, type, pageSize, offset, filters);
     }
-  }, [params, pageSize, offset, RegisterMessage]);
+    return () => {
+      mounted.current = false;
+    };
+  }, [params, pageSize, offset, fetchPatientHistory]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 
@@ -87,7 +93,7 @@ const PatientHistoryContextProvider = ({ children }) => {
         selectMedicalForm,
         setParams,
         setModalVisible,
-        setTotal
+        resetPagination
       }}
     >
       {children}
@@ -118,9 +124,8 @@ export const usePatientHistoryContext = () => {
     total: values.total,
     selectMedicalForm: values.selectMedicalForm,
     formType: values.formType,
-    getPatientHistory: values.getPatientHistory,
     setModalVisible: values.setModalVisible,
     setParams: values.setParams,
-    setTotal: values.setTotal
+    resetPagination: values.resetPagination
   };
 };

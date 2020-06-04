@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Avatar, ListItem, useMediaQuery, Typography, makeStyles, Grid } from '@material-ui/core';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
@@ -80,7 +79,7 @@ function TypeProfileCardComponent({
               <Typography component="div" className={classes.itemListContentPrimary}>
                 {(getPropValue(profile, 'role') === 'patient' && profile.birthday && (
                   <>
-                    Nació: <strong>{moment(profile.birthday.toDate()).format('DD-MM-YYYY')}</strong>
+                    Nació: <strong>{getPropValue(profile, 'birthday') || ''}</strong>
                   </>
                 )) ||
                   (getPropValue(profile, 'role') === 'clinic' && (
