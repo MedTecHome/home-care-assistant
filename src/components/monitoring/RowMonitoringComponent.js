@@ -7,8 +7,7 @@ import { getPropValue } from '../../helpers/utils';
 import healthyStandards from '../../helpers/healthyStandards';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 
-// eslint-disable-next-line no-unused-vars
-function RowMonitoringComponent({ cells = [], row, selected, selectRow }) {
+function RowMonitoringComponent({ cells = [], row, selectRow }) {
   const handleRowSelect = id => {
     selectRow(id);
   };
