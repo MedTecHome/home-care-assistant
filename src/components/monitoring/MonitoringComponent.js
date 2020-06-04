@@ -37,6 +37,7 @@ const useStyles = makeStyles({
 
 function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGreen = 0 }) {
   const classes = useStyles();
+
   return (
     <div className={classes.divRoot}>
       <span className={classes.total}>
