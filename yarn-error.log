@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add ract-firebase-file-uploader
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add react-hot-loader -S
 
 PATH: 
   C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\AOMEI Backupper;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Yunior\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PhpStorm 2019.2.4\bin;C:\Program Files\JetBrains\WebStorm 2019.3.3\bin;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\JetBrains\DataGrip 2019.3.3\bin;C:\Users\Yunior\AppData\Local\.meteor;C:\Users\Yunior\AppData\Local\Programs\Microsoft VS Code\bin
@@ -14,17 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/ract-firebase-file-uploader: Not found
-      at Request.params.callback [as _callback] (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:66987:18)
-      at Request.self.callback (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:140748:22)
-      at Request.emit (events.js:210:5)
-      at Request.<anonymous> (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:141720:10)
-      at Request.emit (events.js:210:5)
-      at IncomingMessage.<anonymous> (C:\Users\Yunior\AppData\Roaming\nvm\v12.13.0\node_modules\yarn\lib\cli.js:141642:12)
-      at Object.onceWrapper (events.js:299:28)
-      at IncomingMessage.emit (events.js:215:7)
-      at endReadableNT (_stream_readable.js:1183:12)
-      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+  Error: EPERM: operation not permitted, unlink 'D:\workspace\MedTechHome\home-care-assistant\node_modules\file-loader\node_modules\.bin'
 
 npm manifest: 
   {
@@ -45,6 +35,7 @@ npm manifest:
       "@testing-library/jest-dom": "^4.2.4",
       "@testing-library/react": "^9.3.2",
       "@testing-library/user-event": "^7.1.2",
+      "@welldone-software/why-did-you-render": "^4.2.5",
       "axios": "^0.19.2",
       "clsx": "latest",
       "final-form": "^4.19.1",
@@ -58,6 +49,7 @@ npm manifest:
       "react": "^16.13.1",
       "react-dom": "^16.13.1",
       "react-final-form": "^6.4.0",
+      "react-firebase-file-uploader": "^2.4.3",
       "react-router-dom": "^5.1.2",
       "react-scripts": "3.4.1",
       "rechart": "^0.0.1",
@@ -111,7 +103,7 @@ npm manifest:
       "eslint-plugin-react-hooks": "^2.5.0",
       "husky": "^4.2.5",
       "lint-staged": "^10.1.3",
-      "prettier": "^2.0.4"
+      "prettier": "^2.0.5"
     }
   }
 
@@ -2406,6 +2398,13 @@ Lockfile:
       "@webassemblyjs/wast-parser" "1.8.5"
       "@xtuc/long" "4.2.2"
   
+  "@welldone-software/why-did-you-render@^4.2.5":
+    version "4.2.5"
+    resolved "https://registry.yarnpkg.com/@welldone-software/why-did-you-render/-/why-did-you-render-4.2.5.tgz#005d06958d0c8a1ab3b92a3f4cfe3507b1806976"
+    integrity sha512-Uq4Gmi14bHDfWPGu1EuZKkdxlihXIyyfhAoP0nkA3qHTu8yit0iL1KO6Ldyno55otnjL3GHUY/MswMVvB5Ro8g==
+    dependencies:
+      lodash "^4"
+  
   "@xtuc/ieee754@^1.2.0":
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
@@ -4408,11 +4407,6 @@ Lockfile:
     dependencies:
       acorn "^5.2.1"
       defined "^1.0.0"
-  
-  dhtmlx-scheduler@^5.3.8:
-    version "5.3.8"
-    resolved "https://registry.yarnpkg.com/dhtmlx-scheduler/-/dhtmlx-scheduler-5.3.8.tgz#c3ff8bce8ca53c354051d624bc088e802eef77fb"
-    integrity sha512-1Xeb+xqvaPnwtFYmNKpVE4CXzpapipXaS5XJvFs4rqHpS7N+8jY0XnpLz69Vg7vh1mDEKnO7P1tFfwUT++39HA==
   
   diff-sequences@^24.9.0:
     version "24.9.0"
@@ -7715,7 +7709,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
     integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
   
-  "lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5:
+  "lodash@>=3.5 <5", lodash@^4, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5:
     version "4.17.15"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
     integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -9651,7 +9645,7 @@ Lockfile:
     dependencies:
       fast-diff "^1.1.2"
   
-  prettier@^2.0.4:
+  prettier@^2.0.5:
     version "2.0.5"
     resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.5.tgz#d6d56282455243f2f92cc1716692c08aa31522d4"
     integrity sha512-7PtVymN48hGcO4fGjybyBSIWDsLU4H4XlvOHfq91pz9kkGlonzwTfYkaIEwiRg/dAJF9YlbsduBAgtYLi+8cFg==
@@ -9983,6 +9977,13 @@ Lockfile:
     dependencies:
       "@babel/runtime" "^7.9.2"
       ts-essentials "^6.0.3"
+  
+  react-firebase-file-uploader@^2.4.3:
+    version "2.4.3"
+    resolved "https://registry.yarnpkg.com/react-firebase-file-uploader/-/react-firebase-file-uploader-2.4.3.tgz#774d72679f2134e72591c4e1c1ad0087d9f8cf17"
+    integrity sha512-Em/2fp7pQYiz+IOxLTWNB2bcvkccwmzDA7+KySBzrNHD+bcO/1t663T+o/AqkijC9Glp1Etefq6JuXnUxErxUw==
+    dependencies:
+      uuid "^3.2.1"
   
   react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4:
     version "16.13.1"
@@ -11873,7 +11874,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-1.1.4.tgz#80fa0618749110bdb8aa47cc2cc2167c6331f4eb"
     integrity sha512-Gr1q2k40LpF8CokcnQFjPDsdslzJbTCTBG5xQIEflUov431gFkY5KduiGIeKYAamkQnNn4IfdHJbLnl9Bib8TQ==
   
-  uuid@^3.0.1, uuid@^3.3.2:
+  uuid@^3.0.1, uuid@^3.2.1, uuid@^3.3.2:
     version "3.4.0"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
     integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==

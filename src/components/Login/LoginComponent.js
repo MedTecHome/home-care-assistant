@@ -47,7 +47,7 @@ function LoginComponent() {
           <Form
             onSubmit={onSubmit}
             validate={loginValidate}
-            render={({ handleSubmit, form, submitting, pristine }) => (
+            render={({ handleSubmit, submitting, pristine }) => (
               <form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Grid item container spacing={3}>
                   <Grid item xs={12}>
@@ -91,5 +91,10 @@ function LoginComponent() {
     </>
   );
 }
+
+LoginComponent.whyDidYouRender = {
+  logOnDifferentValues: true,
+  customName: 'Login'
+};
 
 export default LoginComponent;
