@@ -14,13 +14,20 @@ import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
 import { getPropValue } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
+import IconTestComponent from './IconTextComponent';
 
 const useStyles = makeStyles({
   rootDiv: {
     width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
     '& > *': {
       margin: 5
     }
+  },
+  iconTestContainer: {
+    alignSelf: 'center',
+    verticalAlign: 'middle'
   },
   flexDiv: {
     display: 'flex',
@@ -79,25 +86,30 @@ function ListPatientHistoryComponent({
                 onClick={() => handleSelect(report)}
               >
                 <div className={localClasses.rootDiv}>
-                  <div className={localClasses.flexDiv}>
-                    {['recently', 'others', '', undefined].includes(defaultType) ? (
-                      <div className={localClasses.nameDiv}>
-                        <Typography component="span" className={classes.textLabel}>
-                          {getPropValue(report, 'type.id') === 'others'
-                            ? report.othersName
-                            : getPropValue(report, 'type.name')}
-                        </Typography>
-                      </div>
-                    ) : null}
-                    <div className={localClasses.contentDiv}>
-                      <TypeMedicalFormComponent data={report} />
-                    </div>
+                  <div className={localClasses.iconTestContainer}>
+                    <IconTestComponent type={getPropValue(report, 'type.id')} />
                   </div>
                   <div>
-                    <Typography variant="body2">
-                      <span>Fecha:</span>
-                      {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY hh:mma')}
-                    </Typography>
+                    <div className={localClasses.flexDiv}>
+                      {['recently', 'others', '', undefined].includes(defaultType) ? (
+                        <div className={localClasses.nameDiv}>
+                          <Typography component="span" className={classes.textLabel}>
+                            {getPropValue(report, 'type.id') === 'others'
+                              ? report.othersName
+                              : getPropValue(report, 'type.name')}
+                          </Typography>
+                        </div>
+                      ) : null}
+                      <div className={localClasses.contentDiv}>
+                        <TypeMedicalFormComponent data={report} />
+                      </div>
+                    </div>
+                    <div>
+                      <Typography variant="body2">
+                        <span>Fecha:</span>
+                        {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY hh:mma')}
+                      </Typography>
+                    </div>
                   </div>
                 </div>
                 <ListItemSecondaryAction>
