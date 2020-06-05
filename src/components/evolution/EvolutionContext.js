@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext, useEffect } from 'react';
+import React, { useContext, useState, createContext, useEffect, useRef } from 'react';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getEvolution from '../../services/evolution';
@@ -12,6 +12,7 @@ export const withEvolutionContext = WrapperComponent => ({ setTab, patient, chil
   const [treatments, setTreatmentList] = useState([]);
   const [testList, setTestList] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
+  const mounted = useRef(true);
 
   useEffect(() => {
     const { limit, offset, ...filters } = params;
@@ -19,14 +20,20 @@ export const withEvolutionContext = WrapperComponent => ({ setTab, patient, chil
       setLoadingList(true);
       getEvolution(filters)
         .then(response => {
-          setTreatmentList(response.treatments);
-          setTestList(response.clinicaltest);
+          if (mounted.current === true) {
+            setTreatmentList(response.treatments);
+            setTestList(response.clinicaltest);
+          }
         })
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-getEvolution'))
         .finally(() => {
-          setLoadingList(false);
+          if (mounted.current === true) setLoadingList(false);
         });
     }
+
+    return () => {
+      mounted.current = false;
+    };
   }, [params, RegisterMessage]);
 
   return (
