@@ -26,6 +26,9 @@ const useStyles = makeStyles({
       fontWeight: 400,
       color: '#000'
     }
+  },
+  contentStyle: {
+    maxWidth: 400
   }
 });
 
@@ -204,12 +207,7 @@ function DetailHistoryMedicalFormComponent() {
       <DialogTitleComponent onClose={handleClose}>
         {selected && selected.type && selected.type.name}
       </DialogTitleComponent>
-      <DialogContent
-        dividers
-        style={{
-          maxWidth: 400
-        }}
-      >
+      <DialogContent className={classes.contentStyle}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <List>

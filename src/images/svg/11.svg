@@ -1,0 +1,41 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+ <metadata id="metadata8">image/svg+xml</metadata>
+ <defs>
+  <filter color-interpolation-filters="sRGB" height="1.014008" y="-0.007004" width="1.010283" x="-0.005142" id="filter4436">
+   <feGaussianBlur id="feGaussianBlur4438" stdDeviation="0.500482"/>
+  </filter>
+  <clipPath id="clipPath2294-2-10-8-1" clipPathUnits="userSpaceOnUse">
+   <rect fill="none" stroke-width="0.325696" stroke-miterlimit="4" stroke-dashoffset="0" y="342.69385" x="105.83231" height="20.26874" width="10.636508" id="rect2296-4-4-9-5"/>
+  </clipPath>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="102" width="102" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="g6026">
+   <circle fill="#373748" stroke-width="0.039504" stroke-linecap="round" stroke-miterlimit="4.009524" stroke-dashoffset="0" r="46.925671" cy="50.23779" cx="50.63101" id="circle2708"/>
+   <path fill="none" stroke="#ffffff" stroke-width="6.262033" stroke-miterlimit="4" filter="url(#filter4436)" d="m-4.78602,51.8795l11.25354,0.07946c6.10007,-5.14682 4.44561,-6.03696 10.63535,0l14.80085,0c0.99271,-0.05481 2.91937,2.92659 4.52002,4.84808l3.01334,-45.07755l2.65888,55.09161c2.69263,-4.91236 3.80418,-14.5289 5.67381,-14.68478l13.64705,-0.09791c9.50858,-8.55859 7.08959,-9.98817 16.5734,0l2.9247,0" id="path4375-3"/>
+   <text font-style="normal" font-weight="normal" font-size="32.561764px" font-family="Arial" fill="#ffffff" stroke-width="1.526333" xml:space="preserve" x="35.99878" y="89.76794" id="text2277-2-8">
+    <tspan font-style="italic" font-weight="bold" font-size="16.966543px" font-family="Arial" fill="#ffffff" stroke-width="1.526333" id="tspan2275-2-6" x="35.99878" y="89.76794">ECG</tspan>
+   </text>
+   <ellipse fill="#ffffff" stroke="#ffffff" stroke-width="4.727457" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="path2125-5-6-1-1-9-9" cx="84.44128" cy="51.59418" rx="1.497511" ry="1.531386"/>
+   <text font-style="normal" font-weight="normal" font-size="23.485184px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" xml:space="preserve" x="44.81039" y="16.55627" id="text2277-2-8-3">
+    <tspan font-style="italic" font-weight="bold" font-size="11.976383px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" id="tspan2275-2-6-7" x="44.81039" y="16.55627">R</tspan>
+   </text>
+   <text font-style="normal" font-weight="normal" font-size="23.485184px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" xml:space="preserve" x="11.52756" y="44.21753" id="text2277-2-8-3-6">
+    <tspan font-style="italic" font-weight="bold" font-size="11.976383px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" id="tspan2275-2-6-7-7" x="11.52756" y="44.21753">P</tspan>
+   </text>
+   <text font-style="normal" font-weight="normal" font-size="23.485184px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" xml:space="preserve" x="26.38696" y="66.52466" id="text2277-2-8-3-6-0">
+    <tspan font-style="italic" font-weight="bold" font-size="11.976383px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" id="tspan2275-2-6-7-7-6" x="26.38696" y="66.52466">Q</tspan>
+   </text>
+   <text font-style="normal" font-weight="normal" font-size="23.485184px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" xml:space="preserve" x="46.49725" y="71.00977" id="text2277-2-8-3-6-0-6">
+    <tspan font-style="italic" font-weight="bold" font-size="11.976383px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" id="tspan2275-2-6-7-7-6-8" x="46.49725" y="71.00977">S</tspan>
+   </text>
+   <text font-style="normal" font-weight="normal" font-size="23.485184px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" xml:space="preserve" x="67.46527" y="40.54675" id="text2277-2-8-3-4">
+    <tspan font-style="italic" font-weight="bold" font-size="11.976383px" font-family="Arial" fill="#ffffff" stroke-width="1.100868" id="tspan2275-2-6-7-1" x="67.46527" y="40.54675">T</tspan>
+   </text>
+  </g>
+ </g>
+</svg>

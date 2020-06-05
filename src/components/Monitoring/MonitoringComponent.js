@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import uuid from 'uuid4';
 import { useMediaQuery, Typography, makeStyles, colors } from '@material-ui/core';
 import { withMonitoringContext, useMonitoringContext } from './MonitoringContext';
 import FiltersMonitoringComponent from './FiltersMonitoringComponent';
@@ -96,7 +95,7 @@ function MonitoringComponent() {
         loadingList={loadingList}
         render={(row, index) => (
           <RowMonitoringComponent
-            key={uuid()}
+            key={getPropValue(row, 'user.id')}
             cells={cells}
             row={row}
             index={index}

@@ -1,13 +1,21 @@
 import React from 'react';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateCelsiusDegree } from './validateMedicalForms';
 
+const useStyles = makeStyles({
+  root: {
+    padding: 15,
+    borderRadius: 10
+  }
+});
+
 function TemperatureForm({ classStyle }) {
+  const classes = useStyles();
   return (
-    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
+    <Paper variant="outlined" className={classes.root}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
         Temperatura:
       </Typography>

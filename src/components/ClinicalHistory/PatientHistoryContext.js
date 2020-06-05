@@ -67,9 +67,9 @@ const PatientHistoryContextProvider = ({ children }) => {
 
   useEffect(() => {
     mounted.current = true;
-    setLoadingList(true);
     const { type, user, ...filters } = params;
     if (user) {
+      setLoadingList(true);
       fetchPatientHistory(user, type, pageSize, offset, filters);
     }
     return () => {

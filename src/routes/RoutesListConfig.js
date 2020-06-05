@@ -10,6 +10,9 @@ const MonitoringComponent = lazy(() => import('../components/Monitoring/Monitori
 const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const HomeInfoComponent = lazy(() => import('../components/HomeInfoComponent'));
 const PatientHealthForm = lazy(() => import('../components/MedicalForms/PatientMedicalForm'));
+const PatietHistoryComponentWithContext = lazy(() =>
+  import('../components/ClinicalHistory/PatietHistoryComponentWithContext')
+);
 const PatientClinicalDetailsComponent = lazy(() =>
   import('../components/Patientclinicaldetails/PatientClinicalDetailsComponent')
 );
@@ -69,13 +72,6 @@ const RouteListConfig = [
     navegation: true
   },
   {
-    path: '/medicamentos',
-    component: MedicinesComponent,
-    label: 'Medicamentos',
-    roles: ['doctor'],
-    navegation: true
-  },
-  {
     path: '/prueba/medica',
     component: PatientHealthForm,
     label: 'Entrada de parámetros',
@@ -84,16 +80,24 @@ const RouteListConfig = [
   },
   {
     path: '/historial',
-    component: PatientClinicalDetailsComponent,
+    component: PatietHistoryComponentWithContext,
     label: 'Historial',
-    roles: ['patient', 'doctor'],
+    roles: ['patient'],
     navegation: ['patient']
   },
   {
     path: '/detallesclinicos',
     component: PatientClinicalDetailsComponent,
     label: 'Detalles clínicos',
-    roles: ['doctor']
+    roles: ['doctor'],
+    navegation: ['doctor']
+  },
+  {
+    path: '/medicamentos',
+    component: MedicinesComponent,
+    label: 'Medicamentos',
+    roles: ['doctor'],
+    navegation: true
   },
   {
     path: '/tratamientos',

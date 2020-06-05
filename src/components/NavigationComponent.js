@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import uuid from 'uuid4';
 import { NavLink } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 function NavigationMenu({ onClick }) {
   const { currentUserProfile } = useAuthContext();
+  const classes = useStyles();
   return (
     <>
       {currentUserProfile &&
@@ -38,16 +38,14 @@ function NavigationMenu({ onClick }) {
           return false;
         })
           .filter(route => route.roles.includes(currentUserProfile.role))
-          .map(route => (
+          .map((route, index) => (
             <MenuItem
               color="inherit"
-              key={uuid()}
+              key={index.toString()}
               component={NavLink}
               to={route.path}
               onClick={onClick}
-              activeStyle={{
-                background: 'rgba(0,0,0,0.1)'
-              }}
+              activeStyle={classes.activeLink}
             >
               {route.label}
             </MenuItem>
@@ -74,15 +72,13 @@ export function NavigationLargeComponent() {
               return false;
             })
               .filter(route => route.roles.includes(currentUserProfile.role))
-              .map(route => (
+              .map((route, index) => (
                 <Button
                   color="inherit"
-                  key={uuid()}
+                  key={index.toString()}
                   component={NavLink}
                   to={route.path}
-                  activeStyle={{
-                    background: 'rgba(255,255,255,0.5)'
-                  }}
+                  activeStyle={classes.activeLink}
                 >
                   {route.label}
                 </Button>

@@ -1,13 +1,21 @@
 import React from 'react';
-import { Grid, Typography, Paper } from '@material-ui/core';
+import { Grid, Typography, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateWeight } from './validateMedicalForms';
 
+const useStyles = makeStyles({
+  root: {
+    padding: 15,
+    borderRadius: 10
+  }
+});
+
 function WeightForm({ classStyle }) {
+  const classes = useStyles();
   return (
-    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
+    <Paper variant="outlined" className={classes.root}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
         Peso
       </Typography>

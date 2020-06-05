@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import { useMediaQuery, makeStyles } from '@material-ui/core';
 import { Form } from 'react-final-form';
 import { DialogTitleComponent } from '../../ModalComponent';
-import { useTreatmentsContext } from '../TreatmentsContext';
 import DateFieldComponent from '../../fields/DateFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
@@ -57,8 +56,7 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   );
 }
 
-function AddOrEditFormComponent({ title }) {
-  const { setModalVisible, selected, saveValues, formType, params } = useTreatmentsContext();
+function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, saveValues, formType, params }) {
   const [medicineSelected, setSelectedMedicine] = useState(null);
   const [medicineEdited, setMedicineEdited] = useState('{}');
   const classes = useCustomStyles();
@@ -82,13 +80,14 @@ function AddOrEditFormComponent({ title }) {
 
   const changed = getPropValue(selected, 'medicineSetting') !== medicineEdited;
   return (
-    <div
-      style={{
-        maxWidth: medicineSelected && !match ? 780 : 400
-      }}
-    >
+    <div>
       <DialogTitleComponent onClose={handleCloseModal}>{title}</DialogTitleComponent>
-      <DialogContent dividers>
+      <DialogContent
+        dividers
+        style={{
+          maxWidth: medicineSelected && !match ? 780 : 400
+        }}
+      >
         <Grid container spacing={1}>
           <Grid item xs={12} sm={medicineSelected ? 6 : 12}>
             <Form
@@ -136,7 +135,7 @@ function AddOrEditFormComponent({ title }) {
                         minDate={values.startDate}
                       />
                       <Grid item xs={10}>
-                        <MedicinesFieldComponent required name="medicines" label="Medicamento" />
+                        <MedicinesFieldComponent required clinic={clinic} name="medicines" label="Medicamento" />
                       </Grid>
                       <Grid item xs={2}>
                         <EditButtonIcon

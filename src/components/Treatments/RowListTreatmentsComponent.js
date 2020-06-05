@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'uuid4';
 import {
   TableRow,
   TableCell,
@@ -53,7 +52,8 @@ const useStyles = makeStyles({
     minWidth: '100%',
     display: 'flex',
     alignContent: 'space-between'
-  }
+  },
+  cellNowrap: { whiteSpace: 'nowrap' }
 });
 
 function TableMedicines({ medicines }) {
@@ -69,7 +69,7 @@ function TableMedicines({ medicines }) {
         </TableHead>
         <TableBody>
           {medicines.map(medicine => (
-            <TableRow key={uuid()}>
+            <TableRow key={medicine.id}>
               <TableCell>{getPropValue(medicine, 'name')}</TableCell>
               <TableCell align="center">{`${getPropValue(medicine, 'doseCant') || '-'} ${
                 getPropValue(medicine, 'doseTypeObj.abbreviation') || getPropValue(medicine, 'doseTypeObj.name') || ''
@@ -158,7 +158,7 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
         className={clsx(classes.root)}
         hover
         tabIndex={-1}
-        key={uuid()}
+        key={row.id}
         selected={selected && selected.id === row.id}
       >
         <TableCell>{getPropValue(row, 'medicineObject.name')}</TableCell>
@@ -170,7 +170,7 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
         <TableCell align="center">{getPropValue(row, 'medicineObject.frequency')}</TableCell>
         <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">{moment.unix(row.endDate).format('DD/MM/YYYY')}</TableCell>
-        <TableCell align="center" key={uuid()} style={{ whiteSpace: 'nowrap' }}>
+        <TableCell align="center" className={classes.cellNowrap}>
           <IconButton aria-label="expand row" size="small" onClick={() => handleRowClick(row.id)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>

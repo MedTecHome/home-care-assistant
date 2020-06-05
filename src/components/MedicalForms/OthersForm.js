@@ -1,14 +1,22 @@
 import React from 'react';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import SeverityFieldComponent from '../fields/SeverityFieldComponent';
 import { validateOthersName, validateOthersSeverity } from './validateMedicalForms';
 
+const useSyles = makeStyles({
+  root: {
+    padding: 15,
+    borderRadius: 10
+  }
+});
+
 function OthersForms({ classStyle, testName = '' }) {
+  const classes = useSyles();
   return (
-    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
+    <Paper variant="outlined" className={classes.root}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
         {`Prueba - (${testName})`}
       </Typography>

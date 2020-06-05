@@ -11,7 +11,8 @@ function MedicinesFieldComponent({
   label,
   name,
   validate,
-  placeholder
+  placeholder,
+  clinic
 }) {
   const [medicines, setMedicines] = useState([]);
   const [filterName, setFilterName] = useState('');
@@ -19,10 +20,10 @@ function MedicinesFieldComponent({
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getMedicines(5, {}, { name: filterNameMemoize }).then(result => {
+    getMedicines(5, {}, { clinic, name: filterNameMemoize }).then(result => {
       setMedicines(result.data);
     });
-  }, [filterNameMemoize]);
+  }, [clinic, filterNameMemoize]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);

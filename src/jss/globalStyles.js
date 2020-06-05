@@ -139,6 +139,9 @@ const useCustomStyles = makeStyles(theme => ({
   },
   textLabel: {
     fontWeight: 600
+  },
+  contentDialog: {
+    maxWidth: 400
   }
 }));
 

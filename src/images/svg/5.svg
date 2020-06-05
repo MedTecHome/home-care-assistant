@@ -1,0 +1,19 @@
+<svg width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="96" width="96" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="g6085">
+   <circle r="46.925671" cy="46.925672" cx="46.925671" id="svg_1" stroke-dashoffset="0" stroke-miterlimit="4.009524" stroke-linecap="round" stroke-width="0.039504" fill="#e580ff"/>
+   <g transform="matrix(0.05248196,0,0,0.05248196,144.15157,32.041679) " id="svg_6">
+    <path d="m-1583.24148,-202.540539l9.039,0c130.20021,0 235.01841,104.8182 235.01841,235.0184l0,577.3279c0,130.2001 -104.8182,235.0183 -235.01841,235.0183l-577.3278,0c-130.2002,0 -235.0184,-104.8182 -235.0184,-235.0183l0,-577.3279c0,-130.2002 104.8182,-235.0184 235.0184,-235.0184l0,0l45.0839,0.0001" id="svg_2" stroke-dashoffset="0" stroke-miterlimit="4" stroke-linecap="round" stroke-width="100" stroke="#ffffff" fill="none"/>
+    <circle id="svg_3" cx="-1846.26608" cy="-97.256339" r="281.000244" stroke-dashoffset="0" stroke-miterlimit="4" stroke-linecap="round" stroke-width="100" stroke="#ffffff" fill="none"/>
+    <ellipse id="svg_4" cx="-1850.45978" cy="-72.282739" rx="27.397171" ry="26.056238" stroke-dashoffset="0" stroke-miterlimit="4" stroke-linecap="round" stroke-width="74.707924" stroke="#ffffff" fill="#ffffff"/>
+    <rect id="svg_5" width="180.70905" height="5.153538" x="-1265.210358" y="-1309.312217" ry="2.576769" transform="matrix(0.73690044,-0.67600129,0.70634736,0.70786539,0,0) " stroke-dashoffset="0" stroke-miterlimit="4" stroke-linecap="round" stroke-width="50.481777" stroke="#ffffff" fill="none"/>
+   </g>
+  </g>
+ </g>
+</svg>
