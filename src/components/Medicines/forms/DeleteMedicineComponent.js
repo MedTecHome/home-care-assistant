@@ -5,9 +5,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { DialogTitleComponent } from '../../ModalComponent';
 import SaveButton from '../../buttons/SaveButton';
+import useCustomStyles from '../../../jss/globalStyles';
 
 function DeleteMedicineComponent({ setModalVisible, selected, saveMedicineValues, formType }) {
   const [saving, setSaving] = useState(false);
+  const classes = useCustomStyles();
 
   const handleCancel = () => {
     setModalVisible(false, null);
@@ -24,12 +26,7 @@ function DeleteMedicineComponent({ setModalVisible, selected, saveMedicineValues
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar medicamento</DialogTitleComponent>
-      <DialogContent
-        dividers
-        style={{
-          maxWidth: 400
-        }}
-      >
+      <DialogContent dividers className={classes.contentDialog}>
         <Typography>
           Esta seguro que desea eliminar el medicamento:<strong> {selected.name}</strong>.
         </Typography>

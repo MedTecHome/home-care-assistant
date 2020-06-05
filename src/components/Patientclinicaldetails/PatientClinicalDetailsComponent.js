@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Tabs, Tab } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import TreatmentsComponent from '../Treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
 import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
-import EvolutionComponent from '../evolution/EvolutionComponent';
+import EvolutionComponent from '../Evolution/EvolutionComponent';
 
 function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
@@ -40,16 +39,9 @@ function PatientClinicalDetailsComponent() {
 
   return (
     <>
-      {isDoctor && (
+      {isDoctor ? (
         <FiltersClinicalDetails setPatient={handlePatient} patient={patient} doctor={currentUserProfile.id} />
-      )}
-      <Typography
-        style={{
-          color: '#666'
-        }}
-      >
-        Nombre: <strong>{getPropValue(patient, 'fullname') || ' - '}</strong>
-      </Typography>
+      ) : null}
       <div>
         <Paper square color="inherit">
           <Tabs

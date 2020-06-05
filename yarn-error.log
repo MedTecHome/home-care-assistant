@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add react-hot-loader -S
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add uuid4 -offline
 
 PATH: 
   C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\AOMEI Backupper;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Yunior\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PhpStorm 2019.2.4\bin;C:\Program Files\JetBrains\WebStorm 2019.3.3\bin;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\JetBrains\DataGrip 2019.3.3\bin;C:\Users\Yunior\AppData\Local\.meteor;C:\Users\Yunior\AppData\Local\Programs\Microsoft VS Code\bin
@@ -14,7 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'D:\workspace\MedTechHome\home-care-assistant\node_modules\file-loader\node_modules\.bin'
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:60:26)
 
 npm manifest: 
   {
@@ -35,7 +36,6 @@ npm manifest:
       "@testing-library/jest-dom": "^4.2.4",
       "@testing-library/react": "^9.3.2",
       "@testing-library/user-event": "^7.1.2",
-      "@welldone-software/why-did-you-render": "^4.2.5",
       "axios": "^0.19.2",
       "clsx": "latest",
       "final-form": "^4.19.1",
@@ -52,8 +52,7 @@ npm manifest:
       "react-firebase-file-uploader": "^2.4.3",
       "react-router-dom": "^5.1.2",
       "react-scripts": "3.4.1",
-      "rechart": "^0.0.1",
-      "uuid4": "^1.1.4"
+      "rechart": "^0.0.1"
     },
     "scripts": {
       "start": "react-scripts start",
@@ -2397,13 +2396,6 @@ Lockfile:
       "@webassemblyjs/ast" "1.8.5"
       "@webassemblyjs/wast-parser" "1.8.5"
       "@xtuc/long" "4.2.2"
-  
-  "@welldone-software/why-did-you-render@^4.2.5":
-    version "4.2.5"
-    resolved "https://registry.yarnpkg.com/@welldone-software/why-did-you-render/-/why-did-you-render-4.2.5.tgz#005d06958d0c8a1ab3b92a3f4cfe3507b1806976"
-    integrity sha512-Uq4Gmi14bHDfWPGu1EuZKkdxlihXIyyfhAoP0nkA3qHTu8yit0iL1KO6Ldyno55otnjL3GHUY/MswMVvB5Ro8g==
-    dependencies:
-      lodash "^4"
   
   "@xtuc/ieee754@^1.2.0":
     version "1.2.0"
@@ -7709,7 +7701,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
     integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
   
-  "lodash@>=3.5 <5", lodash@^4, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5:
+  "lodash@>=3.5 <5", lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5:
     version "4.17.15"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
     integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -11868,11 +11860,6 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
     integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
-  
-  uuid4@^1.1.4:
-    version "1.1.4"
-    resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-1.1.4.tgz#80fa0618749110bdb8aa47cc2cc2167c6331f4eb"
-    integrity sha512-Gr1q2k40LpF8CokcnQFjPDsdslzJbTCTBG5xQIEflUov431gFkY5KduiGIeKYAamkQnNn4IfdHJbLnl9Bib8TQ==
   
   uuid@^3.0.1, uuid@^3.2.1, uuid@^3.3.2:
     version "3.4.0"

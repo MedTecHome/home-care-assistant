@@ -6,10 +6,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { useProfilesContext } from '../ProfilesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import SaveButton from '../../buttons/SaveButton';
+import useCustomStyles from '../../../jss/globalStyles';
 
 export default function DeleteProfilesComponent() {
   const [saving, setSaving] = useState(false);
   const { setModalVisible, selected, saveProfileValues, formType } = useProfilesContext();
+  const classes = useCustomStyles();
 
   const handleCancel = () => {
     setModalVisible(false, null);
@@ -26,12 +28,7 @@ export default function DeleteProfilesComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar</DialogTitleComponent>
-      <DialogContent
-        dividers
-        style={{
-          maxWidth: 400
-        }}
-      >
+      <DialogContent dividers className={classes.contentDialog}>
         <Typography>Esta seguro que desea eliminar el perfil seleccionado.</Typography>
       </DialogContent>
       <DialogActions>

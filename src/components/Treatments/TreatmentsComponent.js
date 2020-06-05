@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import uuid from 'uuid4';
 import { Typography } from '@material-ui/core';
 import { useTreatmentsContext, withTreatmentsContext } from './TreatmentsContext';
 import TableComponent from '../table/TableComponent';
 import treatmentsHeadCells from './treatmentsHeadCells';
 import ModalComponent from '../ModalComponent';
-import TreatmentsFormComponent from './forms/TreatmentsFormComponent';
 import RowListTreatmentsComponent from './RowListTreatmentsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { useCustomPaginationContext, withCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
-import FiltersTreatmentComponent from './FiltersTreatmentComponent';
 import { getPropValue } from '../../helpers/utils';
+import AddOrEditFormComponent from './forms/AddOrEditFormComponent';
+import DeleteTreatmentComponent from './forms/DeleteTreatmentComponent';
+import DetailsTreatmentComponent from './forms/DetailsTreatmentComponent';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';
 
 function TreatmentsComponent({ patient }) {
   const { pageSize, offset } = useCustomPaginationContext();
@@ -20,13 +21,15 @@ function TreatmentsComponent({ patient }) {
     total,
     modalVisible,
     setParams,
+    params,
+    saveValues,
     loadingList,
     selected,
     setModalVisible,
     formType,
     selectFromList
   } = useTreatmentsContext();
-  const { isDoctor } = useAuthContext();
+  const { isDoctor, currentUserProfile } = useAuthContext();
   const [open, setOpen] = useState(null);
 
   useEffect(() => {
@@ -42,7 +45,19 @@ function TreatmentsComponent({ patient }) {
   return (
     <>
       <ModalComponent visible={modalVisible} width={0}>
-        <TreatmentsFormComponent formType={formType} />
+        {[ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
+          <AddOrEditFormComponent
+            selected={selected}
+            params={params}
+            setModalVisible={setModalVisible}
+            saveValues={saveValues}
+            formType={formType}
+            clinic={currentUserProfile.parent}
+            title={`${formType} tratamiento`}
+          />
+        )}
+        {formType === DELETE_FORM_TEXT && <DeleteTreatmentComponent />}
+        {formType === DETAILS_FORM_TEXT && <DetailsTreatmentComponent />}
       </ModalComponent>
       <TableComponent
         extraText={
@@ -50,7 +65,6 @@ function TreatmentsComponent({ patient }) {
             <strong>Total: </strong>({total})
           </Typography>
         }
-        filters={<FiltersTreatmentComponent />}
         addRole={isDoctor}
         disableElevation
         headCells={treatmentsHeadCells}
@@ -60,7 +74,7 @@ function TreatmentsComponent({ patient }) {
         selected={selected}
         render={(row, index) => (
           <RowListTreatmentsComponent
-            key={uuid()}
+            key={row.id}
             open={open}
             setOpen={setOpen}
             row={row}

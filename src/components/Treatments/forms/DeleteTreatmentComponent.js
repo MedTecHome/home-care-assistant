@@ -3,13 +3,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useTreatmentsContext } from '../TreatmentsContext';
 import SaveButton from '../../buttons/SaveButton';
 
+const useStyles = makeStyles({
+  contentStyle: {
+    maxWidth: 400
+  }
+});
+
 function DeleteTreatmentComponent() {
   const { setModalVisible, selected, saveValues, formType } = useTreatmentsContext();
   const [saving, setSaving] = useState(false);
+  const classes = useStyles();
 
   const handleCancel = () => {
     setModalVisible(false, null);
@@ -26,12 +34,7 @@ function DeleteTreatmentComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar Tratamiento</DialogTitleComponent>
-      <DialogContent
-        dividers
-        style={{
-          maxWidth: 400
-        }}
-      >
+      <DialogContent dividers className={classes.contentStyle}>
         <Typography>Esta seguro que desea eliminar el tratamiento.</Typography>
       </DialogContent>
       <DialogActions>

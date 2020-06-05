@@ -1,0 +1,33 @@
+<svg width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="96" width="96" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="g6056">
+   <circle fill="#ff80b2" stroke-width="0.039504" stroke-linecap="round" stroke-miterlimit="4.009524" stroke-dashoffset="0" id="svg_1" cx="46.925657" cy="46.925662" r="46.925671"/>
+   <text font-style="normal" font-weight="normal" font-size="32.561764px" font-family="Arial" fill="#ffffff" stroke-width="1.526333" xml:space="preserve" x="33.297727" y="85.745732" id="svg_3">
+    <tspan font-style="italic" font-weight="bold" font-size="16.966543px" font-family="Arial" fill="#ffffff" stroke-width="1.526333" id="svg_2" x="33.297727" y="85.745732">INR</tspan>
+   </text>
+   <rect fill="#ffffff" stroke-width="3.570153" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_4" width="2.64565" height="61.201359" x="19.084347" y="13.881042" ry="0.8416"/>
+   <path fill="none" stroke="#ffffff" stroke-width="2.148713" stroke-linecap="round" stroke-miterlimit="4" d="m62.413247,46.927102c-0.4841,4.12037 0.6448,6.80859 4.1158,7.7098" id="svg_5"/>
+   <rect fill="#ffffff" stroke-width="3.570153" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" ry="0.8416" y="14.180242" x="24.156377" height="61.201359" width="2.64565" id="svg_6"/>
+   <rect fill="#ffffff" stroke-width="1.753236" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" ry="1.153786" y="13.162232" x="64.399777" height="14.759862" width="2.64565" id="svg_7"/>
+   <rect fill="#ffffff" stroke-width="1.774351" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_8" width="2.625789" height="15.231878" x="64.081667" y="62.024782" ry="1.190684"/>
+   <rect fill="#ffffff" stroke-width="1.880174" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" ry="1.308381" y="13.221742" x="69.834597" height="16.737528" width="2.683112" id="svg_9"/>
+   <rect fill="#ffffff" stroke-width="1.79871" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" ry="1.177396" y="62.301692" x="68.706907" height="15.06189" width="2.728834" id="svg_10"/>
+   <path fill="none" stroke="#ffffff" stroke-width="1.648399" stroke-miterlimit="4" d="m67.862347,30.058292c14.1042,17.45703 10.0809,28.88036 0.058,28.34656c-16.3445,-0.87046 -6.9438,-20.53624 -0.058,-28.34656z" id="svg_11"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="5.574671" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_12" cx="53.114627" cy="16.714412" rx="0.758859" ry="0.721717"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="8.153241" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_13" cx="38.447877" cy="17.397892" rx="1.109869" ry="1.055548"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="5.574671" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_14" cx="32.192017" cy="30.521362" rx="0.758859" ry="0.721717"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="8.153241" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_15" cx="45.650027" cy="39.522892" rx="1.109869" ry="1.055548"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="5.574671" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_16" cx="53.765017" cy="28.938842" rx="0.758859" ry="0.721717"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="8.153241" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_17" cx="34.741087" cy="64.388912" rx="1.109869" ry="1.055548"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="5.574671" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_18" cx="35.795777" cy="46.993472" rx="0.758859" ry="0.721717"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="5.574671" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_19" cx="55.816037" cy="65.225772" rx="0.758859" ry="0.721717"/>
+   <ellipse fill="none" stroke="#ffffff" stroke-width="5.574671" stroke-linecap="round" stroke-miterlimit="4" stroke-dashoffset="0" id="svg_20" cx="50.751097" cy="54.258422" rx="0.758859" ry="0.721717"/>
+  </g>
+ </g>
+</svg>

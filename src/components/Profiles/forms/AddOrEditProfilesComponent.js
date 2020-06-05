@@ -6,9 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import { makeStyles } from '@material-ui/core';
 import { EDIT_FORM_TEXT, ADD_FORM_TEXT, NAME_APP } from '../../../commons/globalText';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
-
 import { DialogTitleComponent } from '../../ModalComponent';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
@@ -18,6 +18,14 @@ import { getPropValue } from '../../../helpers/utils';
 import { validateProfile, validateEmail, validatePassword, agreementValidate } from './validateProfile';
 import RoleFieldComponent from '../../fields/RoleFieldComponent';
 import ClinicBlockFieldComponent from '../../fields/ClinicBlockFieldComponent';
+import useCustomStyles from '../../../jss/globalStyles';
+
+const useStyles = makeStyles({
+  labelStyle: {
+    fontSize: '0.766rem',
+    textAlign: 'justify'
+  }
+});
 
 function AddOrEditProfilesComponent({
   title,
@@ -29,6 +37,8 @@ function AddOrEditProfilesComponent({
   isSuperadmin
 }) {
   const authRole = getPropValue(currentUserProfile, 'role') || null;
+  const classes = useCustomStyles();
+  const localClasses = useStyles();
 
   const onSubmit = async (values, form) => {
     await saveProfileValues(values, formType);
@@ -88,12 +98,7 @@ function AddOrEditProfilesComponent({
                 }
               }}
             >
-              <DialogContent
-                dividers
-                style={{
-                  maxWidth: 400
-                }}
-              >
+              <DialogContent dividers className={classes.contentDialog}>
                 <Grid container spacing={3}>
                   {isSuperadmin && (
                     <Grid item xs={12}>
@@ -184,10 +189,7 @@ function AddOrEditProfilesComponent({
                       <CheckboxesFieldComponent
                         required
                         disabled={formType === EDIT_FORM_TEXT}
-                        labelStyle={{
-                          fontSize: '0.766rem',
-                          textAlign: 'justify'
-                        }}
+                        labelStyle={localClasses.labelStyle}
                         namee="agreement"
                         label={`Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema ${NAME_APP} no es un sistema de respuesta de emergencia`}
                         validate={agreementValidate}

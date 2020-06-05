@@ -4,24 +4,12 @@ import { testFormsNames } from '../../helpers/constants';
 import useCustomStyles from '../../jss/globalStyles';
 
 function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
-  const { justifyCheckbox, noHoverBackground } = useCustomStyles();
+  const { justifyCheckbox, noHoverBackground, formControl } = useCustomStyles();
 
   return (
-    <FormControl
-      style={{
-        width: '100%'
-      }}
-      component="fieldset"
-    >
+    <FormControl className={formControl} component="fieldset">
       <FormLabel component="legend">
-        <Typography
-          variant="button"
-          style={{
-            fontSize: 16
-          }}
-        >
-          Seleccione
-        </Typography>
+        <Typography variant="button">Seleccione</Typography>
       </FormLabel>
       <FormGroup className={justifyCheckbox} row defaultValue={defaultValues}>
         {testFormsNames.map(value => (
@@ -41,12 +29,7 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
             }
             label={
               <Tooltip title={value.name}>
-                <Typography
-                  variant="button"
-                  style={{
-                    fontWeight: 550
-                  }}
-                >{`${value.name}`}</Typography>
+                <Typography variant="button">{`${value.name}`}</Typography>
               </Tooltip>
             }
           />

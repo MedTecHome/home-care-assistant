@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableContainer, Table, TableBody, CardHeader, Typography, LinearProgress } from '@material-ui/core';
+import { TableContainer, Table, TableBody, Typography, LinearProgress } from '@material-ui/core';
 
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
@@ -26,14 +26,19 @@ function TableComponent({
   return (
     <>
       {title && (
-        <CardHeader className={classes.pageHeader} title={<Typography variant="subtitle1">{title}</Typography>} />
+        <div className={classes.pageHeader}>
+          <Typography variant="subtitle1">{title}</Typography>
+        </div>
       )}
-      {addRole && (
-        <EnhancedTableToolbar filters={filters} selected={selected && selected.id} onAdd={handleModalVisible} />
-      )}
+      <EnhancedTableToolbar
+        allowAdd={addRole}
+        filters={filters}
+        selected={selected && selected.id}
+        onAdd={handleModalVisible}
+      />
       {extraText && (
         <div className={classes.extraText}>
-          <div style={{ width: '100%' }}>{extraText}</div>
+          <div className={classes.formControl}>{extraText}</div>
         </div>
       )}
       {loadingList ? (

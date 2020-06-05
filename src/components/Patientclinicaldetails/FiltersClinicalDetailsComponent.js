@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useMemo, useState } from 'react';
-import { List, ListItem } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -44,28 +43,35 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
       onChange={(event, newValue) => {
         handleSelect(newValue);
       }}
-      renderInput={params => <TextField {...params} label="Paciente" margin="normal" onChange={handleInputChange} />}
+      renderInput={params => (
+        <TextField
+          {...params}
+          size="small"
+          variant="outlined"
+          label="Paciente"
+          margin="normal"
+          onChange={handleInputChange}
+        />
+      )}
     />
   );
 }
 
 function FiltersClinicalDetails({ patient, setPatient, doctor }) {
   return (
-    <List>
-      <ListItem>
-        <Grid container>
-          <Grid item xs={12} sm={6} md={4}>
-            <ProfileSearchComponent
-              value={patient}
-              onSelect={setPatient}
-              doctor={doctor}
-              filterRole="patient"
-              placeholder="Buscar por nombre"
-            />
-          </Grid>
+    <div>
+      <Grid container justify="flex-end">
+        <Grid item xs={12} sm={6} md={4}>
+          <ProfileSearchComponent
+            value={patient}
+            onSelect={setPatient}
+            doctor={doctor}
+            filterRole="patient"
+            placeholder="Buscar por nombre"
+          />
         </Grid>
-      </ListItem>
-    </List>
+      </Grid>
+    </div>
   );
 }
 

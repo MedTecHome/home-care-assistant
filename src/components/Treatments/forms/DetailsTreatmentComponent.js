@@ -11,15 +11,23 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core';
 import { useTreatmentsContext } from '../TreatmentsContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import DetailTextComponent from '../../DetailTextComponent';
 import { getPropValue } from '../../../helpers/utils';
 
+const useStyles = makeStyles({
+  contentStyle: {
+    maxWidth: 400
+  }
+});
+
 function DetailsTreatmentComponent() {
   const { selected, setModalVisible } = useTreatmentsContext();
   const classes = useCustomStyles();
+  const localClasses = useStyles();
 
   const handleCloseForm = () => {
     setModalVisible(false, null);
@@ -27,12 +35,7 @@ function DetailsTreatmentComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleCloseForm}>Detalles del tratamiento</DialogTitleComponent>
-      <DialogContent
-        dividers
-        style={{
-          maxWidth: 400
-        }}
-      >
+      <DialogContent dividers className={localClasses.contentStyle}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <List>

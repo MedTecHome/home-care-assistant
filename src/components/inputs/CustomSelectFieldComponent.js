@@ -1,7 +1,6 @@
 import React from 'react';
 import { Select } from 'mui-rff';
 import MenuItem from '@material-ui/core/MenuItem';
-import uuid from 'uuid4';
 import clsx from 'clsx';
 import useCustomStyles from '../../jss/globalStyles';
 
@@ -34,11 +33,9 @@ function CustomSelectFieldComponent({
         validate
       }}
     >
-      <MenuItem key={uuid()} value="">
-        Ninguno
-      </MenuItem>
+      <MenuItem value="">Ninguno</MenuItem>
       {source.map(item => (
-        <MenuItem key={uuid()} value={item.id}>
+        <MenuItem key={item.id} value={item.id}>
           {item.name}
         </MenuItem>
       ))}

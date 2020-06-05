@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Typography, Paper } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Typography, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
@@ -8,12 +8,20 @@ import { validateGlucoseUnity, validateHorario, validateSugarConcentration } fro
 import GlucosaUnityFieldComponent from '../fields/GlucosaUnityFieldComponent';
 import IntakeTimeFieldComponent from '../fields/IntakeTimeFieldComponent';
 
+const useSyles = makeStyles({
+  root: {
+    padding: 15,
+    borderRadius: 10
+  }
+});
+
 function GlucoseForm({ classStyle }) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const classes = useSyles();
 
   return (
-    <Paper variant="outlined" style={{ padding: 15, borderRadius: 10 }}>
+    <Paper variant="outlined" className={classes.root}>
       <Typography className={classStyle.titleForms} variant="subtitle1">
         Glucosa
       </Typography>

@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import uuid from 'uuid4';
 import { Typography } from '@material-ui/core';
 import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
 import medicineHeadCells from './medicineHeadCells';
-import FiltersMedicineComponent from './FiltersMedicineComponent';
 import RowListMedicineComponent from './RowListMedicineComponent';
 import TableComponent from '../table/TableComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
@@ -15,6 +13,7 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } fr
 import AddOrEditMedicineComponent from './forms/AddOrEditMedicineComponent';
 import DeleteMedicineComponent from './forms/DeleteMedicineComponent';
 import DetailsMedicineComponent from './forms/DetailsMedicineComponent';
+import InputSearchByTagname from '../filters/InputSearchByTagName';
 
 function MedicinesComponent() {
   const { currentUserProfile } = useAuthContext();
@@ -79,9 +78,7 @@ function MedicinesComponent() {
             <strong>Total: </strong>({total})
           </Typography>
         }
-        filters={
-          <FiltersMedicineComponent setParams={setParams} params={params} currentUserProfile={currentUserProfile} />
-        }
+        filters={<InputSearchByTagname setParams={setParams} params={params} tagName="name" />}
         headCells={medicineHeadCells}
         list={medicineList}
         loadingList={loadingList}
@@ -90,7 +87,7 @@ function MedicinesComponent() {
         addRole
         render={(row, index) => (
           <RowListMedicineComponent
-            key={uuid()}
+            key={row.id}
             row={row}
             index={index}
             selectRow={selectMedicineFromList}

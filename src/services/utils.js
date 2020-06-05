@@ -97,7 +97,7 @@ const retriveDocFirebase = async path => {
 const retriveData = retriveDataFirebase;
 const retriveDoc = retriveDocFirebase;
 
-// const retriveData = retriveDataApi;
-// const retriveDoc = retriveDocApi;
-
+/* const retriveData = retriveDataApi;
+const retriveDoc = retriveDocApi;
+*/
 export { retriveData, retriveDoc };

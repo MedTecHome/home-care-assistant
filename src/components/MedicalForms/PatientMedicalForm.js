@@ -44,6 +44,12 @@ const useStyles = makeStyles(theme => ({
     left: '50%',
     marginTop: -12,
     marginLeft: -12
+  },
+  textOverflow: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    paddingLeft: 5
   }
 }));
 
@@ -78,20 +84,7 @@ const PatientMedicalForm = () => {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
-        <Grid
-          item
-          xs={12}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          style={{
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            paddingLeft: 5
-          }}
-        >
+        <Grid className={classes.textOverflow} item xs={12} sm={3} md={2} lg={2} xl={2}>
           <SelectedChecboxForm defaultValues={selectedForms} onCheckboxChange={handleToogleCheckbox} />
         </Grid>
         <Grid item xs={12} sm={9} container direction="column">
@@ -162,7 +155,7 @@ const PatientMedicalForm = () => {
                     )}
                   </Grid>
                   {selectedForms.length > 0 && (
-                    <Grid item xs={12} container justify="center" spacing={4} style={{ marginTop: 20 }}>
+                    <Grid item xs={12} container justify="center" spacing={4}>
                       <Grid item>
                         <Button color="secondary" onClick={() => form.reset()}>
                           Cancelar

@@ -13,8 +13,10 @@ import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 import { getPropValue } from '../../../helpers/utils';
+import useCustomStyles from '../../../jss/globalStyles';
 
 export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, handleCloseForm, currentUserProfile }) {
+  const classes = useCustomStyles();
   return (
     <Form
       initialValues={
@@ -25,12 +27,7 @@ export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, h
       render={({ handleSubmit, form, submitting, pristine, invalid }) => (
         <form noValidate onSubmit={event => !invalid && handleSubmit(event)} autoComplete="off">
           {formType === EDIT_FORM_TEXT && selected && <input type="hidden" name="id" />}
-          <DialogContent
-            dividers
-            style={{
-              maxWidth: 400
-            }}
-          >
+          <DialogContent className={classes.contentDialog}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CustomTextFieldComponent
