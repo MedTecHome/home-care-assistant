@@ -52,14 +52,14 @@ const PatientHistoryContextProvider = ({ children }) => {
           const d = b.clinicalDate;
           return d - c;
         });
-        if (mounted.current) {
+        if (mounted.current === true) {
           setHistoryList(result);
           setTotal(response.total);
         }
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatienhistoryCOmponent');
       } finally {
-        setLoadingList(false);
+        if (mounted.current === true) setLoadingList(false);
       }
     },
     [RegisterMessage]

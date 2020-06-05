@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { saveMedicineValuesActions } from './actions/MedicinesActions';
@@ -21,6 +21,7 @@ export const withMedicinesContext = WrapperComponent => props => {
   const [seletd, setSelected] = useState(null);
   const [params, setParams] = useState({});
   const [globalState, globalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const mounted = useRef(true);
 
   const medicineList = useMemo(() => medicList, [medicList]);
   const selected = useMemo(() => seletd, [seletd]);
@@ -38,16 +39,23 @@ export const withMedicinesContext = WrapperComponent => props => {
           });
           Promise.all(medicines)
             .then(data => {
-              setMedicinesList(data);
-              setTotal(res.total);
+              if (mounted.current === true) {
+                setMedicinesList(data);
+                setTotal(res.total);
+              }
             })
             .catch(e => {
               throw new Error(e);
             })
-            .finally(() => setLoadingList(false));
+            .finally(() => {
+              if (mounted.current === true) setLoadingList(false);
+            });
         })
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'));
     }
+    return () => {
+      mounted.current = false;
+    };
   }, [params, limit, offset, loadingSave, RegisterMessage]);
 
   const saveMedicineValues = useCallback(

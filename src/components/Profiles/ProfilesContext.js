@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
 
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import saveProfileValuesAction from './reducers/ProfileActions';
@@ -21,6 +21,7 @@ export const withProfileContext = WrapperComponent => props => {
   const [params, setParams] = useState({});
   const { pageSize: limit, offset } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const mounted = useRef(true);
 
   const profileList = useMemo(() => list, [list]);
   const selected = useMemo(() => slected, [slected]);
@@ -32,16 +33,21 @@ export const withProfileContext = WrapperComponent => props => {
       setLoadingList(true);
       getProfiles(limit, offset, params)
         .then(result => {
-          setProfileList(result.data);
-          setTotal(result.total);
+          if (mounted.current === true) {
+            setProfileList(result.data);
+            setTotal(result.total);
+          }
         })
         .catch(e => {
           RegisterMessage(ERROR_MESSAGE, e, 'ProfilesContext');
         })
         .finally(() => {
-          setLoadingList(false);
+          if (mounted.current === true) setLoadingList(false);
         });
     }
+    return () => {
+      mounted.current = false;
+    };
   }, [params, offset, limit, loadingSave, RegisterMessage]);
 
   const saveProfileValues = useCallback(

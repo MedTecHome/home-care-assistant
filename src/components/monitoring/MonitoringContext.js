@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useState, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getMonitoring from '../../services/monitoring';
@@ -13,6 +13,7 @@ export const withMonitoringContext = WrapperComponent => () => {
   const [selected, setSlcted] = useState(null);
   const [prms, setPrms] = useState({});
   const [legend, setLegend] = useState({ totalRed: 0, totalYellow: 0, totalGreen: 0 });
+  const mounted = useRef(true);
 
   const setParams = useCallback(values => {
     setPrms(prevP => ({ ...prevP, ...values }));
@@ -25,12 +26,19 @@ export const withMonitoringContext = WrapperComponent => () => {
       setLoadingList(true);
       getMonitoring(limit, offset, { parent: parentId, ...filters })
         .then(res => {
-          setListAction(res.data);
-          setTotal(res.total);
+          if (mounted.current === true) {
+            setListAction(res.data);
+            setTotal(res.total);
+          }
         })
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext-getMonitoring'))
-        .finally(() => setLoadingList(false));
+        .finally(() => {
+          if (mounted.current === true) setLoadingList(false);
+        });
     }
+    return () => {
+      mounted.current = false;
+    };
   }, [params, RegisterMessage]);
 
   const setSelected = useCallback(

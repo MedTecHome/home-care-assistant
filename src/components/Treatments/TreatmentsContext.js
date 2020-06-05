@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import saveValuesAction from './actions/TreatmentActions';
@@ -22,6 +22,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const selected = useMemo(() => slected, [slected]);
   const listTreatments = useMemo(() => list, [list]);
+  const mounted = useRef(true);
 
   const setParams = useCallback(values => {
     setPrms(values);
@@ -54,16 +55,23 @@ export const withTreatmentsContext = WrapperComponent => props => {
           });
           Promise.all(treatments)
             .then(data => {
-              setList(data);
-              setTotal(res.total);
+              if (mounted.current === true) {
+                setList(data);
+                setTotal(res.total);
+              }
             })
             .catch(e => {
               throw new Error(e);
             })
-            .finally(() => setLoadingList(false));
+            .finally(() => {
+              if (mounted.current === true) setLoadingList(false);
+            });
         })
         .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'));
     }
+    return () => {
+      mounted.current = false;
+    };
   }, [loadingSave, params, RegisterMessage]);
 
   const selectFromList = useCallback(
