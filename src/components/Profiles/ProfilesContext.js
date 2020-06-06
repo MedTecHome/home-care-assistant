@@ -26,9 +26,8 @@ export const withProfileContext = WrapperComponent => props => {
   const profileList = useMemo(() => list, [list]);
   const selected = useMemo(() => slected, [slected]);
 
-  // eslint-disable-next-line no-unused-vars
   useEffect(() => {
-    //  const { limit, offset, ...filters } = params;
+    mounted.current = true;
     if (!loadingSave && !isEmpty(params)) {
       setLoadingList(true);
       getProfiles(limit, offset, params)

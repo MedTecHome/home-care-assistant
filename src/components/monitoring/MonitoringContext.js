@@ -21,6 +21,7 @@ export const withMonitoringContext = WrapperComponent => () => {
   const params = useMemo(() => prms, [prms]);
 
   useEffect(() => {
+    mounted.current = true;
     const { parent: parentId, limit, offset, ...filters } = params;
     if (parentId) {
       setLoadingList(true);

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, withRouter, useHistory, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
+import { isLocal } from '../helpers/utils';
 
 const PrivateRoutes = ({ path, component, exact }) => {
   const { pathname } = useLocation();
@@ -8,7 +9,7 @@ const PrivateRoutes = ({ path, component, exact }) => {
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!isLocal && !currentUser) {
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('toUrl', pathname);
       history.push({

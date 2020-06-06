@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { authFirebase } from '../firebaseConfig';
-import { getPropValue } from '../helpers/utils';
+import { getPropValue, isLocal } from '../helpers/utils';
 import { USERNAME_DOMAIN } from '../commons/globalText';
 import { getProfileById } from '../services/profiles';
 
@@ -27,17 +27,17 @@ export function AuthContextProvider({ children }) {
         if (profile) {
           setCurrentUserProfile(profile);
         }
-      } else {
-        setCurrentUserProfile(null);
-
-        /*   // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
+      } else if (isLocal) {
+        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
         // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
         // const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
-        const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id 
+        const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
         const profile = await getProfileById(id);
         if (profile) {
           setCurrentUserProfile(profile);
-        } */
+        }
+      } else {
+        setCurrentUserProfile(null);
       }
     });
 
