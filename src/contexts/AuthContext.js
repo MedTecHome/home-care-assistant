@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { authFirebase } from '../firebaseConfig';
 import { getPropValue, isLocal } from '../helpers/utils';
 import { USERNAME_DOMAIN } from '../commons/globalText';
@@ -54,7 +54,7 @@ export function AuthContextProvider({ children }) {
     }, 10000);
   };
 
-  const signInUser = async ({ username, password }) => {
+  const signInUser = useCallback(async ({ username, password }) => {
     const email = `${username}${USERNAME_DOMAIN}`;
 
     try {
@@ -63,28 +63,38 @@ export function AuthContextProvider({ children }) {
       setAndClearErrorState(e);
       return null;
     }
-  };
+  }, []);
 
-  const signOutUser = () => authFirebase.signOut();
+  const signOutUser = useCallback(() => authFirebase.signOut(), []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        currentUser,
-        currentUserProfile,
-        isSuperadmin,
-        isAdmin,
-        isClinic,
-        isDoctor,
-        isPatient,
-        signInUser,
-        signOutUser,
-        errorState
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const valueMemoize = useMemo(
+    () => ({
+      currentUser,
+      currentUserProfile,
+      isSuperadmin,
+      isAdmin,
+      isClinic,
+      isDoctor,
+      isPatient,
+      signInUser,
+      signOutUser,
+      errorState
+    }),
+    [
+      currentUser,
+      currentUserProfile,
+      isSuperadmin,
+      isAdmin,
+      isClinic,
+      isDoctor,
+      isPatient,
+      signInUser,
+      signOutUser,
+      errorState
+    ]
   );
+
+  return <AuthContext.Provider value={valueMemoize}>{children}</AuthContext.Provider>;
 }
 
 export const useAuthContext = () => {
