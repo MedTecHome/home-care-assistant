@@ -15,6 +15,7 @@ export const withEvolutionContext = WrapperComponent => ({ setTab, patient, chil
   const mounted = useRef(true);
 
   useEffect(() => {
+    mounted.current = true;
     const { limit, offset, ...filters } = params;
     if (!isEmpty(filters)) {
       setLoadingList(true);

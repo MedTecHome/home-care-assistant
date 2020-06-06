@@ -1,11 +1,11 @@
 import moment from 'moment';
-// import { apiDataLocal } from '../axiosApiRequest';
+import { apiDataLocal } from '../axiosApiRequest';
 import { dbFirebase } from '../firebaseConfig';
-import { mutateDoc /* , queryFromParams */ } from '../helpers/utils';
+import { mutateDoc, queryFromParams, isLocal } from '../helpers/utils';
 
 const globalPath = 'home-care-assistant';
 
-/* const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
+const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
   const query = queryFromParams(filters);
   const response = await apiDataLocal.get(`/${path}${query && `?${query}`}`);
   return response.data;
@@ -14,7 +14,7 @@ const globalPath = 'home-care-assistant';
 const retriveDocApi = async path => {
   const response = await apiDataLocal.get(`/${path}`);
   return response.data;
-}; */
+};
 
 const setFilters = (Reference, filters) => {
   let ref = Reference;
@@ -94,10 +94,15 @@ const retriveDocFirebase = async path => {
   }
 };
 
-const retriveData = retriveDataFirebase;
-const retriveDoc = retriveDocFirebase;
+let retriveData;
+let retriveDoc;
 
-/* const retriveData = retriveDataApi;
-const retriveDoc = retriveDocApi;
-*/
+if (isLocal) {
+  retriveData = retriveDataApi;
+  retriveDoc = retriveDocApi;
+} else {
+  retriveData = retriveDataFirebase;
+  retriveDoc = retriveDocFirebase;
+}
+
 export { retriveData, retriveDoc };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, List, ListItem, makeStyles, Collapse, Container, IconButton } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
-import { getPropValue } from '../helpers/utils';
+import { getPropValue, isLocal } from '../helpers/utils';
 import { getProfileById } from '../services/profiles';
 
 const useStyles = makeStyles({
@@ -39,6 +39,8 @@ function ClinicInfoComponent() {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
+  const isLogin = currentUser && !isLocal;
+
   useEffect(() => {
     async function getInformation() {
       try {
@@ -72,7 +74,7 @@ function ClinicInfoComponent() {
 
   return (
     <>
-      {currentUser && (isClinic || isDoctor || isPatient) ? (
+      {isLogin && (isClinic || isDoctor || isPatient) ? (
         <List className={classes.root}>
           <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}

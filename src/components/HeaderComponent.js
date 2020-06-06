@@ -16,6 +16,7 @@ import IconMenu from '@material-ui/icons/Menu';
 import logo from '../images/homeCareView1.png';
 import { useAuthContext } from '../contexts/AuthContext';
 import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationComponent';
+import { isLocal } from '../helpers/utils';
 
 const useStyles = makeStyles({
   root: {
@@ -41,6 +42,9 @@ function HeaderComponent({ history }) {
   const { currentUser, currentUserProfile, signOutUser } = useAuthContext();
   const classes = useStyles();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+
+  const isLogin = isLocal ? true : !!currentUser;
+
   const handleClickLogin = () => {
     history.push('/Login');
   };
@@ -72,13 +76,13 @@ function HeaderComponent({ history }) {
             </Typography>
           </div>
 
-          {!currentUser && (
+          {!isLogin && (
             <Button disableElevation color="inherit" onClick={handleClickLogin}>
               Login
             </Button>
           )}
-          {currentUser && !match && <NavigationLargeComponent />}
-          {currentUser && (
+          {isLogin && !match && <NavigationLargeComponent />}
+          {isLogin && (
             <div>
               <IconButton aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
                 {!match ? <AccountCircle /> : <IconMenu />}

@@ -27,6 +27,7 @@ export const withMedicinesContext = WrapperComponent => props => {
   const selected = useMemo(() => seletd, [seletd]);
 
   useEffect(() => {
+    mounted.current = true;
     if (!loadingSave && !isEmpty(params)) {
       setLoadingList(true);
       getMedicines(limit, offset, params)

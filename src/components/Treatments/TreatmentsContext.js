@@ -31,6 +31,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const params = useMemo(() => prms, [prms]);
 
   useEffect(() => {
+    mounted.current = true;
     const { limit, offset, ...filters } = params;
     if (!loadingSave && !isEmpty(filters)) {
       setLoadingList(true);
@@ -62,13 +63,14 @@ export const withTreatmentsContext = WrapperComponent => props => {
             })
             .catch(e => {
               throw new Error(e);
-            })
-            .finally(() => {
-              if (mounted.current === true) setLoadingList(false);
             });
         })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'));
+        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
+        .finally(() => {
+          if (mounted.current === true) setLoadingList(false);
+        });
     }
+
     return () => {
       mounted.current = false;
     };

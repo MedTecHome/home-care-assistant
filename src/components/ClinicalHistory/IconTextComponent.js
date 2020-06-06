@@ -1,10 +1,10 @@
 import React from 'react';
 import { makeStyles, Avatar } from '@material-ui/core';
-import ClinicalTestIcon1 from '../../images/svg/1.svg';
-import ClinicalTestIcon2 from '../../images/svg/2.svg';
-import ClinicalTestIcon3 from '../../images/svg/3.svg';
-import ClinicalTestIcon4 from '../../images/svg/4.svg';
-import ClinicalTestIcon5 from '../../images/svg/5.svg';
+import OxygenIconSvg from '../../images/svg/oxygen.svg';
+import PressureIconSvg from '../../images/svg/pressure.svg';
+import WeightIconSvg from '../../images/svg/weight.svg';
+import HeartrateIconSvg from '../../images/svg/heartrate.svg';
+import OthersIconSvg from '../../images/svg/others.svg';
 import BreathingIconSvg from '../../images/svg/breathing.svg';
 import ExercisesIconSvg from '../../images/svg/exercises.svg';
 import TemperatureIconSvg from '../../images/svg/temperature.svg';
@@ -23,7 +23,7 @@ function IconTestComponent({ type }) {
   let iconSrc = '';
   switch (type) {
     case 'pressure': {
-      iconSrc = ClinicalTestIcon1;
+      iconSrc = PressureIconSvg;
       break;
     }
     case 'temperature': {
@@ -31,7 +31,7 @@ function IconTestComponent({ type }) {
       break;
     }
     case 'weight': {
-      iconSrc = ClinicalTestIcon3;
+      iconSrc = WeightIconSvg;
       break;
     }
     case 'glucose': {
@@ -47,7 +47,7 @@ function IconTestComponent({ type }) {
       break;
     }
     case 'oxygen': {
-      iconSrc = ClinicalTestIcon2;
+      iconSrc = OxygenIconSvg;
       break;
     }
     case 'exercises': {
@@ -55,11 +55,11 @@ function IconTestComponent({ type }) {
       break;
     }
     case 'heartrate': {
-      iconSrc = ClinicalTestIcon4;
+      iconSrc = HeartrateIconSvg;
       break;
     }
     case 'others': {
-      iconSrc = ClinicalTestIcon5;
+      iconSrc = OthersIconSvg;
       break;
     }
     default:
