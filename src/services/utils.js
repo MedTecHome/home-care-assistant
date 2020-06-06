@@ -6,6 +6,8 @@ import { mutateDoc, queryFromParams, isLocal } from '../helpers/utils';
 const globalPath = 'home-care-assistant';
 
 const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
+  // eslint-disable-next-line no-console
+  console.log(limit, offset, field, sort);
   const query = queryFromParams(filters);
   const response = await apiDataLocal.get(`/${path}${query && `?${query}`}`);
   return response.data;
@@ -94,15 +96,7 @@ const retriveDocFirebase = async path => {
   }
 };
 
-let retriveData;
-let retriveDoc;
-
-if (isLocal) {
-  retriveData = retriveDataApi;
-  retriveDoc = retriveDocApi;
-} else {
-  retriveData = retriveDataFirebase;
-  retriveDoc = retriveDocFirebase;
-}
+const retriveData = isLocal ? retriveDataApi : retriveDataFirebase;
+const retriveDoc = isLocal ? retriveDocApi : retriveDocFirebase;
 
 export { retriveData, retriveDoc };

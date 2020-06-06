@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
@@ -25,10 +25,15 @@ function PatientHistoryComponent({ patient, defaultTest }) {
     setParams({ user: getPropValue(patient, 'id') || null, type: defaultTest });
   }, [patient, defaultTest, setParams]);
 
-  const handleSelectDate = date => {
-    setParams({ ...params, clinicalDate: date });
-    resetPagination();
-  };
+  const handleSelectDate = useCallback(
+    values => {
+      if (!params.rangeDate || (params.rangeDate[0] !== values[0] && params.rangeDate[1] !== values[1])) {
+        setParams({ ...params, rangeDate: values });
+        resetPagination();
+      }
+    },
+    [params, setParams, resetPagination]
+  );
 
   const handleSelectType = type => {
     setParams({ ...params, type });

@@ -39,7 +39,7 @@ function ClinicInfoComponent() {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
-  const isLogin = currentUser && !isLocal;
+  const isLogin = isLocal ? true : !!currentUser;
 
   useEffect(() => {
     async function getInformation() {
