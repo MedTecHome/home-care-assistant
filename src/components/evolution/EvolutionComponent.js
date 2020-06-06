@@ -10,10 +10,11 @@ import {
   Paper,
   TableBody,
   CircularProgress,
-  Typography
+  Typography,
+  Grid
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
-import FiltersEvolutionComponent from './FiltersEvolutionComponent';
+import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
 import PopupTestTypeComponent from './PopupTestTypeComponet';
@@ -21,7 +22,8 @@ import PopupMedicineDetailComponent from './PopupMedicineDetailComponent';
 
 const useStyles = makeStyles({
   divRoot: {
-    marginBottom: 40
+    marginBottom: 40,
+    marginTop: 10
   },
   tableRoot: {
     border: '1px solid #ccc',
@@ -73,9 +75,17 @@ function EvolutionComponent({ setTab, patient }) {
     setTab('clinictest', type);
   };
 
+  const handleRangeFilter = values => {
+    if (params.rangeDate !== values) {
+      setParams({ ...params, rangeDate: values });
+    }
+  };
+
   return (
     <div className={classes.divRoot}>
-      <FiltersEvolutionComponent />
+      <Grid item xs={12} container justify="flex-end">
+        <FiltersRangeDateComponent onRangeSet={handleRangeFilter} />
+      </Grid>
       <TableContainer component={Paper} elevation={0}>
         <Table className={classes.tableRoot}>
           <TableHead className={classes.tableHead}>
