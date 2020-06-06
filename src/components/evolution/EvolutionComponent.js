@@ -11,8 +11,7 @@ import {
   TableBody,
   CircularProgress,
   Typography,
-  Grid,
-  Box
+  Grid
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';

@@ -5,9 +5,8 @@ import { mutateDoc, queryFromParams, isLocal } from '../helpers/utils';
 
 const globalPath = 'home-care-assistant';
 
+// eslint-disable-next-line no-unused-vars
 const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
-  // eslint-disable-next-line no-console
-  console.log(limit, offset, field, sort);
   const query = queryFromParams(filters);
   const response = await apiDataLocal.get(`/${path}${query && `?${query}`}`);
   return response.data;
