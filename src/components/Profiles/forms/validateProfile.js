@@ -14,9 +14,6 @@ const validateProfile = values => {
   if (!values.name) {
     errors.name = REQUIRED_FIELD;
   }
-  if (!values.lastName) {
-    errors.lastName = REQUIRED_FIELD;
-  }
   if (!values.role) {
     errors.role = REQUIRED_FIELD;
   }
@@ -52,6 +49,13 @@ const validateProfile = values => {
   return errors;
 };
 
+const validateLastname = value => {
+  if (!value) {
+    return REQUIRED_FIELD;
+  }
+  return null;
+};
+
 const validateBirthday = value => {
   if (!value) return REQUIRED_FIELD;
   return null;
@@ -79,7 +83,7 @@ const validateHospital = value => {
 
 const validatePassword = value => {
   if (!value) {
-    return !REQUIRED_FIELD;
+    return REQUIRED_FIELD;
   }
   return null;
 };
@@ -95,6 +99,7 @@ const agreementValidate = value => {
 };
 
 export {
+  validateLastname,
   validateProfile,
   validateBirthday,
   validateHeight,
