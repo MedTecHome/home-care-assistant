@@ -3,6 +3,8 @@ import { apiDataLocal } from '../axiosApiRequest';
 import { dbFirebase } from '../firebaseConfig';
 import { mutateDoc, queryFromParams, isLocal } from '../helpers/utils';
 
+console.log(isLocal);
+
 // eslint-disable-next-line no-unused-vars
 const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
   const query = queryFromParams(filters);

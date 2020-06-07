@@ -17,10 +17,13 @@ export const testFormsNames = [
   { id: 'others', name: 'Otros' }
 ];
 
-export const genders = {
-  male: 'Masculino',
-  female: 'Femenino'
-};
+export const genders = [
+  {
+    id: 'male',
+    name: 'Masculino'
+  },
+  { id: 'female', name: 'Femenino' }
+];
 
 export const intakeTimeSource = [
   {

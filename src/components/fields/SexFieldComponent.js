@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CustomSelectFieldComponent from '../inputs/CustomSelectFieldComponent';
 import { validateSex } from '../MedicalForms/validateMedicalForms';
-import getNomenclator from '../../services/nomenclators';
+import { genders } from '../../helpers/constants';
 
 function SexFieldComponent({ required, name, label, className, disabled }) {
-  const [options, setOptions] = useState([]);
-  //  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    getNomenclator('sex').then(res => {
-      setOptions(res.data);
-    });
-  }, []);
   return (
     <CustomSelectFieldComponent
       disabled={disabled}
@@ -19,7 +12,7 @@ function SexFieldComponent({ required, name, label, className, disabled }) {
       name={name}
       label={label}
       validate={validateSex}
-      source={options}
+      source={genders}
     />
   );
 }
