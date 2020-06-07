@@ -2,7 +2,7 @@ import { retriveData, retriveDoc } from './utils';
 
 const getRoles = async (limit, offset, filters) => {
   try {
-    return await retriveData('role/roles', limit, offset, filters, 'name', 'asc');
+    return await retriveData('roles', limit, offset, filters, 'name', 'asc');
   } catch (e) {
     throw new Error(e);
   }
@@ -10,7 +10,7 @@ const getRoles = async (limit, offset, filters) => {
 
 export const getRoleById = async role => {
   try {
-    return await retriveDoc(`role/roles/${role}`);
+    return await retriveDoc(`roles/${role}`);
   } catch (e) {
     throw new Error(e);
   }

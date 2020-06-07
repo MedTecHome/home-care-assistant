@@ -1,4 +1,4 @@
-import { dbRef } from '../../../firebaseConfig';
+import { dbFirebase } from '../../../firebaseConfig';
 import {
   breathingModel,
   exercicesModel,
@@ -12,16 +12,16 @@ import {
   othersModel
 } from './models';
 
-const PressureRef = dbRef('health').collection('pressure');
-const HeartrateRef = dbRef('health').collection('heartrate');
-const TemperatureRef = dbRef('health').collection('temperature');
-const WeightRef = dbRef('health').collection('weight');
-const GlucoseRef = dbRef('health').collection('glucose');
-const BreathingRef = dbRef('health').collection('breathing');
-const INRRef = dbRef('health').collection('inr');
-const OxygenRef = dbRef('health').collection('oxygen');
-const ExericesRef = dbRef('health').collection('exercises');
-const OthersRef = dbRef('health').collection('others');
+const PressureRef = dbFirebase.collection('pressure');
+const HeartrateRef = dbFirebase.collection('heartrate');
+const TemperatureRef = dbFirebase.collection('temperature');
+const WeightRef = dbFirebase.collection('weight');
+const GlucoseRef = dbFirebase.collection('glucose');
+const BreathingRef = dbFirebase.collection('breathing');
+const INRRef = dbFirebase.collection('inr');
+const OxygenRef = dbFirebase.collection('oxygen');
+const ExericesRef = dbFirebase.collection('exercises');
+const OthersRef = dbFirebase.collection('others');
 
 const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('pressure')) {

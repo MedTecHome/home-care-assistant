@@ -3,14 +3,14 @@ import getNomenclator from './nomenclators';
 
 const getMedicines = async (limit, offset, filters) => {
   try {
-    return await retriveData('medicine/medicines', limit, offset, filters, 'name', 'asc');
+    return await retriveData('medicines', limit, offset, filters, 'name', 'asc');
   } catch (e) {
     throw new Error(e);
   }
 };
 
 export const getMedicineById = async id => {
-  let result = await retriveDoc(`medicine/medicines/${id}`);
+  let result = await retriveDoc(`medicines/${id}`);
 
   if (result.administrationType) {
     const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);

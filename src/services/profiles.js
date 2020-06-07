@@ -14,7 +14,7 @@ const mutateToClient = ({ birthday, ...rest }) => {
 const getProfiles = async (limit, offset, filters, sort = true) => {
   try {
     const response = await retriveData(
-      'profile/profiles',
+      'profiles',
       limit,
       offset,
       filters,
@@ -29,7 +29,7 @@ const getProfiles = async (limit, offset, filters, sort = true) => {
 
 export const getProfileById = async id => {
   try {
-    const response = await retriveDoc(`profile/profiles/${id}`);
+    const response = await retriveDoc(`profiles/${id}`);
     return mutateToClient(response);
   } catch (e) {
     throw new Error(e);

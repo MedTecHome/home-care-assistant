@@ -3,8 +3,6 @@ import { apiDataLocal } from '../axiosApiRequest';
 import { dbFirebase } from '../firebaseConfig';
 import { mutateDoc, queryFromParams, isLocal } from '../helpers/utils';
 
-const globalPath = 'home-care-assistant';
-
 // eslint-disable-next-line no-unused-vars
 const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
   const query = queryFromParams(filters);
@@ -65,7 +63,7 @@ const setFilters = (Reference, filters) => {
 
 const retriveDataFirebase = async (path, limit = 10, offset = '', filters, field, sort) => {
   try {
-    let dataRef = dbFirebase.collection(`${globalPath}/${path}`);
+    let dataRef = dbFirebase.collection(`${path}`);
     if (field && sort) {
       dataRef = dataRef.orderBy(field, sort);
     }
@@ -87,7 +85,7 @@ const retriveDataFirebase = async (path, limit = 10, offset = '', filters, field
 
 const retriveDocFirebase = async path => {
   try {
-    const doc = await dbFirebase.doc(`${globalPath}/${path}`).get();
+    const doc = await dbFirebase.doc(`${path}`).get();
     if (!doc.data()) throw new Error('El Elemento no existe.');
     return mutateDoc(doc);
   } catch (e) {

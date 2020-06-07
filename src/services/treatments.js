@@ -3,7 +3,7 @@ import { retriveData, retriveDoc } from './utils';
 const getTreatments = async (limit, offset, filters) => {
   try {
     return await retriveData(
-      'treatment/treatments',
+      'treatments',
       limit,
       offset,
       filters,
@@ -16,7 +16,7 @@ const getTreatments = async (limit, offset, filters) => {
 };
 
 export const getTreatmentById = async id => {
-  return retriveDoc(`treatment/treatments/${id}`);
+  return retriveDoc(`treatments/${id}`);
 };
 
 export default getTreatments;

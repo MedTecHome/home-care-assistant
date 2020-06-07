@@ -1,7 +1,7 @@
-import { dbRef } from '../../../firebaseConfig';
+import { dbFirebase } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 
-const MedicinesRef = dbRef('medicine').collection('medicines');
+const MedicinesRef = dbFirebase.collection('medicines');
 
 export const medicineModel = ({
   concentrationCant = '',
