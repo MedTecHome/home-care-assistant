@@ -15,7 +15,13 @@ import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
 import listAccess from '../../../commons/access';
 import { getPropValue } from '../../../helpers/utils';
-import { validateProfile, validateEmail, validatePassword, agreementValidate } from './validateProfile';
+import {
+  validateProfile,
+  validateEmail,
+  validatePassword,
+  agreementValidate,
+  validateLastname
+} from './validateProfile';
 import RoleFieldComponent from '../../fields/RoleFieldComponent';
 import ClinicBlockFieldComponent from '../../fields/ClinicBlockFieldComponent';
 import useCustomStyles from '../../../jss/globalStyles';
@@ -121,6 +127,7 @@ function AddOrEditProfilesComponent({
                         label="Apellidos:"
                         name="lastName"
                         disabled={formType === EDIT_FORM_TEXT}
+                        validate={validateLastname}
                       />
                     </Grid>
                   ) : (
