@@ -7,7 +7,7 @@ const ClinicsComponent = lazy(() => import('../components/Profiles/clinics/Clini
 const DoctorsComponent = lazy(() => import('../components/Profiles/doctors/DoctorsComponent'));
 const PatientsComponent = lazy(() => import('../components/Profiles/patients/PatientsComponent'));
 const MonitoringComponent = lazy(() => import('../components/Monitoring/MonitoringComponent'));
-const HomeComponent = lazy(() => import('../components/HomeComponent'));
+// const HomeComponent = lazy(() => import('../components/HomeComponent'));
 const HomeInfoComponent = lazy(() => import('../components/HomeInfoComponent'));
 const PatientHealthForm = lazy(() => import('../components/MedicalForms/PatientMedicalForm'));
 const PatietHistoryComponentWithContext = lazy(() =>
@@ -22,7 +22,7 @@ const MedicinesComponent = lazy(() => import('../components/Medicines/MedicinesC
 const RouteListConfig = [
   {
     path: '/',
-    redirectTo: HomeComponent,
+    redirectTo: LoginComponent,
     label: 'Home'
   },
   {

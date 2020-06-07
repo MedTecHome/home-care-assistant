@@ -14,12 +14,12 @@ function RoutesComponent() {
           isEmpty(route.roles) ||
           !route.roles ||
           (route.roles && currentUserProfile && route.roles.includes(currentUserProfile.role))
-      ).map(({ path, roles, component }, index) => {
+      ).map(({ path, roles, component, redirectTo }, index) => {
         if (!isEmpty(roles) && roles) {
-          return <PrivateRoutes key={index.toString()} path={path} exact component={component} />;
+          return <PrivateRoutes key={index.toString()} path={path} exact component={component || redirectTo} />;
         }
         // eslint-disable-next-line react/jsx-props-no-spreading
-        return <Route key={index.toString()} {...(path ? { path } : {})} exact component={component} />;
+        return <Route key={index.toString()} {...(path ? { path } : {})} exact component={component || redirectTo} />;
       })}
     </Switch>
   );
