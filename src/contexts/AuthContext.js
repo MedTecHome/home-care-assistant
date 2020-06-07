@@ -57,8 +57,6 @@ export function AuthContextProvider({ children }) {
   const signInUser = useCallback(async ({ username, password }) => {
     const email = `${username}${USERNAME_DOMAIN}`;
 
-    console.log(email);
-
     try {
       return await authFirebase.signInWithEmailAndPassword(email, password);
     } catch (e) {
