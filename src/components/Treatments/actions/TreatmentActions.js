@@ -1,8 +1,8 @@
-import { dbRef } from '../../../firebaseConfig';
+import { dbFirebase } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import mutateTreatmentValues from './mutations';
 
-const TreatmentRef = dbRef('treatment').collection('treatments');
+const TreatmentRef = dbFirebase.collection('treatments');
 
 const addValues = async ({ id, ...values }) => {
   const result = await mutateTreatmentValues(values);

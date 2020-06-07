@@ -1,9 +1,9 @@
 import moment from 'moment';
 import { apiData } from '../../../axiosApiRequest';
-import { dbRef } from '../../../firebaseConfig';
+import { dbFirebase } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
 
-const profilesRef = dbRef('profile').collection('profiles');
+const profilesRef = dbFirebase.collection('profiles');
 
 const mutateValues = async ({
   birthday,

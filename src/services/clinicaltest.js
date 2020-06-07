@@ -5,7 +5,7 @@ const getPressure = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'pressure');
     const result = await retriveData(
-      'health/pressure',
+      'pressure',
       limit,
       offset,
       filters,
@@ -22,7 +22,7 @@ const getHeartrate = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'heartrate');
     const result = await retriveData(
-      'health/heartrate',
+      'heartrate',
       limit,
       offset,
       filters,
@@ -39,7 +39,7 @@ const getTemperature = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'temperature');
     const result = await retriveData(
-      'health/temperature',
+      'temperature',
       limit,
       offset,
       filters,
@@ -55,7 +55,7 @@ const getWeight = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'weight');
     const result = await retriveData(
-      'health/weight',
+      'weight',
       limit,
       offset,
       filters,
@@ -71,7 +71,7 @@ const getGlucose = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'glucose');
     const result = await retriveData(
-      'health/glucose',
+      'glucose',
       limit,
       offset,
       filters,
@@ -88,7 +88,7 @@ const getBreathing = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'breathing');
     const result = await retriveData(
-      'health/breathing',
+      'breathing',
       limit,
       offset,
       filters,
@@ -105,7 +105,7 @@ const getOxygen = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'oxygen');
     const result = await retriveData(
-      'health/oxygen',
+      'oxygen',
       limit,
       offset,
       filters,
@@ -122,7 +122,7 @@ const getExercises = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'exercises');
     const result = await retriveData(
-      'health/exercises',
+      'exercises',
       limit,
       offset,
       filters,
@@ -139,7 +139,7 @@ const getINR = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'inr');
     const result = await retriveData(
-      'health/inr',
+      'inr',
       limit,
       offset,
       filters,
@@ -156,7 +156,7 @@ const getOthers = async (limit, offset, filters) => {
   try {
     const type = testFormsNames.find(tf => tf.id === 'others');
     const result = await retriveData(
-      'health/others',
+      'others',
       limit,
       offset,
       filters,
