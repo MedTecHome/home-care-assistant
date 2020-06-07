@@ -38,8 +38,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "env-cmd -e develop react-scripts build",
-    "build:dev": "env-cmd -e master react-scripts build",
+    "build:dev": "env-cmd -e develop react-scripts build",
+    "build": "env-cmd -e master react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "check-eslint-config": "eslint --print-config src/index.js | eslint-config-prettier-check",
