@@ -53,8 +53,8 @@ const editValuesAction = async ({ id, ...values }) => {
 };
 
 const deleteValuesAction = async ({ id }) => {
-  await apiData.post('/deleteUser', { userId: id });
   await profilesRef.doc(id).delete();
+  await apiData.post('/deleteUser', { userId: id });
 };
 
 const saveProfileValuesAction = async (values, formType) => {
