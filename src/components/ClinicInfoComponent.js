@@ -74,7 +74,7 @@ function ClinicInfoComponent() {
 
   return (
     <>
-      {isLogin && (isClinic || isDoctor || isPatient) ? (
+      {isLogin && (isClinic || isDoctor || isPatient) && clinicInfo ? (
         <List className={classes.root}>
           <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
