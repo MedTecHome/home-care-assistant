@@ -3,6 +3,7 @@ import moment from 'moment';
 import firebase from '../firebaseConfig';
 
 export const isLocal = process.env.REACT_APP_DEVELOPMENT === 'local';
+export const reactDB = process.env.REACT_APP_DB;
 
 export const isEmpty = value => {
   const type = Object.prototype.toString.call(value);

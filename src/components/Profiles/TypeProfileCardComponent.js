@@ -77,7 +77,7 @@ function TypeProfileCardComponent({
           <Grid item xs={4}>
             <div>
               <Typography component="div" className={classes.itemListContentPrimary}>
-                {(getPropValue(profile, 'role') === 'patient' && profile.birthday && (
+                {(getPropValue(profile, 'role') === 'patient' && getPropValue(profile, 'birthday') && (
                   <>
                     Nació: <strong>{getPropValue(profile, 'birthday') || ''}</strong>
                   </>

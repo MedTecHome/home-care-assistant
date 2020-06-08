@@ -17,8 +17,8 @@ const mutateValues = async ({
 }) => ({
   sname,
   secondaryPhone,
-  ...(maxDoctors ? { maxDoctors } : {}),
-  ...(maxPatients ? { maxPatients } : {}),
+  ...(maxDoctors ? { maxDoctors: parseInt(maxDoctors, 10) } : {}),
+  ...(maxPatients ? { maxPatients: parseInt(maxPatients, 10) } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   ...(birthday ? { birthday: moment(birthday).toDate() } : {}),
   parent: parent || null,
