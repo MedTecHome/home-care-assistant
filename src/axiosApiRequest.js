@@ -5,7 +5,8 @@ const apiEmail = axios.create({
 });
 
 const apiData = axios.create({
-  baseURL: 'https://us-central1-test1-6f25a.cloudfunctions.net/api'
+  // baseURL: 'https://us-central1-test1-6f25a.cloudfunctions.net/api' //develop
+  baseURL: 'https://us-central1-homecareview-blaze.cloudfunctions.net/api' // production
 });
 
 const apiDataLocal = axios.create({
