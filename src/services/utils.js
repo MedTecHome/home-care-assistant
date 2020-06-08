@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { apiDataLocal } from '../axiosApiRequest';
 import { dbFirebase } from '../firebaseConfig';
-import { mutateDoc, queryFromParams, isLocal, reactDB } from '../helpers/utils';
+import { mutateDoc, queryFromParams, reactDB } from '../helpers/utils';
 
 // eslint-disable-next-line no-unused-vars
 const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
