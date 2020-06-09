@@ -16,7 +16,9 @@ function TextFromProfileComponent({
 
   useEffect(() => {
     getProfileById(profileId).then(result => {
-      setProfileDetails(result);
+      if (result) {
+        setProfileDetails(result);
+      }
     });
   }, [profileId]);
 

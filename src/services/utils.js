@@ -1,9 +1,7 @@
 import moment from 'moment';
 import { apiDataLocal } from '../axiosApiRequest';
 import { dbFirebase } from '../firebaseConfig';
-import { mutateDoc, queryFromParams, isLocal } from '../helpers/utils';
-
-console.log(isLocal);
+import { mutateDoc, queryFromParams, reactDB } from '../helpers/utils';
 
 // eslint-disable-next-line no-unused-vars
 const retriveDataApi = async (path, limit = 10, offset = '', filters, field, sort) => {
@@ -88,14 +86,14 @@ const retriveDataFirebase = async (path, limit = 10, offset = '', filters, field
 const retriveDocFirebase = async path => {
   try {
     const doc = await dbFirebase.doc(`${path}`).get();
-    if (!doc.data()) throw new Error('El Elemento no existe.');
+    if (!doc.exists) return null;
     return mutateDoc(doc);
   } catch (e) {
     throw new Error(e);
   }
 };
 
-const retriveData = isLocal ? retriveDataApi : retriveDataFirebase;
-const retriveDoc = isLocal ? retriveDocApi : retriveDocFirebase;
+const retriveData = reactDB === 'local' ? retriveDataApi : retriveDataFirebase;
+const retriveDoc = reactDB === 'local' ? retriveDocApi : retriveDocFirebase;
 
 export { retriveData, retriveDoc };
