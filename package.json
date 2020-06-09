@@ -37,6 +37,7 @@
     "uuid4": "^1.1.4"
   },
   "scripts": {
+    "start:normal": "env-cmd -e normal react-scripts start",
     "start:local:api": "env-cmd -e localapi react-scripts start",
     "start:local:firebase": "env-cmd -e localfirebase react-scripts start",
     "build:dev": "env-cmd -e develop react-scripts build",

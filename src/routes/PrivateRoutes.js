@@ -10,12 +10,7 @@ const PrivateRoutes = ({ path, component, exact }) => {
 
   useEffect(() => {
     if (!isLocal && !currentUser) {
-      const urlSearchParams = new URLSearchParams();
-      urlSearchParams.set('toUrl', pathname);
-      history.push({
-        pathname: '/Login',
-        search: urlSearchParams.toString()
-      });
+      history.push('/login');
     }
   }, [currentUser, history, pathname]);
 

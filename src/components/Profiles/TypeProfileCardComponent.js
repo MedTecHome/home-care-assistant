@@ -38,7 +38,7 @@ function TypeProfileCardComponent({
   const up450 = useMediaQuery(theme => theme.breakpoints.up(450));
 
   useState(() => {
-    const logoUrl = profile.role === 'clinic' ? profile.logoUrl : '';
+    const logoUrl = profile.role === 'clinic' ? profile.logoUrl : 'none';
     storageFirebase
       .ref()
       .child(logoUrl)
