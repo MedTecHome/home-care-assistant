@@ -32,7 +32,7 @@ const RouteListConfig = [
     roles: ['admin', 'clinic', 'doctor', 'patient']
   },
   {
-    path: '/Login',
+    path: '/login',
     component: LoginComponent,
     label: 'Login'
   },

@@ -3,11 +3,11 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
-const deploy = process.env.REACT_APP_BRANCH_DEPLOY;
+export const BRANCH_DEPLOY = process.env.REACT_APP_BRANCH_DEPLOY;
 
 let firebaseConfig;
 
-if (deploy === 'develop') {
+if (BRANCH_DEPLOY === 'develop') {
   firebaseConfig = {
     apiKey: 'AIzaSyCvb5QM0mEXHKBsOOWzolWGZkiHz0HDhDo',
     authDomain: 'test1-6f25a.firebaseapp.com',
@@ -18,7 +18,7 @@ if (deploy === 'develop') {
     appId: '1:901614831919:web:0b419b8275a0b987ad79da',
     measurementId: 'G-B9SMXLR3TQ'
   };
-} else if (deploy === 'master') {
+} else if (BRANCH_DEPLOY === 'master') {
   firebaseConfig = {
     apiKey: 'AIzaSyDBKeMairY4huJmD-8BTSFdYqyw-QYMEUM',
     authDomain: 'homecareview-blaze.firebaseapp.com',

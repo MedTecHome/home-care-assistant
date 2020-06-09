@@ -1,5 +1,7 @@
+import { BRANCH_DEPLOY } from '../helpers/utils';
+
 export const NAME_APP = 'HomeCare-View';
-export const USERNAME_DOMAIN = '@homecareview.com';
+export const USERNAME_DOMAIN = BRANCH_DEPLOY === 'develop' ? '@homecareassistant.com' : '@homecareview.com';
 
 /** text reducers actions */
 export const SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE';
