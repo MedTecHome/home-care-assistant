@@ -13,7 +13,7 @@ import Menu from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { useMediaQuery } from '@material-ui/core';
 import IconMenu from '@material-ui/icons/Menu';
-import logo from '../images/homeCareView1.png';
+import logo from '../images/HomeCareView.png';
 import { useAuthContext } from '../contexts/AuthContext';
 import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationComponent';
 import { isLocal } from '../helpers/utils';
