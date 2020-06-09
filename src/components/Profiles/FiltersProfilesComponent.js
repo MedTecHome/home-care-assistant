@@ -17,7 +17,7 @@ function FiltersProfileComponent({ onClickAdd }) {
 
   return (
     <div className={classes.root}>
-      <Grid container justify="space-between" alignItems="flex-end">
+      <Grid container spacing={1} justify="space-between" alignItems="flex-end">
         <Grid item xs={12} sm={3} md={3}>
           <AddButtonIcon onClick={onClickAdd} size={match ? '2x' : 'lg'} />
         </Grid>

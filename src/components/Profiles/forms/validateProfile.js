@@ -5,7 +5,8 @@ import {
   REGEX_POSITIVE_NUMBER_AND_DECIMAL,
   REQUIRED_FIELD,
   REGEX_PHONE,
-  REGEX_ONLY_ALPHANUMERIC_AND_DOT
+  REGEX_ONLY_ALPHANUMERIC_AND_DOT,
+  INVALID_PHONE_NUMBER
 } from '../../../commons/globalText';
 import getProfiles from '../../../services/profiles';
 
@@ -30,12 +31,12 @@ const validateProfile = values => {
   }
   if (values.primaryPhone) {
     if (!REGEX_PHONE.test(values.primaryPhone)) {
-      errors.primaryPhone = 'Numero de telefono no valido';
+      errors.primaryPhone = INVALID_PHONE_NUMBER;
     }
   }
   if (values.secondaryPhone) {
     if (!REGEX_PHONE.test(values.secondaryPhone)) {
-      errors.secondaryPhone = 'Numero de telefono no valido';
+      errors.secondaryPhone = INVALID_PHONE_NUMBER;
     }
   }
   if (!values.username) {

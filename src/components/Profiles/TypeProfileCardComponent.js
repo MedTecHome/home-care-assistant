@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, ListItem, useMediaQuery, Typography, makeStyles, Grid } from '@material-ui/core';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
@@ -7,6 +7,7 @@ import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import { getPropValue } from '../../helpers/utils';
 import PopoverComponent from '../containers/PopoverComponent';
+import { storageFirebase } from '../../firebaseConfig';
 
 const useStyles = makeStyles({
   itemList: {
@@ -31,9 +32,22 @@ function TypeProfileCardComponent({
   handleOnClickDelete,
   isSuperadmin
 }) {
+  const [logo, setLogo] = useState('');
   const localClass = useStyles();
   const up600 = useMediaQuery(theme => theme.breakpoints.up(600));
   const up450 = useMediaQuery(theme => theme.breakpoints.up(450));
+
+  useState(() => {
+    const logoUrl = profile.role === 'clinic' ? profile.logoUrl : '';
+    storageFirebase
+      .ref()
+      .child(logoUrl)
+      .getDownloadURL()
+      .then(url => {
+        setLogo(url);
+      });
+  }, [profile.logoUrl]);
+
   return (
     <ListItem
       key={profile.id}
@@ -44,7 +58,7 @@ function TypeProfileCardComponent({
       divider
     >
       <div className={localClass.avatarInCard}>
-        <Avatar alt={profile.name} />
+        <Avatar alt={profile.name} src={logo} />
       </div>
       <Grid container alignItems="flex-start" spacing={1} justify="space-between" direction="row">
         <Grid item xs={12} sm={4}>
@@ -84,7 +98,11 @@ function TypeProfileCardComponent({
                 )) ||
                   (getPropValue(profile, 'role') === 'clinic' && (
                     <>
-                      Max. Doctores: <strong>{getPropValue(profile, 'maxDoctors')}</strong>
+                      Max. Doctores:{' '}
+                      <strong>{`${getPropValue(profile, 'realDoctors')}/${getPropValue(
+                        profile,
+                        'maxDoctors'
+                      )}`}</strong>
                     </>
                   ))}
               </Typography>
@@ -102,10 +120,18 @@ function TypeProfileCardComponent({
           <Grid item xs={12} sm={4}>
             <div>
               <Typography className={classes.itemListContentPrimary}>
-                Correo: {profile.email && <strong>{profile.email}</strong>}
+                Correo: <strong> {profile.email && profile.emailVisible ? profile.email : '-'}</strong>
               </Typography>
               <Typography className={classes.itemListContentPrimary}>
-                Teléfono: {profile.primaryPhone && <strong>{profile.primaryPhone}</strong>}
+                Teléfono:{' '}
+                <strong>
+                  {[
+                    profile.phoneVisible ? profile.primaryPhone : null,
+                    profile.phoneSecondaryVisible ? profile.secondaryPhone : null
+                  ]
+                    .filter(phone => !!phone)
+                    .join(',') || '-'}
+                </strong>
               </Typography>
             </div>
           </Grid>

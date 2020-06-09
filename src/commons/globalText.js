@@ -14,15 +14,17 @@ export const REGEX_EMAIL_ADDRESS = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 export const REGEX_POSITIVE_NUMBER = /^\d*[1-9]\d*$/;
 export const REGEX_POSITIVE_NUMBER_AND_DECIMAL = /^\d*\.?\d*$/;
 export const REGEX_ALPHANUMERIC_AND_SPACE = /^[-\w\s]+$/;
-export const REGEX_PHONE = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s.]{0,1}[0-9]{3}[-\s.]{0,1}[0-9]{4}$/;
+// export const REGEX_PHONE = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s.]{0,1}[0-9]{3}[-\s.]{0,1}[0-9]{4}$/;
+export const REGEX_PHONE = /^[a-zA-Z0-9\-().\s]{10,15}$/;
 export const REGEX_ONLY_ALPHA = /^[a-zA-Z\s]+$/;
 export const REGEX_ONLY_ALPHANUMERIC = /^[a-zA-Z0-9]+$/;
 export const REGEX_ONLY_ALPHANUMERIC_AND_DOT = /^[a-zA-Z0-9]*(?:\.[a-z]+)*$/;
-export const INVALID_EMAIL_ADDRESS = 'Formato de correo no valido.';
-export const INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT = 'Formato no valido para numeros positivos.';
-export const INVALID_WEIRD_CHARACTERS_ON_TEXT = 'Texto no valido';
+export const INVALID_PHONE_NUMBER = ' Número de teléfono no válido.';
+export const INVALID_EMAIL_ADDRESS = 'Formato de correo no válido.';
+export const INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT = 'Formato no válido para números positivos.';
+export const INVALID_WEIRD_CHARACTERS_ON_TEXT = 'Texto no válido';
 export const REQUIRED_FIELD = 'Este campo es obligatorio.';
-export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada';
+export const PASSWORD_MISMATCH = 'No coincide con la contraseña antes ingresada.';
 
 /** message types */
 
