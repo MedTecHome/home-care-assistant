@@ -26,6 +26,7 @@ function Routers() {
       <RouteService />
       <HeaderComponent />
       <ClinicInfoComponent />
+
       <Container className={classes.mainContainer} maxWidth="lg">
         <Suspense fallback={<div>loading...</div>}>
           <RoutesComponent />
