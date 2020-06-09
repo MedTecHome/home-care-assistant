@@ -28,7 +28,7 @@ const mutateValues = async ({
 
 const addValuesAction = async ({ id, email, password, username, ...values }) => {
   const mutations = await mutateValues(values);
-  const result = { ...values, ...mutations };
+  const result = { ...values, ...mutations, ...(mutations.role === 'clinic' ? { realDoctors: 0 } : {}) };
   const response = await apiData.post('/createUser', {
     username: `${username}${USERNAME_DOMAIN}`,
     password,
