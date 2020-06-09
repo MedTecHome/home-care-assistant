@@ -148,6 +148,9 @@ function AddOrEditProfilesComponent({
                   <Grid item xs={8}>
                     <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" />
                   </Grid>
+                  <Grid item xs={4}>
+                    <CheckboxesFieldComponent label="Visible" namee="phoneSecondaryVisible" />
+                  </Grid>
                   {['patient', 'clinic'].includes(getPropValue(values, 'role')) ? (
                     <Grid item xs={12} sm={8}>
                       <CustomTextFieldComponent name="address" label="Dirección" />
