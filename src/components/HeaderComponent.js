@@ -46,7 +46,7 @@ function HeaderComponent({ history }) {
   const isLogin = isLocal ? true : !!currentUser;
 
   const handleClickLogin = () => {
-    history.push('/Login');
+    history.push('/login');
   };
 
   const handleClick = event => {
