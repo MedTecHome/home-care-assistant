@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
-import { getPropValue } from '../../helpers/utils';
+import { getPropValue, isEmpty } from '../../helpers/utils';
 import PopoverComponent from '../containers/PopoverComponent';
 import { storageFirebase } from '../../firebaseConfig';
 
@@ -20,6 +20,9 @@ const useStyles = makeStyles({
   actionContent: {
     margin: 'auto',
     display: 'grid'
+  },
+  addressText: {
+    maxWidth: 300
   }
 });
 
@@ -38,14 +41,16 @@ function TypeProfileCardComponent({
   const up450 = useMediaQuery(theme => theme.breakpoints.up(450));
 
   useState(() => {
-    const logoUrl = profile.role === 'clinic' ? profile.logoUrl : 'none';
-    storageFirebase
-      .ref()
-      .child(logoUrl)
-      .getDownloadURL()
-      .then(url => {
-        setLogo(url);
-      });
+    const logoUrl = profile.role === 'clinic' ? profile.logoUrl : '';
+    if (!isEmpty(logoUrl)) {
+      storageFirebase
+        .ref()
+        .child(logoUrl)
+        .getDownloadURL()
+        .then(url => {
+          setLogo(url);
+        });
+    }
   }, [profile.logoUrl]);
 
   return (
@@ -72,7 +77,7 @@ function TypeProfileCardComponent({
               </Typography>
             )}
             {['clinic', 'patient'].includes(getPropValue(profile, 'role')) ? (
-              <Typography component="div" className={clsx(classes.itemListContentPrimary)}>
+              <Typography component="div" className={clsx(classes.itemListContentPrimary, localClass.addressText)}>
                 {profile.address ? (
                   <PopoverComponent
                     header="Dirección"
@@ -93,7 +98,11 @@ function TypeProfileCardComponent({
               <Typography component="div" className={classes.itemListContentPrimary}>
                 {(getPropValue(profile, 'role') === 'patient' && getPropValue(profile, 'birthday') && (
                   <>
-                    Nació: <strong>{getPropValue(profile, 'birthday') || ''}</strong>
+                    Nació:{' '}
+                    <strong>
+                      {(getPropValue(profile, 'birthday') && getPropValue(profile, 'birthday').format('DD-MM-YYYY')) ||
+                        ''}
+                    </strong>
                   </>
                 )) ||
                   (getPropValue(profile, 'role') === 'clinic' && (
