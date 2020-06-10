@@ -15,7 +15,7 @@ function PatientsFieldComponent({ formType }) {
   const { isAdmin } = useAuthContext();
   return (
     <>
-      <Grid item xs={12} sm={8}>
+      <Grid item xs={12}>
         <KeyboardDatePicker
           required
           disabled={formType === EDIT_FORM_TEXT}
@@ -34,8 +34,7 @@ function PatientsFieldComponent({ formType }) {
           }}
         />
       </Grid>
-      <Grid item xs={4} />
-      <Grid item xs={8} sm={4}>
+      <Grid item xs={6}>
         <SexFieldComponent
           className={classes.formControl}
           name="sex"
@@ -44,7 +43,7 @@ function PatientsFieldComponent({ formType }) {
           disabled={formType === EDIT_FORM_TEXT}
         />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <CustomTextFieldComponent
           validate={validateHeight}
           name="height"

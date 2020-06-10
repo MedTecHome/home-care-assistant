@@ -4,9 +4,9 @@ import { retriveData, retriveDoc } from './utils';
 const mutateToClient = ({ birthday, ...rest }) => {
   let bt;
   if (moment(birthday).isValid()) {
-    bt = moment(birthday).format('DD-MM-YYYY');
+    bt = moment(birthday);
   } else if (moment(birthday.toDate()).isValid()) {
-    bt = moment(birthday.toDate()).format('DD-MM-YYYY');
+    bt = moment(birthday.toDate());
   }
   return { ...rest, ...(birthday ? { birthday: bt } : {}) };
 };
