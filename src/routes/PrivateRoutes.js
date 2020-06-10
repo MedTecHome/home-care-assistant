@@ -8,11 +8,13 @@ const PrivateRoutes = ({ path, component, exact }) => {
   const history = useHistory();
   const { currentUser } = useAuthContext();
 
+  const isLogin = isLocal ? true : !!currentUser;
+
   useEffect(() => {
-    if (!isLocal && !currentUser) {
+    if (!isLogin) {
       history.push('/login');
     }
-  }, [currentUser, history, pathname]);
+  }, [isLogin, history, pathname]);
 
   return <Route history={history} path={path} component={component} exact={exact} />;
 };

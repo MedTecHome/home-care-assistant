@@ -6,6 +6,7 @@ import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { storageFirebase } from '../../firebaseConfig';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
+import { isEmpty } from '../../helpers/utils';
 
 const useStyles = makeStyles(theme => ({
   customUploadButton: {
@@ -29,23 +30,23 @@ function ClinicBlockFieldComponent({ setLogoUrl, defaultLogo }) {
   const classes = useStyles();
 
   const handleUploadSuccess = filename => {
-    setlogoname(filename);
-    storageFirebase
-      .ref()
-      .child(filename)
-      .getDownloadURL()
-      .then(url => {
-        setDownloadUrl(url);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (!isEmpty(filename)) {
+      setlogoname(filename);
+      storageFirebase
+        .ref()
+        .child(filename)
+        .getDownloadURL()
+        .then(url => {
+          setDownloadUrl(url);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   useEffect(() => {
-    if (defaultLogo) {
-      handleUploadSuccess(defaultLogo);
-    }
+    handleUploadSuccess(defaultLogo);
   }, [defaultLogo]);
 
   useEffect(() => {
