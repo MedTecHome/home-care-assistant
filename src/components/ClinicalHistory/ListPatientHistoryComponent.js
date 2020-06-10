@@ -117,7 +117,6 @@ function ListPatientHistoryComponent({
                 </ListItemSecondaryAction>
               </ListItem>
             ))}
-            ;
           </List>
           <PaginationComponent
             total={total}
