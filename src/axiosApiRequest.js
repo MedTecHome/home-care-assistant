@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BRANCH_DEPLOY } from './firebaseConfig';
 
 const apiEmail = axios.create({
   baseURL: 'htt://api.'
@@ -6,7 +7,10 @@ const apiEmail = axios.create({
 
 const apiData = axios.create({
   // baseURL: 'https://us-central1-test1-6f25a.cloudfunctions.net/api' //develop
-  baseURL: 'https://us-central1-homecareview-blaze.cloudfunctions.net/api' // production
+  baseURL:
+    BRANCH_DEPLOY === 'develop'
+      ? 'https://us-central1-test1-6f25a.cloudfunctions.net/api'
+      : 'https://us-central1-homecareview-blaze.cloudfunctions.net/api'
 });
 
 const apiDataLocal = axios.create({
