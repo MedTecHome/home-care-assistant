@@ -105,7 +105,7 @@ const PatientMedicalForm = () => {
                     if (!invalid) handleSubmit(event);
                   }}
                 >
-                  <Grid container spacing={4} justify={'center'}>
+                  <Grid container spacing={4} justify="center">
                     {selectedForms.includes('pressure') && (
                       <Grid item xs={12} md={10}>
                         <PressureForm classStyle={classes} />
