@@ -11,6 +11,17 @@ function RowMonitoringComponent({ row, selectRow }) {
     selectRow(id);
   };
 
+  const colorPressure = healthyStandards.pressure(
+    getPropValue(row, 'pressure.sistolica'),
+    getPropValue(row, 'pressure.diastolica')
+  );
+
+  const colortHeartbeat = healthyStandards.pressure(getPropValue(row, 'oxygen.heartbeat'));
+  const colorWeight = healthyStandards.weight(getPropValue(row, 'user.height'), getPropValue(row, 'weight.weight'));
+  const colorGlucose = healthyStandards.glucose(getPropValue(row, 'glucose.sugarConcentration'));
+  const colorTemperature = healthyStandards.temperature(getPropValue(row, 'temperature.celsiusDegree'));
+  const colorInr = healthyStandards.inr(getPropValue(row, 'inr.INR'));
+
   return (
     <TableRow onClick={() => handleRowSelect(row.id)}>
       <TableCell>
@@ -28,58 +39,53 @@ function RowMonitoringComponent({ row, selectRow }) {
       </TableCell>
       <TableCell align="center">{getPropValue(row, 'user.age') || '-'}</TableCell>
       <TableCell align="center">
-        <Typography>{moment.unix(row.latestDate).format('DD/MM/YYYY') || '-'}</Typography>
+        <Typography>
+          {moment.unix(row.latestDate).isValid() ? moment.unix(row.latestDate).format('DD/MM/YYYY') : '-'}
+        </Typography>
       </TableCell>
       <TableCell
         align="center"
         style={{
-          color: healthyStandards.pressure(
-            getPropValue(row, 'pressure.sistolica'),
-            getPropValue(row, 'pressure.diastolica')
-          ).A700,
-          backgroundColor: healthyStandards.pressure(
-            getPropValue(row, 'pressure.sistolica'),
-            getPropValue(row, 'pressure.diastolica')
-          )[200]
+          color: colorPressure ? colorPressure.A700 : 'inherit',
+          backgroundColor: colorPressure ? colorPressure[200] : 'inherit'
         }}
-      >{`${getPropValue(row, 'pressure.sistolica') || '-'}/${getPropValue(row, 'pressure.diastolica')}`}</TableCell>
+      >{`${getPropValue(row, 'pressure.sistolica') || '-'}/${
+        getPropValue(row, 'pressure.diastolica') || '-'
+      }`}</TableCell>
       <TableCell
         align="center"
         style={{
-          color: healthyStandards.pressure(getPropValue(row, 'oxygen.heartbeat')).A700,
-          backgroundColor: healthyStandards.pressure(getPropValue(row, 'oxygen.heartbeat'))[200]
+          color: colortHeartbeat ? colortHeartbeat.A700 : 'inherit',
+          backgroundColor: colortHeartbeat ? colortHeartbeat[200] : 'inherit'
         }}
       >{`${getPropValue(row, 'oxygen.heartbeat') || '-'}`}</TableCell>
       <TableCell
         align="center"
         style={{
-          color: healthyStandards.weight(getPropValue(row, 'user.height'), getPropValue(row, 'weight.weight')).A700,
-          backgroundColor: healthyStandards.weight(
-            getPropValue(row, 'user.height'),
-            getPropValue(row, 'weight.weight')
-          )[200]
+          color: colorWeight ? colorWeight.A700 : 'inherit',
+          backgroundColor: colorWeight ? colorWeight[200] : 'inherit'
         }}
       >{`${getPropValue(row, 'weight.weight') || '-'}`}</TableCell>
       <TableCell
         align="center"
         style={{
-          color: healthyStandards.glucose(getPropValue(row, 'glucose.sugarConcentration')).A700,
-          backgroundColor: healthyStandards.glucose(getPropValue(row, 'glucose.sugarConcentration'))[200]
+          color: colorGlucose ? colorGlucose.A700 : 'inherit',
+          backgroundColor: colorGlucose ? colorGlucose[200] : 'inherit'
         }}
       >{`${getPropValue(row, 'glucose.sugarConcentration') || '-'}`}</TableCell>
       <TableCell
         align="center"
         style={{
-          color: healthyStandards.temperature(getPropValue(row, 'temperature.celsiusDegree')).A700,
-          backgroundColor: healthyStandards.temperature(getPropValue(row, 'temperature.celsiusDegree'))[200]
+          color: colorTemperature ? colorTemperature.A700 : 'inherit',
+          backgroundColor: colorTemperature ? colorTemperature[200] : 'inherit'
         }}
       >{`${getPropValue(row, 'temperature.celsiusDegree') || '-'}`}</TableCell>
       <TableCell align="center">{`${getPropValue(row, 'exercises.steps') || '-'}`}</TableCell>
       <TableCell
         align="center"
         style={{
-          color: healthyStandards.inr(getPropValue(row, 'inr.INR')).A700,
-          backgroundColor: healthyStandards.inr(getPropValue(row, 'inr.INR'))[200]
+          color: colorInr ? colorInr.A700 : 'inherit',
+          backgroundColor: colorInr ? colorInr[200] : 'inherit'
         }}
       >{`${getPropValue(row, 'inr.INR') || '-'}`}</TableCell>
 

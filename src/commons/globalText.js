@@ -6,10 +6,10 @@ export const USERNAME_DOMAIN = BRANCH_DEPLOY === 'develop' ? '@homecareassistant
 /** text reducers actions */
 export const SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE';
 
-export const ADD_FORM_TEXT = 'ADD_FORM_TEXT';
-export const EDIT_FORM_TEXT = 'EDIT_FORM_TEXT';
-export const DELETE_FORM_TEXT = 'DELETE_FORM_TEXT';
-export const DETAILS_FORM_TEXT = 'DETAILS_FORM_TEXT';
+export const ADD_FORM_TEXT = 'Adicionar';
+export const EDIT_FORM_TEXT = 'Editar';
+export const DELETE_FORM_TEXT = 'Eliminar';
+export const DETAILS_FORM_TEXT = 'Detalles';
 
 /** validator text */
 export const REGEX_EMAIL_ADDRESS = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;

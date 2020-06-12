@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, ListItem, useMediaQuery, Typography, makeStyles, Grid } from '@material-ui/core';
+import { Avatar, ListItem, Typography, makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';

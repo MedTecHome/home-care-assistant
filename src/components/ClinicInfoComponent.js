@@ -88,7 +88,13 @@ function ClinicInfoComponent() {
             <Collapse className={classes.collapseItem} in={open} component={Container} maxWidth="sm">
               <div className={classes.collapseContent}>
                 <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
-                <Typography>Teléfono: {getPropValue(clinicInfo, 'primaryPhone')}</Typography>
+                <Typography>
+                  Teléfonos:{' '}
+                  {[getPropValue(clinicInfo, 'primaryPhone'), getPropValue(clinicInfo, 'primaryPhone')]
+                    .filter(tel => !!tel)
+                    .map()
+                    .join(', ')}
+                </Typography>
               </div>
             </Collapse>
           </ListItem>

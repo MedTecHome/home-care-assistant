@@ -13,15 +13,11 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getProfiles(
-      5,
-      {},
-      {
-        role: 'patient',
-        parent: doctor,
-        ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
-      }
-    ).then(res => setProfiles(res.data));
+    getProfiles(5, 0, {
+      role: 'patient',
+      parent: doctor,
+      ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
+    }).then(res => setProfiles(res.data));
   }, [filterRole, filterNameMemoize, doctor]);
 
   const handleInputChange = event => {

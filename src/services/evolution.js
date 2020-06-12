@@ -8,22 +8,14 @@ const getEvolutionTreatments = async ({ rangeDate, user = 'none', ...rest }) => 
     if (rangeDate && rangeDate.length === 2) {
       const rDate = rangeDate.map(date => date.unix());
       const filters = { user, ...rest };
-      const response1 = await getTreatments(
-        365,
-        {},
-        {
-          ...filters,
-          startDate: rDate
-        }
-      );
-      const response2 = await getTreatments(
-        365,
-        {},
-        {
-          ...filters,
-          endDate: rDate
-        }
-      );
+      const response1 = await getTreatments(365, 0, {
+        ...filters,
+        startDate: rDate
+      });
+      const response2 = await getTreatments(365, 0, {
+        ...filters,
+        endDate: rDate
+      });
 
       const response = response1.data.concat(response2.data).filter(
         (thing, index, self) =>

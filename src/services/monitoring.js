@@ -1,31 +1,8 @@
-import getProfiles from './profiles';
-import { getClinicalTests } from './clinicaltest';
+import { retriveData } from './utils';
 
 const getMonitoring = async (limit, page, filters) => {
   try {
-    const profiles = await getProfiles(limit, page, filters);
-    const resultList = profiles.data.map(async item => {
-      const clinicalTest = await getClinicalTests(1, 0, { user: item.id });
-
-      let result = { user: item };
-      const aux = clinicalTest.data.sort((a, b) => {
-        const c = a.clinicalDate;
-        const d = b.clinicalDate;
-        return d - c;
-      });
-
-      aux.map(tst => {
-        result = {
-          ...result,
-          [tst.type.id]: tst,
-          latestDate: aux[0].clinicalDate
-        };
-        return null;
-      });
-      return result;
-    });
-    const data = await Promise.all(resultList);
-    return { ...profiles, data };
+    return await retriveData('monitoring', limit, page, filters);
   } catch (e) {
     throw new Error(e);
   }

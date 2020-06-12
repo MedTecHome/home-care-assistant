@@ -17,7 +17,7 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } fr
 function TreatmentsComponent({ patient }) {
   const { pageSize, page } = useCustomPaginationContext();
   const {
-    listTreatments,
+    list,
     total,
     modalVisible,
     setParams,
@@ -69,7 +69,7 @@ function TreatmentsComponent({ patient }) {
         disableElevation
         headCells={treatmentsHeadCells}
         loadingList={loadingList}
-        list={listTreatments}
+        list={list}
         setModalVisible={setModalVisible}
         selected={selected}
         render={(row, index) => (

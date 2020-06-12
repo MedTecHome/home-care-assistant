@@ -25,7 +25,6 @@ import { getMedicineById } from '../../../services/medicines';
 const useStyles = makeStyles({
   root: {
     backgroundColor: '#f5f5f6',
-    padding: 16,
     borderRadius: 4
   }
 });
@@ -43,6 +42,8 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   const handleSubmit = values => {
     onSubmit(medicineModel(values));
   };
+
+  console.log(selected);
 
   return (
     <div className={classes.root}>
@@ -112,9 +113,6 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
                     }}
                   >
                     <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <CustomTextFieldComponent variant="outlined" label="Motivo de tratamiento" name="name" />
-                      </Grid>
                       <Grid item xs={12}>
                         <ProfileFieldComponent
                           required

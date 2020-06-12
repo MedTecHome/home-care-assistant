@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback, useState, Suspense } from 'react';
 import {
   TableRow,
   TableCell,
@@ -20,8 +20,11 @@ import { DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../containers/fieldset';
-import { getPropValue } from '../../helpers/utils';
+import { getPropValue, isEmpty } from '../../helpers/utils';
 import TextFromProfileComponent from '../text/TextFromProfileComponent';
+import { AsyncDosis } from '../text/AsyncNomenclatorText';
+import AsyncMedicineText from '../text/AsyncMedicineText';
+import { getMedicineById } from '../../services/medicines';
 
 const useStyles = makeStyles({
   root: {
@@ -71,9 +74,10 @@ function TableMedicines({ medicines }) {
           {medicines.map(medicine => (
             <TableRow key={medicine.id}>
               <TableCell>{getPropValue(medicine, 'name')}</TableCell>
-              <TableCell align="center">{`${getPropValue(medicine, 'doseCant') || '-'} ${
-                getPropValue(medicine, 'doseTypeObj.abbreviation') || getPropValue(medicine, 'doseTypeObj.name') || ''
-              }`}</TableCell>
+              <TableCell align="center">
+                {`${getPropValue(medicine, 'doseCant') || '-'}`}
+                <AsyncDosis id={getPropValue(medicine, 'doseType')} />
+              </TableCell>
               <TableCell align="center">{getPropValue(medicine, 'frequency')}</TableCell>
             </TableRow>
           ))}
@@ -122,7 +126,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                 <Grid item xs={12} sm={6}>
                   <Fieldset title="Medicamentos">
                     <div className={classes.containerDetailDiv}>
-                      <TableMedicines medicines={[data.medicineObject]} />
+                      <TableMedicines medicines={[data.medicines]} />
                     </div>
                   </Fieldset>
                 </Grid>
@@ -137,6 +141,21 @@ function DetailTreatmentRowCellComponent({ open, data }) {
 
 function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, onModalVisible, editRole, delRole }) {
   const classes = useStyles();
+  const [medicine, setMedicine] = useState({});
+
+  const fetchMedicine = useCallback(async () => {
+    let medicineSetting = JSON.parse(row.medicineSetting);
+    if (isEmpty(medicineSetting)) {
+      const result = await getMedicineById(row.medicines);
+      medicineSetting = result;
+    }
+    setMedicine(medicineSetting);
+  }, [row.medicineSetting, row.medicines]);
+
+  useEffect(() => {
+    fetchMedicine();
+  }, [fetchMedicine]);
+
   const handleRowClick = id => {
     selectRow(id);
     setOpen(!open ? id : null);
@@ -161,13 +180,14 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
         key={row.id}
         selected={selected && selected.id === row.id}
       >
-        <TableCell>{getPropValue(row, 'medicineObject.name')}</TableCell>
-        <TableCell align="center">{`${getPropValue(row, 'medicineObject.doseCant')} ${
-          getPropValue(row, 'medicineObject.doseTypeObj.abbreviation') ||
-          getPropValue(row, 'medicineObject.doseTypeObj.name') ||
-          ''
-        }`}</TableCell>
-        <TableCell align="center">{getPropValue(row, 'medicineObject.frequency')}</TableCell>
+        <TableCell>
+          <AsyncMedicineText id={getPropValue(row, 'medicines')} />
+        </TableCell>
+        <TableCell align="center">
+          {`${getPropValue(medicine, 'doseCant') || '-'}`}
+          <AsyncDosis id={getPropValue(medicine, 'doseType')} />
+        </TableCell>
+        <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>
         <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center">{moment.unix(row.endDate).format('DD/MM/YYYY')}</TableCell>
         <TableCell align="center" className={classes.cellNowrap}>
@@ -180,7 +200,7 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
           </ButtonGroup>
         </TableCell>
       </TableRow>
-      <DetailTreatmentRowCellComponent open={open} data={row} />
+      <DetailTreatmentRowCellComponent open={open} data={{ ...row, medicines: medicine }} />
     </>
   );
 }

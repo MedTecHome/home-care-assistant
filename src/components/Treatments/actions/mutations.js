@@ -1,7 +1,6 @@
 import moment from 'moment';
 
-const mutateTreatmentValues = async ({ name, user, medicines, medicineSetting, startDate, endDate }) => ({
-  name,
+const mutateTreatmentValues = async ({ user, medicines, medicineSetting, startDate, endDate }) => ({
   medicines,
   medicineSetting,
   user,
