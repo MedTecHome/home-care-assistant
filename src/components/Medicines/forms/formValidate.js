@@ -20,9 +20,6 @@ const formValidate = values => {
   if (values.doseCant && !REGEX_POSITIVE_NUMBER.test(values.doseCant)) {
     errors.doseCant = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
   }
-  if (values.frequency && !REGEX_POSITIVE_NUMBER.test(values.frequency)) {
-    errors.frequency = INVALID_DECIMAL_AND_NUMBER_POSITIVE_FORMAT;
-  }
   return errors;
 };
 

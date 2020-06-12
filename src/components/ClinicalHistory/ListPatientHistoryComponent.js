@@ -118,11 +118,7 @@ function ListPatientHistoryComponent({
               </ListItem>
             ))}
           </List>
-          <PaginationComponent
-            total={total}
-            first={getPropValue(historyList[0], 'clinicalDate')}
-            last={getPropValue(historyList[historyList.length - 1], 'clinicalDate')}
-          />
+          <PaginationComponent total={total} />
         </>
       )}
     </>

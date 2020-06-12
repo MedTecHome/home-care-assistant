@@ -22,10 +22,10 @@ export const withMonitoringContext = WrapperComponent => () => {
 
   useEffect(() => {
     mounted.current = true;
-    const { parent: parentId, limit, offset, ...filters } = params;
+    const { parent: parentId, limit, page, ...filters } = params;
     if (parentId) {
       setLoadingList(true);
-      getMonitoring(limit, offset, { parent: parentId, ...filters })
+      getMonitoring(limit, page, { parent: parentId, ...filters })
         .then(res => {
           if (mounted.current === true) {
             setListAction(res.data);

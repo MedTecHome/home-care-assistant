@@ -8,6 +8,7 @@ import Image from 'material-ui-image';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import { getPropValue } from '../../../helpers/utils';
+import { AsyncConcentration, AsyncDosis, AsyncAdministrationroute } from '../../text/AsyncNomenclatorText';
 
 export function DetailsContentMedicineComponent({ data, classes }) {
   return (
@@ -18,15 +19,13 @@ export function DetailsContentMedicineComponent({ data, classes }) {
       </Typography>
       <Typography component="div">
         <strong>{`Concentración: `}</strong>
-        {`${getPropValue(data, 'concentrationCant') || '-'} ${
-          getPropValue(data, 'concentrationType.measure') || getPropValue(data, 'concentrationType.name') || ''
-        }` || '-'}
+        {`${getPropValue(data, 'concentrationCant') || '-'}`}
+        <AsyncConcentration id={getPropValue(data, 'concentrationType')} />
       </Typography>
       <Typography component="div">
         <strong>{`Dosis: `}</strong>
-        {`${getPropValue(data, 'doseCant') || '-'} ${
-          getPropValue(data, 'doseType.abbreviation') || getPropValue(data, 'doseType.name') || ''
-        }`}
+        {`${getPropValue(data, 'doseCant') || '-'}`}
+        <AsyncDosis id={getPropValue(data, 'doseType')} />
       </Typography>
       <Typography component="div">
         <strong>{`Frecuencia: `}</strong>
@@ -34,7 +33,7 @@ export function DetailsContentMedicineComponent({ data, classes }) {
       </Typography>
       <Typography component="div">
         <strong> {`Via Administración: `}</strong>
-        {getPropValue(data, 'administrationType.name') || '-'}
+        <AsyncAdministrationroute id={getPropValue(data, 'administrationType')} />
       </Typography>
       <Typography component="div">
         <strong> {`Motivo Administración: `}</strong>
@@ -58,12 +57,7 @@ function DetailsMedicineComponent({ selected, setModalVisible }) {
     <>
       <DialogTitleComponent onClose={handleCloseForm}>Detalles del medicamento</DialogTitleComponent>
       <DialogContent dividers className={classes.contentDialog}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} container justify="center" alignItems="center">
-            <Image src="#" aspectRatio={4 / 3} />
-          </Grid>
-          <DetailsContentMedicineComponent classes={classes} data={selected} />
-        </Grid>
+        <DetailsContentMedicineComponent classes={classes} data={selected} />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" disableElevation onClick={handleCloseForm}>

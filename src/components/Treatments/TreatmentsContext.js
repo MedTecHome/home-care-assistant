@@ -32,10 +32,10 @@ export const withTreatmentsContext = WrapperComponent => props => {
 
   useEffect(() => {
     mounted.current = true;
-    const { limit, offset, ...filters } = params;
+    const { limit, page, ...filters } = params;
     if (!loadingSave && !isEmpty(filters)) {
       setLoadingList(true);
-      getTreatments(limit, offset, filters)
+      getTreatments(limit, page, filters)
         .then(res => {
           const treatments = res.data.map(async treat => {
             const medicines = await getMedicineById(treat.medicines);

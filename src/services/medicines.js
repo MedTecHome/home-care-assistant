@@ -1,30 +1,15 @@
 import { retriveData, retriveDoc } from './utils';
-import getNomenclator from './nomenclators';
 
-const getMedicines = async (limit, offset, filters) => {
+const getMedicines = async (limit, page, filters) => {
   try {
-    return await retriveData('medicines', limit, offset, filters, 'name', 'asc');
+    return await retriveData('medicines', limit, page, filters);
   } catch (e) {
     throw new Error(e);
   }
 };
 
-export const getMedicineById = async id => {
-  let result = await retriveDoc(`medicines/${id}`);
-
-  if (result.administrationType) {
-    const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);
-    result = { ...result, administrationTypeObj };
-  }
-  if (result.doseType) {
-    const doseTypeObj = await getNomenclator('dosis', result.doseType);
-    result = { ...result, doseTypeObj };
-  }
-  if (result.concentrationType) {
-    const concentrationTypeObj = await getNomenclator('concentrations', result.concentrationType);
-    result = { ...result, concentrationTypeObj };
-  }
-  return result;
+export const getMedicineById = id => {
+  return retriveDoc(`medicines/${id}`);
 };
 
 export default getMedicines;

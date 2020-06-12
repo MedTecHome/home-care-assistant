@@ -106,11 +106,7 @@ function ProfilesComponent({ filterRole }) {
         onClickEdit={handleOnClickEdit}
         isSuperadmin={isSuperadmin}
       />
-      <PaginationComponent
-        total={total}
-        first={getPropValue(profileList[0], 'fullname')}
-        last={getPropValue(profileList[profileList.length - 1], 'fullname')}
-      />
+      <PaginationComponent total={total} />
     </>
   );
 }

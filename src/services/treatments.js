@@ -1,11 +1,11 @@
 import { retriveData, retriveDoc } from './utils';
 
-const getTreatments = async (limit, offset, filters) => {
+const getTreatments = async (limit, page, filters) => {
   try {
     return await retriveData(
       'treatments',
       limit,
-      offset,
+      page,
       filters,
       filters.startDate || filters.endDate ? undefined : 'name',
       filters.startDate || filters.endDate ? undefined : 'asc'

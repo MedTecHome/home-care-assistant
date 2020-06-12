@@ -6,7 +6,6 @@ const apiEmail = axios.create({
 });
 
 const apiData = axios.create({
-  // baseURL: 'https://us-central1-test1-6f25a.cloudfunctions.net/api' //develop
   baseURL:
     BRANCH_DEPLOY === 'develop'
       ? 'https://us-central1-test1-6f25a.cloudfunctions.net/api'
@@ -14,7 +13,7 @@ const apiData = axios.create({
 });
 
 const apiDataLocal = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'http://localhost:5001/test1-6f25a/us-central1/api'
 });
 
 apiData.interceptors.request.use(config => {

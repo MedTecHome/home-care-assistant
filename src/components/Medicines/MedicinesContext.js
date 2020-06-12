@@ -1,129 +1,98 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useReducer, useState, useEffect, useRef, useCallback } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
-import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { saveMedicineValuesActions } from './actions/MedicinesActions';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
-import getMedicines from '../../services/medicines';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
-import getNomenclator from '../../services/nomenclators';
+import { saveMedicineValuesActions } from './actions/MedicinesActions';
+import getMedicines from '../../services/medicines';
+import setModalVisibleAction from '../../commons/actions/GlobalActions';
 
 const MedicinesContext = createContext({});
 
-export const withMedicinesContext = WrapperComponent => props => {
-  const { RegisterMessage } = useMessageContext();
-  const { pageSize: limit, offset, resetPagination } = useCustomPaginationContext();
-  const [medicList, setMedicinesList] = useState([]);
+export const MedicinesContextProvider = ({ children }) => {
+  const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
-  const [loadingSave, setLoadingSave] = useState(false);
-  const [seletd, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [action, setAction] = useState('fetch');
   const [params, setParams] = useState({});
-  const [globalState, globalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
+  const { page, pageSize, resetPagination } = useCustomPaginationContext();
+  const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
 
-  const medicineList = useMemo(() => medicList, [medicList]);
-  const selected = useMemo(() => seletd, [seletd]);
+  const fetchList = useCallback(async (limit, pag, filters) => {
+    setLoadingList(true);
+    const result = await getMedicines(limit, pag, filters);
+    if (mounted.current) {
+      setList(result.data);
+      setTotal(result.total);
+    }
+    setLoadingList(false);
+  }, []);
 
   useEffect(() => {
     mounted.current = true;
-    if (!loadingSave && !isEmpty(params)) {
-      setLoadingList(true);
-      getMedicines(limit, offset, params)
-        .then(res => {
-          const medicines = res.data.map(async medicine => {
-            const administrationTypeObj = await getNomenclator('administrationroute', medicine.administrationType);
-            const concentrationObj = await getNomenclator('concentrations', medicine.concentrationType);
-            const doseTypeObj = await getNomenclator('dosis', medicine.doseType);
-            return { ...medicine, administrationTypeObj, doseTypeObj, concentrationObj };
-          });
-          Promise.all(medicines)
-            .then(data => {
-              if (mounted.current === true) {
-                setMedicinesList(data);
-                setTotal(res.total);
-              }
-            })
-            .catch(e => {
-              throw new Error(e);
-            })
-            .finally(() => {
-              if (mounted.current === true) setLoadingList(false);
-            });
-        })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext-getMedicinesTotal'));
+    if (!isEmpty(params)) {
+      fetchList(pageSize, page, params);
+      setAction('');
     }
+
     return () => {
       mounted.current = false;
     };
-  }, [params, limit, offset, loadingSave, RegisterMessage]);
+  }, [pageSize, page, params, fetchList, action, setAction]);
 
-  const saveMedicineValues = useCallback(
-    async (values, formType) => {
-      setLoadingSave(true);
-      try {
-        await saveMedicineValuesActions(values, formType);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'MedicinesContext');
-      } finally {
-        setLoadingSave(false);
-      }
-    },
-    [RegisterMessage]
-  );
-
-  const selectMedicineFromList = useCallback(
+  const setSelectedFromList = useCallback(
     id => {
-      const medicine = medicineList.find(item => item.id === id) || null;
-      setSelected(medicine);
+      const element = list.find(a => a.id === id) || null;
+      setSelected(element);
     },
-    [medicineList]
+    [list]
   );
+
+  const saveValues = useCallback(async (values, formType) => {
+    await saveMedicineValuesActions(values, formType);
+    setAction('fetch');
+  }, []);
 
   const setModalVisible = useCallback((flag, formType) => {
-    globalDispath(setModalVisibleAction(flag, formType));
+    globalDispatch(setModalVisibleAction(flag, formType));
   }, []);
 
   return (
     <MedicinesContext.Provider
       value={{
-        medicineList,
-        loadingList,
-        selected,
-        params,
+        list,
         total,
-        setTotal,
+        params,
+        selected,
+        setSelectedFromList,
+        resetPagination,
+        loadingList,
         ...globalState,
-        selectMedicineFromList,
-        saveMedicineValues,
+        saveValues,
         setModalVisible,
-        setParams,
-        resetPagination
+        setParams
       }}
     >
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <WrapperComponent {...props} />
+      {children}
     </MedicinesContext.Provider>
   );
 };
 
 export const useMedicinesContext = () => {
   const values = useContext(MedicinesContext);
-  if (!values) throw new Error('this hooks only works inside MedicinesContextProvider ');
-
   return {
-    medicineList: values.medicineList,
-    loadingList: values.loadingList,
-    selected: values.selected,
-    params: values.params,
+    list: values.list,
     total: values.total,
+    params: values.params,
+    selected: values.selected,
+    setSelectedFromList: values.setSelectedFromList,
+    resetPagination: values.resetPagination,
+    loadingList: values.loadingList,
     formType: values.formType,
     modalVisible: values.modalVisible,
-    selectMedicineFromList: values.selectMedicineFromList,
-    saveMedicineValues: values.saveMedicineValues,
     setModalVisible: values.setModalVisible,
-    setParams: values.setParams,
-    resetPagination: values.resetPagination
+    saveValues: values.saveValues,
+    setParams: values.setParams
   };
 };

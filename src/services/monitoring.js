@@ -1,9 +1,9 @@
 import getProfiles from './profiles';
 import { getClinicalTests } from './clinicaltest';
 
-const getMonitoring = async (limit, offset, filters) => {
+const getMonitoring = async (limit, page, filters) => {
   try {
-    const profiles = await getProfiles(limit, offset, filters);
+    const profiles = await getProfiles(limit, page, filters);
     const resultList = profiles.data.map(async item => {
       const clinicalTest = await getClinicalTests(1, 0, { user: item.id });
 

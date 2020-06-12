@@ -26,7 +26,7 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
   const [params, setParams] = useState({});
-  const { pageSize, offset, resetPagination } = useCustomPaginationContext();
+  const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const [loadingList, setLoadingList] = useState(false);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
@@ -70,12 +70,12 @@ const PatientHistoryContextProvider = ({ children }) => {
     const { type, user, ...filters } = params;
     if (user) {
       setLoadingList(true);
-      fetchPatientHistory(user, type, pageSize, offset, filters);
+      fetchPatientHistory(user, type, pageSize, page, filters);
     }
     return () => {
       mounted.current = false;
     };
-  }, [params, pageSize, offset, fetchPatientHistory]);
+  }, [params, pageSize, page, fetchPatientHistory]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 

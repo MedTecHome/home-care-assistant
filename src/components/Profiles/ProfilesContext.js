@@ -19,7 +19,7 @@ export const withProfileContext = WrapperComponent => props => {
   const [loadingSave, setLoadingSave] = useState(false);
   const [slected, setSelected] = useState(null);
   const [params, setParams] = useState({});
-  const { pageSize: limit, offset } = useCustomPaginationContext();
+  const { pageSize: limit, page } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
 
@@ -30,7 +30,7 @@ export const withProfileContext = WrapperComponent => props => {
     mounted.current = true;
     if (!loadingSave && !isEmpty(params)) {
       setLoadingList(true);
-      getProfiles(limit, offset, params)
+      getProfiles(limit, page, params)
         .then(result => {
           if (mounted.current === true) {
             setProfileList(result.data);
@@ -47,7 +47,7 @@ export const withProfileContext = WrapperComponent => props => {
     return () => {
       mounted.current = false;
     };
-  }, [params, offset, limit, loadingSave, RegisterMessage]);
+  }, [params, page, limit, loadingSave, RegisterMessage]);
 
   const saveProfileValues = useCallback(
     async (values, formType) => {
