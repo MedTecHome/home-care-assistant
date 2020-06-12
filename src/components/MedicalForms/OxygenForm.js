@@ -4,6 +4,7 @@ import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateHearbeat, validatePI, validateSpO2 } from './validateMedicalForms';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -16,9 +17,7 @@ export default function OxygenForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Oxígeno
-      </Typography>
+      <TitleAndIconComponent type="oxygen" classes={classStyle} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent required name="SpO2" label="SpO2:" validate={validateSpO2} />

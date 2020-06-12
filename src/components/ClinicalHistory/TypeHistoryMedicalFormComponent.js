@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { getPropValue } from '../../helpers/utils';
 import useCustomStyles from '../../jss/globalStyles';
+import { severityConstant } from '../../helpers/constants';
 
 function TextLabelAndValue({ label, value }) {
   const classes = useCustomStyles();
@@ -57,7 +58,15 @@ function TypeHistoryMedicalFormComponent({ data }) {
           <TextLabelAndValue label="Tiempo" value={`${data.time || '-'}min`} />
         </>
       )}
-      {idType === 'otherstest' && <TextLabelAndValue label="Severidad" value={getPropValue(data, 'severity.name')} />}
+      {idType === 'otherstest' && (
+        <TextLabelAndValue
+          label="Severidad"
+          value={getPropValue(
+            severityConstant.find(s => s.id === data.severity),
+            'name'
+          )}
+        />
+      )}
     </>
   );
 }

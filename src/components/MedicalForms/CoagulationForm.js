@@ -1,9 +1,10 @@
 import React from 'react';
-import { Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateINR } from './validateMedicalForms';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -14,12 +15,9 @@ const useSyles = makeStyles({
 
 function CoagulationForm({ classStyle }) {
   const classes = useSyles();
-
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Coagulación - INR
-      </Typography>
+      <TitleAndIconComponent type="inr" classes={classStyle} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent type="number" label="INR:" name="INR" required validate={validateINR} />

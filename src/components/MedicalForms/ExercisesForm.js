@@ -4,6 +4,7 @@ import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateDistance, validateSteps, validateTime2 } from './validateMedicalForms';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -16,9 +17,7 @@ function ExercisesForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Actividad física
-      </Typography>
+      <TitleAndIconComponent type="exercises" classes={classStyle} />
       <Grid item xs={12} container spacing={2}>
         <Grid item xs={4}>
           <CustomTextFieldComponent

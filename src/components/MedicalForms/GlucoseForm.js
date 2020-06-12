@@ -7,6 +7,7 @@ import SheduleFieldComponent from '../fields/SheduleFieldComponent';
 import { validateGlucoseUnity, validateHorario, validateSugarConcentration } from './validateMedicalForms';
 import GlucosaUnityFieldComponent from '../fields/GlucosaUnityFieldComponent';
 import IntakeTimeFieldComponent from '../fields/IntakeTimeFieldComponent';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -22,9 +23,7 @@ function GlucoseForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Glucosa
-      </Typography>
+      <TitleAndIconComponent type="glucose" classes={classStyle} />
       <Grid container spacing={2}>
         <Grid item xs={7}>
           <CustomTextFieldComponent

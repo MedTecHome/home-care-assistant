@@ -50,6 +50,9 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     paddingLeft: 5
+  },
+  formsContent: {
+    margin: 'auto'
   }
 }));
 
@@ -84,10 +87,10 @@ const PatientMedicalForm = () => {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
-        <Grid className={classes.textOverflow} item xs={12} sm={3} md={2} lg={2} xl={2}>
+        <Grid className={classes.textOverflow} item xs={12} md={4}>
           <SelectedChecboxForm defaultValues={selectedForms} onCheckboxChange={handleToogleCheckbox} />
         </Grid>
-        <Grid item xs={12} sm={9} container direction="column">
+        <Grid item xs={12} sm={10} md={8} container direction="column" className={classes.formsContent}>
           <Form
             initialValues={{
               glucoseUnity: 'mg/dl'
@@ -102,54 +105,54 @@ const PatientMedicalForm = () => {
                     if (!invalid) handleSubmit(event);
                   }}
                 >
-                  <Grid container spacing={4} justify={selectedForms.length === 1 ? 'center' : null}>
+                  <Grid container spacing={4} justify={'center'}>
                     {selectedForms.includes('pressure') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <PressureForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('heartrate') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <HeartrateForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('temperature') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <TemperatureForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('glucose') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <GlucoseForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('weight') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <WeightForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('breathing') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <BreathingForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('inr') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <CoagulationForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('oxygen') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <OxygenForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('exercises') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <ExercisesForm classStyle={classes} />
                       </Grid>
                     )}
                     {selectedForms.includes('otherstest') && (
-                      <Grid item xs={12} sm={10} md={6}>
+                      <Grid item xs={12} md={10}>
                         <OthersForms classStyle={classes} testName={values.othersName} />
                       </Grid>
                     )}

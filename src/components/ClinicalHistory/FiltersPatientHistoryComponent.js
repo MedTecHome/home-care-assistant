@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import { FormControl, InputLabel, ListItemText, Typography } from '@material-ui/core';
+import { FormControl, InputLabel, Typography } from '@material-ui/core';
 import { testFormsNames } from '../../helpers/constants';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import IconTestComponent from './IconTextComponent';
@@ -51,6 +51,7 @@ function SelectClinicTest({ defaultType, onSelectType }) {
       <InputLabel variant="outlined">Seleccione</InputLabel>
       <Select label="Seleccione" className={classes.formControl} value={valueType} onChange={handleSetTypeHistory}>
         <MenuItem value="recently">
+          <IconTestComponent type="" className={classes.iconSize} />
           <Typography>Prueba recientes</Typography>
         </MenuItem>
         {testFormsNames.map(types => (

@@ -17,7 +17,6 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
             key={value.id}
             control={
               <Checkbox
-                className={noHoverBackground}
                 color="primary"
                 disableRipple
                 disableFocusRipple
