@@ -13,7 +13,7 @@ function TextLabelAndValue({ label, value }) {
 }
 
 function TypeHistoryMedicalFormComponent({ data }) {
-  const idType = getPropValue(data, 'type.id');
+  const idType = getPropValue(data, 'type');
   return (
     <>
       {idType === 'pressure' && (
@@ -57,7 +57,7 @@ function TypeHistoryMedicalFormComponent({ data }) {
           <TextLabelAndValue label="Tiempo" value={`${data.time || '-'}min`} />
         </>
       )}
-      {idType === 'others' && <TextLabelAndValue label="Severidad" value={getPropValue(data, 'severity.name')} />}
+      {idType === 'otherstest' && <TextLabelAndValue label="Severidad" value={getPropValue(data, 'severity.name')} />}
     </>
   );
 }

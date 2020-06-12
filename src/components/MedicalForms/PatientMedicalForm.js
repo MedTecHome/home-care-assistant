@@ -148,7 +148,7 @@ const PatientMedicalForm = () => {
                         <ExercisesForm classStyle={classes} />
                       </Grid>
                     )}
-                    {selectedForms.includes('others') && (
+                    {selectedForms.includes('otherstest') && (
                       <Grid item xs={12} sm={10} md={6}>
                         <OthersForms classStyle={classes} testName={values.othersName} />
                       </Grid>

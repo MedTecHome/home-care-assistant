@@ -1,4 +1,4 @@
-import { getClinicalTests } from './clinicaltest';
+import getClinicalTests from './clinicaltest';
 import getTreatments from './treatments';
 import getNomenclator from './nomenclators';
 import { getMedicineById } from './medicines';

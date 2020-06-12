@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { intakeTimeSource } from '../../helpers/constants';
+import { intakeTimeSource, testFormsNames } from '../../helpers/constants';
 import TextFromProfileComponent from '../text/TextFromProfileComponent';
 
 const useStyles = makeStyles({
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 export function DetailHistoryMedicalFormContentComponent({ className, selected }) {
   return (
     <Grid item xs={12} className={className}>
-      {selected.type.id === 'pressure' && (
+      {selected.type === 'pressure' && (
         <>
           <Typography component="div">
             <strong>Diastolica: </strong>
@@ -51,7 +51,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'heartrate' && (
+      {selected.type === 'heartrate' && (
         <>
           <Typography component="div">
             <strong>Frecuencia Cardiaca: </strong>
@@ -59,7 +59,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'temperature' && (
+      {selected.type === 'temperature' && (
         <>
           <Typography component="div">
             <strong>Temperatura: </strong>
@@ -67,7 +67,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'weight' && (
+      {selected.type === 'weight' && (
         <>
           <Typography component="div">
             <strong>Peso: </strong>
@@ -75,7 +75,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'glucose' && (
+      {selected.type === 'glucose' && (
         <>
           <Typography component="div">
             <strong>Concentración de azucar: </strong>
@@ -108,7 +108,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'breathing' && (
+      {selected.type === 'breathing' && (
         <>
           <Typography component="div">
             <strong>EtCO: </strong>
@@ -124,7 +124,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'inr' && (
+      {selected.type === 'inr' && (
         <>
           <Typography component="div">
             <strong>INR: </strong>
@@ -132,7 +132,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'oxygen' && (
+      {selected.type === 'oxygen' && (
         <>
           <Typography component="div">
             <strong>Pulso: </strong>
@@ -148,7 +148,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'exercises' && (
+      {selected.type === 'exercises' && (
         <>
           <Typography component="div">
             <strong>Distancia: </strong>
@@ -165,7 +165,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         </>
       )}
 
-      {selected.type.id === 'others' && (
+      {selected.type === 'otherstest' && (
         <>
           <Typography component="div">
             <strong>Nombre: </strong>
@@ -205,22 +205,15 @@ function DetailHistoryMedicalFormComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleClose}>
-        {selected && selected.type && selected.type.name}
+        {selected &&
+          selected.type &&
+          getPropValue(
+            testFormsNames.find(tf => tf.id === selected.type),
+            'name'
+          )}
       </DialogTitleComponent>
-      <DialogContent className={classes.contentStyle}>
+      <DialogContent className={classes.contentStyle} dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <List>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <ImageIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={<TextFromProfileComponent profileId={getPropValue(selected, 'user')} />} />
-              </ListItem>
-            </List>
-          </Grid>
           <DetailHistoryMedicalFormContentComponent selected={selected} className={classes.textStyle} />
         </Grid>
       </DialogContent>

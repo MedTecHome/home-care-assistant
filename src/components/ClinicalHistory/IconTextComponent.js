@@ -10,15 +10,16 @@ import ExercisesIconSvg from '../../images/svg/exercises.svg';
 import TemperatureIconSvg from '../../images/svg/temperature.svg';
 import GlucoseIconSvg from '../../images/svg/glucose.svg';
 import InrIconSvg from '../../images/svg/inr.svg';
+import clsx from 'clsx';
 
 const useStyles = makeStyles({
   iconTest: {
-    width: 53,
-    height: 53
+    width: 64,
+    height: 64
   }
 });
 
-function IconTestComponent({ type }) {
+function IconTestComponent({ type, className = {} }) {
   const classes = useStyles();
   let iconSrc = '';
   switch (type) {
@@ -58,14 +59,14 @@ function IconTestComponent({ type }) {
       iconSrc = HeartrateIconSvg;
       break;
     }
-    case 'others': {
+    case 'otherstest': {
       iconSrc = OthersIconSvg;
       break;
     }
     default:
       break;
   }
-  return <Avatar alt="" src={iconSrc} className={classes.iconTest} />;
+  return <Avatar alt="" src={iconSrc} className={clsx(classes.iconTest, className)} />;
 }
 
 export default IconTestComponent;

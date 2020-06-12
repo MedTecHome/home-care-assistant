@@ -14,7 +14,7 @@ export const testFormsNames = [
   { id: 'inr', name: 'Coagulación(INR)' },
   { id: 'oxygen', name: 'Oximetría Pulso (SpO2)' },
   { id: 'exercises', name: 'Actividad Física' },
-  { id: 'others', name: 'Otros' }
+  { id: 'otherstest', name: 'Otros' }
 ];
 
 export const genders = [
