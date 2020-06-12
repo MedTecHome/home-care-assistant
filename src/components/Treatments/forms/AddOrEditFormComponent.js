@@ -10,7 +10,7 @@ import { DialogTitleComponent } from '../../ModalComponent';
 import DateFieldComponent from '../../fields/DateFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
-import MedicinesFieldComponent from '../../fields/medicines/MedicinesFieldComponent';
+import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../Profiles/forms/validateProfile';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';

@@ -90,7 +90,7 @@ const validatePassword = value => {
 };
 
 const validateEmail = async value => {
-  const response = await getProfiles(1, {}, { email: value }, false);
+  const response = await getProfiles(1, 0, { email: value }, false);
   return response.total > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
 };
 

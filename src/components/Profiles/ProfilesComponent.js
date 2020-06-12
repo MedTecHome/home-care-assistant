@@ -35,7 +35,6 @@ function TitleProfilesComponent({ filterRole }) {
 
 function ProfilesComponent({ filterRole }) {
   const { currentUserProfile, isSuperadmin } = useAuthContext();
-  const { resetPagination } = useCustomPaginationContext();
   const {
     formType,
     setModalVisible,
@@ -47,7 +46,8 @@ function ProfilesComponent({ filterRole }) {
     selected,
     loadingList,
     saveProfileValues,
-    params
+    params,
+    resetPagination
   } = useProfilesContext();
 
   const { role: roleId } = params;

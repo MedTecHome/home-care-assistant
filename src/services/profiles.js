@@ -1,15 +1,8 @@
 import { retriveData, retriveDoc } from './utils';
 
-const getProfiles = async (limit, page, filters, sort = true) => {
+const getProfiles = async (limit, page, filters) => {
   try {
-    const response = await retriveData(
-      'profiles',
-      limit,
-      page,
-      filters,
-      sort ? 'fullname' : undefined,
-      sort ? 'asc' : undefined
-    );
+    const response = await retriveData('profiles', limit, page, filters);
     return { ...response };
   } catch (e) {
     throw new Error(e);

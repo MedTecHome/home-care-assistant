@@ -21,7 +21,7 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../containers/fieldset';
 import { getPropValue } from '../../helpers/utils';
-import TextFromProfileComponent from '../Profiles/TextFromProfileComponent';
+import TextFromProfileComponent from '../text/TextFromProfileComponent';
 
 const useStyles = makeStyles({
   root: {

@@ -86,7 +86,7 @@ function AddOrEditProfilesComponent({
                 ...(selected.role ? { role: getPropValue(selected, 'role') } : {}),
                 parent: getPropValue(selected, 'parent'),
                 ...(selected.sex ? { sex: getPropValue(selected, 'sex') } : {}),
-                ...(selected.birthday ? { birthday: selected.birthday.toDate() } : {})
+                ...(selected.birthday ? { birthday: selected.birthday } : {})
               }
             : {}),
           parent: currentUserProfile.id
@@ -94,7 +94,7 @@ function AddOrEditProfilesComponent({
         decorators={[calculator]}
         validate={validateProfile}
         onSubmit={onSubmit}
-        render={({ handleSubmit, values, form, submitting, pristine, invalid }) => {
+        render={({ handleSubmit, values, form, submitting, pristine, invalid, errors }) => {
           return (
             <form
               autoComplete="new-password"
@@ -143,13 +143,17 @@ function AddOrEditProfilesComponent({
                     <CustomTextFieldComponent required label="Teléfono principal:" name="primaryPhone" />
                   </Grid>
                   <Grid item xs={4}>
-                    <CheckboxesFieldComponent label="Visible" namee="phoneVisible" />
+                    <CheckboxesFieldComponent disabled={!values.primaryPhone} label="Visible" namee="phoneVisible" />
                   </Grid>
                   <Grid item xs={8}>
                     <CustomTextFieldComponent label="Teléfono secundario:" name="secondaryPhone" />
                   </Grid>
                   <Grid item xs={4}>
-                    <CheckboxesFieldComponent label="Visible" namee="phoneSecondaryVisible" />
+                    <CheckboxesFieldComponent
+                      disabled={!values.secondaryPhone}
+                      label="Visible"
+                      namee="phoneSecondaryVisible"
+                    />
                   </Grid>
                   {['patient', 'clinic'].includes(getPropValue(values, 'role')) ? (
                     <Grid item xs={12} sm={8}>
@@ -162,7 +166,13 @@ function AddOrEditProfilesComponent({
                       name="email"
                       label="Correo"
                       validate={value => {
-                        return form.getState().initialValues.email !== value ? validateEmail(value) : null;
+                        if (form.getState().initialValues.email !== value) {
+                          if (values.email !== value) {
+                            return validateEmail(value);
+                          }
+                          return errors.email;
+                        }
+                        return null;
                       }}
                     />
                   </Grid>

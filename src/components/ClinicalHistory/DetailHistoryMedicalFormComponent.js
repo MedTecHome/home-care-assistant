@@ -16,7 +16,7 @@ import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import { intakeTimeSource } from '../../helpers/constants';
-import TextFromProfileComponent from '../Profiles/TextFromProfileComponent';
+import TextFromProfileComponent from '../text/TextFromProfileComponent';
 
 const useStyles = makeStyles({
   textStyle: {

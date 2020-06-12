@@ -16,48 +16,46 @@ export const withProfileContext = WrapperComponent => props => {
   const [list, setProfileList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
-  const [loadingSave, setLoadingSave] = useState(false);
+  const [action, setAction] = useState('');
   const [slected, setSelected] = useState(null);
   const [params, setParams] = useState({});
-  const { pageSize: limit, page } = useCustomPaginationContext();
+  const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
 
   const profileList = useMemo(() => list, [list]);
   const selected = useMemo(() => slected, [slected]);
 
+  const fetchList = useCallback(async (limit, pag, filters) => {
+    setLoadingList(true);
+    const result = await getProfiles(limit, pag, filters);
+    if (mounted.current) {
+      setProfileList(result.data);
+      setTotal(result.total);
+      setLoadingList(false);
+      setAction('');
+    }
+  }, []);
+
   useEffect(() => {
     mounted.current = true;
-    if (!loadingSave && !isEmpty(params)) {
+    if (!isEmpty(params)) {
       setLoadingList(true);
-      getProfiles(limit, page, params)
-        .then(result => {
-          if (mounted.current === true) {
-            setProfileList(result.data);
-            setTotal(result.total);
-          }
-        })
-        .catch(e => {
-          RegisterMessage(ERROR_MESSAGE, e, 'ProfilesContext');
-        })
-        .finally(() => {
-          if (mounted.current === true) setLoadingList(false);
-        });
+      fetchList(pageSize, page, params);
     }
     return () => {
       mounted.current = false;
     };
-  }, [params, page, limit, loadingSave, RegisterMessage]);
+  }, [params, page, pageSize, fetchList, action]);
 
   const saveProfileValues = useCallback(
     async (values, formType) => {
-      setLoadingSave(true);
       try {
         await saveProfileValuesAction(values, formType);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'ProfileContext-saveProfileValues');
       } finally {
-        setLoadingSave(false);
+        setAction('fetch');
       }
     },
     [RegisterMessage]
@@ -84,6 +82,7 @@ export const withProfileContext = WrapperComponent => props => {
         selected,
         params,
         ...globalState,
+        resetPagination,
         selectProfileFromList,
         saveProfileValues,
         setModalVisible,
@@ -112,6 +111,7 @@ export const useProfilesContext = () => {
     setModalVisible: values.setModalVisible,
     params: values.params,
     setParams: values.setParams,
-    total: values.total
+    total: values.total,
+    resetPagination: values.resetPagination
   };
 };
