@@ -18,7 +18,7 @@ import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
 import PopupTestTypeComponent from './PopupTestTypeComponet';
-import PopupMedicineDetailComponent from './PopupMedicineDetailComponent';
+import EvolutionTreatmentsRowComponent from './EvolutionTreatmentsRowComponent';
 
 const useStyles = makeStyles({
   divRoot: {
@@ -76,7 +76,7 @@ function EvolutionComponent({ setTab, patient }) {
   };
 
   const handleRangeFilter = values => {
-    if (params.rangeDate !== values) {
+    if (JSON.stringify(params.rangeDate) !== JSON.stringify(values)) {
       setParams({ ...params, rangeDate: values });
     }
   };
@@ -183,31 +183,12 @@ function EvolutionComponent({ setTab, patient }) {
               </TableHead>
               <TableBody>
                 {treatments.map(treatment => (
-                  <TableRow key={treatment.id}>
-                    <TableCell>{treatment.name}</TableCell>
-                    {aux.map((d, index) => (
-                      <TableCell
-                        key={index.toString()}
-                        className={
-                          moment(moment(d).format('YYYY-MM-DD')).isSame(moment().format('YYYY-MM-DD'))
-                            ? classes.cellToday
-                            : undefined
-                        }
-                        align="center"
-                      >
-                        {moment(moment(d).format('YYYY-MM-DD')).isBetween(
-                          moment.unix(treatment.startDate).format('YYYY-MM-DD'),
-                          moment.unix(treatment.endDate).format('YYYY-MM-DD'),
-                          undefined,
-                          '[]'
-                        ) ? (
-                          <PopupMedicineDetailComponent data={treatment} />
-                        ) : (
-                          ''
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                  <EvolutionTreatmentsRowComponent
+                    key={treatment.id}
+                    aux={aux}
+                    treatment={treatment}
+                    classes={classes}
+                  />
                 ))}
               </TableBody>
             </>

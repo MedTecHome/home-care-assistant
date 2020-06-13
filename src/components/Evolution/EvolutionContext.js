@@ -1,41 +1,38 @@
-import React, { useContext, useState, createContext, useEffect, useRef } from 'react';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
+import React, { useContext, useState, createContext, useEffect, useRef, useCallback } from 'react';
 import getEvolution from '../../services/evolution';
 import { isEmpty } from '../../helpers/utils';
 
 const EvolutionContext = createContext({});
 
 export const withEvolutionContext = WrapperComponent => ({ setTab, patient, children }) => {
-  const { RegisterMessage } = useMessageContext();
   const [params, setParams] = useState({});
   const [treatments, setTreatmentList] = useState([]);
   const [testList, setTestList] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const mounted = useRef(true);
 
+  const fetchList = useCallback(async filters => {
+    setLoadingList(true);
+    const response = await getEvolution(filters);
+    if (mounted.current === true) {
+      setTreatmentList(response.treatments);
+      setTestList(response.clinicaltest);
+      setLoadingList(false);
+    }
+  }, []);
+
   useEffect(() => {
     mounted.current = true;
-    const { limit, page, ...filters } = params;
-    if (!isEmpty(filters)) {
-      setLoadingList(true);
-      getEvolution(filters)
-        .then(response => {
-          if (mounted.current === true) {
-            setTreatmentList(response.treatments);
-            setTestList(response.clinicaltest);
-          }
-        })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'EvolutionContext-getEvolution'))
-        .finally(() => {
-          if (mounted.current === true) setLoadingList(false);
-        });
+    if (!isEmpty(params) && params.user) {
+      const { rangeDate, ...filters } = params;
+      if (rangeDate) {
+        fetchList({ ...filters, rangeDate: rangeDate.map(i => i.unix()) });
+      }
     }
-
     return () => {
       mounted.current = false;
     };
-  }, [params, RegisterMessage]);
+  }, [params, fetchList]);
 
   return (
     <EvolutionContext.Provider
@@ -59,7 +56,6 @@ export const useEvolutionContext = () => {
   if (!values) throw new Error('this only works inside EvolutionContextProvider.');
 
   return {
-    retriveDateFormDB: values.retriveDateFormDB,
     loadingList: values.loadingList,
     testList: values.testList,
     treatments: values.treatments,
