@@ -27,8 +27,8 @@ function TemperatureForm({ classStyle }) {
             validate={validateCelsiusDegree}
           />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="temperatureDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="temperatureTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="temperatureDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="temperatureTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent multiline rows={3} label="Nota" name="temperatureNote" />
         </Grid>

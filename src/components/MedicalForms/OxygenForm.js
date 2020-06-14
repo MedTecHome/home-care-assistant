@@ -28,8 +28,8 @@ export default function OxygenForm({ classStyle }) {
         <Grid item xs={12}>
           <CustomTextFieldComponent required name="oxygenPI" label="PI(Indice perfusión):" validate={validatePI} />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="oxygenDate" label="Día" />
-        <TimeFieldComponent label="Hora" name="oxygenTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="oxygenDate" label="Día" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="oxygenTime" classes={classStyle} />
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="oxygenNote" />
         </Grid>

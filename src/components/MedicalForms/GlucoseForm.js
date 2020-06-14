@@ -55,8 +55,8 @@ function GlucoseForm({ classStyle }) {
         <Grid item xs={12}>
           <CustomTextFieldComponent label="Unidad Pan" name="breadUnity" />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="glucoseDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="glucoseTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent
             className={classStyle.formControl}

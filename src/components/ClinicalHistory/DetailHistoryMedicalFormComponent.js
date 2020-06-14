@@ -9,12 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { intakeTimeSource, testFormsNames } from '../../helpers/constants';
+import { intakeTimeSource, testFormsNames, severityConstant } from '../../helpers/constants';
 
 const useStyles = makeStyles({
   textStyle: {
     '&>*': {
-      fontSize: 14,
       lineHeight: '200%',
       fontWeight: 400,
       color: '#000'
@@ -166,7 +165,10 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
           <Typography component="div">
             <strong>Severidad: </strong>
-            {getPropValue(selected, 'severity.name') || '-'}
+            {getPropValue(
+              severityConstant.find(item => item.id === getPropValue(selected, 'severity')),
+              'name'
+            ) || '-'}
           </Typography>
         </>
       )}

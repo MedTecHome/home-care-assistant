@@ -9,12 +9,12 @@ const apiEmail = axios.create({
 const apiData = axios.create({
   baseURL:
     BRANCH_DEPLOY === 'develop'
-      ? 'https://us-central1-test1-6f25a.cloudfunctions.net/api'
-      : 'https://us-central1-homecareview-blaze.cloudfunctions.net/api'
+      ? 'https://us-central1-test1-6f25a.cloudfunctions.net/api/'
+      : 'https://us-central1-homecareview-blaze.cloudfunctions.net/api/'
 });
 
 const apiDataLocal = axios.create({
-  baseURL: 'http://localhost:5001/test1-6f25a/us-central1/api'
+  baseURL: 'http://localhost:5001/test1-6f25a/us-central1/api/'
 });
 
 const apiFetch = reactDB === 'local' ? apiDataLocal : apiData;

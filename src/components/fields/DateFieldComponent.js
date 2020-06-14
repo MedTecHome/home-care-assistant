@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
 import { validateDate } from '../MedicalForms/validateMedicalForms';
 
-export default function DateFieldComponent({ minDate, classes, name, label }) {
+export default function DateFieldComponent({ minDate, maxDate, classes, name, label }) {
   return (
     <Grid item xs={6} sm={6} md={6}>
       <DatePicker
@@ -21,6 +21,7 @@ export default function DateFieldComponent({ minDate, classes, name, label }) {
         format="DD/MM/YYYY"
         name={name}
         minDate={minDate}
+        maxDate={maxDate}
         fieldProps={{
           validate: validateDate
         }}

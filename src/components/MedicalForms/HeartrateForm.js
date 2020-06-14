@@ -31,8 +31,8 @@ function HeartrateForm({ classStyle }) {
             validate={validateHeartrate}
           />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="heartrateDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="heartrateTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="heartrateDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="heartrateTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="heartrateNote" />
         </Grid>

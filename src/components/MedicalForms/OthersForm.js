@@ -26,8 +26,8 @@ function OthersForms({ classStyle, testName = '' }) {
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <SeverityFieldComponent validate={validateOthersSeverity} />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="othersDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="othersTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="othersDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="othersTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="othersNote" />
         </Grid>

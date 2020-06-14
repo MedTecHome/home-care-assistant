@@ -49,8 +49,8 @@ function BreathingForm({ classStyle }) {
             validate={validatePI}
           />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="breathingtDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="breathingTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="breathingtDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="breathingTime" classes={classStyle} />
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="breathingNote" />
         </Grid>
