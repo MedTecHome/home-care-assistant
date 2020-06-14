@@ -58,7 +58,7 @@ function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGree
 }
 
 function MonitoringComponent() {
-  const { list, total, loadingList, selected, setSelected, legend } = useMonitoringContext();
+  const { list, total, loadingList, selected, setSelectedFromList, legend } = useMonitoringContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useStyles();
 
@@ -88,7 +88,7 @@ function MonitoringComponent() {
             row={row}
             index={index}
             selected={selected}
-            selectRow={setSelected}
+            selectRow={setSelectedFromList}
           />
         )}
       />
