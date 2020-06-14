@@ -5,18 +5,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import { intakeTimeSource, testFormsNames } from '../../helpers/constants';
-import TextFromProfileComponent from '../text/TextFromProfileComponent';
 
 const useStyles = makeStyles({
   textStyle: {

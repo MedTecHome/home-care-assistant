@@ -1,6 +1,4 @@
-import React, { createContext, useState, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
+import React, { createContext, useState, useCallback, useContext, useEffect, useRef } from 'react';
 import getMonitoring from '../../services/monitoring';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
@@ -26,8 +24,6 @@ export const withMonitoringContext = WrapperComponent => () => {
       setAction('');
     }
   }, []);
-
-  console.log('render');
 
   useEffect(() => {
     mounted.current = true;

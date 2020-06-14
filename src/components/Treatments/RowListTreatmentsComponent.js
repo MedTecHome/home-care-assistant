@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, Suspense } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
   TableRow,
   TableCell,

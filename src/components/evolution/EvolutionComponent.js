@@ -10,14 +10,12 @@ import {
   Paper,
   TableBody,
   CircularProgress,
-  Typography,
   Grid
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
-import PopupTestTypeComponent from './PopupTestTypeComponet';
 import EvolutionTreatmentsRowComponent from './EvolutionTreatmentsRowComponent';
 import EvolutionTestRowComponent from './EvolutionTestRowComponent';
 

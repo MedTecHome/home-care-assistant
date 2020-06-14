@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper, Typography, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';

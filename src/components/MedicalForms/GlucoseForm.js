@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';

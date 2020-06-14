@@ -14,7 +14,6 @@ import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../Profiles/forms/validateProfile';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
-import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
 import EditButtonIcon from '../../buttons/EditButtonIcon';
 import { medicineModel } from '../../Medicines/actions/MedicinesActions';
@@ -42,8 +41,6 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   const handleSubmit = values => {
     onSubmit(medicineModel(values));
   };
-
-  console.log(selected);
 
   return (
     <div className={classes.root}>
