@@ -20,9 +20,7 @@ export function AuthContextProvider({ children }) {
   const isPatient = getPropValue(currentUserProfile, 'role') === 'patient';
 
   useEffect(() => {
-    let unsubscribe;
-
-    unsubscribe = authFirebase.onAuthStateChanged(async user => {
+    const unsubscribe = authFirebase.onAuthStateChanged(async user => {
       setCurrentUser(user);
       if (user) {
         const idToken = await user.getIdToken();
