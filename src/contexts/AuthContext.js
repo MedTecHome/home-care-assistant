@@ -4,6 +4,8 @@ import { getPropValue, isLocal } from '../helpers/utils';
 import { USERNAME_DOMAIN } from '../commons/globalText';
 import { getProfileById } from '../services/profiles';
 
+authFirebase.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
 const AuthContext = createContext({});
 
 export function AuthContextProvider({ children }) {
@@ -19,29 +21,28 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     let unsubscribe;
-    authFirebase.setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
-      unsubscribe = authFirebase.onAuthStateChanged(async user => {
-        setCurrentUser(user);
-        if (user) {
-          const idToken = await user.getIdToken();
-          localStorage.setItem('AuthToken', `Bearer ${idToken}`);
-          const profile = await getProfileById(user.uid);
-          if (profile) {
-            setCurrentUserProfile(profile);
-          }
-        } else if (isLocal) {
-          // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
-          // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
-          const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
-          // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
-          const profile = await getProfileById(id);
-          if (profile) {
-            setCurrentUserProfile(profile);
-          }
-        } else {
-          setCurrentUserProfile(null);
+
+    unsubscribe = authFirebase.onAuthStateChanged(async user => {
+      setCurrentUser(user);
+      if (user) {
+        const idToken = await user.getIdToken();
+        localStorage.setItem('AuthToken', `Bearer ${idToken}`);
+        const profile = await getProfileById(user.uid);
+        if (profile) {
+          setCurrentUserProfile(profile);
         }
-      });
+      } else if (isLocal) {
+        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
+        // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
+        const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
+        // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
+        const profile = await getProfileById(id);
+        if (profile) {
+          setCurrentUserProfile(profile);
+        }
+      } else {
+        setCurrentUserProfile(null);
+      }
     });
 
     return () => {
