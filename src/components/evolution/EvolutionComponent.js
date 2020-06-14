@@ -19,6 +19,7 @@ import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
 import PopupTestTypeComponent from './PopupTestTypeComponet';
 import EvolutionTreatmentsRowComponent from './EvolutionTreatmentsRowComponent';
+import EvolutionTestRowComponent from './EvolutionTestRowComponent';
 
 const useStyles = makeStyles({
   divRoot: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles({
     }
   },
   tableHead: {
+    backgroundColor: '#ccd5',
     '& th': {
       fontWeight: 600
     }
@@ -133,74 +135,36 @@ function EvolutionComponent({ setTab, patient }) {
               ))}
             </TableRow>
           </TableHead>
-          {!loadingList ? (
-            <>
-              <TableBody>
-                {testList.map((mt, index) => (
-                  <TableRow key={index.toString()}>
-                    <TableCell>
-                      <Typography
-                        className={classes.textLink}
-                        onClick={() => handleClickParamter(getPropValue(mt, 'id'))}
-                        color="inherit"
-                      >
-                        {getPropValue(mt, 'name')}
-                      </Typography>
-                    </TableCell>
-                    {aux.map((d, index1) => {
-                      return (
-                        <TableCell
-                          key={index1.toString()}
-                          className={
-                            moment(moment(d).format('YYYY-MM-DD')).isSame(moment().format('YYYY-MM-DD'))
-                              ? classes.cellToday
-                              : undefined
-                          }
-                          align="center"
-                        >
-                          <div>
-                            {mt.list
-                              .filter(a => {
-                                return moment(moment(d).format('YYYY-MM-DD')).isSame(
-                                  moment.unix(a.clinicalDate).format('YYYY-MM-DD')
-                                );
-                              })
-                              .map((b, index2) => (
-                                <PopupTestTypeComponent key={index2.toString()} data={b} />
-                              ))}
-                          </div>
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableHead className={classes.tableHead}>
-                <TableRow>
-                  <TableCell>Tratamientos</TableCell>
-                  <TableCell colSpan={aux.length} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {treatments.map(treatment => (
-                  <EvolutionTreatmentsRowComponent
-                    key={treatment.id}
-                    aux={aux}
-                    treatment={treatment}
-                    classes={classes}
-                  />
-                ))}
-              </TableBody>
-            </>
-          ) : (
-            <TableBody>
+          <TableBody>
+            {loadingList ? (
               <TableRow>
                 <TableCell align="center" colSpan={aux.length + 1}>
                   <CircularProgress />
                 </TableCell>
               </TableRow>
-            </TableBody>
-          )}
+            ) : (
+              testList.map(mt => (
+                <EvolutionTestRowComponent
+                  key={mt.id}
+                  clinicaltest={mt}
+                  aux={aux}
+                  handleClickParamter={handleClickParamter}
+                  classes={classes}
+                />
+              ))
+            )}
+          </TableBody>
+          <TableHead className={classes.tableHead}>
+            <TableRow>
+              <TableCell>Tratamientos</TableCell>
+              <TableCell colSpan={aux.length} />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {treatments.map(treatment => (
+              <EvolutionTreatmentsRowComponent key={treatment.id} aux={aux} treatment={treatment} classes={classes} />
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
     </div>

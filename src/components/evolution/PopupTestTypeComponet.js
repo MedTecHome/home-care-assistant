@@ -10,18 +10,19 @@ const useStyles = makeStyles({
     width: 250
   },
   textColor: {
-    color: props => props.color
+    color: props => (props.color ? props.color.A700 : ''),
+    baclgroundColor: props => (props.color ? props.color[200] : '')
   }
 });
 
 function PopupTestTypeComponent({ data }) {
   const color =
-    (data.type.id === 'pressure' && healthyStandards.pressure(data.sistolica, data.diastolica)) ||
-    (data.type.id === 'temperature' && healthyStandards.temperature(data.celsiusDegree)) ||
-    (data.type.id === 'weight' && healthyStandards.weight(150, data.weight)) ||
-    (data.type.id === 'glucose' && healthyStandards.glucose(data.sugarConcentration)) ||
-    (data.type.id === 'inr' && healthyStandards.inr(data.INR)) ||
-    (data.type.id === 'oxygen' && healthyStandards.heartbeat(data.heartbeat));
+    (data.type === 'pressure' && healthyStandards.pressure(data.sistolica, data.diastolica)) ||
+    (data.type === 'temperature' && healthyStandards.temperature(data.celsiusDegree)) ||
+    (data.type === 'weight' && healthyStandards.weight(150, data.weight)) ||
+    (data.type === 'glucose' && healthyStandards.glucose(data.sugarConcentration)) ||
+    (data.type === 'inr' && healthyStandards.inr(data.INR)) ||
+    (data.type === 'oxygen' && healthyStandards.heartbeat(data.heartbeat));
 
   const classes = useStyles({ color });
 
@@ -29,14 +30,15 @@ function PopupTestTypeComponent({ data }) {
     <PopoverComponent
       title={
         <Typography className={classes.textColor} component="span">
-          {(data.type.id === 'pressure' && `${data.sistolica}/${data.diastolica}`) ||
-            (data.type.id === 'temperature' && data.celsiusDegree) ||
-            (data.type.id === 'weight' && data.weight) ||
-            (data.type.id === 'breathing' && data.breathingFrequency) ||
-            (data.type.id === 'glucose' && data.sugarConcentration) ||
-            (data.type.id === 'inr' && data.INR) ||
-            (data.type.id === 'oxygen' && data.heartbeat) ||
-            (data.type.id === 'exercises' && data.steps)}
+          {(data.type === 'pressure' && `${data.sistolica}/${data.diastolica}`) ||
+            (data.type === 'heartrate' && `${data.heartrate}`) ||
+            (data.type === 'temperature' && data.celsiusDegree) ||
+            (data.type === 'weight' && data.weight) ||
+            (data.type === 'breathing' && data.breathingFrequency) ||
+            (data.type === 'glucose' && data.sugarConcentration) ||
+            (data.type === 'inr' && data.INR) ||
+            (data.type === 'oxygen' && data.heartbeat) ||
+            (data.type === 'exercises' && data.steps)}
         </Typography>
       }
       content={<DetailHistoryMedicalFormContentComponent selected={data} className={classes.contextDetail} />}
