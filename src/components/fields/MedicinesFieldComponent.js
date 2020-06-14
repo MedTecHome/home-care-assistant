@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState, memo } from 'react';
 import { Autocomplete } from 'mui-rff';
-import useDebounceCustom from '../../../commons/useDebounceCustom';
-import getMedicines from '../../../services/medicines';
+import useDebounceCustom from '../../commons/useDebounceCustom';
+import getMedicines from '../../services/medicines';
 
 function MedicinesFieldComponent({
   required,
@@ -20,7 +20,7 @@ function MedicinesFieldComponent({
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getMedicines(5, {}, { clinic, name: filterNameMemoize }).then(result => {
+    getMedicines(5, 0, { clinic, name: filterNameMemoize }).then(result => {
       setMedicines(result.data);
     });
   }, [clinic, filterNameMemoize]);

@@ -3,20 +3,32 @@ import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import { FormControl, InputLabel } from '@material-ui/core';
+import { FormControl, InputLabel, Typography } from '@material-ui/core';
 import { testFormsNames } from '../../helpers/constants';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
+import IconTestComponent from './IconTextComponent';
 
 const useStyles = makeStyles({
   filterRoot: {
     margin: '10px 0'
   },
   formControl: {
-    width: '100%'
+    width: '100%',
+    '& > .MuiOutlinedInput-input': {
+      padding: '16px 14px'
+    },
+    '& > .MuiSelect-root': {
+      display: 'flex'
+    }
   },
   containerFilters: {
     display: 'flex',
     minWidth: '100%'
+  },
+  iconSize: {
+    width: 24,
+    height: 24,
+    marginRight: 10
   }
 });
 
@@ -35,13 +47,17 @@ function SelectClinicTest({ defaultType, onSelectType }) {
     [onSelectType]
   );
   return (
-    <FormControl size="small" variant="outlined" className={classes.formControl}>
+    <FormControl variant="outlined" className={classes.formControl}>
       <InputLabel variant="outlined">Seleccione</InputLabel>
       <Select label="Seleccione" className={classes.formControl} value={valueType} onChange={handleSetTypeHistory}>
-        <MenuItem value="recently">Pruebas recientes</MenuItem>
+        <MenuItem value="recently">
+          <IconTestComponent type="" className={classes.iconSize} />
+          <Typography>Prueba recientes</Typography>
+        </MenuItem>
         {testFormsNames.map(types => (
           <MenuItem key={types.id} value={types.id}>
-            {types.name}
+            <IconTestComponent type={types.id} className={classes.iconSize} />
+            <Typography> {types.name} </Typography>
           </MenuItem>
         ))}
       </Select>
@@ -66,7 +82,7 @@ function FiltersPatientHistoryComponent({ onSelectDate, defaultType, onSelectTyp
           <SelectClinicTest defaultType={defaultType} onSelectType={onSelectType} />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <FiltersRangeDateComponent onRangeSet={handleFilterDate} />
+          <FiltersRangeDateComponent onRangeSet={handleFilterDate} size="medium" />
         </Grid>
       </Grid>
     </div>

@@ -1,9 +1,10 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/core';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateHeartrate } from './validateMedicalForms';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -19,9 +20,7 @@ function HeartrateForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Frecuencia Cardiaca
-      </Typography>
+      <TitleAndIconComponent type="heartrate" classes={classStyle} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent

@@ -15,9 +15,9 @@ import DetailsTreatmentComponent from './forms/DetailsTreatmentComponent';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';
 
 function TreatmentsComponent({ patient }) {
-  const { pageSize, offset } = useCustomPaginationContext();
+  const { pageSize, page } = useCustomPaginationContext();
   const {
-    listTreatments,
+    list,
     total,
     modalVisible,
     setParams,
@@ -34,9 +34,9 @@ function TreatmentsComponent({ patient }) {
 
   useEffect(() => {
     if (getPropValue(patient, 'id')) {
-      setParams({ user: getPropValue(patient, 'id'), limit: pageSize, offset });
+      setParams({ user: getPropValue(patient, 'id'), limit: pageSize, page });
     }
-  }, [patient, setParams, pageSize, offset]);
+  }, [patient, setParams, pageSize, page]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -69,7 +69,7 @@ function TreatmentsComponent({ patient }) {
         disableElevation
         headCells={treatmentsHeadCells}
         loadingList={loadingList}
-        list={listTreatments}
+        list={list}
         setModalVisible={setModalVisible}
         selected={selected}
         render={(row, index) => (
@@ -87,11 +87,7 @@ function TreatmentsComponent({ patient }) {
           />
         )}
       />
-      <PaginationComponent
-        total={total}
-        first={getPropValue(listTreatments[0], 'name')}
-        last={getPropValue(listTreatments[listTreatments.length - 1], 'name')}
-      />
+      <PaginationComponent total={total} />
     </>
   );
 }

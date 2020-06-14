@@ -1,8 +1,8 @@
 import { retriveData, retriveDoc } from './utils';
 
-const getRoles = async (limit, offset, filters) => {
+const getRoles = async (limit, page, filters) => {
   try {
-    return await retriveData('roles', limit, offset, filters, 'name', 'asc');
+    return await retriveData('roles', limit, page, filters, 'name', 'asc');
   } catch (e) {
     throw new Error(e);
   }

@@ -42,7 +42,7 @@ const headMonitoringCells = [
   {
     id: 'exercises.steps',
     numeric: true,
-    label: 'Actividad'
+    label: 'Actividad(pasos)'
   },
   {
     id: 'inr.INR',

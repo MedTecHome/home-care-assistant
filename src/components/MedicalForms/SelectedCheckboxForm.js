@@ -4,7 +4,7 @@ import { testFormsNames } from '../../helpers/constants';
 import useCustomStyles from '../../jss/globalStyles';
 
 function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
-  const { justifyCheckbox, noHoverBackground, formControl } = useCustomStyles();
+  const { justifyCheckbox, formControl } = useCustomStyles();
 
   return (
     <FormControl className={formControl} component="fieldset">
@@ -17,7 +17,6 @@ function SelectedChecboxForm({ defaultValues, onCheckboxChange }) {
             key={value.id}
             control={
               <Checkbox
-                className={noHoverBackground}
                 color="primary"
                 disableRipple
                 disableFocusRipple

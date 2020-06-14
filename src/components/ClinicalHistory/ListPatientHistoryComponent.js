@@ -15,26 +15,32 @@ import useCustomStyles from '../../jss/globalStyles';
 import { getPropValue } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
 import IconTestComponent from './IconTextComponent';
+import { testFormsNames } from '../../helpers/constants';
 
 const useStyles = makeStyles({
   rootDiv: {
     width: '100%',
     display: 'flex',
-    justifyContent: 'flex-start',
-    '& > *': {
-      margin: 5
-    }
+    justifyContent: 'flex-start'
   },
   iconTestContainer: {
     alignSelf: 'center',
     verticalAlign: 'middle'
   },
-  flexDiv: {
+  itemContent: {
+    marginLeft: 10,
+    flex: 1,
     display: 'flex',
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     '& > *': {
-      margin: 5
+      marginBottom: 5
     }
+  },
+  flexDiv: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridGap: 5
   },
   nameDiv: {
     width: '25%'
@@ -78,51 +84,54 @@ function ListPatientHistoryComponent({
         <>
           <List className={classes.root}>
             {historyList.length === 0 && <EmptyComponent />}
-            {historyList.map(report => (
-              <ListItem
-                key={report.id}
-                className={clsx(classes.itemList, selected && selected.id === report.id && classes.selectedItemList)}
-                divider
-                onClick={() => handleSelect(report)}
-              >
-                <div className={localClasses.rootDiv}>
-                  <div className={localClasses.iconTestContainer}>
-                    <IconTestComponent type={getPropValue(report, 'type.id')} />
-                  </div>
-                  <div>
-                    <div className={localClasses.flexDiv}>
-                      {['recently', 'others', '', undefined].includes(defaultType) ? (
-                        <div className={localClasses.nameDiv}>
-                          <Typography component="span" className={classes.textLabel}>
-                            {getPropValue(report, 'type.id') === 'others'
-                              ? report.othersName
-                              : getPropValue(report, 'type.name')}
-                          </Typography>
+            {historyList.map(report => {
+              return (
+                <ListItem
+                  key={report.id}
+                  className={clsx(classes.itemList, selected && selected.id === report.id && classes.selectedItemList)}
+                  divider
+                  onClick={() => handleSelect(report)}
+                >
+                  <div className={localClasses.rootDiv}>
+                    <div className={localClasses.iconTestContainer}>
+                      <IconTestComponent type={getPropValue(report, 'type')} />
+                    </div>
+                    <div className={localClasses.itemContent}>
+                      <div className={localClasses.flexDiv}>
+                        {['recently', 'otherstest', '', undefined].includes(defaultType) ? (
+                          <div>
+                            <Typography component="span">
+                              {getPropValue(report, 'type') === 'otherstest'
+                                ? report.othersName
+                                : getPropValue(
+                                    testFormsNames.find(tf => tf.id === getPropValue(report, 'type')),
+                                    'name'
+                                  ) || ''}
+                            </Typography>
+                          </div>
+                        ) : null}
+                        <div className={localClasses.contentDiv}>
+                          <TypeMedicalFormComponent data={report} />
                         </div>
-                      ) : null}
-                      <div className={localClasses.contentDiv}>
-                        <TypeMedicalFormComponent data={report} />
+                      </div>
+                      <div>
+                        <Typography variant="body2">
+                          <strong>Fecha:</strong>
+                          {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY')}
+                          <strong> Hora:</strong>
+                          {moment(moment.unix(report.clinicalDate).toDate()).format(' hh:mma')}
+                        </Typography>
                       </div>
                     </div>
-                    <div>
-                      <Typography variant="body2">
-                        <span>Fecha:</span>
-                        {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY hh:mma')}
-                      </Typography>
-                    </div>
                   </div>
-                </div>
-                <ListItemSecondaryAction>
-                  <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
+                  <ListItemSecondaryAction>
+                    <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              );
+            })}
           </List>
-          <PaginationComponent
-            total={total}
-            first={getPropValue(historyList[0], 'clinicalDate')}
-            last={getPropValue(historyList[historyList.length - 1], 'clinicalDate')}
-          />
+          <PaginationComponent total={total} />
         </>
       )}
     </>

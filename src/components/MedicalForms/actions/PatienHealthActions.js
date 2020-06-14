@@ -52,7 +52,7 @@ const saveHealthDataAction = async ({ forms, ...values }) => {
   if (forms.includes('exercises')) {
     await ExericesRef.add(exercicesModel(values));
   }
-  if (forms.includes('others')) {
+  if (forms.includes('otherstest')) {
     await OthersRef.add(othersModel(values));
   }
 };

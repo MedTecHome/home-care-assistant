@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useMediaQuery, Typography, makeStyles, colors } from '@material-ui/core';
+import React from 'react';
+import { Typography, makeStyles, colors } from '@material-ui/core';
 import { withMonitoringContext, useMonitoringContext } from './MonitoringContext';
 import FiltersMonitoringComponent from './FiltersMonitoringComponent';
 import TableComponent from '../table/TableComponent';
@@ -8,7 +8,7 @@ import RowMonitoringComponent from './RowMonitoringComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
-import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import { withCustomPaginationContext } from '../pagination/PaginationContext';
 
 const useStyles = makeStyles({
   hospitalText: {
@@ -58,20 +58,9 @@ function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGree
 }
 
 function MonitoringComponent() {
-  const { pageSize, offset } = useCustomPaginationContext();
-  const { list, total, loadingList, selected, setSelected, legend, setParams } = useMonitoringContext();
+  const { list, total, loadingList, selected, setSelectedFromList, legend } = useMonitoringContext();
   const { currentUserProfile } = useAuthContext();
   const classes = useStyles();
-  const matchXS = useMediaQuery(theme => theme.breakpoints.down('xs'));
-  const matchSM = useMediaQuery(theme => theme.breakpoints.down('sm'));
-  const cells = matchXS
-    ? [headMonitoringCells[0], headMonitoringCells[1]]
-    : (matchSM && [headMonitoringCells[0], headMonitoringCells[1], headMonitoringCells[2], headMonitoringCells[3]]) ||
-      headMonitoringCells;
-
-  useEffect(() => {
-    setParams({ limit: pageSize, offset });
-  }, [pageSize, offset, setParams]);
 
   return (
     <>
@@ -90,27 +79,22 @@ function MonitoringComponent() {
             />
           </>
         }
-        headCells={cells}
+        headCells={headMonitoringCells}
         list={list}
         loadingList={loadingList}
         render={(row, index) => (
           <RowMonitoringComponent
             key={getPropValue(row, 'user.id')}
-            cells={cells}
             row={row}
             index={index}
             selected={selected}
-            selectRow={setSelected}
+            selectRow={setSelectedFromList}
           />
         )}
       />
-      <PaginationComponent
-        total={total}
-        first={getPropValue(list[0], 'fullname')}
-        last={getPropValue(list[list.length - 1], 'fullname')}
-      />
+      <PaginationComponent total={total} />
     </>
   );
 }
 
-export default withMonitoringContext(withCustomPaginationContext(MonitoringComponent));
+export default withCustomPaginationContext(withMonitoringContext(MonitoringComponent));

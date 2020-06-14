@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { KeyboardDatePicker } from 'mui-rff';
+import { DatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import ProfileFieldComponent from './ProfileFieldComponent';
 import { validateBirthday, validateDoctor, validateHeight } from '../Profiles/forms/validateProfile';
@@ -16,7 +16,7 @@ function PatientsFieldComponent({ formType }) {
   return (
     <>
       <Grid item xs={12}>
-        <KeyboardDatePicker
+        <DatePicker
           required
           disabled={formType === EDIT_FORM_TEXT}
           dateFunsUtils={MomentUtils}

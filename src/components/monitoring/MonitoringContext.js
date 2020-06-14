@@ -1,51 +1,46 @@
-import React, { createContext, useState, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
+import React, { createContext, useState, useCallback, useContext, useEffect, useRef } from 'react';
 import getMonitoring from '../../services/monitoring';
+import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const MonitoringContext = createContext({});
 
 export const withMonitoringContext = WrapperComponent => () => {
-  const { RegisterMessage } = useMessageContext();
   const [list, setListAction] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
-  const [selected, setSlcted] = useState(null);
-  const [prms, setPrms] = useState({});
+  const [selected, setSelected] = useState(null);
+  const [params, setParams] = useState({});
+  const [action, setAction] = useState('');
   const [legend, setLegend] = useState({ totalRed: 0, totalYellow: 0, totalGreen: 0 });
+  const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const mounted = useRef(true);
 
-  const setParams = useCallback(values => {
-    setPrms(prevP => ({ ...prevP, ...values }));
+  const fetchList = useCallback(async (limit, pag, filters) => {
+    const res = await getMonitoring(limit, pag, filters);
+    if (mounted.current === true) {
+      setListAction(res.data);
+      setTotal(res.total);
+      setLoadingList(false);
+      setAction('');
+    }
   }, []);
-  const params = useMemo(() => prms, [prms]);
 
   useEffect(() => {
     mounted.current = true;
-    const { parent: parentId, limit, offset, ...filters } = params;
+    const { parent: parentId, ...filters } = params;
     if (parentId) {
       setLoadingList(true);
-      getMonitoring(limit, offset, { parent: parentId, ...filters })
-        .then(res => {
-          if (mounted.current === true) {
-            setListAction(res.data);
-            setTotal(res.total);
-          }
-        })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'MonitoringContext-getMonitoring'))
-        .finally(() => {
-          if (mounted.current === true) setLoadingList(false);
-        });
+      fetchList(pageSize, page, { parent: parentId, ...filters });
     }
     return () => {
       mounted.current = false;
     };
-  }, [params, RegisterMessage]);
+  }, [params, pageSize, page, action, fetchList]);
 
-  const setSelected = useCallback(
+  const setSelectedFromList = useCallback(
     id => {
       const result = list.find(item => item.id === id) || null;
-      setSlcted(result);
+      setSelected(result);
     },
     [list]
   );
@@ -58,11 +53,12 @@ export const withMonitoringContext = WrapperComponent => () => {
         setTotal,
         loadingList,
         selected,
-        setSelected,
+        setSelectedFromList,
         params,
         legend,
         setLegend,
-        setParams
+        setParams,
+        resetPagination
       }}
     >
       <WrapperComponent />
@@ -79,10 +75,11 @@ export const useMonitoringContext = () => {
     total: values.total,
     loadingList: values.loadingList,
     selected: values.selected,
-    setSelected: values.setSelected,
+    setSelectedFromList: values.setSelectedFromList,
     params: values.params,
     setParams: values.setParams,
     legend: values.legend,
-    setLegend: values.setLegend
+    setLegend: values.setLegend,
+    resetPagination: values.resetPagination
   };
 };

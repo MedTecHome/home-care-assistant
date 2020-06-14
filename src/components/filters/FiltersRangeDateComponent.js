@@ -11,7 +11,7 @@ const today = moment();
 const defaultStart = today.clone().add(-10, 'days');
 const defaultEnd = today.clone().add(3, 'days');
 
-function FiltersRangeDateComponent({ onRangeSet }) {
+function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
   const classes = useCustomStyles();
   const [dateValue, setDateValue] = useState([defaultStart, defaultEnd]);
 
@@ -37,7 +37,7 @@ function FiltersRangeDateComponent({ onRangeSet }) {
               value={`${value1 || '      '} ~ ${value2}`}
               inputRef={inputRef}
               inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField) }}
-              size="small"
+              size={size}
               ref={ref}
               onBlur={onBlur}
               onFocus={onFocus}

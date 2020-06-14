@@ -1,10 +1,11 @@
 import React from 'react';
-import { Grid, Paper, Typography, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import SeverityFieldComponent from '../fields/SeverityFieldComponent';
 import { validateOthersName, validateOthersSeverity } from './validateMedicalForms';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -17,9 +18,7 @@ function OthersForms({ classStyle, testName = '' }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        {`Prueba - (${testName})`}
-      </Typography>
+      <TitleAndIconComponent type="otherstest" classes={classStyle} alternativeTitle={`Prueba - (${testName})`} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent required label="Nombre" name="othersName" validate={validateOthersName} />

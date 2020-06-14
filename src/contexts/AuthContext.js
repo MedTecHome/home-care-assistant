@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
-import { authFirebase } from '../firebaseConfig';
+import firebase, { authFirebase } from '../firebaseConfig';
 import { getPropValue, isLocal } from '../helpers/utils';
 import { USERNAME_DOMAIN } from '../commons/globalText';
 import { getProfileById } from '../services/profiles';
@@ -18,27 +18,30 @@ export function AuthContextProvider({ children }) {
   const isPatient = getPropValue(currentUserProfile, 'role') === 'patient';
 
   useEffect(() => {
-    const unsubscribe = authFirebase.onAuthStateChanged(async user => {
-      setCurrentUser(user);
-      if (user) {
-        const idToken = await user.getIdToken();
-        localStorage.setItem('AuthToken', `Bearer ${idToken}`);
-        const profile = await getProfileById(user.uid);
-        if (profile) {
-          setCurrentUserProfile(profile);
+    let unsubscribe;
+    authFirebase.setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+      unsubscribe = authFirebase.onAuthStateChanged(async user => {
+        setCurrentUser(user);
+        if (user) {
+          const idToken = await user.getIdToken();
+          localStorage.setItem('AuthToken', `Bearer ${idToken}`);
+          const profile = await getProfileById(user.uid);
+          if (profile) {
+            setCurrentUserProfile(profile);
+          }
+        } else if (isLocal) {
+          // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
+          // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
+          const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
+          // const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
+          const profile = await getProfileById(id);
+          if (profile) {
+            setCurrentUserProfile(profile);
+          }
+        } else {
+          setCurrentUserProfile(null);
         }
-      } else if (isLocal) {
-        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
-        // const id = '0jiMdIL37AYxMlvCKsmaOBWpcYi2'; // clinic id
-        // const id = 'YNugQQvF5fhcFfXAN4UbQkYcakV2'; // doctor id
-        const id = 'WnXuxUETcvMk6b0exGRLUC5slTf2'; // paciente id
-        const profile = await getProfileById(id);
-        if (profile) {
-          setCurrentUserProfile(profile);
-        }
-      } else {
-        setCurrentUserProfile(null);
-      }
+      });
     });
 
     return () => {

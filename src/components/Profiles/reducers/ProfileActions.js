@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { apiData } from '../../../axiosApiRequest';
+import { apiFetch } from '../../../axiosApiRequest';
 import { dbFirebase } from '../../../firebaseConfig';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from '../../../commons/globalText';
 
@@ -29,7 +29,7 @@ const mutateValues = async ({
 const addValuesAction = async ({ id, email, password, username, ...values }) => {
   const mutations = await mutateValues(values);
   const result = { ...values, ...mutations, ...(mutations.role === 'clinic' ? { realDoctors: 0 } : {}) };
-  const response = await apiData.post('/createUser', {
+  const response = await apiFetch.post('/createUser', {
     username: `${username}${USERNAME_DOMAIN}`,
     password,
     fullname: `${values.name} ${values.lastName}`
@@ -54,7 +54,7 @@ const editValuesAction = async ({ id, ...values }) => {
 
 const deleteValuesAction = async ({ id }) => {
   await profilesRef.doc(id).delete();
-  await apiData.post('/deleteUser', { userId: id });
+  await apiFetch.post('/deleteUser', { userId: id });
 };
 
 const saveProfileValuesAction = async (values, formType) => {

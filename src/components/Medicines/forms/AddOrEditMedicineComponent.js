@@ -27,7 +27,7 @@ export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, h
       render={({ handleSubmit, form, submitting, pristine, invalid }) => (
         <form noValidate onSubmit={event => !invalid && handleSubmit(event)} autoComplete="off">
           {formType === EDIT_FORM_TEXT && selected && <input type="hidden" name="id" />}
-          <DialogContent className={classes.contentDialog}>
+          <DialogContent className={classes.contentDialog} style={{ padding: 15 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CustomTextFieldComponent
