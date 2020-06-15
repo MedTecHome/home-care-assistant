@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, ListItem, Typography, makeStyles } from '@material-ui/core';
+import { Avatar, ListItem, Typography, makeStyles, useMediaQuery } from '@material-ui/core';
 import moment from 'moment';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
@@ -48,6 +48,7 @@ function TypeProfileCardComponent({
 }) {
   const [logo, setLogo] = useState('');
   const localClass = useStyles();
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   useState(() => {
     const logoUrl = profile.role === 'clinic' ? profile.logoUrl : '';
@@ -76,14 +77,14 @@ function TypeProfileCardComponent({
       </div>
       <div className={localClass.contentItemList}>
         <Typography component="div">
-          <strong>{`${profile.name} ${profile.lastName}`}</strong>
+          <strong>{`${profile.name} ${profile.lastName || ''}`}</strong>
         </Typography>
         {isSuperadmin && (
           <Typography component="div" variant="body2" className={classes.inline} color="textPrimary">
             Tipo:<strong>{` ${profile.role ? profile.role.name : '-'}`}</strong>
           </Typography>
         )}
-        {getPropValue(profile, 'role') === 'patient' && getPropValue(profile, 'birthday') && (
+        {!match && getPropValue(profile, 'role') === 'patient' && getPropValue(profile, 'birthday') && (
           <Typography component="div">
             Nació:
             <strong>
@@ -101,9 +102,9 @@ function TypeProfileCardComponent({
             <strong>{` ${getPropValue(profile, 'realDoctors')}/${getPropValue(profile, 'maxDoctors')}`}</strong>
           </Typography>
         )}
-        {profile.role && profile.role === 'patient' && (
+        {!match && profile.role && profile.role === 'patient' && (
           <Typography component="div">
-            Edad:<strong>{` ${profile.age} años`}</strong>
+            Edad:<strong>{` ${profile.age || 0} años`}</strong>
           </Typography>
         )}
         {['clinic', 'patient'].includes(getPropValue(profile, 'role')) && profile.address ? (
