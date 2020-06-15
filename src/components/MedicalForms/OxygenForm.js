@@ -17,7 +17,7 @@ export default function OxygenForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="oxygen" classes={classStyle} />
+      <TitleAndIconComponent type="oxygen" />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent required name="SpO2" label="SpO2:" validate={validateSpO2} />

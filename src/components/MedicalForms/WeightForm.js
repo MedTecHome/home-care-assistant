@@ -17,10 +17,10 @@ function WeightForm({ classStyle }) {
   const classes = useStyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="weight" classes={classStyle} />
+      <TitleAndIconComponent type="weight" />
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <CustomTextFieldComponent required type="number" label="Peso" name="weight" validate={validateWeight} />
+          <CustomTextFieldComponent required type="number" label="Peso(kg)" name="weight" validate={validateWeight} />
         </Grid>
         <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="weightDate" label="Día" />
         <TimeFieldComponent maxDate={Date.now()} label="Hora" name="weightTime" classes={classStyle} />

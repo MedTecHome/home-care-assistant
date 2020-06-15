@@ -18,7 +18,7 @@ function OthersForms({ classStyle, testName = '' }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="otherstest" classes={classStyle} alternativeTitle={`Prueba - (${testName})`} />
+      <TitleAndIconComponent type="otherstest" alternativeTitle={`Prueba - (${testName})`} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent required label="Nombre" name="othersName" validate={validateOthersName} />

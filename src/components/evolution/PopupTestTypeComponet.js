@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import PopoverComponent from '../containers/PopoverComponent';
 import { DetailHistoryMedicalFormContentComponent } from '../ClinicalHistory/DetailHistoryMedicalFormComponent';
 import healthyStandards from '../../helpers/healthyStandards';
+import { severityConstant } from '../../helpers/constants';
+import { getPropValue } from '../../helpers/utils';
 
 const useStyles = makeStyles({
   contextDetail: {
@@ -38,7 +40,13 @@ function PopupTestTypeComponent({ data }) {
             (data.type === 'glucose' && data.sugarConcentration) ||
             (data.type === 'inr' && data.INR) ||
             (data.type === 'oxygen' && data.heartbeat) ||
-            (data.type === 'exercises' && data.steps)}
+            (data.type === 'exercises' && data.steps) ||
+            (data.type === 'otherstest' &&
+              getPropValue(
+                severityConstant.find(sc => sc.id === data.severity),
+                'name'
+              )) ||
+            '?'}
         </Typography>
       }
       content={<DetailHistoryMedicalFormContentComponent selected={data} className={classes.contextDetail} />}

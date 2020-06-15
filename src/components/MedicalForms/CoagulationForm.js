@@ -17,7 +17,7 @@ function CoagulationForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="inr" classes={classStyle} />
+      <TitleAndIconComponent type="inr" />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent type="number" label="INR:" name="INR" required validate={validateINR} />

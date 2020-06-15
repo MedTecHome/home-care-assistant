@@ -17,7 +17,7 @@ function TemperatureForm({ classStyle }) {
   const classes = useStyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="temperature" classes={classStyle} />
+      <TitleAndIconComponent type="temperature" />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent

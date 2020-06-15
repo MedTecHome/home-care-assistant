@@ -20,7 +20,7 @@ function PressureForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="pressure" classes={classStyle} />
+      <TitleAndIconComponent type="pressure" />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent
@@ -45,7 +45,7 @@ function PressureForm({ classStyle }) {
             required
             type="number"
             label={`${matches ? 'Frec.' : 'Frecuencia'} Cardíaca`}
-            name="heartrate"
+            name="bloodPressureHeartrate"
             validate={validateHeartrate}
           />
         </Grid>

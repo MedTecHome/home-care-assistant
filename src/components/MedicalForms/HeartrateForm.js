@@ -20,7 +20,7 @@ function HeartrateForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="heartrate" classes={classStyle} />
+      <TitleAndIconComponent type="heartrate" />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent

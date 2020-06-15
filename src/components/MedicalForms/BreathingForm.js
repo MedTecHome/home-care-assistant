@@ -17,7 +17,7 @@ function BreathingForm({ classStyle }) {
   const classes = useStyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="breathing" classes={classStyle} />
+      <TitleAndIconComponent type="breathing" />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent
