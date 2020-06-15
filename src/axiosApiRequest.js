@@ -14,7 +14,7 @@ const apiData = axios.create({
 });
 
 const apiDataLocal = axios.create({
-  baseURL: 'http://localhost:5001/test1-6f25a/us-central1/api/'
+  baseURL: 'http://192.168.42.217:5001/test1-6f25a/us-central1/api/'
 });
 
 const apiFetch = reactDB === 'local' ? apiDataLocal : apiData;

@@ -49,7 +49,7 @@ const useStyles = makeStyles({
     width: '100%',
     display: 'grid',
     gridGap: 10,
-    gridTemplateColumns: 'repeat(auto-fit, minmax(40%, 1fr))'
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))'
   }
 });
 

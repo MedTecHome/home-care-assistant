@@ -7,7 +7,8 @@ import {
   Collapse,
   IconButton,
   Avatar,
-  CircularProgress
+  CircularProgress,
+  Grid
 } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
@@ -41,19 +42,18 @@ const useStyles = makeStyles({
   },
   itemTitle: {
     width: '100%',
-    marginBottom: 5
+    marginBottom: 5,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    color: '#666',
+    fontWeight: 600
   },
   collapseItem: {
     width: '100%'
   },
   collapseContent: {
     width: '100%',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
     gridGap: 5
-  },
-  phonesText: {
-    textAlign: 'end'
   },
   addressText: {
     gridColumn: 'span 2'
@@ -135,23 +135,29 @@ function ClinicInfoComponent() {
             <div className={classes.itemList}>
               <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
               <div className={classes.itemContent}>
-                <Typography className={classes.itemTitle} component="div">
+                <Typography className={classes.itemTitle} variant="h6">
                   {getPropValue(clinicInfo, 'fullname')}
                 </Typography>
                 <Collapse className={classes.collapseItem} in={open}>
-                  <div className={classes.collapseContent}>
-                    <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
-                    <Typography className={classes.phonesText}>
-                      Teléfonos:
-                      {[getPropValue(clinicInfo, 'primaryPhone'), getPropValue(clinicInfo, 'secondaryPhone')]
-                        .filter(tel => !!tel)
-                        .map(tel => tel)
-                        .join(', ')}
-                    </Typography>
-                    <Typography className={classes.addressText}>
-                      Dirección:{` ${getPropValue(clinicInfo, 'address')}`}
-                    </Typography>
-                  </div>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={6}>
+                      <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Typography>
+                        Teléfonos:
+                        {` ${[getPropValue(clinicInfo, 'primaryPhone'), getPropValue(clinicInfo, 'secondaryPhone')]
+                          .filter(tel => !!tel)
+                          .map(tel => tel)
+                          .join(', ')}`}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Typography className={classes.addressText}>
+                        Dirección:{` ${getPropValue(clinicInfo, 'address') || '-'}`}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Collapse>
               </div>
             </div>

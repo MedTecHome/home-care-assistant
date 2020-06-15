@@ -22,7 +22,9 @@ function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
   }, [value, onRangeSet]);
 
   const handleOnChange = values => {
-    setDateValue(values);
+    if (!values[0] || !values[1]) {
+      setDateValue([defaultStart, defaultEnd]);
+    } else setDateValue(values);
   };
   return (
     <LocalizationProvider dateAdapter={MomentAdapter}>
@@ -36,7 +38,7 @@ function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
               label="Rango de fecha"
               value={`${value1} ~ ${value2}`}
               inputRef={inputRef}
-              inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField) }}
+              inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField), readOnly: true }}
               size={size}
               ref={ref}
               onBlur={onBlur}
