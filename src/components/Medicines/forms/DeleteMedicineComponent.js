@@ -27,7 +27,7 @@ function DeleteMedicineComponent({ setModalVisible, selected, saveMedicineValues
     <>
       <DialogTitleComponent onClose={handleCancel}>Eliminar medicamento</DialogTitleComponent>
       <DialogContent dividers className={classes.contentDialog}>
-        <Typography>
+        <Typography className={classes.textUpperCase}>
           Esta seguro que desea eliminar el medicamento:<strong> {selected.name}</strong>.
         </Typography>
       </DialogContent>

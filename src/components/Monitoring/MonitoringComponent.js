@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, makeStyles, colors } from '@material-ui/core';
+import { makeStyles, colors } from '@material-ui/core';
 import { withMonitoringContext, useMonitoringContext } from './MonitoringContext';
 import FiltersMonitoringComponent from './FiltersMonitoringComponent';
 import TableComponent from '../table/TableComponent';
@@ -11,11 +11,6 @@ import PaginationComponent from '../pagination/PaginationComponent';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 
 const useStyles = makeStyles({
-  hospitalText: {
-    textAlign: 'right',
-    textTransform: 'uppercase',
-    textDecoration: 'underline'
-  },
   divRoot: {
     width: '100%',
     display: 'grid',
@@ -62,7 +57,6 @@ function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGree
 function MonitoringComponent() {
   const { list, total, loadingList, selected, setSelectedFromList, legend } = useMonitoringContext();
   const { currentUserProfile } = useAuthContext();
-  const classes = useStyles();
 
   return (
     <>
@@ -70,9 +64,6 @@ function MonitoringComponent() {
       <TableComponent
         extraText={
           <>
-            <Typography className={classes.hospitalText} variant="h6">
-              {getPropValue(currentUserProfile, 'hospital.name')}
-            </Typography>
             <LegendTableMonitoring
               total={total}
               totalRed={legend.totalRed}

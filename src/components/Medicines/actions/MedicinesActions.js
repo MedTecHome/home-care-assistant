@@ -4,6 +4,7 @@ import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../../common
 const MedicinesRef = dbFirebase.collection('medicines');
 
 export const medicineModel = ({
+  name = '',
   concentrationCant = '',
   doseCant = '',
   frequency = '',
@@ -12,6 +13,7 @@ export const medicineModel = ({
   administrationType = '',
   observations = ''
 }) => ({
+  name: name.toLowerCase(),
   concentrationCant,
   doseCant,
   frequency,

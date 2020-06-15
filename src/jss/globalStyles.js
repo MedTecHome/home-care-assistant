@@ -140,6 +140,18 @@ const useCustomStyles = makeStyles(theme => ({
   },
   contentDialog: {
     maxWidth: 400
+  },
+  textUnderline: {
+    textTransform: 'underline'
+  },
+  textUpperCase: {
+    textTransform: 'uppercase'
+  },
+  textLowerCase: {
+    textTransform: 'lowercase'
+  },
+  textCapitalizeCase: {
+    textTransform: 'capitalize'
   }
 }));
 
