@@ -108,10 +108,6 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                   <Fieldset title="General">
                     <div className={classes.containerDetailDiv}>
                       <Typography>
-                        <strong>Tipo: </strong>
-                        {data.name}
-                      </Typography>
-                      <Typography>
                         <strong>Fecha inicio: </strong>
                         {moment.unix(data.startDate).format('DD/MM/YYYY')}
                       </Typography>

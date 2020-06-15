@@ -34,7 +34,7 @@ function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
               className={classes.formControl}
               variant="outlined"
               label="Rango de fecha"
-              value={`${value1 || '      '} ~ ${value2}`}
+              value={`${value1} ~ ${value2}`}
               inputRef={inputRef}
               inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField) }}
               size={size}
@@ -42,6 +42,7 @@ function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
               onBlur={onBlur}
               onFocus={onFocus}
               onClick={onClick}
+              onChange={() => {}}
               placeholder="__/__/__ - __/__/__"
             />
           );
