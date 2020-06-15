@@ -76,7 +76,7 @@ function TypeProfileCardComponent({
         <Avatar alt={profile.name} src={logo} className={localClass.avatarImg} />
       </div>
       <div className={localClass.contentItemList}>
-        <Typography component="div">
+        <Typography component="div" className={classes.textUpperCase}>
           <strong>{`${profile.name} ${profile.lastName || ''}`}</strong>
         </Typography>
         {isSuperadmin && (
