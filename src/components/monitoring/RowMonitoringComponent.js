@@ -5,8 +5,10 @@ import { NavLink } from 'react-router-dom';
 import { getPropValue } from '../../helpers/utils';
 import healthyStandards from '../../helpers/healthyStandards';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
+import useCustomStyles from '../../jss/globalStyles';
 
 function RowMonitoringComponent({ row, selectRow }) {
+  const classes = useCustomStyles();
   const handleRowSelect = id => {
     selectRow(id);
   };
@@ -26,6 +28,7 @@ function RowMonitoringComponent({ row, selectRow }) {
     <TableRow onClick={() => handleRowSelect(row.id)}>
       <TableCell>
         <Typography
+          className={classes.textUpperCase}
           component={NavLink}
           to={{
             pathname: '/detallesclinicos',

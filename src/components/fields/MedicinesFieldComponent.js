@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState, memo } from 'react';
 import { Autocomplete } from 'mui-rff';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 import getMedicines from '../../services/medicines';
+import useCustomStyles from '../../jss/globalStyles';
 
 function MedicinesFieldComponent({
   required,
@@ -18,6 +19,7 @@ function MedicinesFieldComponent({
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
+  const classes = useCustomStyles();
 
   useEffect(() => {
     getMedicines(5, 0, { clinic, name: filterNameMemoize }).then(result => {
@@ -31,6 +33,7 @@ function MedicinesFieldComponent({
 
   return (
     <Autocomplete
+      className={classes.textUpperCase}
       required={required}
       autoHighlight
       blurOnSelect
@@ -50,7 +53,7 @@ function MedicinesFieldComponent({
       openOnFocus={false}
       options={medicines}
       getOptionValue={option => option.id}
-      getOptionLabel={option => option.name}
+      getOptionLabel={option => option.name.toUpperCase()}
     />
   );
 }

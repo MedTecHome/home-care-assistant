@@ -6,16 +6,18 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, USERNAME_DOMAIN } from
 const profilesRef = dbFirebase.collection('profiles');
 
 const mutateValues = async ({
+  name = '',
+  lastName = '',
   birthday,
   parent,
   maxDoctors,
   maxPatients,
   role,
   sex,
-  sname = '',
   secondaryPhone = ''
 }) => ({
-  sname,
+  name: name.toLowerCase(),
+  lastName: lastName.toLowerCase(),
   secondaryPhone,
   ...(maxDoctors ? { maxDoctors: parseInt(maxDoctors, 10) } : {}),
   ...(maxPatients ? { maxPatients: parseInt(maxPatients, 10) } : {}),

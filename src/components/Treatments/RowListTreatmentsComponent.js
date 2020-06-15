@@ -25,6 +25,7 @@ import TextFromProfileComponent from '../text/TextFromProfileComponent';
 import { AsyncDosis } from '../text/AsyncNomenclatorText';
 import AsyncMedicineText from '../text/AsyncMedicineText';
 import { getMedicineById } from '../../services/medicines';
+import useCustomStyles from '../../jss/globalStyles';
 
 const useStyles = makeStyles({
   root: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles({
 });
 
 function TableMedicines({ medicines }) {
+  const classes = useCustomStyles();
   return (
     <TableContainer>
       <Table size="small">
@@ -73,7 +75,7 @@ function TableMedicines({ medicines }) {
         <TableBody>
           {medicines.map(medicine => (
             <TableRow key={medicine.id}>
-              <TableCell>{getPropValue(medicine, 'name')}</TableCell>
+              <TableCell className={classes.textUpperCase}>{getPropValue(medicine, 'name')}</TableCell>
               <TableCell align="center">
                 {`${getPropValue(medicine, 'doseCant') || '-'}`}
                 <AsyncDosis id={getPropValue(medicine, 'doseType')} />

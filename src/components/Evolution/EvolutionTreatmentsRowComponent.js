@@ -4,9 +4,11 @@ import { TableRow, TableCell } from '@material-ui/core';
 import PopupMedicineDetailComponent from './PopupMedicineDetailComponent';
 import { getPropValue } from '../../helpers/utils';
 import { getMedicineById } from '../../services/medicines';
+import useCustomStyles from '../../jss/globalStyles';
 
 function EvolutionTreatmentsRowComponent({ treatment, aux, classes }) {
   const [medicine, setMedicine] = useState(null);
+  const globalClasses = useCustomStyles();
 
   const fetchMedicine = useCallback(async (id, medSetting) => {
     const result = await getMedicineById(id);
@@ -23,7 +25,7 @@ function EvolutionTreatmentsRowComponent({ treatment, aux, classes }) {
 
   return (
     <TableRow key={treatment.id}>
-      <TableCell>{getPropValue(medicine, 'name')}</TableCell>
+      <TableCell className={globalClasses.textUpperCase}>{getPropValue(medicine, 'name')}</TableCell>
       {aux.map((d, index) => (
         <TableCell
           key={index.toString()}
