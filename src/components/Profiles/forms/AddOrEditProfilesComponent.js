@@ -187,11 +187,11 @@ function AddOrEditProfilesComponent({
                       label="Usuario"
                       disabled={formType === EDIT_FORM_TEXT}
                       validate={value => {
-                        if (form.getState().initialValues.email !== value) {
-                          if (values.email !== value) {
+                        if (form.getState().initialValues.username !== value) {
+                          if (values.username !== value) {
                             return validateUsername(value);
                           }
-                          return errors.email;
+                          return errors.username;
                         }
                         return null;
                       }}
