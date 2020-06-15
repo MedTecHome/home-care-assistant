@@ -115,9 +115,7 @@ const useCustomStyles = makeStyles(theme => ({
   },
   justifyCheckbox: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
     textOverflow: 'ellipsis'
   },
   noHoverBackground: {

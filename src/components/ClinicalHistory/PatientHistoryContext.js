@@ -3,19 +3,7 @@ import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalR
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
-import {
-  getClinicalTests,
-  getPressure,
-  getTemperature,
-  getWeight,
-  getGlucose,
-  getINR,
-  getOxygen,
-  getExercises,
-  getBreathing,
-  getOthers,
-  getHeartrate
-} from '../../services/clinicaltest';
+import getClinicalTests from '../../services/clinicaltest';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const PatientHistoryContext = createContext({});
@@ -26,40 +14,22 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
   const [params, setParams] = useState({});
-  const { pageSize, offset, resetPagination } = useCustomPaginationContext();
+  const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const [loadingList, setLoadingList] = useState(false);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
 
-  const fetchPatientHistory = useCallback(
-    async (user, type, limit, skip, filters) => {
-      const clinicaltest =
-        ((type === 'recently' || !type) && getClinicalTests) ||
-        (type === 'pressure' && getPressure) ||
-        (type === 'heartrate' && getHeartrate) ||
-        (type === 'temperature' && getTemperature) ||
-        (type === 'weight' && getWeight) ||
-        (type === 'glucose' && getGlucose) ||
-        (type === 'breathing' && getBreathing) ||
-        (type === 'inr' && getINR) ||
-        (type === 'oxygen' && getOxygen) ||
-        (type === 'exercises' && getExercises) ||
-        (type === 'others' && getOthers);
+  const fetchList = useCallback(
+    async (user, limit, pag, filters, type) => {
       try {
-        const response = await clinicaltest(limit, skip, { user, ...filters });
-        const result = response.data.sort((a, b) => {
-          const c = a.clinicalDate;
-          const d = b.clinicalDate;
-          return d - c;
-        });
+        const result = await getClinicalTests(limit, pag, { user, ...filters }, type);
         if (mounted.current === true) {
-          setHistoryList(result);
-          setTotal(response.total);
+          setHistoryList(result.data);
+          setTotal(result.total);
+          setLoadingList(false);
         }
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatienhistoryCOmponent');
-      } finally {
-        if (mounted.current === true) setLoadingList(false);
       }
     },
     [RegisterMessage]
@@ -67,15 +37,15 @@ const PatientHistoryContextProvider = ({ children }) => {
 
   useEffect(() => {
     mounted.current = true;
-    const { type, user, ...filters } = params;
-    if (user) {
+    const { type, user, rangeDate, ...filters } = params;
+    if (user && rangeDate && rangeDate[0] && rangeDate[1]) {
       setLoadingList(true);
-      fetchPatientHistory(user, type, pageSize, offset, filters);
+      fetchList(user, pageSize, page, { ...filters, rangeDate }, type);
     }
     return () => {
       mounted.current = false;
     };
-  }, [params, pageSize, offset, fetchPatientHistory]);
+  }, [params, pageSize, page, fetchList]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 

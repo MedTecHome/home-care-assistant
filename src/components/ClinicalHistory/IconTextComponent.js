@@ -1,5 +1,7 @@
 import React from 'react';
-import { makeStyles, Avatar } from '@material-ui/core';
+import clsx from 'clsx';
+import { Block as BlockIcon } from '@material-ui/icons';
+import { makeStyles, Avatar, SvgIcon } from '@material-ui/core';
 import OxygenIconSvg from '../../images/svg/oxygen.svg';
 import PressureIconSvg from '../../images/svg/pressure.svg';
 import WeightIconSvg from '../../images/svg/weight.svg';
@@ -13,12 +15,12 @@ import InrIconSvg from '../../images/svg/inr.svg';
 
 const useStyles = makeStyles({
   iconTest: {
-    width: 53,
-    height: 53
+    width: 64,
+    height: 64
   }
 });
 
-function IconTestComponent({ type }) {
+function IconTestComponent({ type, className = {} }) {
   const classes = useStyles();
   let iconSrc = '';
   switch (type) {
@@ -58,14 +60,22 @@ function IconTestComponent({ type }) {
       iconSrc = HeartrateIconSvg;
       break;
     }
-    case 'others': {
+    case 'otherstest': {
       iconSrc = OthersIconSvg;
       break;
     }
     default:
       break;
   }
-  return <Avatar alt="" src={iconSrc} className={classes.iconTest} />;
+  return (
+    <Avatar alt="" src={iconSrc} className={clsx(classes.iconTest, className)}>
+      {!type ? (
+        <SvgIcon color="secondary">
+          <BlockIcon />
+        </SvgIcon>
+      ) : null}
+    </Avatar>
+  );
 }
 
 export default IconTestComponent;

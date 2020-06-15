@@ -27,7 +27,7 @@ function PatientHistoryComponent({ patient, defaultTest }) {
 
   const handleSelectDate = useCallback(
     values => {
-      if (!params.rangeDate || (params.rangeDate[0] !== values[0] && params.rangeDate[1] !== values[1])) {
+      if (JSON.stringify(params.rangeDate) !== JSON.stringify(values)) {
         setParams({ ...params, rangeDate: values });
         resetPagination();
       }

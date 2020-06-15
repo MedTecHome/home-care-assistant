@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useState, useEffect, useRef } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import saveValuesAction from './actions/TreatmentActions';
@@ -6,8 +6,7 @@ import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getTreatments from '../../services/treatments';
 import { isEmpty } from '../../helpers/utils';
-import getNomenclator from '../../services/nomenclators';
-import { getMedicineById } from '../../services/medicines';
+import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const TreatmentsContext = createContext({});
 
@@ -15,84 +14,52 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const { RegisterMessage } = useMessageContext();
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
-  const [slected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
-  const [loadingSave, setLoadingSave] = useState(false);
-  const [prms, setPrms] = useState({});
+  const [action, setAction] = useState('');
+  const [params, setParams] = useState({});
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
-  const selected = useMemo(() => slected, [slected]);
-  const listTreatments = useMemo(() => list, [list]);
+  const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const mounted = useRef(true);
 
-  const setParams = useCallback(values => {
-    setPrms(values);
+  const fetchList = useCallback(async (limit, pag, filters) => {
+    const result = await getTreatments(limit, pag, filters);
+    if (mounted.current) {
+      setList(result.data);
+      setTotal(result.total);
+      setLoadingList(false);
+      setAction('');
+    }
   }, []);
-
-  const params = useMemo(() => prms, [prms]);
 
   useEffect(() => {
     mounted.current = true;
-    const { limit, offset, ...filters } = params;
-    if (!loadingSave && !isEmpty(filters)) {
+    if (!isEmpty(params)) {
       setLoadingList(true);
-      getTreatments(limit, offset, filters)
-        .then(res => {
-          const treatments = res.data.map(async treat => {
-            const medicines = await getMedicineById(treat.medicines);
-            let result = { ...medicines, ...JSON.parse(treat.medicineSetting) };
-            if (result.administrationType) {
-              const administrationTypeObj = await getNomenclator('administrationroute', result.administrationType);
-              result = { ...result, administrationTypeObj };
-            }
-            if (result.doseType) {
-              const doseTypeObj = await getNomenclator('dosis', result.doseType);
-              result = { ...result, doseTypeObj };
-            }
-            if (result.concentrationType) {
-              const concentrationTypeObj = await getNomenclator('concentrations', result.concentrationType);
-              result = { ...result, concentrationTypeObj };
-            }
-            return { ...treat, medicineObject: result };
-          });
-          Promise.all(treatments)
-            .then(data => {
-              if (mounted.current === true) {
-                setList(data);
-                setTotal(res.total);
-              }
-            })
-            .catch(e => {
-              throw new Error(e);
-            });
-        })
-        .catch(e => RegisterMessage(ERROR_MESSAGE, e, 'TreatmenrsContext-getListOfTreatments'))
-        .finally(() => {
-          if (mounted.current === true) setLoadingList(false);
-        });
+      fetchList(pageSize, page, params);
     }
 
     return () => {
       mounted.current = false;
     };
-  }, [loadingSave, params, RegisterMessage]);
+  }, [params, action, pageSize, page, fetchList]);
 
   const selectFromList = useCallback(
     id => {
-      const result = listTreatments.find(item => item.id === id) || null;
+      const result = list.find(item => item.id === id) || null;
       setSelected(result);
     },
-    [listTreatments]
+    [list]
   );
 
   const saveValues = useCallback(
     async (values, formType) => {
-      setLoadingSave(true);
       try {
         await saveValuesAction(values, formType);
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'TreatmentsContext');
       } finally {
-        setLoadingSave(false);
+        setAction('fetch');
       }
     },
     [RegisterMessage]
@@ -105,7 +72,7 @@ export const withTreatmentsContext = WrapperComponent => props => {
   return (
     <TreatmentsContext.Provider
       value={{
-        listTreatments,
+        list,
         total,
         selected,
         loadingList,
@@ -115,7 +82,8 @@ export const withTreatmentsContext = WrapperComponent => props => {
         selectFromList,
         saveValues,
         setParams,
-        setModalVisible
+        setModalVisible,
+        resetPagination
       }}
     >
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -129,18 +97,17 @@ export const useTreatmentsContext = () => {
   if (!values) throw new Error('Only works inside TreatmentsContextProvider');
 
   return {
-    listTreatments: values.listTreatments,
+    list: values.list,
     selected: values.selected,
     loadingList: values.loadingList,
     params: values.params,
     formType: values.formType,
     modalVisible: values.modalVisible,
     total: values.total,
-    setTotal: values.setTotal,
-    getListOfTreatments: values.getListOfTreatments,
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
     setParams: values.setParams,
-    setModalVisible: values.setModalVisible
+    setModalVisible: values.setModalVisible,
+    resetPagination: values.resetPagination
   };
 };

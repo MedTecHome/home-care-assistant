@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
@@ -7,6 +7,7 @@ import SheduleFieldComponent from '../fields/SheduleFieldComponent';
 import { validateGlucoseUnity, validateHorario, validateSugarConcentration } from './validateMedicalForms';
 import GlucosaUnityFieldComponent from '../fields/GlucosaUnityFieldComponent';
 import IntakeTimeFieldComponent from '../fields/IntakeTimeFieldComponent';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -22,9 +23,7 @@ function GlucoseForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Glucosa
-      </Typography>
+      <TitleAndIconComponent type="glucose" />
       <Grid container spacing={2}>
         <Grid item xs={7}>
           <CustomTextFieldComponent
@@ -56,8 +55,8 @@ function GlucoseForm({ classStyle }) {
         <Grid item xs={12}>
           <CustomTextFieldComponent label="Unidad Pan" name="breadUnity" />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="glucoseDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="glucoseTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="glucoseDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="glucoseTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent
             className={classStyle.formControl}

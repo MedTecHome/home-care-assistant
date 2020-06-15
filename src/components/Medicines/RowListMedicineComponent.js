@@ -7,6 +7,8 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
+import { getPropValue } from '../../helpers/utils';
+import { AsyncConcentration, AsyncDosis, AsyncAdministrationroute } from '../text/AsyncNomenclatorText';
 
 function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();
@@ -20,11 +22,17 @@ function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) 
       selected={selected && selected.id === row.id}
     >
       <TableCell>{row.name}</TableCell>
-      <TableCell align="center">{`${row.concentrationCant || '-'} ${
-        row.concentrationObj.measure || row.concentrationObj.name || ''
-      }`}</TableCell>
-      <TableCell>{`${row.doseCant || '-'} ${row.doseTypeObj.abbreviation || row.doseTypeObj.name || ''}`}</TableCell>
-      <TableCell>{row.administrationTypeObj.name || '-'}</TableCell>
+      <TableCell align="center">
+        {`${getPropValue(row, 'concentrationCant') || '-'}`}
+        <AsyncConcentration id={getPropValue(row, 'concentrationType')} />
+      </TableCell>
+      <TableCell align="center">
+        {`${getPropValue(row, 'doseCant') || '-'}`}
+        <AsyncDosis id={getPropValue(row, 'doseType')} />
+      </TableCell>
+      <TableCell>
+        <AsyncAdministrationroute id={getPropValue(row, 'administrationType')} />
+      </TableCell>
       <TableCell align="center">{row.frequency || '-'}</TableCell>
 
       <TableCell align="center">

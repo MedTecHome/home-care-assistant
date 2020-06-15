@@ -10,11 +10,10 @@ import { DialogTitleComponent } from '../../ModalComponent';
 import DateFieldComponent from '../../fields/DateFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
-import MedicinesFieldComponent from '../../fields/medicines/MedicinesFieldComponent';
+import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../Profiles/forms/validateProfile';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
-import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import validateForm from './validateForm';
 import EditButtonIcon from '../../buttons/EditButtonIcon';
 import { medicineModel } from '../../Medicines/actions/MedicinesActions';
@@ -25,7 +24,6 @@ import { getMedicineById } from '../../../services/medicines';
 const useStyles = makeStyles({
   root: {
     backgroundColor: '#f5f5f6',
-    padding: 16,
     borderRadius: 4
   }
 });
@@ -112,9 +110,6 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
                     }}
                   >
                     <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <CustomTextFieldComponent variant="outlined" label="Motivo de tratamiento" name="name" />
-                      </Grid>
                       <Grid item xs={12}>
                         <ProfileFieldComponent
                           required

@@ -7,7 +7,7 @@ import ToolbarProfileComponent from './FiltersProfilesComponent';
 import ModalComponent from '../ModalComponent';
 import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import useCustomStyles from '../../jss/globalStyles';
-import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
+import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
 import AddOrEditProfilesComponent from './forms/AddOrEditProfilesComponent';
@@ -35,7 +35,6 @@ function TitleProfilesComponent({ filterRole }) {
 
 function ProfilesComponent({ filterRole }) {
   const { currentUserProfile, isSuperadmin } = useAuthContext();
-  const { resetPagination } = useCustomPaginationContext();
   const {
     formType,
     setModalVisible,
@@ -47,7 +46,8 @@ function ProfilesComponent({ filterRole }) {
     selected,
     loadingList,
     saveProfileValues,
-    params
+    params,
+    resetPagination
   } = useProfilesContext();
 
   const { role: roleId } = params;
@@ -106,11 +106,7 @@ function ProfilesComponent({ filterRole }) {
         onClickEdit={handleOnClickEdit}
         isSuperadmin={isSuperadmin}
       />
-      <PaginationComponent
-        total={total}
-        first={getPropValue(profileList[0], 'fullname')}
-        last={getPropValue(profileList[profileList.length - 1], 'fullname')}
-      />
+      <PaginationComponent total={total} />
     </>
   );
 }

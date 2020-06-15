@@ -8,7 +8,7 @@ function RoleFieldComponent({ userRole, disabled }) {
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    getRoles(100, {}, {}).then(result => {
+    getRoles(100, 0, {}).then(result => {
       setRoles(result.data.filter(item => listAccess[userRole].includes(item.id)));
     });
   }, [userRole]);

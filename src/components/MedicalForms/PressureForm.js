@@ -1,9 +1,10 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Typography, Paper, makeStyles } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/core';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateDiastolica, validateHeartrate, validateSistolica } from './validateMedicalForms';
+import TitleAndIconComponent from './TitleAndIconComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -19,9 +20,7 @@ function PressureForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <Typography className={classStyle.titleForms} variant="subtitle1">
-        Presión
-      </Typography>
+      <TitleAndIconComponent type="pressure" />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent
@@ -46,12 +45,12 @@ function PressureForm({ classStyle }) {
             required
             type="number"
             label={`${matches ? 'Frec.' : 'Frecuencia'} Cardíaca`}
-            name="heartrate"
+            name="bloodPressureHeartrate"
             validate={validateHeartrate}
           />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="bloodPressureDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="bloodPressureTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="bloodPressureDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="bloodPressureTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="bloodPressureNote" />
         </Grid>

@@ -6,9 +6,10 @@ import {
   REQUIRED_FIELD,
   REGEX_PHONE,
   REGEX_ONLY_ALPHANUMERIC_AND_DOT,
-  INVALID_PHONE_NUMBER
+  INVALID_PHONE_NUMBER,
+  USERNAME_DOMAIN
 } from '../../../commons/globalText';
-import getProfiles from '../../../services/profiles';
+import getProfiles, { getByEmail } from '../../../services/profiles';
 
 const validateProfile = values => {
   const errors = {};
@@ -37,14 +38,6 @@ const validateProfile = values => {
   if (values.secondaryPhone) {
     if (!REGEX_PHONE.test(values.secondaryPhone)) {
       errors.secondaryPhone = INVALID_PHONE_NUMBER;
-    }
-  }
-  if (!values.username) {
-    errors.username = REQUIRED_FIELD;
-  }
-  if (values.username) {
-    if (!REGEX_ONLY_ALPHANUMERIC_AND_DOT.test(values.username)) {
-      errors.username = 'Solo se admite numeros y letras';
     }
   }
   return errors;
@@ -89,9 +82,31 @@ const validatePassword = value => {
   return null;
 };
 
+const validateUsername = async value => {
+  if (!value) {
+    return REQUIRED_FIELD;
+  }
+  if (value) {
+    if (!REGEX_ONLY_ALPHANUMERIC_AND_DOT.test(value)) {
+      return 'Solo se admite numeros y letras';
+    }
+    try {
+      const response = await getByEmail(`${value}${USERNAME_DOMAIN}`);
+      return response.data.exist ? 'Ya existe una cuenta asociada a ese usuario.' : null;
+    } catch (e) {
+      return 'Error en la conexión';
+    }
+  }
+  return null;
+};
+
 const validateEmail = async value => {
-  const response = await getProfiles(1, {}, { email: value }, false);
-  return response.total > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
+  try {
+    const response = await getProfiles(1, 0, { email: value }, false);
+    return response.total > 0 ? 'Ya existe una cuenta asociada a ese correo.' : null;
+  } catch (e) {
+    return 'Error en la conexión';
+  }
 };
 
 const agreementValidate = value => {
@@ -108,5 +123,6 @@ export {
   validateHospital,
   validateEmail,
   validatePassword,
-  agreementValidate
+  agreementValidate,
+  validateUsername
 };

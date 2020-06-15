@@ -5,7 +5,7 @@
    <feGaussianBlur id="feGaussianBlur4438" stdDeviation="0.500482"/>
   </filter>
   <clipPath id="clipPath2294-2-10-8-1" clipPathUnits="userSpaceOnUse">
-   <rect fill="none" stroke-width="0.325696" stroke-miterlimit="4" stroke-dashoffset="0" y="342.69385" x="105.83231" height="20.26874" width="10.636508" id="rect2296-4-4-9-5"/>
+   <rect fill="none" stroke-width="0.325696" stroke-miterlimit="4" stroke-dashpage="0" y="342.69385" x="105.83231" height="20.26874" width="10.636508" id="rect2296-4-4-9-5"/>
   </clipPath>
  </defs>
  <g>

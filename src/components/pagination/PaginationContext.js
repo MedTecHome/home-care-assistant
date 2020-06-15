@@ -5,11 +5,9 @@ const PaginationContext = createContext({});
 export const withCustomPaginationContext = WrapperComponent => props => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [offset, setOffset] = useState({});
 
   const resetPagination = useCallback(() => {
     setPage(0);
-    setOffset({});
   }, []);
 
   return (
@@ -17,8 +15,6 @@ export const withCustomPaginationContext = WrapperComponent => props => {
       value={{
         page,
         pageSize,
-        offset,
-        setOffset,
         setPage,
         setPageSize,
         resetPagination
@@ -37,8 +33,6 @@ export const useCustomPaginationContext = () => {
   return {
     page: values.page,
     pageSize: values.pageSize,
-    offset: values.offset,
-    setOffset: values.setOffset,
     setPage: values.setPage,
     setPageSize: values.setPageSize,
     resetPagination: values.resetPagination

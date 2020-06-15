@@ -5,37 +5,31 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { intakeTimeSource } from '../../helpers/constants';
-import TextFromProfileComponent from '../Profiles/TextFromProfileComponent';
+import { intakeTimeSource, severityConstant } from '../../helpers/constants';
+import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
 
 const useStyles = makeStyles({
   textStyle: {
     '&>*': {
-      fontSize: 14,
       lineHeight: '200%',
       fontWeight: 400,
       color: '#000'
     }
   },
   contentStyle: {
-    maxWidth: 400
+    maxWidth: 400,
+    minWidth: 350
   }
 });
 
 export function DetailHistoryMedicalFormContentComponent({ className, selected }) {
   return (
     <Grid item xs={12} className={className}>
-      {selected.type.id === 'pressure' && (
+      {selected.type === 'pressure' && (
         <>
           <Typography component="div">
             <strong>Diastolica: </strong>
@@ -51,7 +45,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'heartrate' && (
+      {selected.type === 'heartrate' && (
         <>
           <Typography component="div">
             <strong>Frecuencia Cardiaca: </strong>
@@ -59,7 +53,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'temperature' && (
+      {selected.type === 'temperature' && (
         <>
           <Typography component="div">
             <strong>Temperatura: </strong>
@@ -67,7 +61,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'weight' && (
+      {selected.type === 'weight' && (
         <>
           <Typography component="div">
             <strong>Peso: </strong>
@@ -75,7 +69,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'glucose' && (
+      {selected.type === 'glucose' && (
         <>
           <Typography component="div">
             <strong>Concentración de azucar: </strong>
@@ -108,7 +102,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'breathing' && (
+      {selected.type === 'breathing' && (
         <>
           <Typography component="div">
             <strong>EtCO: </strong>
@@ -124,7 +118,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'inr' && (
+      {selected.type === 'inr' && (
         <>
           <Typography component="div">
             <strong>INR: </strong>
@@ -132,7 +126,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'oxygen' && (
+      {selected.type === 'oxygen' && (
         <>
           <Typography component="div">
             <strong>Pulso: </strong>
@@ -148,7 +142,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
         </>
       )}
-      {selected.type.id === 'exercises' && (
+      {selected.type === 'exercises' && (
         <>
           <Typography component="div">
             <strong>Distancia: </strong>
@@ -165,7 +159,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         </>
       )}
 
-      {selected.type.id === 'others' && (
+      {selected.type === 'otherstest' && (
         <>
           <Typography component="div">
             <strong>Nombre: </strong>
@@ -173,7 +167,10 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
           <Typography component="div">
             <strong>Severidad: </strong>
-            {getPropValue(selected, 'severity.name') || '-'}
+            {getPropValue(
+              severityConstant.find(item => item.id === getPropValue(selected, 'severity')),
+              'name'
+            ) || '-'}
           </Typography>
         </>
       )}
@@ -205,22 +202,13 @@ function DetailHistoryMedicalFormComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleClose}>
-        {selected && selected.type && selected.type.name}
+        <TitleAndIconComponent
+          type={getPropValue(selected, 'type')}
+          alternativeTitle={`Prueba - (${getPropValue(selected, 'othersName')})`}
+        />
       </DialogTitleComponent>
-      <DialogContent className={classes.contentStyle}>
+      <DialogContent className={classes.contentStyle} dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <List>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <ImageIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={<TextFromProfileComponent profileId={getPropValue(selected, 'user')} />} />
-              </ListItem>
-            </List>
-          </Grid>
           <DetailHistoryMedicalFormContentComponent selected={selected} className={classes.textStyle} />
         </Grid>
       </DialogContent>

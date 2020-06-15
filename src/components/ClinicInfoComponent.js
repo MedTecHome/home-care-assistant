@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, ListItem, makeStyles, Collapse, Container, IconButton } from '@material-ui/core';
+import {
+  Typography,
+  List,
+  ListItem,
+  makeStyles,
+  Collapse,
+  IconButton,
+  Avatar,
+  CircularProgress,
+  Grid
+} from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
-import { getPropValue, isLocal } from '../helpers/utils';
+import { getPropValue, isLocal, isEmpty } from '../helpers/utils';
 import { getProfileById } from '../services/profiles';
+import { storageFirebase } from '../firebaseConfig';
 
 const useStyles = makeStyles({
   root: {
@@ -16,28 +27,69 @@ const useStyles = makeStyles({
     right: 0,
     zIndex: 1
   },
+  itemList: {
+    display: 'flex',
+    margin: 'auto'
+  },
+  logoImg: {
+    width: props => (props.open ? 64 : 34),
+    height: props => (props.open ? 64 : 34),
+    objectFit: 'cover',
+    margin: 'auto'
+  },
+  itemContent: {
+    padding: '0 10px'
+  },
   itemTitle: {
     width: '100%',
-    textAlign: 'center'
+    marginBottom: 5,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    color: '#666',
+    fontWeight: 600
   },
   collapseItem: {
     width: '100%'
   },
   collapseContent: {
     width: '100%',
-    display: 'flex',
-    justifyContent: 'space-around',
-    '& > *': {
-      fontSize: '0.839rem'
-    }
+    gridGap: 5
+  },
+  addressText: {
+    gridColumn: 'span 2'
   }
 });
+
+function AsyncImageComponent({ id, className }) {
+  const [url, setUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isEmpty(id)) {
+      setLoading(true);
+      storageFirebase
+        .ref(id)
+        .getDownloadURL()
+        .then(urlLink => {
+          setUrl(urlLink);
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [id]);
+
+  return (
+    <Avatar variant="square" alt="" src={url} className={className}>
+      {loading ? <CircularProgress size={20} /> : null}
+    </Avatar>
+  );
+}
 
 function ClinicInfoComponent() {
   const { currentUser, currentUserProfile, isClinic, isDoctor, isPatient } = useAuthContext();
   const [clinicInfo, setClinicInfo] = useState(null);
   const [open, setOpen] = useState(false);
-  const classes = useStyles();
+
+  const classes = useStyles({ open });
 
   const isLogin = isLocal ? true : !!currentUser;
 
@@ -80,17 +132,35 @@ function ClinicInfoComponent() {
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
           <ListItem>
-            <Typography className={classes.itemTitle} component="div">
-              {getPropValue(clinicInfo, 'fullname')}
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <Collapse className={classes.collapseItem} in={open} component={Container} maxWidth="sm">
-              <div className={classes.collapseContent}>
-                <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
-                <Typography>Teléfono: {getPropValue(clinicInfo, 'primaryPhone')}</Typography>
+            <div className={classes.itemList}>
+              <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
+              <div className={classes.itemContent}>
+                <Typography className={classes.itemTitle} variant="h6">
+                  {getPropValue(clinicInfo, 'fullname')}
+                </Typography>
+                <Collapse className={classes.collapseItem} in={open}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={6}>
+                      <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Typography>
+                        Teléfonos:
+                        {` ${[getPropValue(clinicInfo, 'primaryPhone'), getPropValue(clinicInfo, 'secondaryPhone')]
+                          .filter(tel => !!tel)
+                          .map(tel => tel)
+                          .join(', ')}`}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Typography className={classes.addressText}>
+                        Dirección:{` ${getPropValue(clinicInfo, 'address') || '-'}`}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Collapse>
               </div>
-            </Collapse>
+            </div>
           </ListItem>
         </List>
       ) : null}

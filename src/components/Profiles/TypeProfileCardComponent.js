@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Avatar, ListItem, useMediaQuery, Typography, makeStyles, Grid } from '@material-ui/core';
+import { Avatar, ListItem, Typography, makeStyles, useMediaQuery } from '@material-ui/core';
+import moment from 'moment';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
@@ -9,7 +10,7 @@ import { getPropValue, isEmpty } from '../../helpers/utils';
 import PopoverComponent from '../containers/PopoverComponent';
 import { storageFirebase } from '../../firebaseConfig';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   itemList: {
     display: 'flex',
     justifyContent: 'stretch'
@@ -17,14 +18,24 @@ const useStyles = makeStyles({
   avatarInCard: {
     margin: 'auto 10px'
   },
-  actionContent: {
-    margin: 'auto',
-    display: 'grid'
+  avatarImg: {
+    width: 64,
+    height: 64
   },
-  addressText: {
-    maxWidth: 300
+  contentItemList: {
+    flex: 1,
+    display: 'grid',
+    gridTemplateColumns: `repeat(auto-fit, minmax(280px, 1fr))`,
+    gridGap: '1rem',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: `repeat(auto-fit, minmax(200px, 1fr))`
+    }
+  },
+  actionContent: {
+    alignSelf: 'center',
+    display: 'grid'
   }
-});
+}));
 
 function TypeProfileCardComponent({
   profile,
@@ -37,8 +48,7 @@ function TypeProfileCardComponent({
 }) {
   const [logo, setLogo] = useState('');
   const localClass = useStyles();
-  const up600 = useMediaQuery(theme => theme.breakpoints.up(600));
-  const up450 = useMediaQuery(theme => theme.breakpoints.up(450));
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   useState(() => {
     const logoUrl = profile.role === 'clinic' ? profile.logoUrl : '';
@@ -63,89 +73,58 @@ function TypeProfileCardComponent({
       divider
     >
       <div className={localClass.avatarInCard}>
-        <Avatar alt={profile.name} src={logo} />
+        <Avatar alt={profile.name} src={logo} className={localClass.avatarImg} />
       </div>
-      <Grid container alignItems="flex-start" spacing={1} justify="space-between" direction="row">
-        <Grid item xs={12} sm={4}>
-          <div className={localClass.addressText}>
-            <Typography component="div" className={clsx(classes.itemListContentPrimary)}>
-              <strong>{`${profile.name} ${profile.lastName}`}</strong>
-            </Typography>
-            {isSuperadmin && (
-              <Typography component="div" variant="body2" className={classes.inline} color="textPrimary">
-                Tipo: <strong>{profile.role ? profile.role.name : '-'}</strong>
-              </Typography>
-            )}
-            {['clinic', 'patient'].includes(getPropValue(profile, 'role')) ? (
-              <Typography component="div" className={clsx(classes.itemListContentPrimary, localClass.addressText)}>
-                {profile.address ? (
-                  <PopoverComponent
-                    header="Dirección"
-                    label="Dirección"
-                    title={profile.address}
-                    content={profile.address}
-                  />
-                ) : (
-                  '-'
-                )}
-              </Typography>
-            ) : null}
-          </div>
-        </Grid>
-        {up600 && (
-          <Grid item xs={4}>
-            <div>
-              <Typography component="div" className={classes.itemListContentPrimary}>
-                {(getPropValue(profile, 'role') === 'patient' && getPropValue(profile, 'birthday') && (
-                  <>
-                    Nació:{' '}
-                    <strong>
-                      {(getPropValue(profile, 'birthday') && getPropValue(profile, 'birthday').format('DD-MM-YYYY')) ||
-                        ''}
-                    </strong>
-                  </>
-                )) ||
-                  (getPropValue(profile, 'role') === 'clinic' && (
-                    <>
-                      Max. Doctores:{' '}
-                      <strong>{`${getPropValue(profile, 'realDoctors')}/${getPropValue(
-                        profile,
-                        'maxDoctors'
-                      )}`}</strong>
-                    </>
-                  ))}
-              </Typography>
-              <Typography component="div" className={classes.itemListContentPrimary}>
-                {profile.role && profile.role === 'patient' && (
-                  <>
-                    Edad: <strong>{profile.age}</strong>
-                  </>
-                )}
-              </Typography>
-            </div>
-          </Grid>
+      <div className={localClass.contentItemList}>
+        <Typography component="div">
+          <strong>{`${profile.name} ${profile.lastName || ''}`}</strong>
+        </Typography>
+        {isSuperadmin && (
+          <Typography component="div" variant="body2" className={classes.inline} color="textPrimary">
+            Tipo:<strong>{` ${profile.role ? profile.role.name : '-'}`}</strong>
+          </Typography>
         )}
-        {up450 && (
-          <Grid item xs={12} sm={4}>
-            <div>
-              <Typography className={classes.itemListContentPrimary}>
-                Correo: <strong> {profile.email && profile.emailVisible ? profile.email : '-'}</strong>
-              </Typography>
-              <Typography className={classes.itemListContentPrimary}>
-                Teléfono:{' '}
-                <strong>
-                  {[
-                    profile.phoneVisible ? profile.primaryPhone : null,
-                    profile.phoneSecondaryVisible ? profile.secondaryPhone : null
-                  ]
-                    .filter(phone => !!phone)
-                    .join(',') || '-'}
-                </strong>
-              </Typography>
-            </div>
-          </Grid>
+        {!match && getPropValue(profile, 'role') === 'patient' && getPropValue(profile, 'birthday') && (
+          <Typography component="div">
+            Nació:
+            <strong>
+              {` ${
+                getPropValue(profile, 'birthday')
+                  ? moment(getPropValue(profile, 'birthday')).format('DD [de] MMM, YYYY')
+                  : ''
+              }`}
+            </strong>
+          </Typography>
         )}
-      </Grid>
+        {getPropValue(profile, 'role') === 'clinic' && (
+          <Typography>
+            Límite Doctores:
+            <strong>{` ${getPropValue(profile, 'realDoctors')}/${getPropValue(profile, 'maxDoctors')}`}</strong>
+          </Typography>
+        )}
+        {!match && profile.role && profile.role === 'patient' && (
+          <Typography component="div">
+            Edad:<strong>{` ${profile.age || 0} años`}</strong>
+          </Typography>
+        )}
+        {['clinic', 'patient'].includes(getPropValue(profile, 'role')) && profile.address ? (
+          <PopoverComponent header="Dirección" label="Dirección" title={profile.address} content={profile.address} />
+        ) : null}
+        <Typography>
+          Correo: <strong> {profile.email && profile.emailVisible ? profile.email : '-'}</strong>
+        </Typography>
+        <Typography>
+          Teléfono:{' '}
+          <strong>
+            {[
+              profile.phoneVisible ? profile.primaryPhone : null,
+              profile.phoneSecondaryVisible ? profile.secondaryPhone : null
+            ]
+              .filter(phone => !!phone)
+              .join(',') || '-'}
+          </strong>
+        </Typography>
+      </div>
       <div className={localClass.actionContent}>
         {profile.role && profile.role === 'patient' && (
           <NavLink to={{ pathname: '/detallesclinicos', state: { profile } }}>

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Typography } from '@material-ui/core';
-import { useMedicinesContext, withMedicinesContext } from './MedicinesContext';
 import ModalComponent from '../ModalComponent';
 import medicineHeadCells from './medicineHeadCells';
 import RowListMedicineComponent from './RowListMedicineComponent';
@@ -14,17 +13,18 @@ import AddOrEditMedicineComponent from './forms/AddOrEditMedicineComponent';
 import DeleteMedicineComponent from './forms/DeleteMedicineComponent';
 import DetailsMedicineComponent from './forms/DetailsMedicineComponent';
 import InputSearchByTagname from '../filters/InputSearchByTagName';
+import { useMedicinesContext, MedicinesContextProvider } from './MedicinesContext';
 
-function MedicinesComponent() {
+function SimpleMedicinesComponent() {
   const { currentUserProfile } = useAuthContext();
   const {
-    medicineList,
+    list,
     loadingList,
-    selectMedicineFromList,
+    setSelectedFromList,
     selected,
     modalVisible,
     setModalVisible,
-    saveMedicineValues,
+    saveValues,
     formType,
     setParams,
     params,
@@ -35,6 +35,7 @@ function MedicinesComponent() {
   useEffect(() => {
     resetPagination();
   }, [params, resetPagination]);
+
   useEffect(() => {
     setParams({ clinic: getPropValue(currentUserProfile, 'parent') });
   }, [currentUserProfile, setParams]);
@@ -54,7 +55,7 @@ function MedicinesComponent() {
             setModalVisible={setModalVisible}
             selected={selected}
             formType={formType}
-            saveMedicineValues={saveMedicineValues}
+            saveMedicineValues={saveValues}
             clinic={currentUserProfile.parent}
           />
         )) ||
@@ -62,7 +63,7 @@ function MedicinesComponent() {
             <DeleteMedicineComponent
               selected={selected}
               formType={formType}
-              saveMedicineValues={saveMedicineValues}
+              saveMedicineValues={saveValues}
               setModalVisible={setModalVisible}
             />
           )) ||
@@ -80,7 +81,7 @@ function MedicinesComponent() {
         }
         filters={<InputSearchByTagname setParams={setParams} params={params} tagName="name" />}
         headCells={medicineHeadCells}
-        list={medicineList}
+        list={list}
         loadingList={loadingList}
         setModalVisible={setModalVisible}
         selected={selected}
@@ -90,19 +91,23 @@ function MedicinesComponent() {
             key={row.id}
             row={row}
             index={index}
-            selectRow={selectMedicineFromList}
+            selectRow={setSelectedFromList}
             selected={selected}
             onModalVisible={handleModalVisible}
           />
         )}
       />
-      <PaginationComponent
-        total={total}
-        first={getPropValue(medicineList[0], 'name')}
-        last={getPropValue(medicineList[medicineList.length - 1], 'name')}
-      />
+      <PaginationComponent total={total} />
     </>
   );
 }
 
-export default withCustomPaginationContext(withMedicinesContext(MedicinesComponent));
+const MedicinesComponent = withCustomPaginationContext(() => {
+  return (
+    <MedicinesContextProvider>
+      <SimpleMedicinesComponent />
+    </MedicinesContextProvider>
+  );
+});
+
+export default MedicinesComponent;

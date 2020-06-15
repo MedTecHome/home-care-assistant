@@ -11,7 +11,7 @@ const today = moment();
 const defaultStart = today.clone().add(-10, 'days');
 const defaultEnd = today.clone().add(3, 'days');
 
-function FiltersRangeDateComponent({ onRangeSet }) {
+function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
   const classes = useCustomStyles();
   const [dateValue, setDateValue] = useState([defaultStart, defaultEnd]);
 
@@ -22,7 +22,9 @@ function FiltersRangeDateComponent({ onRangeSet }) {
   }, [value, onRangeSet]);
 
   const handleOnChange = values => {
-    setDateValue(values);
+    if (!values[0] || !values[1]) {
+      setDateValue([defaultStart, defaultEnd]);
+    } else setDateValue(values);
   };
   return (
     <LocalizationProvider dateAdapter={MomentAdapter}>
@@ -34,14 +36,15 @@ function FiltersRangeDateComponent({ onRangeSet }) {
               className={classes.formControl}
               variant="outlined"
               label="Rango de fecha"
-              value={`${value1 || '      '} ~ ${value2}`}
+              value={`${value1} ~ ${value2}`}
               inputRef={inputRef}
-              inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField) }}
-              size="small"
+              inputProps={{ ...inputProps, className: clsx(classes.rangePickerTextField), readOnly: true }}
+              size={size}
               ref={ref}
               onBlur={onBlur}
               onFocus={onFocus}
               onClick={onClick}
+              onChange={() => {}}
               placeholder="__/__/__ - __/__/__"
             />
           );

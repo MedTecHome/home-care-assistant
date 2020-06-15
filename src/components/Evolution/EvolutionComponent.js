@@ -10,15 +10,14 @@ import {
   Paper,
   TableBody,
   CircularProgress,
-  Typography,
   Grid
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
-import PopupTestTypeComponent from './PopupTestTypeComponet';
-import PopupMedicineDetailComponent from './PopupMedicineDetailComponent';
+import EvolutionTreatmentsRowComponent from './EvolutionTreatmentsRowComponent';
+import EvolutionTestRowComponent from './EvolutionTestRowComponent';
 
 const useStyles = makeStyles({
   divRoot: {
@@ -32,6 +31,7 @@ const useStyles = makeStyles({
     }
   },
   tableHead: {
+    backgroundColor: '#ccd5',
     '& th': {
       fontWeight: 600
     }
@@ -76,15 +76,17 @@ function EvolutionComponent({ setTab, patient }) {
   };
 
   const handleRangeFilter = values => {
-    if (params.rangeDate !== values) {
+    if (JSON.stringify(params.rangeDate) !== JSON.stringify(values)) {
       setParams({ ...params, rangeDate: values });
     }
   };
 
   return (
     <div className={classes.divRoot}>
-      <Grid item xs={12} container justify="flex-end">
-        <FiltersRangeDateComponent onRangeSet={handleRangeFilter} />
+      <Grid container justify="flex-end">
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <FiltersRangeDateComponent onRangeSet={handleRangeFilter} />
+        </Grid>
       </Grid>
       <TableContainer component={Paper} elevation={0}>
         <Table className={classes.tableRoot}>
@@ -133,93 +135,36 @@ function EvolutionComponent({ setTab, patient }) {
               ))}
             </TableRow>
           </TableHead>
-          {!loadingList ? (
-            <>
-              <TableBody>
-                {testList.map((mt, index) => (
-                  <TableRow key={index.toString()}>
-                    <TableCell>
-                      <Typography
-                        className={classes.textLink}
-                        onClick={() => handleClickParamter(getPropValue(mt, 'id'))}
-                        color="inherit"
-                      >
-                        {getPropValue(mt, 'name')}
-                      </Typography>
-                    </TableCell>
-                    {aux.map((d, index1) => {
-                      return (
-                        <TableCell
-                          key={index1.toString()}
-                          className={
-                            moment(moment(d).format('YYYY-MM-DD')).isSame(moment().format('YYYY-MM-DD'))
-                              ? classes.cellToday
-                              : undefined
-                          }
-                          align="center"
-                        >
-                          <div>
-                            {mt.list
-                              .filter(a => {
-                                return moment(moment(d).format('YYYY-MM-DD')).isSame(
-                                  moment.unix(a.clinicalDate).format('YYYY-MM-DD')
-                                );
-                              })
-                              .map((b, index2) => (
-                                <PopupTestTypeComponent key={index2.toString()} data={b} />
-                              ))}
-                          </div>
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableHead className={classes.tableHead}>
-                <TableRow>
-                  <TableCell>Tratamientos</TableCell>
-                  <TableCell colSpan={aux.length} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {treatments.map(treatment => (
-                  <TableRow key={treatment.id}>
-                    <TableCell>{treatment.name}</TableCell>
-                    {aux.map((d, index) => (
-                      <TableCell
-                        key={index.toString()}
-                        className={
-                          moment(moment(d).format('YYYY-MM-DD')).isSame(moment().format('YYYY-MM-DD'))
-                            ? classes.cellToday
-                            : undefined
-                        }
-                        align="center"
-                      >
-                        {moment(moment(d).format('YYYY-MM-DD')).isBetween(
-                          moment.unix(treatment.startDate).format('YYYY-MM-DD'),
-                          moment.unix(treatment.endDate).format('YYYY-MM-DD'),
-                          undefined,
-                          '[]'
-                        ) ? (
-                          <PopupMedicineDetailComponent data={treatment} />
-                        ) : (
-                          ''
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </>
-          ) : (
-            <TableBody>
+          <TableBody>
+            {loadingList ? (
               <TableRow>
                 <TableCell align="center" colSpan={aux.length + 1}>
                   <CircularProgress />
                 </TableCell>
               </TableRow>
-            </TableBody>
-          )}
+            ) : (
+              testList.map(mt => (
+                <EvolutionTestRowComponent
+                  key={mt.id}
+                  clinicaltest={mt}
+                  aux={aux}
+                  handleClickParamter={handleClickParamter}
+                  classes={classes}
+                />
+              ))
+            )}
+          </TableBody>
+          <TableHead className={classes.tableHead}>
+            <TableRow>
+              <TableCell>Tratamientos</TableCell>
+              <TableCell colSpan={aux.length} />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {treatments.map(treatment => (
+              <EvolutionTreatmentsRowComponent key={treatment.id} aux={aux} treatment={treatment} classes={classes} />
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
     </div>

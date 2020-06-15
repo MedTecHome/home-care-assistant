@@ -4,7 +4,7 @@ export const pressureModel = ({
   user,
   sistolica,
   diastolica,
-  heartrate,
+  bloodPressureHeartrate,
   bloodPressureNota,
   bloodPressureDate,
   bloodPressureTime
@@ -12,7 +12,7 @@ export const pressureModel = ({
   user,
   sistolica,
   diastolica,
-  heartrate,
+  heartrate: bloodPressureHeartrate,
   clinicalDate: formatDateWithTime(bloodPressureDate, bloodPressureTime),
   ...(bloodPressureNota ? { note: bloodPressureNota } : {})
 });
@@ -84,7 +84,7 @@ export const breathingModel = ({
 export const inrModel = ({ user, INR, coagulationInrNote, coagulationInrDate, coagulationInrTime }) => ({
   user,
   INR,
-  date: formatDateWithTime(coagulationInrDate, coagulationInrTime),
+  clinicalDate: formatDateWithTime(coagulationInrDate, coagulationInrTime),
   ...(coagulationInrNote ? { note: coagulationInrNote } : {})
 });
 export const oxygenModel = ({ user, SpO2, heartbeat, oxygenPI, oxygenDate, oxygenTime, oxygenNote }) => ({
