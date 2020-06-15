@@ -17,19 +17,19 @@ function ExercisesForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="exercises" classes={classStyle} />
+      <TitleAndIconComponent type="exercises" />
       <Grid item xs={12} container spacing={2}>
         <Grid item xs={4}>
           <CustomTextFieldComponent
             required
             type="number"
-            label="Distancia"
+            label="Distancia(m)"
             name="distance"
             validate={validateDistance}
           />
         </Grid>
         <Grid item xs={4}>
-          <CustomTextFieldComponent required type="number" label="Tiempo" name="time" validate={validateTime2} />
+          <CustomTextFieldComponent required type="number" label="Tiempo(min)" name="time" validate={validateTime2} />
         </Grid>
         <Grid item xs={4}>
           <CustomTextFieldComponent required type="number" label="Pasos" name="steps" validate={validateSteps} />

@@ -21,18 +21,12 @@ import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../commons/globalText';
 import OthersForms from './OthersForm';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   formContainer: {
     maxWidth: 340
   },
   formControl: {
     width: '100%'
-  },
-  titleForms: {
-    color: theme.palette.grey['600'],
-    fontWeight: 'bold',
-    fontSize: 20,
-    paddingBottom: 10
   },
   wrapper: {
     position: 'relative'
@@ -54,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   formsContent: {
     margin: 'auto'
   }
-}));
+});
 
 const PatientMedicalForm = () => {
   const { RegisterMessage } = useMessageContext();

@@ -23,7 +23,7 @@ function GlucoseForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="glucose" classes={classStyle} />
+      <TitleAndIconComponent type="glucose" />
       <Grid container spacing={2}>
         <Grid item xs={7}>
           <CustomTextFieldComponent

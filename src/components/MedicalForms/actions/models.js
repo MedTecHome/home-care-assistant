@@ -4,7 +4,7 @@ export const pressureModel = ({
   user,
   sistolica,
   diastolica,
-  heartrate,
+  bloodPressureHeartrate,
   bloodPressureNota,
   bloodPressureDate,
   bloodPressureTime
@@ -12,7 +12,7 @@ export const pressureModel = ({
   user,
   sistolica,
   diastolica,
-  heartrate,
+  heartrate: bloodPressureHeartrate,
   clinicalDate: formatDateWithTime(bloodPressureDate, bloodPressureTime),
   ...(bloodPressureNota ? { note: bloodPressureNota } : {})
 });

@@ -4,7 +4,7 @@ import IconTestComponent from '../ClinicalHistory/IconTextComponent';
 import { getPropValue } from '../../helpers/utils';
 import { testFormsNames } from '../../helpers/constants';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   iconSize: {
     width: 35,
     height: 35,
@@ -12,15 +12,21 @@ const useStyles = makeStyles({
   },
   titleDiv: {
     display: 'flex'
+  },
+  titleForms: {
+    color: theme.palette.grey['600'],
+    fontWeight: 'bold',
+    fontSize: 20,
+    paddingBottom: 10
   }
-});
+}));
 
-function TitleAndIconComponent({ type, classes, alternativeTitle }) {
+function TitleAndIconComponent({ type, alternativeTitle }) {
   const localClasses = useStyles();
   return (
     <div className={localClasses.titleDiv}>
       <IconTestComponent type={type} className={localClasses.iconSize} />
-      <Typography className={classes.titleForms} variant="subtitle1">
+      <Typography className={localClasses.titleForms} variant="subtitle1">
         {type === 'otherstest'
           ? alternativeTitle
           : getPropValue(

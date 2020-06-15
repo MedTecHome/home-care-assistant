@@ -30,10 +30,10 @@ export function AuthContextProvider({ children }) {
           setCurrentUserProfile(profile);
         }
       } else if (isLocal) {
-        //const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
-        //const id = 'JP4WIUzcSyYyRJynSg2wcbAb5a82'; // clinic id
-        //const id = 'Y2bKcelK2pYpS2KhO35iKCiBQRp2'; // doctor id
-        const id = 'BVNNgM65uJgMRpQqAveHdwhx63S2'; // paciente id
+        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
+        // const id = 'JP4WIUzcSyYyRJynSg2wcbAb5a82'; // clinic id
+        const id = 'Y2bKcelK2pYpS2KhO35iKCiBQRp2'; // doctor id
+        // const id = 'BVNNgM65uJgMRpQqAveHdwhx63S2'; // paciente id
         const profile = await getProfileById(id);
         if (profile) {
           setCurrentUserProfile(profile);

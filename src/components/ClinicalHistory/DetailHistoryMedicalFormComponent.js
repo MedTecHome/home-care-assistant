@@ -9,7 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
-import { intakeTimeSource, testFormsNames, severityConstant } from '../../helpers/constants';
+import { intakeTimeSource, severityConstant } from '../../helpers/constants';
+import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -20,7 +21,8 @@ const useStyles = makeStyles({
     }
   },
   contentStyle: {
-    maxWidth: 400
+    maxWidth: 400,
+    minWidth: 350
   }
 });
 
@@ -200,12 +202,10 @@ function DetailHistoryMedicalFormComponent() {
   return (
     <>
       <DialogTitleComponent onClose={handleClose}>
-        {selected &&
-          selected.type &&
-          getPropValue(
-            testFormsNames.find(tf => tf.id === selected.type),
-            'name'
-          )}
+        <TitleAndIconComponent
+          type={getPropValue(selected, 'type')}
+          alternativeTitle={`Prueba - (${getPropValue(selected, 'othersName')})`}
+        />
       </DialogTitleComponent>
       <DialogContent className={classes.contentStyle} dividers>
         <Grid container spacing={2}>
