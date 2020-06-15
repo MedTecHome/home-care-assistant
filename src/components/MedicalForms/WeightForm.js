@@ -22,8 +22,8 @@ function WeightForm({ classStyle }) {
         <Grid item xs={12}>
           <CustomTextFieldComponent required type="number" label="Peso" name="weight" validate={validateWeight} />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="weightDate" label="Día" />
-        <TimeFieldComponent label="Hora" name="weightTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="weightDate" label="Día" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="weightTime" classes={classStyle} />
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="weightNote" />
         </Grid>

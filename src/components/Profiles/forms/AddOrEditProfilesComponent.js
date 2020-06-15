@@ -20,7 +20,8 @@ import {
   validateEmail,
   validatePassword,
   agreementValidate,
-  validateLastname
+  validateLastname,
+  validateUsername
 } from './validateProfile';
 import RoleFieldComponent from '../../fields/RoleFieldComponent';
 import ClinicBlockFieldComponent from '../../fields/ClinicBlockFieldComponent';
@@ -185,6 +186,15 @@ function AddOrEditProfilesComponent({
                       name="username"
                       label="Usuario"
                       disabled={formType === EDIT_FORM_TEXT}
+                      validate={value => {
+                        if (form.getState().initialValues.email !== value) {
+                          if (values.email !== value) {
+                            return validateUsername(value);
+                          }
+                          return errors.email;
+                        }
+                        return null;
+                      }}
                     />
                   </Grid>
                   {formType === ADD_FORM_TEXT && (

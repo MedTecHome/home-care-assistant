@@ -49,8 +49,8 @@ function PressureForm({ classStyle }) {
             validate={validateHeartrate}
           />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="bloodPressureDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="bloodPressureTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="bloodPressureDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="bloodPressureTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent rows={3} multiline label="Nota" name="bloodPressureNote" />
         </Grid>

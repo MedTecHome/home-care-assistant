@@ -34,8 +34,8 @@ function ExercisesForm({ classStyle }) {
         <Grid item xs={4}>
           <CustomTextFieldComponent required type="number" label="Pasos" name="steps" validate={validateSteps} />
         </Grid>
-        <DateFieldComponent classes={classStyle} name="exercisesDate" label="Dia" />
-        <TimeFieldComponent label="Hora" name="exercisesTime" classes={classStyle} />
+        <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="exercisesDate" label="Dia" />
+        <TimeFieldComponent maxDate={Date.now()} label="Hora" name="exercisesTime" classes={classStyle} />
         <Grid item xs={12}>
           <CustomTextFieldComponent multiline rows={3} label="Nota" name="exercisesNote" />
         </Grid>

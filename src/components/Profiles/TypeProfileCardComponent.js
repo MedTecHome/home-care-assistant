@@ -10,7 +10,7 @@ import { getPropValue, isEmpty } from '../../helpers/utils';
 import PopoverComponent from '../containers/PopoverComponent';
 import { storageFirebase } from '../../firebaseConfig';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   itemList: {
     display: 'flex',
     justifyContent: 'stretch'
@@ -25,14 +25,17 @@ const useStyles = makeStyles({
   contentItemList: {
     flex: 1,
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gridGap: '1rem'
+    gridTemplateColumns: `repeat(auto-fit, minmax(280px, 1fr))`,
+    gridGap: '1rem',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: `repeat(auto-fit, minmax(200px, 1fr))`
+    }
   },
   actionContent: {
     alignSelf: 'center',
     display: 'grid'
   }
-});
+}));
 
 function TypeProfileCardComponent({
   profile,
