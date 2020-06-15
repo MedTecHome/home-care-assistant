@@ -50,6 +50,7 @@ function PatientClinicalDetailsComponent() {
             scrollButtons="auto"
             textColor="primary"
             indicatorColor="primary"
+            variant="fullWidth"
           >
             {isDoctor && <Tab label="Evolución" value="evolution" />}
             <Tab label="Pruebas clínicas" value="clinictest" />
