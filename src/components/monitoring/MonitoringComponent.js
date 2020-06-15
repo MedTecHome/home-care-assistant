@@ -19,6 +19,7 @@ const useStyles = makeStyles({
   divRoot: {
     width: '100%',
     display: 'grid',
+    gridGap: 5,
     gridTemplateColumns: 'repeat(auto-fit, minmax(95px, 1fr))',
     '& > span': {
       marginRight: 15
