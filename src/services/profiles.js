@@ -23,10 +23,10 @@ export const getProfileById = async id => {
   }
 };
 
-export const addProfile = async ({ id, ...values }) => {
+export const addProfile = async ({ id, password, ...values }) => {
   const path = `profiles`;
   try {
-    await createDoc(path, specificProfile(values));
+    await createDoc(path, { ...specificProfile(values), password });
   } catch (e) {
     throw new Error(e);
   }
