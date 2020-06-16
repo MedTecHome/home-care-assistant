@@ -1,17 +1,14 @@
 import React, { createContext, useCallback, useContext, useReducer, useState, useEffect, useRef } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import saveValuesAction from './actions/TreatmentActions';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
-import getTreatments from '../../services/treatments';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/globalText';
+import getTreatments, { addTreatment, editTreatment, deleteTreatment } from '../../services/treatments';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const TreatmentsContext = createContext({});
 
 export const withTreatmentsContext = WrapperComponent => props => {
-  const { RegisterMessage } = useMessageContext();
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -52,18 +49,30 @@ export const withTreatmentsContext = WrapperComponent => props => {
     [list]
   );
 
-  const saveValues = useCallback(
-    async (values, formType) => {
-      try {
-        await saveValuesAction(values, formType);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'TreatmentsContext');
-      } finally {
-        setAction('fetch');
+  const saveValues = useCallback(async (values, formType) => {
+    try {
+      switch (formType) {
+        case ADD_FORM_TEXT: {
+          await addTreatment(values);
+          break;
+        }
+        case EDIT_FORM_TEXT: {
+          await editTreatment(values);
+          break;
+        }
+        case DELETE_FORM_TEXT: {
+          await deleteTreatment(values);
+          break;
+        }
+        default:
+          break;
       }
-    },
-    [RegisterMessage]
-  );
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setAction('fetch');
+    }
+  }, []);
 
   const setModalVisible = useCallback((flag, formType) => {
     globalDispatch(setModalVisibleAction(flag, formType));

@@ -6,7 +6,6 @@ import { Form } from 'react-final-form';
 import { isEmpty } from '../../helpers/utils';
 import SaveButton from '../buttons/SaveButton';
 import { useAuthContext } from '../../contexts/AuthContext';
-import saveHealthDataAction from './actions/PatienHealthActions';
 import SelectedChecboxForm from './SelectedCheckboxForm';
 import BreathingForm from './BreathingForm';
 import PressureForm from './PressureForm';
@@ -20,6 +19,7 @@ import CoagulationForm from './CoagulationForm';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../commons/globalText';
 import OthersForms from './OthersForm';
+import { saveHealthDataAction } from '../../services/clinicaltest';
 
 const useStyles = makeStyles({
   formContainer: {
@@ -61,7 +61,7 @@ const PatientMedicalForm = () => {
   const onSubmit = async (values, form) => {
     if (!isEmpty(values)) {
       try {
-        await saveHealthDataAction({ ...values, user: id, forms: selectedForms });
+        await saveHealthDataAction({ ...values, user: id }, selectedForms);
         RegisterMessage(SUCCESS_MESSAGE, 'Información guardada', 'PatientMedicalForm');
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm');
