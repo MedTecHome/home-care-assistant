@@ -16,7 +16,6 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
 import validateForm from './validateForm';
 import EditButtonIcon from '../../buttons/EditButtonIcon';
-import { medicineModel } from '../../Medicines/actions/MedicinesActions';
 import { AddOrEditMedicineFormComponent } from '../../Medicines/forms/AddOrEditMedicineComponent';
 import { getPropValue } from '../../../helpers/utils';
 import { getMedicineById } from '../../../services/medicines';
@@ -39,7 +38,7 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   }, [selectedId, onSubmit]);
 
   const handleSubmit = values => {
-    onSubmit(medicineModel(values));
+    onSubmit(values);
   };
 
   return (
@@ -61,8 +60,8 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   useEffect(() => {
-    if (getPropValue(selected, 'medicineSetting')) {
-      setMedicineEdited(getPropValue(selected, 'medicineSetting'));
+    if (getPropValue(selected, 'medicineSettings')) {
+      setMedicineEdited(getPropValue(selected, 'medicineSettings'));
     }
   }, [selected]);
 
@@ -71,12 +70,12 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
   };
 
   const onSubmit = async (values, form) => {
-    await saveValues({ ...values, medicineSetting: medicineEdited }, formType);
+    await saveValues({ ...values, medicineSettings: medicineEdited }, formType);
     setTimeout(form.reset);
     setModalVisible(false, null);
   };
 
-  const changed = getPropValue(selected, 'medicineSetting') !== medicineEdited;
+  const changed = getPropValue(selected, 'medicineSettings') !== medicineEdited;
   return (
     <div>
       <DialogTitleComponent onClose={handleCloseModal}>{title}</DialogTitleComponent>
@@ -130,13 +129,13 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
                         minDate={values.startDate}
                       />
                       <Grid item xs={10}>
-                        <MedicinesFieldComponent required clinic={clinic} name="medicines" label="Medicamento" />
+                        <MedicinesFieldComponent required clinic={clinic} name="medicine" label="Medicamento" />
                       </Grid>
                       <Grid item xs={2}>
                         <EditButtonIcon
-                          onClick={() => setSelectedMedicine(values.medicines)}
-                          buttonColor={values.medicines ? 'primary' : 'default'}
-                          disabled={!values.medicines}
+                          onClick={() => setSelectedMedicine(values.medicine)}
+                          buttonColor={values.medicine ? 'primary' : 'default'}
+                          disabled={!values.medicine}
                         />
                       </Grid>
                     </Grid>

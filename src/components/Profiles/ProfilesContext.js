@@ -1,18 +1,15 @@
 import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
 
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
-import saveProfileValuesAction from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
-import getProfiles from '../../services/profiles';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/globalText';
+import getProfiles, { addProfile, editProfile, deleteProfile } from '../../services/profiles';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const ProfilesContext = createContext({});
 
 export const withProfileContext = WrapperComponent => props => {
-  const { RegisterMessage } = useMessageContext();
   const [list, setProfileList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
@@ -48,18 +45,30 @@ export const withProfileContext = WrapperComponent => props => {
     };
   }, [params, page, pageSize, fetchList, action]);
 
-  const saveProfileValues = useCallback(
-    async (values, formType) => {
-      try {
-        await saveProfileValuesAction(values, formType);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'ProfileContext-saveProfileValues');
-      } finally {
-        setAction('fetch');
+  const saveProfileValues = useCallback(async (values, formType) => {
+    try {
+      switch (formType) {
+        case ADD_FORM_TEXT: {
+          await addProfile(values);
+          break;
+        }
+        case EDIT_FORM_TEXT: {
+          await editProfile(values);
+          break;
+        }
+        case DELETE_FORM_TEXT: {
+          await deleteProfile(values);
+          break;
+        }
+        default:
+          break;
       }
-    },
-    [RegisterMessage]
-  );
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setAction('fetch');
+    }
+  }, []);
 
   const selectProfileFromList = useCallback(
     id => {

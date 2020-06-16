@@ -2,9 +2,9 @@ import React, { createContext, useContext, useReducer, useState, useEffect, useR
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
-import { saveMedicineValuesActions } from './actions/MedicinesActions';
-import getMedicines from '../../services/medicines';
+import getMedicines, { addMedicine, editMedicine, deleteMedicine } from '../../services/medicines';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/globalText';
 
 const MedicinesContext = createContext({});
 
@@ -50,7 +50,26 @@ export const MedicinesContextProvider = ({ children }) => {
   );
 
   const saveValues = useCallback(async (values, formType) => {
-    await saveMedicineValuesActions(values, formType);
+    try {
+      switch (formType) {
+        case ADD_FORM_TEXT: {
+          await addMedicine(values);
+          break;
+        }
+        case EDIT_FORM_TEXT: {
+          await editMedicine(values);
+          break;
+        }
+        case DELETE_FORM_TEXT: {
+          await deleteMedicine(values);
+          break;
+        }
+        default:
+          break;
+      }
+    } catch (e) {
+      throw new Error(e);
+    }
     setAction('fetch');
   }, []);
 

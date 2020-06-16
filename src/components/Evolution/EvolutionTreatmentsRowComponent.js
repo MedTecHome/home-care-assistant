@@ -16,12 +16,12 @@ function EvolutionTreatmentsRowComponent({ treatment, aux, classes }) {
   }, []);
 
   useEffect(() => {
-    const medicineSetting = JSON.parse(treatment.medicineSetting);
-    fetchMedicine(treatment.medicines, medicineSetting);
+    const medicineSettings = JSON.parse(treatment.medicineSettings);
+    fetchMedicine(treatment.medicine, medicineSettings);
     return () => {
       setMedicine(null);
     };
-  }, [treatment.medicines, treatment.medicineSetting, fetchMedicine]);
+  }, [treatment.medicine, treatment.medicineSettings, fetchMedicine]);
 
   return (
     <TableRow key={treatment.id}>
