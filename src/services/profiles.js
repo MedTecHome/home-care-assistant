@@ -7,7 +7,7 @@ const getProfiles = async (limit, page, filters) => {
     const response = await retriveData('profiles', limit, page, filters);
     return { ...response };
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -19,16 +19,17 @@ export const getProfileById = async id => {
     }
     return null;
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
 export const addProfile = async ({ id, password, ...values }) => {
   const path = `profiles`;
+  const mutated = { ...specificProfile(values), password };
   try {
-    await createDoc(path, { ...specificProfile(values), password });
+    await createDoc(path, mutated);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -37,7 +38,7 @@ export const editProfile = async ({ id, ...values }) => {
   try {
     await editDoc(path, specificProfile(values));
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -46,7 +47,7 @@ export const deleteProfile = async ({ id }) => {
   try {
     await deleteDoc(path);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -58,7 +59,7 @@ export const getByEmail = async username => {
     }
     return null;
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 

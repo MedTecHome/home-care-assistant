@@ -76,6 +76,7 @@ class ClinicalTest {
 
   toJSON() {
     return Object.getOwnPropertyNames(this).reduce((a, b) => {
+      if (this[b] === undefined || this[b] == null) throw new Error(`Field ${b} is required`);
       const aux = a;
       aux[b] = this[b];
       return aux;
@@ -182,34 +183,34 @@ class Others extends ClinicalTest {
 const specifyClinicalTest = (type, values) => {
   switch (type) {
     case 'pressure': {
-      return new Pressure(pressureMutate(values));
+      return new Pressure(pressureMutate(values)).toJSON();
     }
     case 'heartrate': {
-      return new Heartrate(heartrateMutate(values));
+      return new Heartrate(heartrateMutate(values)).toJSON();
     }
     case 'temperature': {
-      return new Temperature(temperatureMutate(values));
+      return new Temperature(temperatureMutate(values)).toJSON();
     }
     case 'weight': {
-      return new Weight(weightMutate(values));
+      return new Weight(weightMutate(values)).toJSON();
     }
     case 'glucose': {
-      return new Glucose(glucoseMutate(values));
+      return new Glucose(glucoseMutate(values)).toJSON();
     }
     case 'inr': {
-      return new InrTest(inrMutate(values));
+      return new InrTest(inrMutate(values)).toJSON();
     }
     case 'breathing': {
-      return new Breathing(breathingMutate(values));
+      return new Breathing(breathingMutate(values)).toJSON();
     }
     case 'oxygen': {
-      return new Oxygen(oxygenMutate(values));
+      return new Oxygen(oxygenMutate(values)).toJSON();
     }
     case 'exercises': {
-      return new Exercise(exercicesMutate(values));
+      return new Exercise(exercicesMutate(values)).toJSON();
     }
     case 'otherstest': {
-      return new Others(othersMutate(values));
+      return new Others(othersMutate(values)).toJSON();
     }
 
     default:

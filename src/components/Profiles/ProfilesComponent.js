@@ -39,29 +39,23 @@ function ProfilesComponent({ filterRole }) {
     formType,
     setModalVisible,
     modalVisible,
-    setParams,
     profileList,
     total,
     selectProfileFromList,
     selected,
     loadingList,
     saveProfileValues,
-    params,
-    resetPagination
+    setParentFilter,
+    setRoleFilter
   } = useProfilesContext();
 
-  const { role: roleId } = params;
+  useEffect(() => {
+    setRoleFilter(filterRole);
+  }, [filterRole, setRoleFilter]);
 
   useEffect(() => {
-    resetPagination();
-  }, [params.fullname, roleId, resetPagination]);
-
-  useEffect(() => {
-    setParams({
-      role: filterRole || null,
-      ...(filterRole !== 'clinic' ? { parent: currentUserProfile.id } : {})
-    });
-  }, [filterRole, currentUserProfile, setParams]);
+    setParentFilter(currentUserProfile.id);
+  }, [currentUserProfile.id, setParentFilter]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -80,6 +74,7 @@ function ProfilesComponent({ filterRole }) {
       <ModalComponent visible={modalVisible}>
         {[ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
           <AddOrEditProfilesComponent
+            filterRole={filterRole}
             title={(formType === ADD_FORM_TEXT && 'Adicionar') || (formType === EDIT_FORM_TEXT && 'Editar') || ''}
             formType={formType}
             selected={selected}

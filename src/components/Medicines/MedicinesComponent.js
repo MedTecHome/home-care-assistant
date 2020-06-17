@@ -26,19 +26,15 @@ function SimpleMedicinesComponent() {
     setModalVisible,
     saveValues,
     formType,
-    setParams,
-    params,
-    total,
-    resetPagination
+    setClinicFilter,
+    setNameFilter,
+    nameFilter,
+    total
   } = useMedicinesContext();
 
   useEffect(() => {
-    resetPagination();
-  }, [params, resetPagination]);
-
-  useEffect(() => {
-    setParams({ clinic: getPropValue(currentUserProfile, 'parent') });
-  }, [currentUserProfile, setParams]);
+    setClinicFilter(getPropValue(currentUserProfile, 'parent'));
+  }, [currentUserProfile, setClinicFilter]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -79,7 +75,7 @@ function SimpleMedicinesComponent() {
             <strong>Total: </strong>({total})
           </Typography>
         }
-        filters={<InputSearchByTagname setParams={setParams} params={params} tagName="name" />}
+        filters={<InputSearchByTagname setNameFilter={setNameFilter} nameFilter={nameFilter} />}
         headCells={medicineHeadCells}
         list={list}
         loadingList={loadingList}
