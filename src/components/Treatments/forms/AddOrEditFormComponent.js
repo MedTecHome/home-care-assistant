@@ -54,12 +54,21 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   );
 }
 
-function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, saveValues, formType, userFilter }) {
+function AddOrEditFormComponent({
+  clinic,
+  doctor,
+  title,
+  setModalVisible,
+  selected,
+  saveValues,
+  formType,
+  userFilter
+}) {
   const { RegisterMessage } = useMessageContext();
   const [medicineSelected, setSelectedMedicine] = useState(null);
   const [medicineEdited, setMedicineEdited] = useState('{}');
   const classes = useCustomStyles();
-  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const match = useMediaQuery(theme => theme.breakpoints.down(700));
 
   useEffect(() => {
     if (getPropValue(selected, 'medicineSettings')) {
@@ -85,7 +94,9 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
   const changed = getPropValue(selected, 'medicineSettings') !== medicineEdited;
   return (
     <div>
-      <DialogTitleComponent onClose={handleCloseModal}>{title}</DialogTitleComponent>
+      <DialogTitleComponent disabled={!!match && !!medicineSelected} onClose={handleCloseModal}>
+        {title}
+      </DialogTitleComponent>
       <DialogContent
         dividers
         style={{
@@ -93,82 +104,85 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
         }}
       >
         <Grid container spacing={1}>
-          <Grid item xs={12} sm={medicineSelected ? 6 : 12}>
-            <Form
-              validate={validateForm}
-              initialValues={{
-                ...(formType === EDIT_FORM_TEXT &&
-                  selected && {
-                    ...selected,
-                    startDate: moment.unix(selected.startDate),
-                    endDate: moment.unix(selected.endDate)
-                  }),
-                ...(formType === ADD_FORM_TEXT && userFilter && { user: userFilter })
-              }}
-              onSubmit={onSubmit}
-              render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {
-                return (
-                  <form
-                    noValidate
-                    autoComplete="off"
-                    onSubmit={event => {
-                      if (!invalid) handleSubmit(event);
-                    }}
-                  >
-                    <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <ProfileFieldComponent
-                          required
-                          disabled={!!form.getState().initialValues.user}
-                          label="Paciente"
-                          name="user"
-                          filterRole="patient"
-                          userRole="doctor"
+          {(!match || (match && !medicineSelected)) && (
+            <Grid item xs={12} sm={medicineSelected && !match ? 6 : 12}>
+              <Form
+                validate={validateForm}
+                initialValues={{
+                  ...(formType === EDIT_FORM_TEXT &&
+                    selected && {
+                      ...selected,
+                      startDate: moment.unix(selected.startDate),
+                      endDate: moment.unix(selected.endDate)
+                    }),
+                  ...(formType === ADD_FORM_TEXT && userFilter && { user: userFilter })
+                }}
+                onSubmit={onSubmit}
+                render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {
+                  return (
+                    <form
+                      noValidate
+                      autoComplete="off"
+                      onSubmit={event => {
+                        if (!invalid) handleSubmit(event);
+                      }}
+                    >
+                      <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                          <ProfileFieldComponent
+                            required
+                            disabled={!!form.getState().initialValues.user}
+                            label="Paciente"
+                            name="user"
+                            filterRole="patient"
+                            parent={doctor}
+                            classes={classes}
+                            validate={validateDoctor}
+                          />
+                        </Grid>
+                        <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
+                        <DateFieldComponent
+                          label="Fecha fin"
+                          name="endDate"
                           classes={classes}
-                          validate={validateDoctor}
+                          minDate={values.startDate}
                         />
+                        <Grid item xs={10}>
+                          <MedicinesFieldComponent required clinic={clinic} name="medicine" label="Medicamento" />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <EditButtonIcon
+                            onClick={() => setSelectedMedicine(values.medicine)}
+                            buttonColor={values.medicine ? 'primary' : 'default'}
+                            disabled={!values.medicine}
+                          />
+                        </Grid>
                       </Grid>
-                      <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
-                      <DateFieldComponent
-                        label="Fecha fin"
-                        name="endDate"
-                        classes={classes}
-                        minDate={values.startDate}
-                      />
-                      <Grid item xs={10}>
-                        <MedicinesFieldComponent required clinic={clinic} name="medicine" label="Medicamento" />
-                      </Grid>
-                      <Grid item xs={2}>
-                        <EditButtonIcon
-                          onClick={() => setSelectedMedicine(values.medicine)}
-                          buttonColor={values.medicine ? 'primary' : 'default'}
-                          disabled={!values.medicine}
-                        />
-                      </Grid>
-                    </Grid>
-                    <DialogActions>
-                      <Button disableElevation variant="contained" onClick={handleCloseModal} size="small">
-                        cancelar
-                      </Button>
-                      <SaveButton submitting={submitting} pristine={pristine && !changed} invalid={invalid} />
-                    </DialogActions>
-                  </form>
-                );
-              }}
-            />
-          </Grid>
-          {!match && (
-            <Grid item xs={12} sm={6}>
-              {medicineSelected && (
-                <AddOrEditMedicineForm
-                  defaultValue={JSON.parse(medicineEdited)}
-                  selectedId={medicineSelected}
-                  onSubmit={values => setMedicineEdited(JSON.stringify(values))}
-                  onFormCancel={() => setSelectedMedicine(null)}
-                />
-              )}
+                      <DialogActions>
+                        <Button disableElevation variant="contained" onClick={handleCloseModal} size="small">
+                          cancelar
+                        </Button>
+                        <SaveButton submitting={submitting} pristine={pristine && !changed} invalid={invalid} />
+                      </DialogActions>
+                    </form>
+                  );
+                }}
+              />
             </Grid>
           )}
+          <Grid item xs={12} sm={match ? 12 : 6}>
+            {medicineSelected && (
+              <AddOrEditMedicineForm
+                defaultValue={JSON.parse(medicineEdited)}
+                selectedId={medicineSelected}
+                onSubmit={values => {
+                  setMedicineEdited(JSON.stringify(values));
+                  setSelectedMedicine(null);
+                }}
+                onFormCancel={() => setSelectedMedicine(null)}
+              />
+            )}
+          </Grid>
         </Grid>
       </DialogContent>
     </div>

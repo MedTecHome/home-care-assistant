@@ -2,6 +2,7 @@ import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { useMediaQuery } from '@material-ui/core';
 import { DELETE_FORM_TEXT, DETAILS_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
@@ -12,6 +13,9 @@ import { AsyncConcentration, AsyncDosis, AsyncAdministrationroute } from '../tex
 
 function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) {
   const classes = useCustomStyles();
+  const matchXs = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const matchSm = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
   return (
     <TableRow
       className={classes.tableRow}
@@ -30,10 +34,12 @@ function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) 
         {`${getPropValue(row, 'doseCant') || '-'}`}
         <AsyncDosis id={getPropValue(row, 'doseType')} />
       </TableCell>
-      <TableCell>
-        <AsyncAdministrationroute id={getPropValue(row, 'administrationType')} />
-      </TableCell>
-      <TableCell align="center">{row.frequency || '-'}</TableCell>
+      {!matchXs && (
+        <TableCell>
+          <AsyncAdministrationroute id={getPropValue(row, 'administrationType')} />
+        </TableCell>
+      )}
+      {!matchXs && !matchSm && <TableCell align="center">{row.frequency || '-'}</TableCell>}
 
       <TableCell align="center">
         <ButtonGroup variant="text" aria-label="outlined primary button group">

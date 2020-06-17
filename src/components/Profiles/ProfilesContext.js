@@ -62,10 +62,9 @@ export const withProfileContext = WrapperComponent => props => {
         default:
           break;
       }
-    } catch (e) {
-      throw new Error(e);
-    } finally {
       setAction('fetch');
+    } catch (e) {
+      throw new Error(e.message);
     }
   }, []);
 
