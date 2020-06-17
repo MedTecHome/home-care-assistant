@@ -34,6 +34,14 @@ const useStyles = makeStyles(theme => ({
   actionContent: {
     alignSelf: 'center',
     display: 'grid'
+  },
+  phonesText: {
+    display: 'flex'
+  },
+  phonesNumbers: {
+    marginLeft: 5,
+    display: 'flex',
+    flexDirection: 'column'
   }
 }));
 
@@ -113,16 +121,12 @@ function TypeProfileCardComponent({
         <Typography>
           Correo: <strong> {profile.email && profile.emailVisible ? profile.email : '-'}</strong>
         </Typography>
-        <Typography>
-          Teléfono:{' '}
-          <strong>
-            {[
-              profile.phoneVisible ? profile.primaryPhone : null,
-              profile.phoneSecondaryVisible ? profile.secondaryPhone : null
-            ]
-              .filter(phone => !!phone)
-              .join(',') || '-'}
-          </strong>
+        <Typography component="div" className={localClass.phonesText}>
+          <span>Teléfonos:</span>
+          <div className={localClass.phonesNumbers}>
+            <strong>{profile.phoneVisible ? profile.primaryPhone : null}</strong>
+            <strong>{profile.phoneSecondaryVisible ? profile.secondaryPhone : null}</strong>
+          </div>
         </Typography>
       </div>
       <div className={localClass.actionContent}>

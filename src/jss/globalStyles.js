@@ -139,7 +139,8 @@ const useCustomStyles = makeStyles(theme => ({
     fontWeight: 600
   },
   contentDialog: {
-    maxWidth: 400
+    maxWidth: 400,
+    minWidth: 300
   },
   textUnderline: {
     textTransform: 'underline'

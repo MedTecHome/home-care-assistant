@@ -6,7 +6,7 @@ import treatmentsHeadCells from './treatmentsHeadCells';
 import ModalComponent from '../ModalComponent';
 import RowListTreatmentsComponent from './RowListTreatmentsComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { useCustomPaginationContext, withCustomPaginationContext } from '../pagination/PaginationContext';
+import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import PaginationComponent from '../pagination/PaginationComponent';
 import { getPropValue } from '../../helpers/utils';
 import AddOrEditFormComponent from './forms/AddOrEditFormComponent';
@@ -15,13 +15,12 @@ import DetailsTreatmentComponent from './forms/DetailsTreatmentComponent';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';
 
 function TreatmentsComponent({ patient }) {
-  const { pageSize, page } = useCustomPaginationContext();
   const {
     list,
     total,
     modalVisible,
-    setParams,
-    params,
+    setUserFilter,
+    userFilter,
     saveValues,
     loadingList,
     selected,
@@ -34,9 +33,9 @@ function TreatmentsComponent({ patient }) {
 
   useEffect(() => {
     if (getPropValue(patient, 'id')) {
-      setParams({ user: getPropValue(patient, 'id'), limit: pageSize, page });
+      setUserFilter(getPropValue(patient, 'id'));
     }
-  }, [patient, setParams, pageSize, page]);
+  }, [patient, setUserFilter]);
 
   const handleModalVisible = fType => {
     setModalVisible(true, fType);
@@ -48,7 +47,7 @@ function TreatmentsComponent({ patient }) {
         {[ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
           <AddOrEditFormComponent
             selected={selected}
-            params={params}
+            userFilter={userFilter}
             setModalVisible={setModalVisible}
             saveValues={saveValues}
             formType={formType}

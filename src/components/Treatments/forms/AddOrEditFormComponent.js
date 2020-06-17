@@ -12,13 +12,14 @@ import SaveButton from '../../buttons/SaveButton';
 import ProfileFieldComponent from '../../fields/ProfileFieldComponent';
 import MedicinesFieldComponent from '../../fields/MedicinesFieldComponent';
 import { validateDoctor } from '../../Profiles/forms/validateProfile';
-import { ADD_FORM_TEXT, EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons/globalText';
 import useCustomStyles from '../../../jss/globalStyles';
 import validateForm from './validateForm';
 import EditButtonIcon from '../../buttons/EditButtonIcon';
 import { AddOrEditMedicineFormComponent } from '../../Medicines/forms/AddOrEditMedicineComponent';
 import { getPropValue } from '../../../helpers/utils';
 import { getMedicineById } from '../../../services/medicines';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
 
 const useStyles = makeStyles({
   root: {
@@ -53,7 +54,8 @@ function AddOrEditMedicineForm({ selectedId, defaultValue, onSubmit, onFormCance
   );
 }
 
-function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, saveValues, formType, params }) {
+function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, saveValues, formType, userFilter }) {
+  const { RegisterMessage } = useMessageContext();
   const [medicineSelected, setSelectedMedicine] = useState(null);
   const [medicineEdited, setMedicineEdited] = useState('{}');
   const classes = useCustomStyles();
@@ -70,9 +72,14 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
   };
 
   const onSubmit = async (values, form) => {
-    await saveValues({ ...values, medicineSettings: medicineEdited }, formType);
-    setTimeout(form.reset);
-    setModalVisible(false, null);
+    try {
+      await saveValues({ ...values, medicineSettings: medicineEdited }, formType);
+      setTimeout(form.reset);
+      setModalVisible(false, null);
+      RegisterMessage(SUCCESS_MESSAGE, 'Success', `Tretment - form - ${formType}`);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, 'Success', `Tretment - form - ${formType}`);
+    }
   };
 
   const changed = getPropValue(selected, 'medicineSettings') !== medicineEdited;
@@ -96,7 +103,7 @@ function AddOrEditFormComponent({ clinic, title, setModalVisible, selected, save
                     startDate: moment.unix(selected.startDate),
                     endDate: moment.unix(selected.endDate)
                   }),
-                ...(formType === ADD_FORM_TEXT && params && params.user && { user: params.user })
+                ...(formType === ADD_FORM_TEXT && userFilter && { user: userFilter })
               }}
               onSubmit={onSubmit}
               render={({ handleSubmit, form, submitting, pristine, invalid, values }) => {

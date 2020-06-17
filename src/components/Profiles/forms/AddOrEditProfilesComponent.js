@@ -7,13 +7,12 @@ import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from '@material-ui/core';
-import { EDIT_FORM_TEXT, ADD_FORM_TEXT, NAME_APP } from '../../../commons/globalText';
+import { EDIT_FORM_TEXT, ADD_FORM_TEXT, NAME_APP, SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons/globalText';
 import PatientsBlockFieldComponent from '../../fields/PatientFieldsComponent';
 import { DialogTitleComponent } from '../../ModalComponent';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
-import listAccess from '../../../commons/access';
 import { getPropValue } from '../../../helpers/utils';
 import {
   validateProfile,
@@ -23,9 +22,9 @@ import {
   validateLastname,
   validateUsername
 } from './validateProfile';
-import RoleFieldComponent from '../../fields/RoleFieldComponent';
 import ClinicBlockFieldComponent from '../../fields/ClinicBlockFieldComponent';
 import useCustomStyles from '../../../jss/globalStyles';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
 
 const useStyles = makeStyles({
   labelStyle: {
@@ -36,21 +35,26 @@ const useStyles = makeStyles({
 
 function AddOrEditProfilesComponent({
   title,
+  filterRole,
   currentUserProfile,
   saveProfileValues,
   setModalVisible,
   formType,
-  selected,
-  isSuperadmin
+  selected
 }) {
-  const authRole = getPropValue(currentUserProfile, 'role') || null;
+  const { RegisterMessage } = useMessageContext();
   const classes = useCustomStyles();
   const localClasses = useStyles();
 
   const onSubmit = async (values, form) => {
-    await saveProfileValues(values, formType);
-    setTimeout(form.reset);
-    setModalVisible(false, null);
+    try {
+      await saveProfileValues(values, formType);
+      setTimeout(form.reset);
+      setModalVisible(false, null);
+      RegisterMessage(SUCCESS_MESSAGE, 'Success', `Profile - form - ${formType}`);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, e, `Profile - form - ${formType}`);
+    }
   };
 
   const handleCancel = () => {
@@ -80,7 +84,7 @@ function AddOrEditProfilesComponent({
         initialValues={{
           phoneVisible: false,
           emailVisible: false,
-          role: listAccess[authRole][0],
+          role: filterRole,
           ...(formType === EDIT_FORM_TEXT && selected
             ? {
                 ...selected,
@@ -107,11 +111,6 @@ function AddOrEditProfilesComponent({
             >
               <DialogContent dividers className={classes.contentDialog}>
                 <Grid container spacing={3}>
-                  {isSuperadmin && (
-                    <Grid item xs={12}>
-                      <RoleFieldComponent disabled={listAccess[authRole].length === 1} userRole={authRole} />
-                    </Grid>
-                  )}
                   {formType === EDIT_FORM_TEXT && <Field required name="id" type="hidden" component="input" />}
                   <Grid item xs={12} sm={12} md={12}>
                     <CustomTextFieldComponent

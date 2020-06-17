@@ -9,6 +9,7 @@ class Treatment {
 
   toJSON() {
     return Object.getOwnPropertyNames(this).reduce((a, b) => {
+      if (this[b] === undefined || this[b] == null) throw new Error(`Field ${b} is required`);
       const aux = a;
       aux[b] = this[b];
       return aux;

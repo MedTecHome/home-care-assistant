@@ -8,7 +8,7 @@ const retriveData = async (path, limit = 10, page = 0, filters) => {
     const response = await apiFetch.get(`/${path}${query && `?${query}`}`);
     return response.data;
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -17,7 +17,7 @@ const retriveDoc = async path => {
     const response = await apiFetch.get(`/${path}`);
     return response.data;
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -25,7 +25,7 @@ const createDoc = async (path, values) => {
   try {
     await apiFetch.post(`/${path}`, values);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -33,7 +33,7 @@ const editDoc = async (path, values) => {
   try {
     await apiFetch.put(`/${path}`, values);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 
@@ -41,7 +41,7 @@ const deleteDoc = async path => {
   try {
     await apiFetch.delete(`/${path}`);
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e.message);
   }
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Typography,
   List,
@@ -15,6 +15,8 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { getPropValue, isLocal, isEmpty } from '../helpers/utils';
 import { getProfileById } from '../services/profiles';
 import { storageFirebase } from '../firebaseConfig';
+import { useMessageContext } from '../MessageHandle/MessageContext';
+import { ERROR_MESSAGE } from '../commons/globalText';
 
 const useStyles = makeStyles({
   root: {
@@ -57,10 +59,19 @@ const useStyles = makeStyles({
   },
   addressText: {
     gridColumn: 'span 2'
+  },
+  phonesText: {
+    display: 'flex'
+  },
+  phonesNumbers: {
+    marginLeft: 5,
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 
 function AsyncImageComponent({ id, className }) {
+  const { RegisterMessage } = useMessageContext();
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -73,9 +84,12 @@ function AsyncImageComponent({ id, className }) {
         .then(urlLink => {
           setUrl(urlLink);
         })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'ClinicalInfoComponent - logoUrl');
+        })
         .finally(() => setLoading(false));
     }
-  }, [id]);
+  }, [id, RegisterMessage]);
 
   return (
     <Avatar variant="square" alt="" src={url} className={className}>
@@ -93,8 +107,8 @@ function ClinicInfoComponent() {
 
   const isLogin = isLocal ? true : !!currentUser;
 
-  useEffect(() => {
-    async function getInformation() {
+  const getInformation = useCallback(async () => {
+    if (currentUserProfile) {
       try {
         let clinicId = null;
         if (isDoctor) {
@@ -104,21 +118,20 @@ function ClinicInfoComponent() {
           clinicId = getPropValue(doctor, 'parent');
         } else if (isClinic) {
           setClinicInfo(currentUserProfile);
-          return false;
         }
         if (clinicId) {
           const clinic = await getProfileById(clinicId);
           setClinicInfo(clinic);
         }
-        return true;
       } catch (e) {
         throw new Error(e);
       }
     }
-    if (currentUserProfile) {
-      getInformation();
-    }
   }, [currentUserProfile, isClinic, isDoctor, isPatient]);
+
+  useEffect(() => {
+    getInformation();
+  }, [getInformation]);
 
   const handleOpenDetail = () => {
     setOpen(!open);
@@ -144,12 +157,12 @@ function ClinicInfoComponent() {
                       <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <Typography>
-                        Teléfonos:
-                        {` ${[getPropValue(clinicInfo, 'primaryPhone'), getPropValue(clinicInfo, 'secondaryPhone')]
-                          .filter(tel => !!tel)
-                          .map(tel => tel)
-                          .join(', ')}`}
+                      <Typography component="div" className={classes.phonesText}>
+                        <span>Teléfonos:</span>
+                        <div className={classes.phonesNumbers}>
+                          <span>{getPropValue(clinicInfo, 'primaryPhone')}</span>
+                          <span>{getPropValue(clinicInfo, 'secondaryPhone')}</span>
+                        </div>
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
