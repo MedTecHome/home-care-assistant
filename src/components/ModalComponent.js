@@ -24,12 +24,11 @@ const styles = theme => ({
   }
 });
 
-export const DialogTitleComponent = withStyles(styles)(props => {
-  const { children, classes, onClose } = props;
+export const DialogTitleComponent = withStyles(styles)(({ children, classes, onClose, disabled = false }) => {
   return (
     <DialogTitle disableTypography className={classes.root}>
       <Typography variant="h6">{children}</Typography>
-      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose} disabled={disabled}>
         <CloseIcon />
       </IconButton>
     </DialogTitle>

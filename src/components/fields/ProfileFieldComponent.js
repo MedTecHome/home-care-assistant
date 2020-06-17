@@ -12,6 +12,7 @@ function ProfileFieldComponent({
   name,
   validate,
   filterRole = '',
+  parent = '',
   placeholder
 }) {
   const [profiles, setProfiles] = useState([]);
@@ -20,10 +21,12 @@ function ProfileFieldComponent({
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
 
   useEffect(() => {
-    getProfiles(5, 0, { role: filterRole, ...(filterNameMemoize ? { fullname: filterNameMemoize } : {}) }).then(res =>
-      setProfiles(res.data)
-    );
-  }, [filterRole, filterNameMemoize]);
+    getProfiles(5, 0, {
+      parent,
+      role: filterRole,
+      ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
+    }).then(res => setProfiles(res.data));
+  }, [parent, filterRole, filterNameMemoize]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);

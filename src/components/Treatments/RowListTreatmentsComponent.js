@@ -10,7 +10,8 @@ import {
   TableContainer,
   TableHead,
   Table,
-  TableBody
+  TableBody,
+  useMediaQuery
 } from '@material-ui/core';
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@material-ui/icons';
 import moment from 'moment';
@@ -73,16 +74,18 @@ function TableMedicines({ medicines }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {medicines.map(medicine => (
-            <TableRow key={medicine.id}>
-              <TableCell className={classes.textUpperCase}>{getPropValue(medicine, 'name')}</TableCell>
-              <TableCell align="center">
-                {`${getPropValue(medicine, 'doseCant') || '-'}`}
-                <AsyncDosis id={getPropValue(medicine, 'doseType')} />
-              </TableCell>
-              <TableCell align="center">{getPropValue(medicine, 'frequency')}</TableCell>
-            </TableRow>
-          ))}
+          {medicines.map(medicine => {
+            return (
+              <TableRow key={medicine.id}>
+                <TableCell className={classes.textUpperCase}>{getPropValue(medicine, 'name')}</TableCell>
+                <TableCell align="center">
+                  {`${getPropValue(medicine, 'doseCant') || '-'}`}
+                  <AsyncDosis id={getPropValue(medicine, 'doseType')} />
+                </TableCell>
+                <TableCell align="center">{getPropValue(medicine, 'frequency')}</TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
@@ -97,16 +100,12 @@ function DetailTreatmentRowCellComponent({ open, data }) {
         <TableRow className={classes.contentDetailRow}>
           <TableCell colSpan={6}>
             <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
+              <Typography component="label" noWrap>
+                <strong>Nombre Y Apellidos: </strong>
+                <TextFromProfileComponent profileId={getPropValue(data, 'user')} />
+              </Typography>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <Fieldset title="Paciente">
-                    <Typography component="label" noWrap>
-                      <strong>Nombre Y Apellidos: </strong>
-                      <TextFromProfileComponent profileId={getPropValue(data, 'user')} />
-                    </Typography>
-                  </Fieldset>
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} md={6}>
                   <Fieldset title="General">
                     <div className={classes.containerDetailDiv}>
                       <Typography>
@@ -121,7 +120,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                   </Fieldset>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} md={6}>
                   <Fieldset title="Medicamentos">
                     <div className={classes.containerDetailDiv}>
                       <TableMedicines medicines={[data.medicine]} />
@@ -140,6 +139,9 @@ function DetailTreatmentRowCellComponent({ open, data }) {
 function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, onModalVisible, editRole, delRole }) {
   const classes = useStyles();
   const [medicine, setMedicine] = useState({});
+
+  const matchXs = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const matchSm = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   const fetchMedicine = useCallback(async () => {
     let medicineSettings = JSON.parse(row.medicineSettings);
@@ -186,8 +188,8 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
           <AsyncDosis id={getPropValue(medicine, 'doseType')} />
         </TableCell>
         <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>
-        <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>
-        <TableCell align="center">{moment.unix(row.endDate).format('DD/MM/YYYY')}</TableCell>
+        {!matchXs && <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>}
+        {!matchXs && !matchSm && <TableCell align="center">{moment.unix(row.endDate).format('DD/MM/YYYY')}</TableCell>}
         <TableCell align="center" className={classes.cellNowrap}>
           <IconButton aria-label="expand row" size="small" onClick={() => handleRowClick(row.id)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -198,7 +200,7 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
           </ButtonGroup>
         </TableCell>
       </TableRow>
-      <DetailTreatmentRowCellComponent open={open} data={{ ...row, medicines: medicine }} />
+      <DetailTreatmentRowCellComponent open={open} data={{ ...row, medicine }} />
     </>
   );
 }
