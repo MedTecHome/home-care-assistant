@@ -52,6 +52,7 @@ function TreatmentsComponent({ patient }) {
             saveValues={saveValues}
             formType={formType}
             clinic={currentUserProfile.parent}
+            doctor={currentUserProfile.id}
             title={`${formType} tratamiento`}
           />
         )}

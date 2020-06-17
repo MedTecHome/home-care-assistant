@@ -20,12 +20,17 @@ export const withTreatmentsContext = WrapperComponent => props => {
   const mounted = useRef(true);
 
   const fetchList = useCallback(async (limit, pag, filters) => {
-    const result = await getTreatments(limit, pag, filters);
-    if (mounted.current) {
-      setList(result.data);
-      setTotal(result.total);
-      setLoadingList(false);
-      setAction('');
+    try {
+      const result = await getTreatments(limit, pag, filters);
+      if (mounted.current) {
+        setList(result.data);
+        setTotal(result.total);
+        setAction('');
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    } finally {
+      if (mounted.current) setLoadingList(false);
     }
   }, []);
 
@@ -67,10 +72,9 @@ export const withTreatmentsContext = WrapperComponent => props => {
         default:
           break;
       }
-    } catch (e) {
-      throw new Error(e);
-    } finally {
       setAction('fetch');
+    } catch (e) {
+      throw new Error(e.message);
     }
   }, []);
 

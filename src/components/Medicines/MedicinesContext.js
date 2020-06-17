@@ -68,10 +68,10 @@ export const MedicinesContextProvider = ({ children }) => {
         default:
           break;
       }
+      setAction('fetch');
     } catch (e) {
       throw new Error(e.message);
     }
-    setAction('fetch');
   }, []);
 
   const setModalVisible = useCallback((flag, formType) => {
