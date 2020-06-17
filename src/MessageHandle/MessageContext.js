@@ -8,8 +8,16 @@ export const MessageContextProvider = ({ children }) => {
 
   const RegisterMessage = useCallback((type, message, origin) => {
     // eslint-disable-next-line no-console
-    console.log(message);
-    setMessage({ type, message: type === ERROR_MESSAGE ? 'A ocurrido un error interno' : message, origin });
+    let messageDetail = '';
+    let codeError = '';
+    if (type === ERROR_MESSAGE) {
+      const { message: text, code } = JSON.parse(message.message);
+      codeError = code;
+      messageDetail = text;
+    } else {
+      messageDetail = message;
+    }
+    setMessage({ type, codeError, message: messageDetail, origin });
   }, []);
 
   const clearMessages = useCallback(() => {

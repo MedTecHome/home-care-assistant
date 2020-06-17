@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { DialogTitleComponent } from '../../ModalComponent';
-import { EDIT_FORM_TEXT } from '../../../commons/globalText';
+import { EDIT_FORM_TEXT, SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons/globalText';
 import formValidate from './formValidate';
 import SaveButton from '../../buttons/SaveButton';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
@@ -14,8 +14,16 @@ import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 import { getPropValue } from '../../../helpers/utils';
 import useCustomStyles from '../../../jss/globalStyles';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
 
-export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, handleCloseForm, currentUserProfile }) {
+export function AddOrEditMedicineFormComponent({
+  formType,
+  selected,
+  onSubmit,
+  handleCloseForm,
+  currentUserProfile,
+  dividers = false
+}) {
   const classes = useCustomStyles();
   return (
     <Form
@@ -27,7 +35,7 @@ export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, h
       render={({ handleSubmit, form, submitting, pristine, invalid }) => (
         <form noValidate onSubmit={event => !invalid && handleSubmit(event)} autoComplete="off">
           {formType === EDIT_FORM_TEXT && selected && <input type="hidden" name="id" />}
-          <DialogContent className={classes.contentDialog} style={{ padding: 15 }}>
+          <DialogContent dividers={dividers} className={classes.contentDialog} style={{ padding: 15 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <CustomTextFieldComponent
@@ -90,19 +98,26 @@ export function AddOrEditMedicineFormComponent({ formType, selected, onSubmit, h
 }
 
 function AddOrEditMedicineComponent({ title, formType, selected, setModalVisible, saveMedicineValues, clinic }) {
+  const { RegisterMessage } = useMessageContext();
   const handleCloseForm = () => {
     setModalVisible(false, null);
   };
 
   const onSubmit = async values => {
-    await saveMedicineValues({ ...values, clinic }, formType);
-    setModalVisible(false, null);
+    try {
+      await saveMedicineValues({ ...values, clinic }, formType);
+      RegisterMessage(SUCCESS_MESSAGE, 'Success', `Medicine-form-${formType}`);
+      setModalVisible(false, null);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, e, `Medicine-form-${formType}`);
+    }
   };
 
   return (
     <>
       <DialogTitleComponent onClose={handleCloseForm}>{title}</DialogTitleComponent>
       <AddOrEditMedicineFormComponent
+        dividers
         formType={formType}
         selected={selected}
         onSubmit={onSubmit}

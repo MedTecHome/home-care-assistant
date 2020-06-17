@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import firebase, { authFirebase } from '../firebaseConfig';
 import { getPropValue, isLocal } from '../helpers/utils';
-import { USERNAME_DOMAIN } from '../commons/globalText';
+import { USERNAME_DOMAIN, ERROR_MESSAGE } from '../commons/globalText';
 import { getProfileById } from '../services/profiles';
+import { useMessageContext } from '../MessageHandle/MessageContext';
 
 authFirebase.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 const AuthContext = createContext({});
 
 export function AuthContextProvider({ children }) {
+  const { RegisterMessage } = useMessageContext();
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
   const [errorState, setErrorState] = useState(null);
@@ -22,31 +24,35 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {
       setCurrentUser(user);
-      if (user) {
-        const idToken = await user.getIdToken();
-        localStorage.setItem('AuthToken', `Bearer ${idToken}`);
-        const profile = await getProfileById(user.uid);
-        if (profile) {
-          setCurrentUserProfile(profile);
+      try {
+        if (user) {
+          const idToken = await user.getIdToken();
+          localStorage.setItem('AuthToken', `Bearer ${idToken}`);
+          const profile = await getProfileById(user.uid);
+          if (profile) {
+            setCurrentUserProfile(profile);
+          }
+        } else if (isLocal) {
+          // const id = '6KkcyToAmdQnmpdr7HTxIFYuZEI2'; // admin id
+          const id = 'NSs59e3B3nhEmeqWGYqJdbLVpBD3'; // clinic id
+          // const id = 'qQqcCclJu6NVdFdDoRyhSfj6cqf1'; // doctor id
+          // const id = 'BVNNgM65uJgMRpQqAveHdwhx63S2'; // paciente id
+          const profile = await getProfileById(id);
+          if (profile) {
+            setCurrentUserProfile(profile);
+          }
+        } else {
+          setCurrentUserProfile(null);
         }
-      } else if (isLocal) {
-        // const id = 'I1vSS10EraPTIeCXKMjzVUGzkky2'; // admin id
-        // const id = 'JP4WIUzcSyYyRJynSg2wcbAb5a82'; // clinic id
-        const id = 'Y2bKcelK2pYpS2KhO35iKCiBQRp2'; // doctor id
-        // const id = 'BVNNgM65uJgMRpQqAveHdwhx63S2'; // paciente id
-        const profile = await getProfileById(id);
-        if (profile) {
-          setCurrentUserProfile(profile);
-        }
-      } else {
-        setCurrentUserProfile(null);
+      } catch (e) {
+        RegisterMessage(ERROR_MESSAGE, e, 'AuthContext');
       }
     });
 
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [RegisterMessage]);
 
   const setAndClearErrorState = error => {
     setErrorState(error);

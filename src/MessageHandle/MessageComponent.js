@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import { useMessageContext } from './MessageContext';
-import { getPropValue, isEmpty } from '../helpers/utils';
+import { getPropValue, isEmpty, isLocal } from '../helpers/utils';
 import { useAuthContext } from '../contexts/AuthContext';
 
 const useStyles = makeStyles({
@@ -29,6 +29,8 @@ export default function MessageComponent() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
+  const isLogin = isLocal ? true : !!currentUser;
+
   useEffect(() => {
     if (!isEmpty(messages)) {
       setOpen(true);
@@ -45,7 +47,7 @@ export default function MessageComponent() {
 
   return (
     <>
-      {currentUser && (
+      {isLogin && (
         <div className={classes.root}>
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

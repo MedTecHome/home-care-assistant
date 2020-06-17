@@ -11,7 +11,7 @@ const useStyle = makeStyles({
 });
 
 function FiltersProfileComponent({ onClickAdd }) {
-  const { params, setParams } = useProfilesContext();
+  const { nameFilter, setNameFilter } = useProfilesContext();
   const classes = useStyle();
   const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
@@ -22,7 +22,7 @@ function FiltersProfileComponent({ onClickAdd }) {
           <AddButtonIcon onClick={onClickAdd} size={match ? '2x' : 'lg'} />
         </Grid>
         <Grid item xs={12} sm={5} md={4} container justify="flex-end">
-          <InputSearchByTagname tagName="fullname" params={params} setParams={setParams} />
+          <InputSearchByTagname nameFilter={nameFilter} setNameFilter={setNameFilter} />
         </Grid>
       </Grid>
     </div>

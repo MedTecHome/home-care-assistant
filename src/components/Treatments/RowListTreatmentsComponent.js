@@ -124,7 +124,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                 <Grid item xs={12} sm={6}>
                   <Fieldset title="Medicamentos">
                     <div className={classes.containerDetailDiv}>
-                      <TableMedicines medicines={[data.medicines]} />
+                      <TableMedicines medicines={[data.medicine]} />
                     </div>
                   </Fieldset>
                 </Grid>
@@ -142,13 +142,13 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
   const [medicine, setMedicine] = useState({});
 
   const fetchMedicine = useCallback(async () => {
-    let medicineSetting = JSON.parse(row.medicineSetting);
-    if (isEmpty(medicineSetting)) {
-      const result = await getMedicineById(row.medicines);
-      medicineSetting = result;
+    let medicineSettings = JSON.parse(row.medicineSettings);
+    if (isEmpty(medicineSettings)) {
+      const result = await getMedicineById(row.medicine);
+      medicineSettings = result;
     }
-    setMedicine(medicineSetting);
-  }, [row.medicineSetting, row.medicines]);
+    setMedicine(medicineSettings);
+  }, [row.medicineSettings, row.medicine]);
 
   useEffect(() => {
     fetchMedicine();
@@ -179,7 +179,7 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
         selected={selected && selected.id === row.id}
       >
         <TableCell>
-          <AsyncMedicineText id={getPropValue(row, 'medicines')} />
+          <AsyncMedicineText id={getPropValue(row, 'medicine')} />
         </TableCell>
         <TableCell align="center">
           {`${getPropValue(medicine, 'doseCant') || '-'}`}

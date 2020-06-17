@@ -1,23 +1,20 @@
 import React, { createContext, useCallback, useContext, useReducer, useState, useEffect, useRef } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import saveValuesAction from './actions/TreatmentActions';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
-import getTreatments from '../../services/treatments';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/globalText';
+import getTreatments, { addTreatment, editTreatment, deleteTreatment } from '../../services/treatments';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const TreatmentsContext = createContext({});
 
 export const withTreatmentsContext = WrapperComponent => props => {
-  const { RegisterMessage } = useMessageContext();
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
   const [loadingList, setLoadingList] = useState(false);
   const [action, setAction] = useState('');
-  const [params, setParams] = useState({});
+  const [userFilter, setUserFilter] = useState(null);
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const mounted = useRef(true);
@@ -34,15 +31,15 @@ export const withTreatmentsContext = WrapperComponent => props => {
 
   useEffect(() => {
     mounted.current = true;
-    if (!isEmpty(params)) {
+    if (!isEmpty(userFilter)) {
       setLoadingList(true);
-      fetchList(pageSize, page, params);
+      fetchList(pageSize, page, { user: userFilter });
     }
 
     return () => {
       mounted.current = false;
     };
-  }, [params, action, pageSize, page, fetchList]);
+  }, [userFilter, action, pageSize, page, fetchList]);
 
   const selectFromList = useCallback(
     id => {
@@ -52,18 +49,30 @@ export const withTreatmentsContext = WrapperComponent => props => {
     [list]
   );
 
-  const saveValues = useCallback(
-    async (values, formType) => {
-      try {
-        await saveValuesAction(values, formType);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'TreatmentsContext');
-      } finally {
-        setAction('fetch');
+  const saveValues = useCallback(async (values, formType) => {
+    try {
+      switch (formType) {
+        case ADD_FORM_TEXT: {
+          await addTreatment(values);
+          break;
+        }
+        case EDIT_FORM_TEXT: {
+          await editTreatment(values);
+          break;
+        }
+        case DELETE_FORM_TEXT: {
+          await deleteTreatment(values);
+          break;
+        }
+        default:
+          break;
       }
-    },
-    [RegisterMessage]
-  );
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setAction('fetch');
+    }
+  }, []);
 
   const setModalVisible = useCallback((flag, formType) => {
     globalDispatch(setModalVisibleAction(flag, formType));
@@ -76,12 +85,12 @@ export const withTreatmentsContext = WrapperComponent => props => {
         total,
         selected,
         loadingList,
-        params,
+        userFilter,
         ...globalState,
         setTotal,
         selectFromList,
         saveValues,
-        setParams,
+        setUserFilter,
         setModalVisible,
         resetPagination
       }}
@@ -100,13 +109,13 @@ export const useTreatmentsContext = () => {
     list: values.list,
     selected: values.selected,
     loadingList: values.loadingList,
-    params: values.params,
+    userFilter: values.userFilter,
     formType: values.formType,
     modalVisible: values.modalVisible,
     total: values.total,
     selectFromList: values.selectFromList,
     saveValues: values.saveValues,
-    setParams: values.setParams,
+    setUserFilter: values.setUserFilter,
     setModalVisible: values.setModalVisible,
     resetPagination: values.resetPagination
   };

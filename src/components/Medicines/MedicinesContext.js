@@ -2,9 +2,9 @@ import React, { createContext, useContext, useReducer, useState, useEffect, useR
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
-import { saveMedicineValuesActions } from './actions/MedicinesActions';
-import getMedicines from '../../services/medicines';
+import getMedicines, { addMedicine, editMedicine, deleteMedicine } from '../../services/medicines';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/globalText';
 
 const MedicinesContext = createContext({});
 
@@ -14,7 +14,8 @@ export const MedicinesContextProvider = ({ children }) => {
   const [loadingList, setLoadingList] = useState(false);
   const [selected, setSelected] = useState(null);
   const [action, setAction] = useState('fetch');
-  const [params, setParams] = useState({});
+  const [clinicFilter, setClinicFilter] = useState(null);
+  const [nameFilter, setNameFilter] = useState('');
   const { page, pageSize, resetPagination } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
@@ -31,15 +32,15 @@ export const MedicinesContextProvider = ({ children }) => {
 
   useEffect(() => {
     mounted.current = true;
-    if (!isEmpty(params)) {
-      fetchList(pageSize, page, params);
+    if (!isEmpty(clinicFilter)) {
+      fetchList(pageSize, page, { clinic: clinicFilter, name: nameFilter });
       setAction('');
     }
 
     return () => {
       mounted.current = false;
     };
-  }, [pageSize, page, params, fetchList, action, setAction]);
+  }, [pageSize, page, clinicFilter, nameFilter, fetchList, action, setAction]);
 
   const setSelectedFromList = useCallback(
     id => {
@@ -50,7 +51,26 @@ export const MedicinesContextProvider = ({ children }) => {
   );
 
   const saveValues = useCallback(async (values, formType) => {
-    await saveMedicineValuesActions(values, formType);
+    try {
+      switch (formType) {
+        case ADD_FORM_TEXT: {
+          await addMedicine(values);
+          break;
+        }
+        case EDIT_FORM_TEXT: {
+          await editMedicine(values);
+          break;
+        }
+        case DELETE_FORM_TEXT: {
+          await deleteMedicine(values);
+          break;
+        }
+        default:
+          break;
+      }
+    } catch (e) {
+      throw new Error(e.message);
+    }
     setAction('fetch');
   }, []);
 
@@ -63,7 +83,8 @@ export const MedicinesContextProvider = ({ children }) => {
       value={{
         list,
         total,
-        params,
+        clinicFilter,
+        nameFilter,
         selected,
         setSelectedFromList,
         resetPagination,
@@ -71,7 +92,8 @@ export const MedicinesContextProvider = ({ children }) => {
         ...globalState,
         saveValues,
         setModalVisible,
-        setParams
+        setNameFilter,
+        setClinicFilter
       }}
     >
       {children}
@@ -84,7 +106,8 @@ export const useMedicinesContext = () => {
   return {
     list: values.list,
     total: values.total,
-    params: values.params,
+    clinicFilter: values.clinicFilter,
+    nameFilter: values.nameFilter,
     selected: values.selected,
     setSelectedFromList: values.setSelectedFromList,
     resetPagination: values.resetPagination,
@@ -93,6 +116,7 @@ export const useMedicinesContext = () => {
     modalVisible: values.modalVisible,
     setModalVisible: values.setModalVisible,
     saveValues: values.saveValues,
-    setParams: values.setParams
+    setClinicFilter: values.setClinicFilter,
+    setNameFilter: values.setNameFilter
   };
 };

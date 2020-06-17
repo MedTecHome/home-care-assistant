@@ -1,30 +1,26 @@
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useState, useEffect, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useState, useEffect, useRef } from 'react';
 
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
-import saveProfileValuesAction from './reducers/ProfileActions';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
-import { useMessageContext } from '../../MessageHandle/MessageContext';
-import { ERROR_MESSAGE } from '../../commons/globalText';
-import getProfiles from '../../services/profiles';
+import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/globalText';
+import getProfiles, { addProfile, editProfile, deleteProfile } from '../../services/profiles';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const ProfilesContext = createContext({});
 
 export const withProfileContext = WrapperComponent => props => {
-  const { RegisterMessage } = useMessageContext();
-  const [list, setProfileList] = useState([]);
+  const [profileList, setProfileList] = useState([]);
   const [total, setTotal] = useState(0);
   const [loadingList, setLoadingList] = useState(false);
   const [action, setAction] = useState('');
-  const [slected, setSelected] = useState(null);
-  const [params, setParams] = useState({});
+  const [selected, setSelected] = useState(null);
+  const [parentFilter, setParentFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
+  const [nameFilter, setNameFilter] = useState('');
   const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
-
-  const profileList = useMemo(() => list, [list]);
-  const selected = useMemo(() => slected, [slected]);
 
   const fetchList = useCallback(async (limit, pag, filters) => {
     setLoadingList(true);
@@ -39,27 +35,39 @@ export const withProfileContext = WrapperComponent => props => {
 
   useEffect(() => {
     mounted.current = true;
-    if (!isEmpty(params)) {
+    if (!isEmpty(parentFilter) && !isEmpty(roleFilter)) {
       setLoadingList(true);
-      fetchList(pageSize, page, params);
+      fetchList(pageSize, page, { parent: parentFilter, role: roleFilter, fullname: nameFilter });
     }
     return () => {
       mounted.current = false;
     };
-  }, [params, page, pageSize, fetchList, action]);
+  }, [parentFilter, roleFilter, nameFilter, page, pageSize, fetchList, action]);
 
-  const saveProfileValues = useCallback(
-    async (values, formType) => {
-      try {
-        await saveProfileValuesAction(values, formType);
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'ProfileContext-saveProfileValues');
-      } finally {
-        setAction('fetch');
+  const saveProfileValues = useCallback(async (values, formType) => {
+    try {
+      switch (formType) {
+        case ADD_FORM_TEXT: {
+          await addProfile(values);
+          break;
+        }
+        case EDIT_FORM_TEXT: {
+          await editProfile(values);
+          break;
+        }
+        case DELETE_FORM_TEXT: {
+          await deleteProfile(values);
+          break;
+        }
+        default:
+          break;
       }
-    },
-    [RegisterMessage]
-  );
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setAction('fetch');
+    }
+  }, []);
 
   const selectProfileFromList = useCallback(
     id => {
@@ -80,13 +88,17 @@ export const withProfileContext = WrapperComponent => props => {
         profileList,
         loadingList,
         selected,
-        params,
+        parentFilter,
+        roleFilter,
+        nameFilter,
         ...globalState,
         resetPagination,
         selectProfileFromList,
         saveProfileValues,
         setModalVisible,
-        setParams,
+        setRoleFilter,
+        setParentFilter,
+        setNameFilter,
         total
       }}
     >
@@ -105,12 +117,15 @@ export const useProfilesContext = () => {
     loadingList: values.loadingList,
     formType: values.formType,
     modalVisible: values.modalVisible,
-    getProfilesList: values.getProfilesList,
     selectProfileFromList: values.selectProfileFromList,
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
-    params: values.params,
-    setParams: values.setParams,
+    parentFilter: values.parentFilter,
+    roleFilter: values.roleFilter,
+    nameFilter: values.nameFilter,
+    setParentFilter: values.setParentFilter,
+    setRoleFilter: values.setRoleFilter,
+    setNameFilter: values.setNameFilter,
     total: values.total,
     resetPagination: values.resetPagination
   };

@@ -4,17 +4,17 @@ import { Search as SearchIcon } from '@material-ui/icons/';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 import useCustomStyles from '../../jss/globalStyles';
 
-function InputSearchByTagname({ tagName, params, setParams }) {
+function InputSearchByTagname({ nameFilter, setNameFilter }) {
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
   const classes = useCustomStyles();
 
   useEffect(() => {
-    if (params[tagName] !== filterNameMemoize) {
-      setParams({ ...params, [tagName]: filterNameMemoize });
+    if (nameFilter !== filterNameMemoize) {
+      setNameFilter(filterNameMemoize);
     }
-  }, [params, tagName, filterNameMemoize, setParams]);
+  }, [nameFilter, filterNameMemoize, setNameFilter]);
 
   const handleInputChange = event => {
     setFilterName(event.target.value);
