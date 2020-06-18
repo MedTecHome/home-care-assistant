@@ -4,6 +4,7 @@ import { getPropValue, isLocal } from '../helpers/utils';
 import { USERNAME_DOMAIN, ERROR_MESSAGE } from '../commons/globalText';
 import { getProfileById } from '../services/profiles';
 import { useMessageContext } from '../MessageHandle/MessageContext';
+import ErrorMessages from '../MessageHandle/errorMessages';
 
 authFirebase.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
@@ -13,7 +14,6 @@ export function AuthContextProvider({ children }) {
   const { RegisterMessage } = useMessageContext();
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
-  const [errorState, setErrorState] = useState(null);
 
   const isSuperadmin = getPropValue(currentUserProfile, 'role') === 'superadmin';
   const isAdmin = getPropValue(currentUserProfile, 'role') === 'admin';
@@ -54,22 +54,12 @@ export function AuthContextProvider({ children }) {
     };
   }, [RegisterMessage]);
 
-  const setAndClearErrorState = error => {
-    setErrorState(error);
-    const timeOut = setTimeout(() => {
-      setErrorState(null);
-      clearTimeout(timeOut);
-    }, 10000);
-  };
-
   const signInUser = useCallback(async ({ username, password }) => {
     const email = `${username}${USERNAME_DOMAIN}`;
-
     try {
-      return await authFirebase.signInWithEmailAndPassword(email, password);
+      await authFirebase.signInWithEmailAndPassword(email, password);
     } catch (e) {
-      setAndClearErrorState(e);
-      return null;
+      throw new Error(ErrorMessages[e.code]);
     }
   }, []);
 
@@ -85,21 +75,9 @@ export function AuthContextProvider({ children }) {
       isDoctor,
       isPatient,
       signInUser,
-      signOutUser,
-      errorState
+      signOutUser
     }),
-    [
-      currentUser,
-      currentUserProfile,
-      isSuperadmin,
-      isAdmin,
-      isClinic,
-      isDoctor,
-      isPatient,
-      signInUser,
-      signOutUser,
-      errorState
-    ]
+    [currentUser, currentUserProfile, isSuperadmin, isAdmin, isClinic, isDoctor, isPatient, signInUser, signOutUser]
   );
 
   return <AuthContext.Provider value={valueMemoize}>{children}</AuthContext.Provider>;
