@@ -43,7 +43,9 @@ const ErrorMessages = {
   'auth/account-exists-with-different-credential': 'Lanzado si ya existe una cuenta con esa credencial.',
   'auth/credential-already-in-use': 'La cuenta correspondiente a la credencial ya existe entre sus usuarios',
   'auth/email-already-in-use': 'El correo electrónico correspondiente a la credencial ya existe.',
-  'auth/wrong-password': 'La contraseña no es válida.'
+  'auth/wrong-password': 'La contraseña no es válida.',
+  'error-interno': 'Ha ocurrido un error interno',
+  '404': 'No encontrado'
 };
 
 export default ErrorMessages;

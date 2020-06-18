@@ -184,7 +184,7 @@ function AddOrEditProfilesComponent({
                       required
                       name="username"
                       label="Usuario"
-                      disabled={formType === EDIT_FORM_TEXT}
+                      disabled={formType === EDIT_FORM_TEXT && values.role !== 'clinic'}
                       validate={value => {
                         if (form.getState().initialValues.username !== value) {
                           if (values.username !== value) {

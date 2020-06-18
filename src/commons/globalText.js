@@ -8,6 +8,7 @@ export const ADD_FORM_TEXT = 'Adicionar';
 export const EDIT_FORM_TEXT = 'Editar';
 export const DELETE_FORM_TEXT = 'Eliminar';
 export const DETAILS_FORM_TEXT = 'Detalles';
+export const EDIT_USER_PASSWORD_FORM_TEXT = 'Editar usuario y contraseña';
 
 /** validator text */
 export const REGEX_EMAIL_ADDRESS = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;

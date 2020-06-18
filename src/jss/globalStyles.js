@@ -140,7 +140,9 @@ const useCustomStyles = makeStyles(theme => ({
   },
   contentDialog: {
     maxWidth: 400,
-    minWidth: 300
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '100%'
+    }
   },
   textUnderline: {
     textTransform: 'underline'

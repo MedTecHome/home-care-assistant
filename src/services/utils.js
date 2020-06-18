@@ -45,4 +45,12 @@ const deleteDoc = async path => {
   }
 };
 
-export { retriveData, retriveDoc, createDoc, editDoc, deleteDoc };
+const setPostRequest = async (path, params) => {
+  try {
+    await apiFetch.post(`/${path}`, params);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export { retriveData, retriveDoc, createDoc, editDoc, deleteDoc, setPostRequest };
