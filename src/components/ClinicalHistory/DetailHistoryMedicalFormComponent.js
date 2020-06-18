@@ -72,7 +72,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'glucose' && (
         <>
           <Typography component="div">
-            <strong>Concentración de azucar: </strong>
+            <strong>Concentración de azúcar: </strong>
             {`${getPropValue(selected, 'sugarConcentration')} ${getPropValue(selected, 'glucoseUnity')}` || '-'}
           </Typography>
           <Typography component="div">

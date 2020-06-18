@@ -5,8 +5,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import { FormControl, InputLabel, Typography } from '@material-ui/core';
 import { testFormsNames } from '../../helpers/constants';
+import { compareStringTagName } from '../../helpers/utils';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
-import IconTestComponent from './IconTextComponent';
+import IconTestComponent from './IconTestComponent';
 
 const useStyles = makeStyles({
   filterRoot: {
@@ -54,7 +55,7 @@ function SelectClinicTest({ defaultType, onSelectType }) {
           <IconTestComponent type="" className={classes.iconSize} />
           <Typography>Prueba recientes</Typography>
         </MenuItem>
-        {testFormsNames.map(types => (
+        {testFormsNames.sort(compareStringTagName).map(types => (
           <MenuItem key={types.id} value={types.id}>
             <IconTestComponent type={types.id} className={classes.iconSize} />
             <Typography> {types.name} </Typography>

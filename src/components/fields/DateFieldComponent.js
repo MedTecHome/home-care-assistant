@@ -12,7 +12,7 @@ export default function DateFieldComponent({ minDate, maxDate, classes, name, la
         required
         dateFunsUtils={MomentUtils}
         className={classes.formControl}
-        size="small"
+        size="medium"
         variant="inline"
         inputVariant="outlined"
         label={label}

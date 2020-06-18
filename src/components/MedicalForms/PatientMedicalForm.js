@@ -46,7 +46,7 @@ const useStyles = makeStyles({
     paddingLeft: 5
   },
   formsContent: {
-    margin: 'auto'
+    margin: '0 auto'
   }
 });
 
@@ -81,7 +81,7 @@ const PatientMedicalForm = () => {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
-        <Grid className={classes.textOverflow} item xs={12} md={4}>
+        <Grid item xs={12} sm={10} md={4}>
           <SelectedChecboxForm defaultValues={selectedForms} onCheckboxChange={handleToogleCheckbox} />
         </Grid>
         <Grid item xs={12} sm={10} md={8} container direction="column" className={classes.formsContent}>

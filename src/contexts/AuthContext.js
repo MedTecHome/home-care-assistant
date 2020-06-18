@@ -33,10 +33,10 @@ export function AuthContextProvider({ children }) {
             setCurrentUserProfile(profile);
           }
         } else if (isLocal) {
-          const id = '6KkcyToAmdQnmpdr7HTxIFYuZEI2'; // admin id
+          // const id = '6KkcyToAmdQnmpdr7HTxIFYuZEI2'; // admin id
           // const id = 'NSs59e3B3nhEmeqWGYqJdbLVpBD3'; // clinic id
           // const id = 'qQqcCclJu6NVdFdDoRyhSfj6cqf1'; // doctor id
-          // const id = 'BVNNgM65uJgMRpQqAveHdwhx63S2'; // paciente id
+          const id = '8nFFoW1hILdsCRq0zgDUoHQyVXs1'; // paciente id
           const profile = await getProfileById(id);
           if (profile) {
             setCurrentUserProfile(profile);

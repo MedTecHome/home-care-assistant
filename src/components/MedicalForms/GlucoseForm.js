@@ -12,7 +12,8 @@ import TitleAndIconComponent from './TitleAndIconComponent';
 const useSyles = makeStyles({
   root: {
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
+    maxWidth: 450
   }
 });
 
@@ -29,7 +30,7 @@ function GlucoseForm({ classStyle }) {
           <CustomTextFieldComponent
             required
             type="number"
-            label={`${matches ? 'Concent.' : 'Concentración'} de azucar`}
+            label={`${matches ? 'Concent.' : 'Concentración'} de azúcar`}
             name="sugarConcentration"
             validate={validateSugarConcentration}
           />
