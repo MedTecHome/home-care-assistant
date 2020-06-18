@@ -9,6 +9,7 @@ import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
 import { getPropValue, isEmpty } from '../../helpers/utils';
 import PopoverComponent from '../containers/PopoverComponent';
 import { storageFirebase } from '../../firebaseConfig';
+import EditUserPasswordIcon from '../buttons/EditUserPasswordIcon';
 
 const useStyles = makeStyles(theme => ({
   itemList: {
@@ -52,6 +53,7 @@ function TypeProfileCardComponent({
   handleSelectItemOnClick,
   handleOnClickEdit,
   handleOnClickDelete,
+  handleOnEditUserPassword,
   isSuperadmin
 }) {
   const [logo, setLogo] = useState('');
@@ -130,6 +132,7 @@ function TypeProfileCardComponent({
         </Typography>
       </div>
       <div className={localClass.actionContent}>
+        <EditUserPasswordIcon onClick={() => handleOnEditUserPassword(profile.id)} />
         {profile.role && profile.role === 'patient' && (
           <NavLink to={{ pathname: '/detallesclinicos', state: { profile } }}>
             <MedicalDetailButtonIcon />

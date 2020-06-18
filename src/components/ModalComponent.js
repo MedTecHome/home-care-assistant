@@ -13,21 +13,26 @@ const styles = theme => ({
     }
   },
   root: {
+    display: 'flex',
     margin: 0,
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
+    alignContent: 'space-around',
+    alignItems: 'center'
+  },
+  titleText: {
+    flexGrow: '1'
   },
   closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500]
+    marginLeft: 20
   }
 });
 
 export const DialogTitleComponent = withStyles(styles)(({ children, classes, onClose, disabled = false }) => {
   return (
     <DialogTitle disableTypography className={classes.root}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography variant="h6" className={classes.titleText}>
+        {children}
+      </Typography>
       <IconButton aria-label="close" className={classes.closeButton} onClick={onClose} disabled={disabled}>
         <CloseIcon />
       </IconButton>
