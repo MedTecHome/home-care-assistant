@@ -29,7 +29,8 @@ const useStyles = makeStyles({
     flexGrow: 1
   },
   currentUser: {
-    fontSize: '0.9rem'
+    fontSize: '0.9rem',
+    textTransform: 'uppercase'
   },
   logo: {
     textAlign: 'right',

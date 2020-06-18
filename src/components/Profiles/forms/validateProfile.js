@@ -114,6 +114,22 @@ const agreementValidate = value => {
   return null;
 };
 
+const validateEditUserPassword = async values => {
+  const errors = {};
+  if (!values.password) {
+    errors.password = REQUIRED_FIELD;
+  }
+  if (!values.confirmPassword) {
+    errors.confirmPassword = REQUIRED_FIELD;
+  }
+  if (values.password && values.confirmPassword) {
+    if (values.password !== values.confirmPassword) {
+      errors.confirmPassword = 'La confirmación de la nueva contraseña no coincide con la nueva contraseña';
+    }
+  }
+  return errors;
+};
+
 export {
   validateLastname,
   validateProfile,
@@ -124,5 +140,6 @@ export {
   validateEmail,
   validatePassword,
   agreementValidate,
-  validateUsername
+  validateUsername,
+  validateEditUserPassword
 };

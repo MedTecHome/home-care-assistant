@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BRANCH_DEPLOY } from './firebaseConfig';
-import { reactDB } from './helpers/utils';
+import { reactDB, getPropValue } from './helpers/utils';
 import ErrorMessages from './MessageHandle/errorMessages';
 
 const apiEmail = axios.create({
@@ -26,7 +26,16 @@ apiFetch.interceptors.response.use(
     if (!err.response)
       throw new Error(JSON.stringify({ code: 'error-connection', message: ErrorMessages.ERROR_CONECTION }));
     throw new Error(
-      JSON.stringify({ code: err.response.data.error.code, message: ErrorMessages[err.response.data.error.code] })
+      JSON.stringify({
+        code:
+          getPropValue(err, 'response.data.error.code') ||
+          getPropValue(err, 'response.status').toString() ||
+          'error-interno',
+        message:
+          ErrorMessages[
+            getPropValue(err, 'response.data.error.code') || getPropValue(err, 'response.status') || 'error-interno'
+          ]
+      })
     );
   }
 );

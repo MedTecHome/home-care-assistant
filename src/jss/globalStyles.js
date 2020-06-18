@@ -113,11 +113,7 @@ const useCustomStyles = makeStyles(theme => ({
     top: 20,
     width: 1
   },
-  justifyCheckbox: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
-    textOverflow: 'ellipsis'
-  },
+  justifyCheckbox: {},
   noHoverBackground: {
     '&:hover': { background: 'transparent' },
     '&.Mui-checked:hover': { background: 'transparent' }
@@ -140,7 +136,9 @@ const useCustomStyles = makeStyles(theme => ({
   },
   contentDialog: {
     maxWidth: 400,
-    minWidth: 300
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '100%'
+    }
   },
   textUnderline: {
     textTransform: 'underline'

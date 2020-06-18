@@ -5,7 +5,12 @@ import { useProfilesContext, withProfileContext } from './ProfilesContext';
 import ListProfilesComponent from './ListProfilesComponent';
 import ToolbarProfileComponent from './FiltersProfilesComponent';
 import ModalComponent from '../ModalComponent';
-import { ADD_FORM_TEXT, DELETE_FORM_TEXT, EDIT_FORM_TEXT } from '../../commons/globalText';
+import {
+  ADD_FORM_TEXT,
+  DELETE_FORM_TEXT,
+  EDIT_FORM_TEXT,
+  EDIT_USER_PASSWORD_FORM_TEXT
+} from '../../commons/globalText';
 import useCustomStyles from '../../jss/globalStyles';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
@@ -14,6 +19,7 @@ import AddOrEditProfilesComponent from './forms/AddOrEditProfilesComponent';
 import DeleteProfilesComponent from './forms/DeleteProfilesComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getRoleById } from '../../services/roles';
+import UpdateUserPasswordComponent from './forms/UpdateUserPasswordComponent';
 
 function TitleProfilesComponent({ filterRole }) {
   const [roleDetails, setRoleDetails] = useState(null);
@@ -46,7 +52,8 @@ function ProfilesComponent({ filterRole }) {
     loadingList,
     saveProfileValues,
     setParentFilter,
-    setRoleFilter
+    setRoleFilter,
+    editUserPassword
   } = useProfilesContext();
 
   useEffect(() => {
@@ -69,10 +76,14 @@ function ProfilesComponent({ filterRole }) {
     setModalVisible(true, ADD_FORM_TEXT);
   };
 
+  const handleEditUserPassword = () => {
+    setModalVisible(true, EDIT_USER_PASSWORD_FORM_TEXT);
+  };
+
   return (
     <>
       <ModalComponent visible={modalVisible}>
-        {[ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
+        {([ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
           <AddOrEditProfilesComponent
             filterRole={filterRole}
             title={(formType === ADD_FORM_TEXT && 'Adicionar') || (formType === EDIT_FORM_TEXT && 'Editar') || ''}
@@ -83,9 +94,15 @@ function ProfilesComponent({ filterRole }) {
             setModalVisible={setModalVisible}
             currentUserProfile={currentUserProfile}
           />
-        )}
-
-        {formType === DELETE_FORM_TEXT && <DeleteProfilesComponent />}
+        )) ||
+          (formType === DELETE_FORM_TEXT && <DeleteProfilesComponent />) ||
+          (formType === EDIT_USER_PASSWORD_FORM_TEXT && (
+            <UpdateUserPasswordComponent
+              selected={selected}
+              setModalVisible={setModalVisible}
+              onEditUserPassword={editUserPassword}
+            />
+          ))}
       </ModalComponent>
       <TitleProfilesComponent filterRole={filterRole} />
       <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
@@ -99,6 +116,7 @@ function ProfilesComponent({ filterRole }) {
         selectProfileFromList={selectProfileFromList}
         onClickDelete={handleOnClickDelete}
         onClickEdit={handleOnClickEdit}
+        OnEditUserPassword={handleEditUserPassword}
         isSuperadmin={isSuperadmin}
       />
       <PaginationComponent total={total} />

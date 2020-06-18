@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function NavigationMenu({ onClick }) {
+// eslint-disable-next-line no-unused-vars
+function NavigationMenu({ onClick }, ref) {
   const { currentUserProfile } = useAuthContext();
   const classes = useStyles();
   return (

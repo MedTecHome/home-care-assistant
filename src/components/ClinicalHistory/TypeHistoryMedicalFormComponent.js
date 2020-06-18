@@ -34,7 +34,7 @@ function TypeHistoryMedicalFormComponent({ data }) {
       {idType === 'glucose' && (
         <>
           <TextLabelAndValue
-            label="Concentración azucar"
+            label="Concentración azúcar"
             value={`${data.sugarConcentration}${data.glucoseUnity}` || ' - '}
           />
         </>

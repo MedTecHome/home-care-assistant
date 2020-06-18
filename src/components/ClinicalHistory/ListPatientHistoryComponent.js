@@ -12,9 +12,9 @@ import { DETAILS_FORM_TEXT } from '../../commons/globalText';
 import EmptyComponent from '../EmptyComponent';
 import StandardDetailButtonIcon from '../buttons/StandardDetailButtonIcon';
 import useCustomStyles from '../../jss/globalStyles';
-import { getPropValue } from '../../helpers/utils';
+import { getPropValue, compareStringTagName } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
-import IconTestComponent from './IconTextComponent';
+import IconTestComponent from './IconTestComponent';
 import { testFormsNames } from '../../helpers/constants';
 
 const useStyles = makeStyles({
@@ -84,52 +84,62 @@ function ListPatientHistoryComponent({
         <>
           <List className={classes.root}>
             {historyList.length === 0 && <EmptyComponent />}
-            {historyList.map(report => {
-              return (
-                <ListItem
-                  key={report.id}
-                  className={clsx(classes.itemList, selected && selected.id === report.id && classes.selectedItemList)}
-                  divider
-                  onClick={() => handleSelect(report)}
-                >
-                  <div className={localClasses.rootDiv}>
-                    <div className={localClasses.iconTestContainer}>
-                      <IconTestComponent type={getPropValue(report, 'type')} />
-                    </div>
-                    <div className={localClasses.itemContent}>
-                      <div className={localClasses.flexDiv}>
-                        {['recently', 'otherstest', '', undefined].includes(defaultType) ? (
-                          <div>
-                            <Typography component="span">
-                              {getPropValue(report, 'type') === 'otherstest'
-                                ? report.othersName
-                                : getPropValue(
-                                    testFormsNames.find(tf => tf.id === getPropValue(report, 'type')),
-                                    'name'
-                                  ) || ''}
-                            </Typography>
+            {historyList
+              .sort((a, b) =>
+                compareStringTagName(
+                  testFormsNames.find(tf => tf.id === a.type),
+                  testFormsNames.find(tf => tf.id === b.type)
+                )
+              )
+              .map(report => {
+                return (
+                  <ListItem
+                    key={report.id}
+                    className={clsx(
+                      classes.itemList,
+                      selected && selected.id === report.id && classes.selectedItemList
+                    )}
+                    divider
+                    onClick={() => handleSelect(report)}
+                  >
+                    <div className={localClasses.rootDiv}>
+                      <div className={localClasses.iconTestContainer}>
+                        <IconTestComponent type={getPropValue(report, 'type')} />
+                      </div>
+                      <div className={localClasses.itemContent}>
+                        <div className={localClasses.flexDiv}>
+                          {['recently', 'otherstest', '', undefined].includes(defaultType) ? (
+                            <div>
+                              <Typography component="span">
+                                {getPropValue(report, 'type') === 'otherstest'
+                                  ? report.othersName
+                                  : getPropValue(
+                                      testFormsNames.find(tf => tf.id === getPropValue(report, 'type')),
+                                      'name'
+                                    ) || ''}
+                              </Typography>
+                            </div>
+                          ) : null}
+                          <div className={localClasses.contentDiv}>
+                            <TypeMedicalFormComponent data={report} />
                           </div>
-                        ) : null}
-                        <div className={localClasses.contentDiv}>
-                          <TypeMedicalFormComponent data={report} />
+                        </div>
+                        <div>
+                          <Typography variant="body2">
+                            <strong>Fecha:</strong>
+                            {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY')}
+                            <strong> Hora:</strong>
+                            {moment(moment.unix(report.clinicalDate).toDate()).format(' hh:mma')}
+                          </Typography>
                         </div>
                       </div>
-                      <div>
-                        <Typography variant="body2">
-                          <strong>Fecha:</strong>
-                          {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY')}
-                          <strong> Hora:</strong>
-                          {moment(moment.unix(report.clinicalDate).toDate()).format(' hh:mma')}
-                        </Typography>
-                      </div>
                     </div>
-                  </div>
-                  <ListItemSecondaryAction>
-                    <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
+                    <ListItemSecondaryAction>
+                      <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
           </List>
           <PaginationComponent total={total} />
         </>

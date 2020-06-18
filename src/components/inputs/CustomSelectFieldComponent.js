@@ -10,7 +10,7 @@ function CustomSelectFieldComponent({
   name,
   label,
   variant = 'outlined',
-  size = 'small',
+  size = 'medium',
   validate,
   source,
   disabled

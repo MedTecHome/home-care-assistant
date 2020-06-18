@@ -6,6 +6,7 @@ import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT } from '../../commons/g
 import getProfiles, { addProfile, editProfile, deleteProfile } from '../../services/profiles';
 import { isEmpty } from '../../helpers/utils';
 import { useCustomPaginationContext } from '../pagination/PaginationContext';
+import { setPostRequest } from '../../services/utils';
 
 const ProfilesContext = createContext({});
 
@@ -43,6 +44,15 @@ export const withProfileContext = WrapperComponent => props => {
       mounted.current = false;
     };
   }, [parentFilter, roleFilter, nameFilter, page, pageSize, fetchList, action]);
+
+  const editUserPassword = useCallback(async params => {
+    try {
+      await setPostRequest('editUserPassword', params);
+      setAction('fetch');
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }, []);
 
   const saveProfileValues = useCallback(async (values, formType) => {
     try {
@@ -98,6 +108,7 @@ export const withProfileContext = WrapperComponent => props => {
         setRoleFilter,
         setParentFilter,
         setNameFilter,
+        editUserPassword,
         total
       }}
     >
@@ -126,6 +137,7 @@ export const useProfilesContext = () => {
     setRoleFilter: values.setRoleFilter,
     setNameFilter: values.setNameFilter,
     total: values.total,
-    resetPagination: values.resetPagination
+    resetPagination: values.resetPagination,
+    editUserPassword: values.editUserPassword
   };
 };

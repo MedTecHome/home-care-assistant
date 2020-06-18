@@ -7,6 +7,7 @@ import TypeProfileCardComponent from './TypeProfileCardComponent';
 function ListProfilesComponent({
   onClickDelete,
   onClickEdit,
+  OnEditUserPassword,
   selectProfileFromList,
   loadingList,
   profileList,
@@ -29,6 +30,11 @@ function ListProfilesComponent({
     onClickEdit();
   };
 
+  const handleOnEditUserPassword = id => {
+    handleSelectItemOnClick(id);
+    OnEditUserPassword();
+  };
+
   return (
     <List className={classes.root}>
       {loadingList ? (
@@ -45,6 +51,7 @@ function ListProfilesComponent({
               profile={profile}
               isSelected={isSelected}
               isSuperadmin={isSuperadmin}
+              handleOnEditUserPassword={handleOnEditUserPassword}
               handleOnClickDelete={handleOnClickDelete}
               handleOnClickEdit={handleOnClickEdit}
               handleSelectItemOnClick={handleSelectItemOnClick}

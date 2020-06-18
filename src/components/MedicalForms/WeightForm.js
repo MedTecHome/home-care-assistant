@@ -9,7 +9,8 @@ import TitleAndIconComponent from './TitleAndIconComponent';
 const useStyles = makeStyles({
   root: {
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
+    maxWidth: 450
   }
 });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Form } from 'react-final-form';
 import { Redirect, Link } from 'react-router-dom';
@@ -27,13 +27,18 @@ function Copyright() {
 }
 
 function LoginComponent() {
+  const [errorState, setErrorState] = useState(null);
   const { signInUser, currentUser } = useAuthContext();
 
   const classes = useCustomStyles();
 
   const onSubmit = async (value, form) => {
-    await signInUser(value);
-    setTimeout(form.reset);
+    try {
+      await signInUser(value);
+      setTimeout(form.reset);
+    } catch (e) {
+      setErrorState(e);
+    }
   };
 
   if (currentUser) {
@@ -43,7 +48,7 @@ function LoginComponent() {
   return (
     <>
       <Card className={classes.loginRoot}>
-        <CardHeader title={<ErrorMessageComponent />} />
+        <CardHeader title={<ErrorMessageComponent error={errorState} />} />
         <CardHeader title={<AuthFormsTitleComponent title="Acceder" />} />
         <CardContent>
           <Form
@@ -93,10 +98,5 @@ function LoginComponent() {
     </>
   );
 }
-
-LoginComponent.whyDidYouRender = {
-  logOnDifferentValues: true,
-  customName: 'Login'
-};
 
 export default LoginComponent;

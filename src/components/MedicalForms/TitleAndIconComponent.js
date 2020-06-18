@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import IconTestComponent from '../ClinicalHistory/IconTextComponent';
+import IconTestComponent from '../ClinicalHistory/IconTestComponent';
 import { getPropValue } from '../../helpers/utils';
 import { testFormsNames } from '../../helpers/constants';
 
