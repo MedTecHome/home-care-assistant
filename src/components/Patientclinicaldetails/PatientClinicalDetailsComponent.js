@@ -47,10 +47,10 @@ function PatientClinicalDetailsComponent() {
           <Tabs
             value={tab}
             onChange={handleTabChange}
-            scrollButtons="auto"
-            textColor="primary"
+            variant="scrollable"
+            scrollButtons="on"
             indicatorColor="primary"
-            variant="fullWidth"
+            textColor="primary"
           >
             {isDoctor && <Tab label="Evolución" value="evolution" />}
             <Tab label="Pruebas clínicas" value="clinictest" />
