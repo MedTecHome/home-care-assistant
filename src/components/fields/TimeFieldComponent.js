@@ -11,7 +11,7 @@ export default function TimeFieldComponent({ classes, name, label, maxDate }) {
         required
         dateFunsUtils={MomentUtils}
         className={classes.formControl}
-        size="small"
+        size="medium"
         variant="inline"
         maxDate={maxDate}
         inputVariant="outlined"

@@ -8,7 +8,7 @@ function CustomTextFieldComponent({
   required,
   className,
   type = 'text',
-  size = 'small',
+  size = 'medium',
   label,
   variant = 'outlined',
   name,

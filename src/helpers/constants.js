@@ -1,3 +1,5 @@
+import { compareStringTagName } from './utils';
+
 export const testFormsNames = [
   {
     id: 'pressure',
@@ -15,7 +17,7 @@ export const testFormsNames = [
   { id: 'oxygen', name: 'Oximetría Pulso (SpO2)' },
   { id: 'exercises', name: 'Actividad Física' },
   { id: 'otherstest', name: 'Prueba general' }
-];
+].sort(compareStringTagName);
 
 export const genders = [
   {

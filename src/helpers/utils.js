@@ -1,6 +1,5 @@
 /* eslint-disable eqeqeq */
 import moment from 'moment';
-import firebase from '../firebaseConfig';
 
 export const isLocal = process.env.REACT_APP_DEVELOPMENT === 'local';
 export const reactDB = process.env.REACT_APP_DB;
@@ -26,32 +25,12 @@ export const isEmpty = value => {
   }
 };
 
-export const isTimestamp = value => value instanceof firebase.firestore.Timestamp;
-
-export default function addOrReplace(array, item) {
-  const result = array;
-  const i = result.findIndex(_item => _item.id === item.id);
-  if (i > -1) result[i] = item;
-  else result.push(item);
-  return result;
-}
-
 export const getPropValue = (obj, key) => key.split('.').reduce((o, x) => (o == undefined ? o : o[x]), obj);
-
-export const formatMomentToDate = date => {
-  return moment(date, 'DD/MM/YYYY').toDate();
-};
 
 export const formatDateWithTime = (date, time) => {
   const m1 = moment(time).format('hh:mm:ss a');
   const m2 = moment(date, 'DD/MM/YYYY').format('YYYY/MM/DD');
   return moment(`${m2} ${m1}`, 'YYYY/MM/DD hh:mm:ss a').unix();
-};
-
-export const extractValues = (dirtyFields, allValues) => {
-  return Object.keys(dirtyFields)
-    .map(k => ({ [k]: allValues[k] }))
-    .reduce((a, b) => ({ ...a, ...b }), {});
 };
 
 export const enumerateDaysBetweenDates = (startDate, endDate) => {
@@ -81,6 +60,16 @@ export const queryFromParams = params => {
       })
       .join('&') || ''
   );
+};
+
+export const compareStringTagName = (a, b) => {
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
 };
 
 export const mutateDoc = doc => ({ id: doc.id, ...doc.data() });
