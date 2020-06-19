@@ -9,7 +9,7 @@ function PasswordConfirmFieldComponent({ classes }) {
       type="password"
       label="Confirmar Contraseña"
       variant="outlined"
-      size="small"
+      size="medium"
       InputLabelProps={{
         shrink: true
       }}

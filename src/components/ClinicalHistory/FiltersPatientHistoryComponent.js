@@ -15,11 +15,11 @@ const useStyles = makeStyles({
   },
   formControl: {
     width: '100%',
-    '& > .MuiOutlinedInput-input': {
-      padding: '16px 14px'
-    },
     '& > .MuiSelect-root': {
       display: 'flex'
+    },
+    '& > .MuiSelect-selectMenu': {
+      height: 0
     }
   },
   containerFilters: {
@@ -48,7 +48,7 @@ function SelectClinicTest({ defaultType, onSelectType }) {
     [onSelectType]
   );
   return (
-    <FormControl variant="outlined" className={classes.formControl}>
+    <FormControl variant="outlined" className={classes.formControl} size="small">
       <InputLabel variant="outlined">Seleccione</InputLabel>
       <Select label="Seleccione" className={classes.formControl} value={valueType} onChange={handleSetTypeHistory}>
         <MenuItem value="recently">
@@ -83,7 +83,7 @@ function FiltersPatientHistoryComponent({ onSelectDate, defaultType, onSelectTyp
           <SelectClinicTest defaultType={defaultType} onSelectType={onSelectType} />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <FiltersRangeDateComponent onRangeSet={handleFilterDate} size="medium" />
+          <FiltersRangeDateComponent onRangeSet={handleFilterDate} />
         </Grid>
       </Grid>
     </div>

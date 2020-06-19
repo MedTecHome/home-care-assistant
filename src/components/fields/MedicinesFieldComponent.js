@@ -37,7 +37,7 @@ function MedicinesFieldComponent({
       required={required}
       autoHighlight
       blurOnSelect
-      size="small"
+      size={size}
       label={label}
       name={name}
       disabled={disabled}

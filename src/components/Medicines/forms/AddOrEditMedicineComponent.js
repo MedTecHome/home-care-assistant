@@ -12,7 +12,7 @@ import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
 import DosisFieldComponent from '../../fields/DosisFielComponent';
 import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
-import { getPropValue } from '../../../helpers/utils';
+import { getPropValue, formatToUpperCase } from '../../../helpers/utils';
 import useCustomStyles from '../../../jss/globalStyles';
 import { useMessageContext } from '../../../MessageHandle/MessageContext';
 
@@ -43,6 +43,7 @@ export function AddOrEditMedicineFormComponent({
                   required
                   label="Nombre medicamento"
                   name="name"
+                  format={formatToUpperCase}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
