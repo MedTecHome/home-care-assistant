@@ -16,7 +16,7 @@ import IconMenu from '@material-ui/icons/Menu';
 import logo from '../images/HomeCareView.png';
 import { useAuthContext } from '../contexts/AuthContext';
 import { NavigationLargeComponent, NavigationMenuComponent } from './NavigationComponent';
-import { isLocal } from '../helpers/utils';
+import { isLocal, getPropValue } from '../helpers/utils';
 
 const useStyles = makeStyles({
   root: {
@@ -29,8 +29,7 @@ const useStyles = makeStyles({
     flexGrow: 1
   },
   currentUser: {
-    fontSize: '0.9rem',
-    textTransform: 'uppercase'
+    fontSize: '0.9rem'
   },
   logo: {
     textAlign: 'right',
@@ -91,7 +90,9 @@ function HeaderComponent({ history }) {
               <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem disabled>
                   <Typography aria-setsize={8} className={classes.currentUser}>
-                    {currentUserProfile ? currentUserProfile.fullname : currentUser && currentUser.email}
+                    {currentUserProfile
+                      ? `${getPropValue(currentUserProfile, 'name')} ${getPropValue(currentUserProfile, 'lastName')}`
+                      : currentUser && currentUser.email}
                   </Typography>
                 </MenuItem>
                 {match && <NavigationMenuComponent onClick={handleClose} />}

@@ -1,10 +1,9 @@
-import React, { createContext, useCallback, useContext, useReducer, useState, useEffect, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useState, useRef, useEffect } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE } from '../../commons/globalText';
 import getClinicalTests from '../../services/clinicaltest';
-import { useCustomPaginationContext } from '../pagination/PaginationContext';
 
 const PatientHistoryContext = createContext({});
 
@@ -13,39 +12,38 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [historyList, setHistoryList] = useState([]);
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState(null);
-  const [params, setParams] = useState({});
-  const { pageSize, page, resetPagination } = useCustomPaginationContext();
+  const [testFilter, setTestFilter] = useState('');
+  const [rangeDate, setRangeDate] = useState([null, null]);
   const [loadingList, setLoadingList] = useState(false);
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
 
+  useEffect(() => {
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
   const fetchList = useCallback(
-    async (user, limit, pag, filters, type) => {
-      try {
-        const result = await getClinicalTests(limit, pag, { user, ...filters }, type);
-        if (mounted.current === true) {
-          setHistoryList(result.data);
-          setTotal(result.total);
-          setLoadingList(false);
+    async (limit, pag, user, rDate, type) => {
+      mounted.current = true;
+      if (user && rDate[0] && rDate[1]) {
+        setLoadingList(true);
+        try {
+          const result = await getClinicalTests(limit, pag, { user, rangeDate: rDate }, type);
+          if (mounted.current === true) {
+            setHistoryList(result.data);
+            setTotal(result.total);
+          }
+        } catch (e) {
+          RegisterMessage(ERROR_MESSAGE, e, 'PatienhistoryCOmponent');
+        } finally {
+          if (mounted.current === true) setLoadingList(false);
         }
-      } catch (e) {
-        RegisterMessage(ERROR_MESSAGE, e, 'PatienhistoryCOmponent');
       }
     },
     [RegisterMessage]
   );
-
-  useEffect(() => {
-    mounted.current = true;
-    const { type, user, rangeDate, ...filters } = params;
-    if (user && rangeDate && rangeDate[0] && rangeDate[1]) {
-      setLoadingList(true);
-      fetchList(user, pageSize, page, { ...filters, rangeDate }, type);
-    }
-    return () => {
-      mounted.current = false;
-    };
-  }, [params, pageSize, page, fetchList]);
 
   const selectMedicalForm = useCallback(el => setSelected(el), []);
 
@@ -57,13 +55,15 @@ const PatientHistoryContextProvider = ({ children }) => {
         historyList,
         loadingList,
         selected,
-        params,
+        testFilter,
+        rangeDate,
         total,
         ...modalState,
         selectMedicalForm,
-        setParams,
+        setTestFilter,
+        setRangeDate,
         setModalVisible,
-        resetPagination
+        fetchList
       }}
     >
       {children}
@@ -71,11 +71,10 @@ const PatientHistoryContextProvider = ({ children }) => {
   );
 };
 
-export const withPatientHistoryContext = WrapperComponent => ({ defaultTest, patient, children }) => {
+export const withPatientHistoryContext = WrapperComponent => ({ defaultTest, patient, isDoctor, children }) => {
   return (
     <PatientHistoryContextProvider>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <WrapperComponent defaultTest={defaultTest} patient={patient}>
+      <WrapperComponent defaultTest={defaultTest} patient={patient} isDoctor={isDoctor}>
         {children}
       </WrapperComponent>
     </PatientHistoryContextProvider>
@@ -88,14 +87,16 @@ export const usePatientHistoryContext = () => {
   return {
     historyList: values.historyList,
     loadingList: values.loadingList,
-    params: values.params,
+    testFilter: values.testFilter,
+    rangeDate: values.rangeDate,
     modalVisible: values.modalVisible,
     selected: values.selected,
     total: values.total,
     selectMedicalForm: values.selectMedicalForm,
     formType: values.formType,
     setModalVisible: values.setModalVisible,
-    setParams: values.setParams,
-    resetPagination: values.resetPagination
+    setTestFilter: values.setTestFilter,
+    setRangeDate: values.setRangeDate,
+    fetchList: values.fetchList
   };
 };

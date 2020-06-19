@@ -13,7 +13,7 @@ import { DialogTitleComponent } from '../../ModalComponent';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
 import SaveButton from '../../buttons/SaveButton';
 import CheckboxesFieldComponent from '../../fields/CheckboxesFieldComponent';
-import { getPropValue, formatToUpperCase } from '../../../helpers/utils';
+import { getPropValue } from '../../../helpers/utils';
 import {
   validateProfile,
   validateEmail,
@@ -118,7 +118,6 @@ function AddOrEditProfilesComponent({
                       label="Nombre:"
                       name="name"
                       disabled={formType === EDIT_FORM_TEXT}
-                      format={formatToUpperCase}
                     />
                   </Grid>
                   {getPropValue(values, 'role') !== 'clinic' ? (
@@ -129,7 +128,6 @@ function AddOrEditProfilesComponent({
                         name="lastName"
                         disabled={formType === EDIT_FORM_TEXT}
                         validate={validateLastname}
-                        format={formatToUpperCase}
                       />
                     </Grid>
                   ) : (

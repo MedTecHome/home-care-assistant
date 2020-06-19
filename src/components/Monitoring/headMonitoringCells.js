@@ -1,11 +1,11 @@
 const headMonitoringCells = [
   {
-    id: 'user.fullname',
+    id: 'name',
     numeric: false,
     label: 'Nombre y  Apellidos'
   },
   {
-    id: 'user.age',
+    id: 'age',
     numeric: true,
     label: 'Edad(años)'
   },
@@ -20,32 +20,32 @@ const headMonitoringCells = [
     label: 'Presión'
   },
   {
-    id: 'oxygen.heartbeat',
+    id: 'oxygen',
     numeric: true,
     label: 'Pulso(LPM)'
   },
   {
-    id: 'weight.weight',
+    id: 'weight',
     numeric: true,
     label: 'Peso(kg)'
   },
   {
-    id: 'glucose.sugarConcentration',
+    id: 'glucose',
     numeric: true,
     label: 'Glucosa'
   },
   {
-    id: 'temperature.celsiusDegree',
+    id: 'temperature',
     numeric: true,
     label: 'Temperatura(℃)'
   },
   {
-    id: 'exercises.steps',
+    id: 'exercises',
     numeric: true,
     label: 'Actividad(pasos)'
   },
   {
-    id: 'inr.INR',
+    id: 'inr',
     numeric: true,
     label: 'INR'
   }

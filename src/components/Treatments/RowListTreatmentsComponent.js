@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import {
   TableRow,
   TableCell,
@@ -26,7 +26,6 @@ import TextFromProfileComponent from '../text/TextFromProfileComponent';
 import { AsyncDosis } from '../text/AsyncNomenclatorText';
 import AsyncMedicineText from '../text/AsyncMedicineText';
 import { getMedicineById } from '../../services/medicines';
-import useCustomStyles from '../../jss/globalStyles';
 
 const useStyles = makeStyles({
   root: {
@@ -62,7 +61,6 @@ const useStyles = makeStyles({
 });
 
 function TableMedicines({ medicines }) {
-  const classes = useCustomStyles();
   return (
     <TableContainer>
       <Table size="small">
@@ -77,7 +75,7 @@ function TableMedicines({ medicines }) {
           {medicines.map(medicine => {
             return (
               <TableRow key={medicine.id}>
-                <TableCell className={classes.textUpperCase}>{getPropValue(medicine, 'name')}</TableCell>
+                <TableCell>{getPropValue(medicine, 'name')}</TableCell>
                 <TableCell align="center">
                   {`${getPropValue(medicine, 'doseCant') || '-'}`}
                   <AsyncDosis id={getPropValue(medicine, 'doseType')} />
@@ -139,6 +137,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
 function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, onModalVisible, editRole, delRole }) {
   const classes = useStyles();
   const [medicine, setMedicine] = useState({});
+  const mounted = useRef(true);
 
   const matchXs = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const matchSm = useMediaQuery(theme => theme.breakpoints.down('sm'));
@@ -149,11 +148,17 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
       const result = await getMedicineById(row.medicine);
       medicineSettings = result;
     }
-    setMedicine(medicineSettings);
+    if (mounted.current) {
+      setMedicine(medicineSettings);
+    }
   }, [row.medicineSettings, row.medicine]);
 
   useEffect(() => {
+    mounted.current = true;
     fetchMedicine();
+    return () => {
+      mounted.current = false;
+    };
   }, [fetchMedicine]);
 
   const handleRowClick = id => {

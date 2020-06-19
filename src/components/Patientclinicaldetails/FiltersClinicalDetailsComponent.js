@@ -34,7 +34,7 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
       options={profiles}
       value={value}
       filterSelectedOptions
-      getOptionLabel={option => `${option.name.toUpperCase()} ${option.lastName ? option.lastName.toUpperCase() : ''}`}
+      getOptionLabel={option => `${option.name} ${option.lastName ? option.lastName : ''}`}
       getOptionSelected={option => option.id}
       onChange={(event, newValue) => {
         handleSelect(newValue);

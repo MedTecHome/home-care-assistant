@@ -25,7 +25,7 @@ function TextFromProfileComponent({
   if (fullname) {
     return (
       <Typography component="span" noWrap>
-        {getPropValue(profileDetails, 'fullname')}
+        {`${getPropValue(profileDetails, 'name')} ${getPropValue(profileDetails, 'lastName')}`}
       </Typography>
     );
   }
