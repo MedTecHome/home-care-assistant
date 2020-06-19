@@ -5,11 +5,14 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import { useMediaQuery } from '@material-ui/core';
 
 const styles = theme => ({
   dialogRoot: {
+    maxWidth: '100%',
     '& .MuiDialog-paperWidthSm': {
-      maxWidth: 'max-content'
+      maxWidth: 'max-content',
+      display: 'flex'
     }
   },
   root: {
@@ -40,12 +43,14 @@ export const DialogTitleComponent = withStyles(styles)(({ children, classes, onC
   );
 });
 
-const ModalComponent = withStyles(styles)(({ children, visible, classes }) => {
+const ModalComponent = withStyles(styles)(({ children, visible, fullScreen = false, classes }) => {
+  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
   return (
     <Dialog
       className={classes.dialogRoot}
       open={visible}
       scroll="paper"
+      fullScreen={match && fullScreen}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >

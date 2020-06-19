@@ -138,6 +138,7 @@ function AddOrEditFormComponent({
                             parent={doctor}
                             classes={classes}
                             validate={validateDoctor}
+                            size="medium"
                           />
                         </Grid>
                         <DateFieldComponent label="Fecha inicio" name="startDate" classes={classes} />
@@ -148,7 +149,13 @@ function AddOrEditFormComponent({
                           minDate={values.startDate}
                         />
                         <Grid item xs={10}>
-                          <MedicinesFieldComponent required clinic={clinic} name="medicine" label="Medicamento" />
+                          <MedicinesFieldComponent
+                            required
+                            clinic={clinic}
+                            name="medicine"
+                            label="Medicamento"
+                            size="medium"
+                          />
                         </Grid>
                         <Grid item xs={2}>
                           <EditButtonIcon

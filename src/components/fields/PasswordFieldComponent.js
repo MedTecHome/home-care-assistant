@@ -9,7 +9,7 @@ function PasswordFieldComponent({ classes }) {
       type="password"
       label="Contraseña"
       variant="outlined"
-      size="small"
+      size="medium"
       InputLabelProps={{
         shrink: true
       }}

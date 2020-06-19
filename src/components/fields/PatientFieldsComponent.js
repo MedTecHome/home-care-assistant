@@ -21,7 +21,7 @@ function PatientsFieldComponent({ formType }) {
           disabled={formType === EDIT_FORM_TEXT}
           dateFunsUtils={MomentUtils}
           className={classes.formControl}
-          size="small"
+          size="medium"
           variant="inline"
           label="Fecha de nacimiento"
           autoOk

@@ -42,7 +42,7 @@ function HeaderComponent({ history }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { currentUser, currentUserProfile, signOutUser } = useAuthContext();
   const classes = useStyles();
-  const match = useMediaQuery(theme => theme.breakpoints.down('xs'));
+  const match = useMediaQuery(theme => theme.breakpoints.down(750));
 
   const isLogin = isLocal ? true : !!currentUser;
 

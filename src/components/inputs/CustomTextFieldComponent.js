@@ -18,7 +18,8 @@ function CustomTextFieldComponent({
   rows,
   rowsMax,
   labelStyle,
-  placeholder
+  placeholder,
+  format
 }) {
   const classes = useCustomStyles();
   return (
@@ -38,6 +39,7 @@ function CustomTextFieldComponent({
       placeholder={placeholder}
       fieldProps={{
         disabled,
+        format,
         validate
       }}
       InputLabelProps={{

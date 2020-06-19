@@ -82,7 +82,7 @@ function ProfilesComponent({ filterRole }) {
 
   return (
     <>
-      <ModalComponent visible={modalVisible}>
+      <ModalComponent visible={modalVisible} fullScreen={[ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType)}>
         {([ADD_FORM_TEXT, EDIT_FORM_TEXT].includes(formType) && (
           <AddOrEditProfilesComponent
             filterRole={filterRole}

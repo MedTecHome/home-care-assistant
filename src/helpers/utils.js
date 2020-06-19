@@ -73,3 +73,5 @@ export const compareStringTagName = (a, b) => {
 };
 
 export const mutateDoc = doc => ({ id: doc.id, ...doc.data() });
+
+export const formatToUpperCase = value => (value ? value.toString().toUpperCase() : '');
