@@ -40,7 +40,6 @@ export const withTreatmentsContext = WrapperComponent => props => {
       setLoadingList(true);
       fetchList(pageSize, page, { user: userFilter });
     }
-
     return () => {
       mounted.current = false;
     };

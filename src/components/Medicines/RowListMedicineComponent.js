@@ -25,7 +25,7 @@ function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) 
       key={row.id}
       selected={selected && selected.id === row.id}
     >
-      <TableCell className={classes.textUpperCase}>{row.name}</TableCell>
+      <TableCell>{row.name}</TableCell>
       <TableCell align="center">
         {`${getPropValue(row, 'concentrationCant') || '-'}`}
         <AsyncConcentration id={getPropValue(row, 'concentrationType')} />

@@ -48,7 +48,10 @@ function DetailsTreatmentComponent() {
                 <ListItemText
                   primary={
                     <Typography>
-                      Paciente: <strong>{getPropValue(selected, 'user.fullname') || '?'}</strong>
+                      Paciente:
+                      <strong>
+                        {` ${getPropValue(selected, 'user.name')} ${getPropValue(selected, 'user.lastName')}`}
+                      </strong>
                     </Typography>
                   }
                 />

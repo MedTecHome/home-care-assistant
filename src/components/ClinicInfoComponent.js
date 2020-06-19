@@ -45,7 +45,6 @@ const useStyles = makeStyles({
   itemTitle: {
     width: '100%',
     marginBottom: 5,
-    textTransform: 'uppercase',
     textAlign: 'center',
     color: '#666',
     fontWeight: 600
@@ -149,7 +148,7 @@ function ClinicInfoComponent() {
               <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
               <div className={classes.itemContent}>
                 <Typography className={classes.itemTitle} variant="h6">
-                  {getPropValue(clinicInfo, 'fullname')}
+                  {`${getPropValue(clinicInfo, 'name')} ${getPropValue(clinicInfo, 'lastName')}`}
                 </Typography>
                 <Collapse className={classes.collapseItem} in={open}>
                   <Grid container spacing={1}>

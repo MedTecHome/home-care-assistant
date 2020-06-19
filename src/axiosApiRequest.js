@@ -15,7 +15,7 @@ const apiData = axios.create({
 });
 
 const apiDataLocal = axios.create({
-  baseURL: 'http://192.168.42.14:5001/test1-6f25a/us-central1/api/'
+  baseURL: 'http://192.168.42.86:5001/test1-6f25a/us-central1/api/'
 });
 
 const apiFetch = reactDB === 'local' ? apiDataLocal : apiData;
@@ -44,6 +44,8 @@ apiFetch.interceptors.request.use(config => {
   const newConfig = config;
   const token = localStorage.getItem('AuthToken');
   newConfig.headers.Authorization = token;
+  newConfig.headers['Content-Type'] = 'application/json;charset=UTF-8';
+  newConfig.headers.accept = 'application/json;charset=UTF-8';
   return newConfig;
 });
 

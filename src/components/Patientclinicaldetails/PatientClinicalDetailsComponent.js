@@ -57,9 +57,14 @@ function PatientClinicalDetailsComponent() {
             {isDoctor && <Tab label="Tratamientos" value="treatments" />}
           </Tabs>
         </Paper>
-        {tab === 'treatments' && <TreatmentsComponent patient={patient} />}
-        {tab === 'clinictest' && <PatientHistoryComponent patient={patient} defaultTest={defaultTest} />}
-        {tab === 'evolution' && isDoctor && <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />}
+        {(tab === 'treatments' && <TreatmentsComponent patient={patient} />) ||
+          (tab === 'clinictest' && (
+            <PatientHistoryComponent patient={patient} defaultTest={defaultTest} isDoctor={isDoctor} />
+          )) ||
+          (tab === 'evolution' && isDoctor && (
+            <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />
+          )) ||
+          null}
       </div>
     </>
   );
