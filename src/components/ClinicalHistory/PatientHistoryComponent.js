@@ -4,39 +4,46 @@ import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
-import { withCustomPaginationContext } from '../pagination/PaginationContext';
+import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
+import ListPatientHistoryGraphicComponent from './ListPatientHistoryGraphicComponent';
 
-function PatientHistoryComponent({ patient, defaultTest }) {
+function PatientHistoryComponent({ patient, isDoctor, defaultTest }) {
+  const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const {
     historyList,
     loadingList,
     modalVisible,
-    params,
-    setParams,
+    testFilter,
+    rangeDate,
+    setTestFilter,
+    setRangeDate,
     setModalVisible,
     selectMedicalForm,
     selected,
     total,
-    resetPagination
+    fetchList
   } = usePatientHistoryContext();
 
   useEffect(() => {
-    setParams({ user: getPropValue(patient, 'id') || null, type: defaultTest });
-  }, [patient, defaultTest, setParams]);
+    const pS = (isDoctor && pageSize) || !['recently', undefined].includes(testFilter) ? pageSize : 1;
+    fetchList(pS, page, getPropValue(patient, 'id'), rangeDate, testFilter);
+  }, [isDoctor, pageSize, page, patient, rangeDate, testFilter, fetchList]);
+
+  useEffect(() => {
+    setTestFilter(defaultTest);
+  }, [defaultTest, setTestFilter]);
 
   const handleSelectDate = useCallback(
     values => {
-      if (JSON.stringify(params.rangeDate) !== JSON.stringify(values)) {
-        setParams({ ...params, rangeDate: values });
-        resetPagination();
-      }
+      setRangeDate(values);
+      resetPagination();
     },
-    [params, setParams, resetPagination]
+    [setRangeDate, resetPagination]
   );
 
   const handleSelectType = type => {
-    setParams({ ...params, type });
+    setTestFilter(type);
     resetPagination();
   };
 
@@ -50,15 +57,19 @@ function PatientHistoryComponent({ patient, defaultTest }) {
         onSelectDate={handleSelectDate}
         onSelectType={handleSelectType}
       />
-      <ListPatientHistoryComponent
-        defaultType={params.type}
-        historyList={historyList}
-        loadingList={loadingList}
-        selectMedicalForm={selectMedicalForm}
-        selected={selected}
-        setModalVisible={setModalVisible}
-        total={total}
-      />
+      {isDoctor ? (
+        <ListPatientHistoryGraphicComponent historyList={historyList} loadingList={loadingList} />
+      ) : (
+        <ListPatientHistoryComponent
+          defaultType={testFilter}
+          historyList={historyList}
+          loadingList={loadingList}
+          selectMedicalForm={selectMedicalForm}
+          selected={selected}
+          setModalVisible={setModalVisible}
+          total={total}
+        />
+      )}
     </>
   );
 }
