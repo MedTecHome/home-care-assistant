@@ -14,7 +14,7 @@ function RowMonitoringComponent({ row, selectRow }) {
     selectRow(id);
   };
 
-  const colorPressure = healthyStandards.pressure(
+  /* const colorPressure = healthyStandards.pressure(
     getPropValue(row, 'pressure.sistolica'),
     getPropValue(row, 'pressure.diastolica')
   );
@@ -23,7 +23,7 @@ function RowMonitoringComponent({ row, selectRow }) {
   const colorWeight = healthyStandards.weight(getPropValue(row, 'user.height'), getPropValue(row, 'weight.weight'));
   const colorGlucose = healthyStandards.glucose(getPropValue(row, 'glucose.sugarConcentration'));
   const colorTemperature = healthyStandards.temperature(getPropValue(row, 'temperature.celsiusDegree'));
-  const colorInr = healthyStandards.inr(getPropValue(row, 'inr.INR'));
+  const colorInr = healthyStandards.inr(getPropValue(row, 'inr.INR')); */
 
   return (
     <TableRow onClick={() => handleRowSelect(row.id)}>
@@ -49,10 +49,14 @@ function RowMonitoringComponent({ row, selectRow }) {
       {!matchXs && (
         <TableCell
           align="center"
-          style={{
+          style={
+            {
+              /*
             color: colorPressure ? colorPressure.A700 : 'inherit',
             backgroundColor: colorPressure ? colorPressure[200] : 'inherit'
-          }}
+          */
+            }
+          }
         >{`${getPropValue(row, 'pressure.sistolica') || '-'}/${
           getPropValue(row, 'pressure.diastolica') || '-'
         }`}</TableCell>
@@ -60,47 +64,67 @@ function RowMonitoringComponent({ row, selectRow }) {
       {!matchXs && !matchSm && (
         <TableCell
           align="center"
-          style={{
+          style={
+            {
+              /*
             color: colortHeartbeat ? colortHeartbeat.A700 : 'inherit',
             backgroundColor: colortHeartbeat ? colortHeartbeat[200] : 'inherit'
-          }}
+          */
+            }
+          }
         >{`${getPropValue(row, 'oxygen.heartbeat') || '-'}`}</TableCell>
       )}
       {!matchXs && !matchSm && (
         <TableCell
           align="center"
-          style={{
+          style={
+            {
+              /*
             color: colorWeight ? colorWeight.A700 : 'inherit',
             backgroundColor: colorWeight ? colorWeight[200] : 'inherit'
-          }}
+          */
+            }
+          }
         >{`${getPropValue(row, 'weight.weight') || '-'}`}</TableCell>
       )}
       {!matchXs && !matchSm && (
         <TableCell
           align="center"
-          style={{
+          style={
+            {
+              /*
             color: colorGlucose ? colorGlucose.A700 : 'inherit',
             backgroundColor: colorGlucose ? colorGlucose[200] : 'inherit'
-          }}
+          */
+            }
+          }
         >{`${getPropValue(row, 'glucose.sugarConcentration') || '-'}`}</TableCell>
       )}
       {!matchXs && !matchSm && (
         <TableCell
           align="center"
-          style={{
+          style={
+            {
+              /*
             color: colorTemperature ? colorTemperature.A700 : 'inherit',
             backgroundColor: colorTemperature ? colorTemperature[200] : 'inherit'
-          }}
+          */
+            }
+          }
         >{`${getPropValue(row, 'temperature.celsiusDegree') || '-'}`}</TableCell>
       )}
       {!matchXs && !matchSm && <TableCell align="center">{`${getPropValue(row, 'exercises.steps') || '-'}`}</TableCell>}
       {!matchXs && !matchSm && (
         <TableCell
           align="center"
-          style={{
+          style={
+            {
+              /*
             color: colorInr ? colorInr.A700 : 'inherit',
             backgroundColor: colorInr ? colorInr[200] : 'inherit'
-          }}
+          */
+            }
+          }
         >{`${getPropValue(row, 'inr.INR') || '-'}`}</TableCell>
       )}
 

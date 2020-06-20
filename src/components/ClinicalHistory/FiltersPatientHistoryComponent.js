@@ -53,7 +53,7 @@ function SelectClinicTest({ defaultType, onSelectType }) {
       <Select label="Seleccione" className={classes.formControl} value={valueType} onChange={handleSetTypeHistory}>
         <MenuItem value="recently">
           <IconTestComponent type="" className={classes.iconSize} />
-          <Typography>Prueba recientes</Typography>
+          <Typography>Pruebas recientes</Typography>
         </MenuItem>
         {testFormsNames.sort(compareStringTagName).map(types => (
           <MenuItem key={types.id} value={types.id}>
