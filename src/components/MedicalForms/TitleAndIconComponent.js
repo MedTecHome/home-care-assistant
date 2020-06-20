@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   titleForms: {
     color: theme.palette.grey['600'],
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 16,
     paddingBottom: 10
   }
 }));

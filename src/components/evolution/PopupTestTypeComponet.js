@@ -6,6 +6,7 @@ import { DetailHistoryMedicalFormContentComponent } from '../ClinicalHistory/Det
 import healthyStandards from '../../helpers/healthyStandards';
 import { severityConstant } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
+import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
 
 const useStyles = makeStyles({
   contextDetail: {
@@ -30,6 +31,7 @@ function PopupTestTypeComponent({ data }) {
 
   return (
     <PopoverComponent
+      header={<TitleAndIconComponent type={data.type} />}
       title={
         <Typography className={classes.textColor} component="span">
           {(data.type === 'pressure' && `${data.sistolica}/${data.diastolica}`) ||

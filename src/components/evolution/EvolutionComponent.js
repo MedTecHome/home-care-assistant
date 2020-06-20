@@ -9,8 +9,8 @@ import {
   makeStyles,
   Paper,
   TableBody,
-  CircularProgress,
-  Grid
+  Grid,
+  LinearProgress
 } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
@@ -123,7 +123,7 @@ function EvolutionComponent({ setTab, patient }) {
             {loadingList ? (
               <TableRow>
                 <TableCell align="center" colSpan={enumeratedDays.length + 1}>
-                  <CircularProgress />
+                  <LinearProgress />
                 </TableCell>
               </TableRow>
             ) : (

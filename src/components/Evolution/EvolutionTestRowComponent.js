@@ -50,12 +50,10 @@ function EvolutionTestRowComponent({ clinicaltest, aux, classes, handleClickPara
             onClick={() => handleClickParamter(getPropValue(clinicaltest, 'type'))}
             color="inherit"
           >
-            {getPropValue(clinicaltest, 'type') === 'breathing'
-              ? 'Frecuencia Respiratoria'
-              : getPropValue(
-                  testFormsNames.find(tf => tf.id === getPropValue(clinicaltest, 'type')),
-                  'name'
-                ) || '-'}
+            {getPropValue(
+              testFormsNames.find(tf => tf.id === getPropValue(clinicaltest, 'type')),
+              'name'
+            ) || '-'}
             {getSymbolo(getPropValue(clinicaltest, 'type'))}
           </Typography>
         </div>
