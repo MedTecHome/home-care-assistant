@@ -1,3 +1,6 @@
+import { testFormsNames } from '../../helpers/constants';
+import { getPropValue } from '../../helpers/utils';
+
 const headMonitoringCells = [
   {
     id: 'name',
@@ -17,37 +20,55 @@ const headMonitoringCells = [
   {
     id: 'pressure',
     numeric: true,
-    label: 'Presión'
+    label: `${getPropValue(
+      testFormsNames.find(tf => tf.id === 'pressure'),
+      'name'
+    )}`
   },
   {
     id: 'oxygen',
     numeric: true,
-    label: 'Pulso(LPM)'
+    label: 'Frecuencia Cardiaca(LPM)'
   },
   {
     id: 'weight',
     numeric: true,
-    label: 'Peso(kg)'
+    label: `${getPropValue(
+      testFormsNames.find(tf => tf.id === 'weight'),
+      'name'
+    )}(kg)`
   },
   {
     id: 'glucose',
     numeric: true,
-    label: 'Glucosa'
+    label: `${getPropValue(
+      testFormsNames.find(tf => tf.id === 'glucose'),
+      'name'
+    )}`
   },
   {
     id: 'temperature',
     numeric: true,
-    label: 'Temperatura(℃)'
+    label: `${getPropValue(
+      testFormsNames.find(tf => tf.id === 'temperature'),
+      'name'
+    )} (°C)`
   },
   {
     id: 'exercises',
     numeric: true,
-    label: 'Actividad(pasos)'
+    label: `${getPropValue(
+      testFormsNames.find(tf => tf.id === 'exercises'),
+      'name'
+    )}(pasos)`
   },
   {
     id: 'inr',
     numeric: true,
-    label: 'INR'
+    label: `${getPropValue(
+      testFormsNames.find(tf => tf.id === 'inr'),
+      'name'
+    )}`
   }
 ];
 
