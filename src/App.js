@@ -41,7 +41,8 @@ const useStyles = makeStyles(() => ({
 function AuthLoading() {
   const { currentUser, currentUserProfile } = useAuthContext();
   const classes = useStyles();
-  const isLogin = isLocal ? true : !!currentUser;
+  const isLogin = isLocal ? true : currentUser;
+
   if (isLogin && !currentUserProfile) {
     return (
       <div className={classes.authLoading}>

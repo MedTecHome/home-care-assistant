@@ -1,5 +1,5 @@
 import { retriveData, retriveDoc, createDoc, editDoc, deleteDoc } from './utils';
-import { apiFetch } from '../axiosApiRequest';
+import { apiData } from '../axiosApiRequest';
 import specificProfile from '../schema/profiles';
 
 const getProfiles = async (limit, page, filters) => {
@@ -53,7 +53,7 @@ export const deleteProfile = async ({ id }) => {
 
 export const getByEmail = async username => {
   try {
-    const response = await apiFetch(`searchByEmail?email=${username}`);
+    const response = await apiData(`searchByEmail?email=${username}`);
     if (response) {
       return response;
     }
