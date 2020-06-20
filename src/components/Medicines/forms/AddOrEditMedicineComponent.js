@@ -45,10 +45,7 @@ export function AddOrEditMedicineFormComponent({
                   name="name"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <ConcentrationFieldComponent label="Tipo Concentración" name="concentrationType" />
-              </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <CustomTextFieldComponent
                   type="number"
                   label="Concentración"
@@ -58,17 +55,20 @@ export function AddOrEditMedicineFormComponent({
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={8}>
+                <ConcentrationFieldComponent label="Tipo de Unidad" name="concentrationType" />
+              </Grid>
+              <Grid item xs={4}>
+                <CustomTextFieldComponent label="Cantidad" name="doseCant" />
+              </Grid>
+              <Grid item xs={12} sm={8}>
                 <DosisFieldComponent label="Tipo dosis" name="doseType" />
               </Grid>
-              <Grid item xs={6}>
-                <CustomTextFieldComponent label="Cant. Dosis" name="doseCant" type="number" />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <AdministrationRouteFielComponent label="Via Administración" name="administrationType" />
-              </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <CustomTextFieldComponent label="Frecuencia" name="frequency" />
+              </Grid>
+              <Grid item xs={12} sm={8}>
+                <AdministrationRouteFielComponent label="Via Administración" name="administrationType" />
               </Grid>
               <Grid item xs={12}>
                 <CustomTextFieldComponent label="Motivo Administración" name="administrationReason" />
