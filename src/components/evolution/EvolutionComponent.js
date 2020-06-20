@@ -53,22 +53,11 @@ function EvolutionComponent({ setTab, patient }) {
     setParams({ user: getPropValue(patient, 'id') });
   }, [patient, setParams]);
 
-  const aux = params.rangeDate ? enumerateDaysBetweenDates(params.rangeDate[0], params.rangeDate[1]) : [];
+  const enumeratedDays = params.rangeDate ? enumerateDaysBetweenDates(params.rangeDate[0], params.rangeDate[1]) : [];
 
-  const weeks = aux.filter(
-    (thing, index, self) =>
-      index ===
-      self.findIndex(t => {
-        return moment(t).week() === moment(thing).week();
-      })
-  );
-
-  const months = weeks.filter(
-    (thing, index, self) =>
-      index ===
-      self.findIndex(t => {
-        return moment(t).format('MM') === moment(thing).format('MM');
-      })
+  const months = Array.from(new Set(enumeratedDays.map(date => moment(date).format('MMM')))).map(a => ({ name: a }));
+  const weeks = Array.from(
+    new Set(enumeratedDays.map(d => `${moment(d).format('MMM')}_${Math.ceil(moment(d).date() / 7)}`))
   );
 
   const handleClickParamter = type => {
@@ -92,45 +81,40 @@ function EvolutionComponent({ setTab, patient }) {
         <Table className={classes.tableRoot}>
           <TableHead className={classes.tableHead}>
             <TableRow>
-              <TableCell variant="head" />
-              {months.map((m, index) => (
+              <TableCell align="center" />
+              {months.map(a => (
                 <TableCell
-                  key={index.toString()}
                   align="center"
-                  colSpan={aux.filter(d => moment(d).format('MM') === moment(m).format('MM')).length}
-                  component="th"
+                  key={a.name}
+                  colSpan={enumeratedDays.filter(b => moment(b).format('MMM') === a.name).length}
                 >
-                  {moment(m).format('MMM')}
+                  {a.name}
                 </TableCell>
               ))}
             </TableRow>
             <TableRow>
               <TableCell />
-              {weeks.map((w, index) => {
+              {weeks.map(a => {
+                const week = a.split('_')[1];
                 return (
                   <TableCell
-                    key={index.toString()}
                     align="center"
-                    colSpan={aux.filter(date => moment(date).week() === moment(w).week()).length}
+                    key={a}
+                    colSpan={
+                      enumeratedDays.filter(b => `${moment(b).format('MMM')}_${Math.ceil(moment(b).date() / 7)}` === a)
+                        .length
+                    }
                   >
-                    Semana {Math.ceil(moment(w).date() / 7)}
+                    {`Semana ${week}`}
                   </TableCell>
                 );
               })}
             </TableRow>
             <TableRow>
-              <TableCell>Parametros</TableCell>
-              {aux.map((date, index) => (
-                <TableCell
-                  key={index.toString()}
-                  align="center"
-                  className={
-                    moment(moment(date).format('YYYY-MM-DD')).isSame(moment().format('YYYY-MM-DD'))
-                      ? classes.cellToday
-                      : undefined
-                  }
-                >
-                  {moment(date).format('DD')}
+              <TableCell>Parámetros/Días</TableCell>
+              {enumeratedDays.map(a => (
+                <TableCell align="center" key={moment(a).format('YYYY-MM-DD')}>
+                  {moment(a).format('DD')}
                 </TableCell>
               ))}
             </TableRow>
@@ -138,7 +122,7 @@ function EvolutionComponent({ setTab, patient }) {
           <TableBody>
             {loadingList ? (
               <TableRow>
-                <TableCell align="center" colSpan={aux.length + 1}>
+                <TableCell align="center" colSpan={enumeratedDays.length + 1}>
                   <CircularProgress />
                 </TableCell>
               </TableRow>
@@ -147,7 +131,7 @@ function EvolutionComponent({ setTab, patient }) {
                 <EvolutionTestRowComponent
                   key={mt.id}
                   clinicaltest={mt}
-                  aux={aux}
+                  aux={enumeratedDays}
                   handleClickParamter={handleClickParamter}
                   classes={classes}
                 />
@@ -157,12 +141,17 @@ function EvolutionComponent({ setTab, patient }) {
           <TableHead className={classes.tableHead}>
             <TableRow>
               <TableCell>Tratamientos</TableCell>
-              <TableCell colSpan={aux.length} />
+              <TableCell colSpan={enumeratedDays.length} />
             </TableRow>
           </TableHead>
           <TableBody>
             {treatments.map(treatment => (
-              <EvolutionTreatmentsRowComponent key={treatment.id} aux={aux} treatment={treatment} classes={classes} />
+              <EvolutionTreatmentsRowComponent
+                key={treatment.id}
+                aux={enumeratedDays}
+                treatment={treatment}
+                classes={classes}
+              />
             ))}
           </TableBody>
         </Table>

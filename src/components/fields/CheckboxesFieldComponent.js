@@ -5,6 +5,7 @@ import { Field } from 'react-final-form';
 function CheckboxesFieldComponent({ required, disabled = false, namee, labelStyle, label, validate }) {
   return (
     <FormControlLabel
+      color="primary"
       required={required}
       name={namee}
       disabled={disabled}
@@ -16,6 +17,7 @@ function CheckboxesFieldComponent({ required, disabled = false, namee, labelStyl
           validate={validate}
           render={({ input: { name, value, onChange, checked, ...restInput } }) => (
             <MuiCheckbox
+              color="primary"
               disabled={disabled}
               name={name}
               value={value}

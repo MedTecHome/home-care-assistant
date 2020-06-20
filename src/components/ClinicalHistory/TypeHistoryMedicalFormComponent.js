@@ -21,16 +21,16 @@ function TypeHistoryMedicalFormComponent({ data }) {
         <>
           <TextLabelAndValue label="Sistólica" value={data.sistolica || ' - '} />
           <TextLabelAndValue label="Diastolica" value={data.diastolica || ' - '} />
-          <TextLabelAndValue label="Frecuencia Cardiaca" value={data.heartrate || ' - '} />
+          <TextLabelAndValue label="Frecuencia Cardiaca" value={`${data.heartrate || ' - '}(LPM)`} />
         </>
       )}
       {idType === 'heartrate' && (
         <>
-          <TextLabelAndValue label="Frecuencia Cardiaca" value={data.heartrate || ' - '} />
+          <TextLabelAndValue label="Frecuencia Cardiaca" value={`${data.heartrate || ' - '}(LPM)`} />
         </>
       )}
-      {idType === 'temperature' && <TextLabelAndValue label="Grados" value={`${data.celsiusDegree || '-'}℃`} />}
-      {idType === 'weight' && <TextLabelAndValue label="Peso" value={`${data.weight || '-'}kg`} />}
+      {idType === 'temperature' && <TextLabelAndValue label="Grados" value={`${data.celsiusDegree || '-'}(℃)`} />}
+      {idType === 'weight' && <TextLabelAndValue label="Peso" value={`${data.weight || '-'}(kg)`} />}
       {idType === 'glucose' && (
         <>
           <TextLabelAndValue
@@ -41,14 +41,15 @@ function TypeHistoryMedicalFormComponent({ data }) {
       )}
       {idType === 'breathing' && (
         <>
-          <TextLabelAndValue label="EtCO" value={`${data.EtCO || '-'}mmHg`} />
-          <TextLabelAndValue label="PI" value={`${data.breathingPI || '-'}%`} />
+          <TextLabelAndValue label="Frecuencia Respiración" value={`${data.breathingFrecuency || '-'}(RPM)`} />
+          <TextLabelAndValue label="EtCO" value={`${data.EtCO || '-'}(mmHg)`} />
+          <TextLabelAndValue label="PI" value={`${data.breathingPI || '-'}(%)`} />
         </>
       )}
       {idType === 'inr' && <TextLabelAndValue label="INR" value={`${data.INR}`} />}
       {idType === 'oxygen' && (
         <>
-          <TextLabelAndValue label="Pulso" value={`${data.heartbeat || '-'}LPM`} />
+          <TextLabelAndValue label="Pulso" value={`${data.heartbeat || '-'}(LPM)`} />
           <TextLabelAndValue label="SpO2" value={`${data.SpO2 || '-'}%`} />
         </>
       )}

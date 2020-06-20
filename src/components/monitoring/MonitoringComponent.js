@@ -36,19 +36,19 @@ function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGree
   return (
     <div className={classes.divRoot}>
       <span className={classes.total}>
-        <strong>Pacientes: </strong> ({total})
+        <strong>Pacientes: </strong> {total || '-'}
       </span>
       <span className={classes.alertsSpan}>
-        <strong>Alertas: </strong> ({totalRed})
+        <strong>Alertas: </strong> {totalRed || '-'}
       </span>
       <span className={classes.redSpan}>
-        <strong>Rojos: </strong> ({totalRed})
+        <strong>Rojos: </strong> {totalRed || '-'}
       </span>
       <span className={classes.yellowSpan}>
-        <strong>Amarillos: </strong> ({totalYellow})
+        <strong>Amarillos: </strong> {totalYellow || '-'}
       </span>
       <span className={classes.greenSpan}>
-        <strong>Verdes: </strong> ({totalGreen})
+        <strong>Verdes: </strong> {totalGreen || '-'}
       </span>
     </div>
   );

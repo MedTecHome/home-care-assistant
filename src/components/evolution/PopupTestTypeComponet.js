@@ -36,7 +36,7 @@ function PopupTestTypeComponent({ data }) {
             (data.type === 'heartrate' && `${data.heartrate}`) ||
             (data.type === 'temperature' && data.celsiusDegree) ||
             (data.type === 'weight' && data.weight) ||
-            (data.type === 'breathing' && data.breathingFrequency) ||
+            (data.type === 'breathing' && data.breathingFrecuency) ||
             (data.type === 'glucose' && data.sugarConcentration) ||
             (data.type === 'inr' && data.INR) ||
             (data.type === 'oxygen' && data.heartbeat) ||

@@ -62,6 +62,7 @@ const PatientMedicalForm = () => {
     if (!isEmpty(values)) {
       try {
         await saveHealthDataAction({ ...values, user: id }, selectedForms);
+        setSelectedForms([]);
         RegisterMessage(SUCCESS_MESSAGE, 'Información guardada', 'PatientMedicalForm');
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'PatientMedicalForm');

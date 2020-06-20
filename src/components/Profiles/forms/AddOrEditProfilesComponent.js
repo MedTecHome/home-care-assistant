@@ -220,7 +220,7 @@ function AddOrEditProfilesComponent({
                         disabled={formType === EDIT_FORM_TEXT}
                         labelStyle={localClasses.labelStyle}
                         namee="agreement"
-                        label={`Conocimiento de acuerdo: al chequear esta casilla el paciente tiene conocimiento que el sistema ${NAME_APP} no es un sistema de respuesta de emergencia`}
+                        label={`Términos de uso: al chequear esta casilla el paciente tiene conocimiento que el sistema ${NAME_APP} no es un sistema de respuesta de emergencia`}
                         validate={agreementValidate}
                       />
                     </Grid>
