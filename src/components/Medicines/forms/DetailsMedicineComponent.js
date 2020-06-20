@@ -12,7 +12,7 @@ import { AsyncConcentration, AsyncDosis, AsyncAdministrationroute } from '../../
 export function DetailsContentMedicineComponent({ data, classes }) {
   return (
     <Grid item xs={12} className={classes.contentDetail}>
-      <Typography component="div" className={classes.textUpperCase}>
+      <Typography component="div">
         <strong>{`Nombre: `}</strong>
         {getPropValue(data, 'name') || '-'}
       </Typography>

@@ -5,10 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { getPropValue } from '../../helpers/utils';
 import healthyStandards from '../../helpers/healthyStandards';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
-import useCustomStyles from '../../jss/globalStyles';
 
 function RowMonitoringComponent({ row, selectRow }) {
-  const classes = useCustomStyles();
   const matchXs = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const matchSm = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
@@ -31,7 +29,6 @@ function RowMonitoringComponent({ row, selectRow }) {
     <TableRow onClick={() => handleRowSelect(row.id)}>
       <TableCell>
         <Typography
-          className={classes.textUpperCase}
           component={NavLink}
           to={{
             pathname: '/detallesclinicos',
@@ -40,7 +37,7 @@ function RowMonitoringComponent({ row, selectRow }) {
             }
           }}
         >
-          {getPropValue(row, 'user.fullname') || '-'}
+          {`${getPropValue(row, 'user.name')} ${getPropValue(row, 'user.lastName')}` || '-'}
         </Typography>
       </TableCell>
       <TableCell align="center">{getPropValue(row, 'user.age') || '-'}</TableCell>

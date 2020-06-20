@@ -6,7 +6,6 @@ import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
-import ListPatientHistoryGraphicComponent from './ListPatientHistoryGraphicComponent';
 
 function PatientHistoryComponent({ patient, isDoctor, defaultTest }) {
   const { pageSize, page, resetPagination } = useCustomPaginationContext();
@@ -26,7 +25,8 @@ function PatientHistoryComponent({ patient, isDoctor, defaultTest }) {
   } = usePatientHistoryContext();
 
   useEffect(() => {
-    const pS = (isDoctor && pageSize) || !['recently', undefined].includes(testFilter) ? pageSize : 1;
+    // const pS = (isDoctor && pageSize) || !['recently', undefined].includes(testFilter) ? pageSize : 1;
+    const pS = !['recently', undefined, ''].includes(testFilter) ? pageSize : 1;
     fetchList(pS, page, getPropValue(patient, 'id'), rangeDate, testFilter);
   }, [isDoctor, pageSize, page, patient, rangeDate, testFilter, fetchList]);
 
@@ -57,19 +57,19 @@ function PatientHistoryComponent({ patient, isDoctor, defaultTest }) {
         onSelectDate={handleSelectDate}
         onSelectType={handleSelectType}
       />
-      {isDoctor ? (
+      {/* isDoctor ? (
         <ListPatientHistoryGraphicComponent historyList={historyList} loadingList={loadingList} />
-      ) : (
-        <ListPatientHistoryComponent
-          defaultType={testFilter}
-          historyList={historyList}
-          loadingList={loadingList}
-          selectMedicalForm={selectMedicalForm}
-          selected={selected}
-          setModalVisible={setModalVisible}
-          total={total}
-        />
-      )}
+      ) : */}
+
+      <ListPatientHistoryComponent
+        defaultType={testFilter}
+        historyList={historyList}
+        loadingList={loadingList}
+        selectMedicalForm={selectMedicalForm}
+        selected={selected}
+        setModalVisible={setModalVisible}
+        total={total}
+      />
     </>
   );
 }

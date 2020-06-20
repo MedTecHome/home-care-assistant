@@ -1,5 +1,5 @@
 import React from 'react';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 
 function ListPatientHistoryGraphicComponent({ loadingList, historyList }) {
   const groupTypeTest = historyList.map(ht => ({
@@ -11,10 +11,14 @@ function ListPatientHistoryGraphicComponent({ loadingList, historyList }) {
     return groupTypeTest.find(a => a.type === type);
   });
 
-  console.log(uniqueResult);
-
   if (loadingList) return <LinearProgress />;
-  return <div />;
+  return (
+    <div>
+      {uniqueResult.map(element => (
+        <Typography key={element.type}>{element.type}</Typography>
+      ))}
+    </div>
+  );
 }
 
 export default ListPatientHistoryGraphicComponent;

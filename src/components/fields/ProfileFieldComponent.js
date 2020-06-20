@@ -53,7 +53,7 @@ function ProfileFieldComponent({
       openOnFocus={false}
       options={profiles}
       getOptionValue={option => option.id}
-      getOptionLabel={option => `${option.name.toUpperCase()} ${option.lastName ? option.lastName.toUpperCase() : ''}`}
+      getOptionLabel={option => `${option.name} ${option.lastName ? option.lastName : ''}`}
     />
   );
 }

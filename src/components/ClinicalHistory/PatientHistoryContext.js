@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useReducer, useState, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useState, useRef, useEffect } from 'react';
 import { GlobalReducer, initialGlobalState } from '../../commons/actions/GlobalReducers';
 import setModalVisibleAction from '../../commons/actions/GlobalActions';
 import { useMessageContext } from '../../MessageHandle/MessageContext';
@@ -18,6 +18,12 @@ const PatientHistoryContextProvider = ({ children }) => {
   const [modalState, modalDispath] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
 
+  useEffect(() => {
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
   const fetchList = useCallback(
     async (limit, pag, user, rDate, type) => {
       mounted.current = true;
@@ -28,7 +34,6 @@ const PatientHistoryContextProvider = ({ children }) => {
           if (mounted.current === true) {
             setHistoryList(result.data);
             setTotal(result.total);
-            setLoadingList(false);
           }
         } catch (e) {
           RegisterMessage(ERROR_MESSAGE, e, 'PatienhistoryCOmponent');
