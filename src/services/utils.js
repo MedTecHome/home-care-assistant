@@ -1,11 +1,11 @@
-import { apiFetch } from '../axiosApiRequest';
+import { apiData } from '../axiosApiRequest';
 import { queryFromParams } from '../helpers/utils';
 
 // eslint-disable-next-line no-unused-vars
 const retriveData = async (path, limit = 10, page = 0, filters) => {
   try {
     const query = queryFromParams({ limit, page, ...filters });
-    const response = await apiFetch.get(`/${path}${query && `?${query}`}`);
+    const response = await apiData.get(`/${path}${query && `?${query}`}`);
     return response.data;
   } catch (e) {
     throw new Error(e.message);
@@ -14,7 +14,7 @@ const retriveData = async (path, limit = 10, page = 0, filters) => {
 
 const retriveDoc = async path => {
   try {
-    const response = await apiFetch.get(`/${path}`);
+    const response = await apiData.get(`/${path}`);
     return response.data;
   } catch (e) {
     throw new Error(e.message);
@@ -23,7 +23,7 @@ const retriveDoc = async path => {
 
 const createDoc = async (path, values) => {
   try {
-    await apiFetch.post(`/${path}`, values);
+    await apiData.post(`/${path}`, values);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -31,7 +31,7 @@ const createDoc = async (path, values) => {
 
 const editDoc = async (path, values) => {
   try {
-    await apiFetch.put(`/${path}`, values);
+    await apiData.put(`/${path}`, values);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -39,7 +39,7 @@ const editDoc = async (path, values) => {
 
 const deleteDoc = async path => {
   try {
-    await apiFetch.delete(`/${path}`);
+    await apiData.delete(`/${path}`);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -47,7 +47,7 @@ const deleteDoc = async path => {
 
 const setPostRequest = async (path, params) => {
   try {
-    await apiFetch.post(`/${path}`, params);
+    await apiData.post(`/${path}`, params);
   } catch (e) {
     throw new Error(e.message);
   }

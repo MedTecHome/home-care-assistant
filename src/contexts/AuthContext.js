@@ -6,6 +6,10 @@ import { getProfileById } from '../services/profiles';
 import { useMessageContext } from '../MessageHandle/MessageContext';
 import ErrorMessages from '../MessageHandle/errorMessages';
 
+window.onbeforeunload = function clearLocalStorage() {
+  localStorage.removeItem('AuthToken');
+};
+
 authFirebase.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 const AuthContext = createContext({});
@@ -23,9 +27,9 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = authFirebase.onAuthStateChanged(async user => {
-      setCurrentUser(user);
       try {
         if (user) {
+          setCurrentUser(user);
           const idToken = await user.getIdToken();
           localStorage.setItem('AuthToken', `Bearer ${idToken}`);
           const profile = await getProfileById(user.uid);
@@ -42,6 +46,7 @@ export function AuthContextProvider({ children }) {
             setCurrentUserProfile(profile);
           }
         } else {
+          setCurrentUser(user);
           setCurrentUserProfile(null);
         }
       } catch (e) {
@@ -63,7 +68,10 @@ export function AuthContextProvider({ children }) {
     }
   }, []);
 
-  const signOutUser = useCallback(() => authFirebase.signOut(), []);
+  const signOutUser = useCallback(() => {
+    authFirebase.signOut();
+    localStorage.removeItem('AuthToken');
+  }, []);
 
   const valueMemoize = useMemo(
     () => ({
