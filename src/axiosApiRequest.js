@@ -20,8 +20,10 @@ const apiData = axios.create({
 
 apiData.interceptors.response.use(
   res => {
-    // eslint-disable-next-line no-console
-    console.log(res);
+    if (BRANCH_DEPLOY === 'develop' || isLocal) {
+      // eslint-disable-next-line no-console
+      console.log(res);
+    }
     return res;
   },
   err => {
@@ -51,8 +53,10 @@ apiData.interceptors.request.use(
     return newConfig;
   },
   error => {
-    // eslint-disable-next-line no-console
-    console.log('request', error);
+    if (BRANCH_DEPLOY === 'develop' || isLocal) {
+      // eslint-disable-next-line no-console
+      console.log('request', error);
+    }
     return new Error(error.message);
   }
 );

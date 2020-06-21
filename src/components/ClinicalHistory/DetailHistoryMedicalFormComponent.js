@@ -41,7 +41,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
           </Typography>
           <Typography component="div">
             <strong>Frecuencia Cardiaca: </strong>
-            {getPropValue(selected, 'heartrate') || '-'}
+            {`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}
           </Typography>
         </>
       )}
@@ -49,7 +49,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>Frecuencia Cardiaca: </strong>
-            {getPropValue(selected, 'heartrate') || '-'}
+            {`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}
           </Typography>
         </>
       )}
@@ -57,7 +57,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>Temperatura: </strong>
-            {`${getPropValue(selected, 'celsiusDegree')}℃` || '-'}
+            {`${getPropValue(selected, 'celsiusDegree')}(℃)` || '-'}
           </Typography>
         </>
       )}
@@ -65,7 +65,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>Peso: </strong>
-            {`${getPropValue(selected, 'weight')}kg` || '-'}
+            {`${getPropValue(selected, 'weight')}(kg)` || '-'}
           </Typography>
         </>
       )}
@@ -106,15 +106,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>EtCO: </strong>
-            {`${getPropValue(selected, 'EtCO')}mmHg` || '-'}
+            {`${getPropValue(selected, 'EtCO')}(mmHg)` || '-'}
           </Typography>
           <Typography component="div">
             <strong>PI: </strong>
-            {`${getPropValue(selected, 'breathingPI')}%` || '-'}
+            {`${getPropValue(selected, 'breathingPI')}(%)` || '-'}
           </Typography>
           <Typography component="div">
             <strong>Frecuencia Respiratoria: </strong>
-            {`${getPropValue(selected, 'breathingFrecuency')}RPM` || '-'}
+            {`${getPropValue(selected, 'breathingFrecuency')}(RPM)` || '-'}
           </Typography>
         </>
       )}
@@ -122,7 +122,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>INR: </strong>
-            {`${getPropValue(selected, 'INR')}%` || '-'}
+            {`${getPropValue(selected, 'INR')}(%)` || '-'}
           </Typography>
         </>
       )}
@@ -130,15 +130,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>Pulso: </strong>
-            {`${getPropValue(selected, 'heartbeat')}LPM` || '-'}
+            {`${getPropValue(selected, 'heartbeat')}(LPM)` || '-'}
           </Typography>
           <Typography component="div">
             <strong>SpO2: </strong>
-            {`${getPropValue(selected, 'SpO2')}%` || '-'}
+            {`${getPropValue(selected, 'SpO2')}(%)` || '-'}
           </Typography>
           <Typography component="div">
             <strong>PI: </strong>
-            {`${getPropValue(selected, 'oxygenPI')}%` || '-'}
+            {`${getPropValue(selected, 'oxygenPI')}(%)` || '-'}
           </Typography>
         </>
       )}
@@ -146,11 +146,11 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>Distancia: </strong>
-            {`${getPropValue(selected, 'distance')}m` || '-'}
+            {`${getPropValue(selected, 'distance')}(m)` || '-'}
           </Typography>
           <Typography component="div">
             <strong>Tiempo: </strong>
-            {`${getPropValue(selected, 'time')}min` || '-'}
+            {`${getPropValue(selected, 'time')}(min)` || '-'}
           </Typography>
           <Typography component="div">
             <strong>Cantidad de pasos: </strong>

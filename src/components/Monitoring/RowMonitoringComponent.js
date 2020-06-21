@@ -3,7 +3,7 @@ import moment from 'moment';
 import { TableRow, TableCell, Typography, useMediaQuery } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { getPropValue } from '../../helpers/utils';
-import healthyStandards from '../../helpers/healthyStandards';
+// import healthyStandards from '../../helpers/healthyStandards';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 
 function RowMonitoringComponent({ row, selectRow }) {
