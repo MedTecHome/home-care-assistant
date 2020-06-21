@@ -1,11 +1,14 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Title } from '@material-ui/icons';
 import PopoverComponent from '../containers/PopoverComponent';
 import { DetailHistoryMedicalFormContentComponent } from '../ClinicalHistory/DetailHistoryMedicalFormComponent';
 import healthyStandards from '../../helpers/healthyStandards';
 import { severityConstant } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
+import IconTestComponent from '../ClinicalHistory/IconTestComponent';
+import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
 
 const useStyles = makeStyles({
   contextDetail: {
@@ -30,6 +33,7 @@ function PopupTestTypeComponent({ data }) {
 
   return (
     <PopoverComponent
+      header={<TitleAndIconComponent type={data.type} />}
       title={
         <Typography className={classes.textColor} component="span">
           {(data.type === 'pressure' && `${data.sistolica}/${data.diastolica}`) ||

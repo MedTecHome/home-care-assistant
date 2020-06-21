@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   content: {
-    minWidth: 150,
+    minWidth: 200,
     borderBottom: 'none'
   },
   titleDialog: {
