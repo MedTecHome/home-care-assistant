@@ -9,7 +9,6 @@ import {
   makeStyles,
   Paper,
   TableBody,
-  CircularProgress,
   Grid,
   LinearProgress
 } from '@material-ui/core';
