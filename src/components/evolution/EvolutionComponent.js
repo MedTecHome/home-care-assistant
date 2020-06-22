@@ -55,9 +55,9 @@ function EvolutionComponent({ setTab, patient }) {
 
   const enumeratedDays = params.rangeDate ? enumerateDaysBetweenDates(params.rangeDate[0], params.rangeDate[1]) : [];
 
-  const months = Array.from(new Set(enumeratedDays.map(date => moment(date).format('MMM')))).map(a => ({ name: a }));
+  const months = Array.from(new Set(enumeratedDays.map(date => moment(date).format('MMMM')))).map(a => ({ name: a }));
   const weeks = Array.from(
-    new Set(enumeratedDays.map(d => `${moment(d).format('MMM')}_${Math.ceil(moment(d).date() / 7)}`))
+    new Set(enumeratedDays.map(d => `${moment(d).format('MMMM')}_${Math.ceil(moment(d).date() / 7)}`))
   );
 
   const handleClickParamter = type => {
@@ -86,7 +86,7 @@ function EvolutionComponent({ setTab, patient }) {
                 <TableCell
                   align="center"
                   key={a.name}
-                  colSpan={enumeratedDays.filter(b => moment(b).format('MMM') === a.name).length}
+                  colSpan={enumeratedDays.filter(b => moment(b).format('MMMM') === a.name).length}
                 >
                   {a.name}
                 </TableCell>
@@ -101,7 +101,7 @@ function EvolutionComponent({ setTab, patient }) {
                     align="center"
                     key={a}
                     colSpan={
-                      enumeratedDays.filter(b => `${moment(b).format('MMM')}_${Math.ceil(moment(b).date() / 7)}` === a)
+                      enumeratedDays.filter(b => `${moment(b).format('MMMM')}_${Math.ceil(moment(b).date() / 7)}` === a)
                         .length
                     }
                   >
