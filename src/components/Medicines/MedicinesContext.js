@@ -26,8 +26,8 @@ export const MedicinesContextProvider = ({ children }) => {
     if (mounted.current) {
       setList(result.data);
       setTotal(result.total);
+      setLoadingList(false);
     }
-    setLoadingList(false);
   }, []);
 
   useEffect(() => {

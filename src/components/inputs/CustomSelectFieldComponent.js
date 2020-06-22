@@ -2,9 +2,11 @@ import React from 'react';
 import { Select } from 'mui-rff';
 import MenuItem from '@material-ui/core/MenuItem';
 import clsx from 'clsx';
+import { CircularProgress } from '@material-ui/core';
 import useCustomStyles from '../../jss/globalStyles';
 
 function CustomSelectFieldComponent({
+  waiting = false,
   required = false,
   className,
   name,
@@ -16,6 +18,7 @@ function CustomSelectFieldComponent({
   disabled
 }) {
   const classes = useCustomStyles();
+
   return (
     <Select
       required={required}
@@ -23,6 +26,7 @@ function CustomSelectFieldComponent({
       label={label}
       name={name}
       variant={variant}
+      startAdornment={waiting ? <CircularProgress size={20} /> : null}
       formControlProps={{
         disabled,
         size,
