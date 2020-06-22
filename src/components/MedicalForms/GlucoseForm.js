@@ -3,11 +3,11 @@ import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/c
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
-import SheduleFieldComponent from '../fields/SheduleFieldComponent';
 import { validateGlucoseUnity, validateHorario, validateSugarConcentration } from './validateMedicalForms';
 import GlucosaUnityFieldComponent from '../fields/GlucosaUnityFieldComponent';
 import IntakeTimeFieldComponent from '../fields/IntakeTimeFieldComponent';
 import TitleAndIconComponent from './TitleAndIconComponent';
+import GenericSelectNomenclatorFieldComponent from '../fields/GenericSelectNomenclatorFieldComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -36,7 +36,12 @@ function GlucoseForm({ classStyle }) {
           />
         </Grid>
         <Grid item xs={5}>
-          <SheduleFieldComponent label="Horario" name="shedule" validate={validateHorario} />
+          <GenericSelectNomenclatorFieldComponent
+            label="Horario"
+            name="shedule"
+            validate={validateHorario}
+            nomenclator="shedules"
+          />
         </Grid>
         <Grid item xs={12}>
           <IntakeTimeFieldComponent label="Momento ingesta" name="intakeTime" />

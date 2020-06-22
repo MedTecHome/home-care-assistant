@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -11,13 +11,21 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
   const [filterName, setFilterName] = useState('');
   const debounceValue = useDebounceCustom(filterName, 500);
   const filterNameMemoize = useMemo(() => debounceValue, [debounceValue]);
+  const mounted = useRef(true);
 
   useEffect(() => {
+    mounted.current = true;
     getProfiles(5, 0, {
       role: 'patient',
       parent: doctor,
       ...(filterNameMemoize ? { fullname: filterNameMemoize } : {})
-    }).then(res => setProfiles(res.data));
+    }).then(res => {
+      if (mounted.current) setProfiles(res.data);
+    });
+
+    return () => {
+      mounted.current = false;
+    };
   }, [filterRole, filterNameMemoize, doctor]);
 
   const handleInputChange = event => {

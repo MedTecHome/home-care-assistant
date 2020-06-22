@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { DialogTitleComponent } from '../../ModalComponent';
 import useCustomStyles from '../../../jss/globalStyles';
 import { getPropValue } from '../../../helpers/utils';
-import { AsyncConcentration, AsyncDosis, AsyncAdministrationroute } from '../../text/AsyncNomenclatorText';
+import GenericAsyncNomenclator from '../../text/AsyncNomenclatorText';
 
 export function DetailsContentMedicineComponent({ data, classes }) {
   return (
@@ -19,12 +19,12 @@ export function DetailsContentMedicineComponent({ data, classes }) {
       <Typography component="div">
         <strong>{`Concentración: `}</strong>
         {`${getPropValue(data, 'concentrationCant') || '-'}`}
-        <AsyncConcentration id={getPropValue(data, 'concentrationType')} />
+        <GenericAsyncNomenclator id={getPropValue(data, 'concentrationType')} nomenclator="concentrations" />
       </Typography>
       <Typography component="div">
         <strong>{`Dosis: `}</strong>
         {`${getPropValue(data, 'doseCant') || '-'}`}
-        <AsyncDosis id={getPropValue(data, 'doseType')} />
+        <GenericAsyncNomenclator id={getPropValue(data, 'doseType')} nomenclator="dosis" />
       </Typography>
       <Typography component="div">
         <strong>{`Frecuencia: `}</strong>
@@ -32,7 +32,7 @@ export function DetailsContentMedicineComponent({ data, classes }) {
       </Typography>
       <Typography component="div">
         <strong> {`Via Administración: `}</strong>
-        <AsyncAdministrationroute id={getPropValue(data, 'administrationType')} />
+        <GenericAsyncNomenclator id={getPropValue(data, 'administrationType')} nomenclator="administrationroute" />
       </Typography>
       <Typography component="div">
         <strong> {`Motivo Administración: `}</strong>

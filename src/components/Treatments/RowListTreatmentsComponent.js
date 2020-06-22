@@ -23,9 +23,9 @@ import EditButtonIcon from '../buttons/EditButtonIcon';
 import Fieldset from '../containers/fieldset';
 import { getPropValue, isEmpty } from '../../helpers/utils';
 import TextFromProfileComponent from '../text/TextFromProfileComponent';
-import { AsyncDosis } from '../text/AsyncNomenclatorText';
 import AsyncMedicineText from '../text/AsyncMedicineText';
 import { getMedicineById } from '../../services/medicines';
+import GenericAsyncNomenclator from '../text/AsyncNomenclatorText';
 
 const useStyles = makeStyles({
   root: {
@@ -78,7 +78,7 @@ function TableMedicines({ medicines }) {
                 <TableCell>{getPropValue(medicine, 'name')}</TableCell>
                 <TableCell align="center">
                   {`${getPropValue(medicine, 'doseCant') || '-'}`}
-                  <AsyncDosis id={getPropValue(medicine, 'doseType')} />
+                  <GenericAsyncNomenclator id={getPropValue(medicine, 'doseType')} nomenclator="dosis" />
                 </TableCell>
                 <TableCell align="center">{getPropValue(medicine, 'frequency')}</TableCell>
               </TableRow>
@@ -190,7 +190,7 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
         </TableCell>
         <TableCell align="center">
           {`${getPropValue(medicine, 'doseCant') || '-'}`}
-          <AsyncDosis id={getPropValue(medicine, 'doseType')} />
+          <GenericAsyncNomenclator id={getPropValue(medicine, 'doseType')} nomenclator="dosis" />
         </TableCell>
         <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>
         {!matchXs && <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>}
