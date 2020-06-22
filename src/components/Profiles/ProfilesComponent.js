@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { useProfilesContext, withProfileContext } from './ProfilesContext';
@@ -23,10 +23,18 @@ import UpdateUserPasswordComponent from './forms/UpdateUserPasswordComponent';
 
 function TitleProfilesComponent({ filterRole }) {
   const [roleDetails, setRoleDetails] = useState(null);
+  const mounted = useRef(true);
   useEffect(() => {
+    mounted.current = true;
     if (filterRole) {
-      getRoleById(filterRole).then(result => setRoleDetails(result));
+      getRoleById(filterRole).then(result => {
+        if (mounted.current) setRoleDetails(result);
+      });
     }
+
+    return () => {
+      mounted.current = false;
+    };
   }, [filterRole]);
 
   const classes = useCustomStyles();

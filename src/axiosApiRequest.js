@@ -24,6 +24,7 @@ apiData.interceptors.response.use(
       // eslint-disable-next-line no-console
       console.log(res);
     }
+    // return new Promise(resolve => setTimeout(() => resolve(res), 10000));
     return res;
   },
   err => {

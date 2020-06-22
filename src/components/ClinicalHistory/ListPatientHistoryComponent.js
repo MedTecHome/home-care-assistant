@@ -126,9 +126,9 @@ function ListPatientHistoryComponent({
                         </div>
                         <div>
                           <Typography variant="body2">
-                            <strong>Fecha:</strong>
+                            <strong>{`Fecha: `}</strong>
                             {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY')}
-                            <strong> Hora:</strong>
+                            <strong>{` Hora: `}</strong>
                             {moment(moment.unix(report.clinicalDate).toDate()).format(' hh:mma')}
                           </Typography>
                         </div>

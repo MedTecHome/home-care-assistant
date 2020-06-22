@@ -153,11 +153,11 @@ function ClinicInfoComponent() {
                 <Collapse className={classes.collapseItem} in={open}>
                   <Grid container spacing={1}>
                     <Grid item xs={12} sm={6}>
-                      <Typography>Correo: {getPropValue(clinicInfo, 'email')}</Typography>
+                      <Typography>Correo: {` ${getPropValue(clinicInfo, 'email')}`}</Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography component="div" className={classes.phonesText}>
-                        <span>Teléfonos:</span>
+                        <span>{`Teléfonos: `}</span>
                         <div className={classes.phonesNumbers}>
                           <span>{getPropValue(clinicInfo, 'primaryPhone')}</span>
                           <span>{getPropValue(clinicInfo, 'secondaryPhone')}</span>
@@ -166,7 +166,8 @@ function ClinicInfoComponent() {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography className={classes.addressText}>
-                        Dirección:{` ${getPropValue(clinicInfo, 'address') || '-'}`}
+                        {`Dirección: `}
+                        {`${getPropValue(clinicInfo, 'address') || '-'}`}
                       </Typography>
                     </Grid>
                   </Grid>

@@ -32,15 +32,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'pressure' && (
         <>
           <Typography component="div">
-            <strong>Diastolica: </strong>
+            <strong>{`Diastolica: `}</strong>
             {getPropValue(selected, 'diastolica') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Sistolica: </strong>
+            <strong>{`Sistolica: `}</strong>
             {getPropValue(selected, 'sistolica') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Frecuencia Cardiaca: </strong>
+            <strong>{`Frecuencia Cardiaca: `}</strong>
             {`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}
           </Typography>
         </>
@@ -48,7 +48,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'heartrate' && (
         <>
           <Typography component="div">
-            <strong>Frecuencia Cardiaca: </strong>
+            <strong>{`Frecuencia Cardiaca: `}</strong>
             {`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}
           </Typography>
         </>
@@ -56,7 +56,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'temperature' && (
         <>
           <Typography component="div">
-            <strong>Temperatura: </strong>
+            <strong>{`Temperatura: `}</strong>
             {`${getPropValue(selected, 'celsiusDegree')}(℃)` || '-'}
           </Typography>
         </>
@@ -64,7 +64,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'weight' && (
         <>
           <Typography component="div">
-            <strong>Peso: </strong>
+            <strong>{`Peso: `}</strong>
             {`${getPropValue(selected, 'weight')}(kg)` || '-'}
           </Typography>
         </>
@@ -72,32 +72,32 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'glucose' && (
         <>
           <Typography component="div">
-            <strong>Concentración de azúcar: </strong>
+            <strong>{`Concentración de azúcar: `}</strong>
             {`${getPropValue(selected, 'sugarConcentration')} ${getPropValue(selected, 'glucoseUnity')}` || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Horario: </strong>
+            <strong>{`Horario: `}</strong>
             {getPropValue(selected, 'shedule.name') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Momento de ingesta: </strong>
+            <strong>{`Momento de ingesta: `}</strong>
             {intakeTimeSource.find(item => item.id === getPropValue(selected, 'intakeTime')).name || '-'}
           </Typography>
           <Typography component="div" />
           <Typography component="div">
-            <strong>HbA1c: </strong>
+            <strong>{`HbA1c: `}</strong>
             {getPropValue(selected, 'hba1c') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Insulina(comida): </strong>
+            <strong>{`Insulina(comida): `}</strong>
             {getPropValue(selected, 'insulinaFood') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Basal: </strong>
+            <strong>{`Basal: `}</strong>
             {getPropValue(selected, 'basal') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Unidad de pan: </strong>
+            <strong>{`Unidad de pan: `}</strong>
             {getPropValue(selected, 'breadUnity') || '-'}
           </Typography>
         </>
@@ -105,15 +105,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'breathing' && (
         <>
           <Typography component="div">
-            <strong>EtCO: </strong>
+            <strong>{`EtCO: `}</strong>
             {`${getPropValue(selected, 'EtCO')}(mmHg)` || '-'}
           </Typography>
           <Typography component="div">
-            <strong>PI: </strong>
+            <strong>{`PI: `}</strong>
             {`${getPropValue(selected, 'breathingPI')}(%)` || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Frecuencia Respiratoria: </strong>
+            <strong>{`Frecuencia Respiratoria: `}</strong>
             {`${getPropValue(selected, 'breathingFrecuency')}(RPM)` || '-'}
           </Typography>
         </>
@@ -121,7 +121,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'inr' && (
         <>
           <Typography component="div">
-            <strong>INR: </strong>
+            <strong>{`INR: `}</strong>
             {`${getPropValue(selected, 'INR')}(%)` || '-'}
           </Typography>
         </>
@@ -129,15 +129,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'oxygen' && (
         <>
           <Typography component="div">
-            <strong>Pulso: </strong>
+            <strong>{`Pulso: `}</strong>
             {`${getPropValue(selected, 'heartbeat')}(LPM)` || '-'}
           </Typography>
           <Typography component="div">
-            <strong>SpO2: </strong>
+            <strong>{`SpO2: `}</strong>
             {`${getPropValue(selected, 'SpO2')}(%)` || '-'}
           </Typography>
           <Typography component="div">
-            <strong>PI: </strong>
+            <strong>{`PI: `}</strong>
             {`${getPropValue(selected, 'oxygenPI')}(%)` || '-'}
           </Typography>
         </>
@@ -145,7 +145,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'exercises' && (
         <>
           <Typography component="div">
-            <strong>Distancia: </strong>
+            <strong>{`Distancia: `}</strong>
             {`${getPropValue(selected, 'distance')}(m)` || '-'}
           </Typography>
           <Typography component="div">
@@ -153,7 +153,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
             {`${getPropValue(selected, 'time')}(min)` || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Cantidad de pasos: </strong>
+            <strong>{`Cantidad de pasos: `}</strong>
             {`${getPropValue(selected, 'steps')}` || '-'}
           </Typography>
         </>
@@ -162,11 +162,11 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       {selected.type === 'otherstest' && (
         <>
           <Typography component="div">
-            <strong>Nombre: </strong>
+            <strong>{`Nombre: `}</strong>
             {getPropValue(selected, 'othersName') || '-'}
           </Typography>
           <Typography component="div">
-            <strong>Severidad: </strong>
+            <strong>{`Severidad: `}</strong>
             {getPropValue(
               severityConstant.find(item => item.id === getPropValue(selected, 'severity')),
               'name'
@@ -176,15 +176,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
       )}
 
       <Typography component="div">
-        <strong>Fecha: </strong>
+        <strong>{`Fecha: `}</strong>
         {selected && moment.unix(selected.clinicalDate).format('DD/MM/YYYY')}
       </Typography>
       <Typography component="div">
-        <strong>Hora: </strong>
+        <strong>{`Hora: `}</strong>
         {selected && moment.unix(selected.clinicalDate).format('hh:mma')}
       </Typography>
       <Typography component="div">
-        <strong>Nota: </strong>
+        <strong>{`Nota: `}</strong>
         {getPropValue(selected, 'note') || '-'}
       </Typography>
     </Grid>

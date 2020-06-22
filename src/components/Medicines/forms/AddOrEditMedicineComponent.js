@@ -9,12 +9,10 @@ import { EDIT_FORM_TEXT, SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons
 import formValidate from './formValidate';
 import SaveButton from '../../buttons/SaveButton';
 import CustomTextFieldComponent from '../../inputs/CustomTextFieldComponent';
-import ConcentrationFieldComponent from '../../fields/ConcentrationFielComponent';
-import DosisFieldComponent from '../../fields/DosisFielComponent';
-import AdministrationRouteFielComponent from '../../fields/AdministrationRouteFielComponent';
 import { getPropValue } from '../../../helpers/utils';
 import useCustomStyles from '../../../jss/globalStyles';
 import { useMessageContext } from '../../../MessageHandle/MessageContext';
+import GenericSelectNomenclatorFieldComponent from '../../fields/GenericSelectNomenclatorFieldComponent';
 
 export function AddOrEditMedicineFormComponent({
   formType,
@@ -56,19 +54,27 @@ export function AddOrEditMedicineFormComponent({
                 />
               </Grid>
               <Grid item xs={12} sm={8}>
-                <ConcentrationFieldComponent label="Tipo de Unidad" name="concentrationType" />
+                <GenericSelectNomenclatorFieldComponent
+                  label="Tipo de Unidad"
+                  name="concentrationType"
+                  nomenclator="concentrations"
+                />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextFieldComponent label="Cantidad" name="doseCant" />
               </Grid>
               <Grid item xs={12} sm={8}>
-                <DosisFieldComponent label="Tipo dosis" name="doseType" />
+                <GenericSelectNomenclatorFieldComponent label="Tipo de Unidad" name="doseType" nomenclator="dosis" />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextFieldComponent label="Frecuencia" name="frequency" />
               </Grid>
               <Grid item xs={12} sm={8}>
-                <AdministrationRouteFielComponent label="Via Administración" name="administrationType" />
+                <GenericSelectNomenclatorFieldComponent
+                  label="Tipo de Unidad"
+                  name="administrationType"
+                  nomenclator="administrationRoute"
+                />
               </Grid>
               <Grid item xs={12}>
                 <CustomTextFieldComponent label="Motivo Administración" name="administrationReason" />
