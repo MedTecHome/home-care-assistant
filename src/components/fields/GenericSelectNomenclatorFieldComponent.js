@@ -16,6 +16,7 @@ function GenericSelectNomenclatorFieldComponent({ required, name, label, validat
           setOptions(res.data);
         }
       })
+      // eslint-disable-next-line no-console
       .catch(console.log)
       .finally(() => {
         if (mounted.current) setLoading(false);
