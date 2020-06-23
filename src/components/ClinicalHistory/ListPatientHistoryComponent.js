@@ -53,17 +53,8 @@ const useStyles = makeStyles({
   }
 });
 
-function ListPatientHistoryComponent({
-  historyList,
-  total,
-  loadingList,
-  setModalVisible,
-  selectMedicalForm,
-  selected,
-  defaultType
-}) {
-  const classes = useCustomStyles();
-  const localClasses = useStyles();
+export function ListPatientHistoryByTypeComponent({ list, selected, defaultType, setModalVisible, selectMedicalForm }) {
+  const classes = useStyles();
 
   const handleSelect = el => {
     selectMedicalForm(el);
@@ -75,6 +66,77 @@ function ListPatientHistoryComponent({
   };
 
   return (
+    <List className={classes.root}>
+      {list.length === 0 && <EmptyComponent />}
+      {list
+        .sort((a, b) =>
+          compareStringTagName(
+            testFormsNames.find(tf => tf.id === a.type),
+            testFormsNames.find(tf => tf.id === b.type)
+          )
+        )
+        .map(report => {
+          return (
+            <ListItem
+              key={report.id}
+              className={clsx(classes.itemList, selected && selected.id === report.id && classes.selectedItemList)}
+              divider
+              onClick={() => handleSelect(report)}
+            >
+              <div className={classes.rootDiv}>
+                <div className={classes.iconTestContainer}>
+                  <IconTestComponent type={getPropValue(report, 'type')} />
+                </div>
+                <div className={classes.itemContent}>
+                  <div className={classes.flexDiv}>
+                    {['recently', 'otherstest', '', undefined].includes(defaultType) ? (
+                      <div>
+                        <Typography variant="h6">
+                          {getPropValue(report, 'type') === 'otherstest'
+                            ? report.othersName
+                            : getPropValue(
+                                testFormsNames.find(tf => tf.id === getPropValue(report, 'type')),
+                                'name'
+                              ) || ''}
+                        </Typography>
+                      </div>
+                    ) : null}
+                    <div className={classes.contentDiv}>
+                      <TypeMedicalFormComponent data={report} />
+                    </div>
+                  </div>
+                  <div>
+                    <Typography variant="body2">
+                      <strong>{`Fecha: `}</strong>
+                      {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY')}
+                      <strong>{` Hora: `}</strong>
+                      {moment(moment.unix(report.clinicalDate).toDate()).format(' hh:mma')}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+              <ListItemSecondaryAction>
+                <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
+    </List>
+  );
+}
+
+function ListPatientHistoryComponent({
+  historyList,
+  total,
+  loadingList,
+  setModalVisible,
+  selectMedicalForm,
+  selected,
+  defaultType
+}) {
+  const classes = useCustomStyles();
+
+  return (
     <>
       {loadingList ? (
         <div className={classes.root}>
@@ -82,65 +144,13 @@ function ListPatientHistoryComponent({
         </div>
       ) : (
         <>
-          <List className={classes.root}>
-            {historyList.length === 0 && <EmptyComponent />}
-            {historyList
-              .sort((a, b) =>
-                compareStringTagName(
-                  testFormsNames.find(tf => tf.id === a.type),
-                  testFormsNames.find(tf => tf.id === b.type)
-                )
-              )
-              .map(report => {
-                return (
-                  <ListItem
-                    key={report.id}
-                    className={clsx(
-                      classes.itemList,
-                      selected && selected.id === report.id && classes.selectedItemList
-                    )}
-                    divider
-                    onClick={() => handleSelect(report)}
-                  >
-                    <div className={localClasses.rootDiv}>
-                      <div className={localClasses.iconTestContainer}>
-                        <IconTestComponent type={getPropValue(report, 'type')} />
-                      </div>
-                      <div className={localClasses.itemContent}>
-                        <div className={localClasses.flexDiv}>
-                          {['recently', 'otherstest', '', undefined].includes(defaultType) ? (
-                            <div>
-                              <Typography variant="h6">
-                                {getPropValue(report, 'type') === 'otherstest'
-                                  ? report.othersName
-                                  : getPropValue(
-                                      testFormsNames.find(tf => tf.id === getPropValue(report, 'type')),
-                                      'name'
-                                    ) || ''}
-                              </Typography>
-                            </div>
-                          ) : null}
-                          <div className={localClasses.contentDiv}>
-                            <TypeMedicalFormComponent data={report} />
-                          </div>
-                        </div>
-                        <div>
-                          <Typography variant="body2">
-                            <strong>{`Fecha: `}</strong>
-                            {moment(moment.unix(report.clinicalDate).toDate()).format('DD/MM/YYYY')}
-                            <strong>{` Hora: `}</strong>
-                            {moment(moment.unix(report.clinicalDate).toDate()).format(' hh:mma')}
-                          </Typography>
-                        </div>
-                      </div>
-                    </div>
-                    <ListItemSecondaryAction>
-                      <StandardDetailButtonIcon onClick={() => handleDetailMedicalForm(report)} />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
-          </List>
+          <ListPatientHistoryByTypeComponent
+            list={historyList}
+            setModalVisible={setModalVisible}
+            defaultType={defaultType}
+            selectMedicalForm={selectMedicalForm}
+            selected={selected}
+          />
           <PaginationComponent total={total} />
         </>
       )}
