@@ -110,7 +110,7 @@ function ListPatientHistoryComponent({
                         <div className={localClasses.flexDiv}>
                           {['recently', 'otherstest', '', undefined].includes(defaultType) ? (
                             <div>
-                              <Typography component="span">
+                              <Typography variant="h6">
                                 {getPropValue(report, 'type') === 'otherstest'
                                   ? report.othersName
                                   : getPropValue(

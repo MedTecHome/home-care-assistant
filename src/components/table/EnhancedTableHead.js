@@ -4,7 +4,7 @@ import { TableHead, TableRow, TableCell, useMediaQuery } from '@material-ui/core
 export default function EnhancedTableHead({ headCells = [] }) {
   const matchXs = useMediaQuery(theme => theme.breakpoints.down('xs'));
   const matchSm = useMediaQuery(theme => theme.breakpoints.down('sm'));
-  const cells = (matchXs && headCells.slice(0, 3)) || (matchSm && headCells.slice(0, 4)) || headCells;
+  const cells = (matchXs && headCells.slice(0, 2)) || (matchSm && headCells.slice(0, 4)) || headCells;
 
   return (
     <TableHead color="primary">
