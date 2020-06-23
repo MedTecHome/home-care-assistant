@@ -31,10 +31,12 @@ function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) 
           {`${getPropValue(row, 'concentrationCant') || '-'} `}
           <GenericAsyncNomenclator id={getPropValue(row, 'concentrationType')} nomenclator="concentrations" />
         </TableCell>
-        <TableCell align="center">
-          {`${getPropValue(row, 'doseCant') || '-'} `}
-          <GenericAsyncNomenclator id={getPropValue(row, 'doseType')} nomenclator="dosis" />
-        </TableCell>
+        {!matchXs && (
+          <TableCell align="center">
+            {`${getPropValue(row, 'doseCant') || '-'} `}
+            <GenericAsyncNomenclator id={getPropValue(row, 'doseType')} nomenclator="dosis" />
+          </TableCell>
+        )}
         {!matchXs && (
           <TableCell>
             <GenericAsyncNomenclator id={getPropValue(row, 'administrationType')} name="aministrationroute" />
