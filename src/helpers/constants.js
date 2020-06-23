@@ -19,6 +19,20 @@ export const testFormsNames = [
   { id: 'otherstest', name: 'Prueba general' }
 ].sort(compareStringTagName);
 
+export const PrincipalFieldsTests = {
+  diastolica: 'Diastólica',
+  sistolica: 'Sistólica',
+  heartrate: 'Frecuencia Cardiaca (LPM)',
+  celsiusDegree: 'Temperatura (C)',
+  weight: 'Pesos (Kg)',
+  sugarConcentration: 'Concentracion de azúcar',
+  breathingFrecuency: 'Frecuencia respiratoria (RPM)',
+  INR: 'INR (%)',
+  heartbeat: 'Pulso(LPM)',
+  steps: 'Pasos',
+  severity: 'Severidad'
+};
+
 export const genders = [
   {
     id: 'male',

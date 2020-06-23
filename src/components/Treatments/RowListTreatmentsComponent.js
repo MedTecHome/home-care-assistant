@@ -192,9 +192,20 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
           {`${getPropValue(medicine, 'doseCant') || '-'}`}
           <GenericAsyncNomenclator id={getPropValue(medicine, 'doseType')} nomenclator="dosis" />
         </TableCell>
-        <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>
-        {!matchXs && <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>}
+        {!matchXs && <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>}
+        {!matchXs && (
+          <TableCell align="center">
+            <GenericAsyncNomenclator
+              id={getPropValue(medicine, 'administrationType')}
+              nomenclator="administrationroute"
+            />
+          </TableCell>
+        )}
+        {!matchXs && !matchSm && (
+          <TableCell align="center">{moment.unix(row.startDate).format('DD/MM/YYYY')}</TableCell>
+        )}
         {!matchXs && !matchSm && <TableCell align="center">{moment.unix(row.endDate).format('DD/MM/YYYY')}</TableCell>}
+
         <TableCell align="center" className={classes.cellNowrap}>
           <IconButton aria-label="expand row" size="small" onClick={() => handleRowClick(row.id)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
