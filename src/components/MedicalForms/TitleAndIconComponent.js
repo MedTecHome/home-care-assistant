@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grey['600'],
     fontWeight: 'bold',
     fontSize: 16,
-    paddingBottom: 10
+    margin: 'auto 0'
   }
 }));
 

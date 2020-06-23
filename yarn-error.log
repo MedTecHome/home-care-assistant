@@ -1,21 +1,21 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add uuid4 -offline
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js remove rechart -S
 
 PATH: 
-  C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files (x86)\AOMEI Backupper;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Yunior\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\PhpStorm 2019.2.4\bin;C:\Program Files\JetBrains\WebStorm 2019.3.3\bin;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\JetBrains\DataGrip 2019.3.3\bin;C:\Users\Yunior\AppData\Local\.meteor;C:\Users\Yunior\AppData\Local\Programs\Microsoft VS Code\bin
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Users\Yunior\AppData\Local\Microsoft\WindowsApps;C:\Users\Yunior\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Yunior\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Yunior\AppData\Local\GitHubDesktop\bin
 
 Yarn version: 
   1.22.4
 
 Node version: 
-  12.13.0
+  10.21.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:60:26)
+  Error: connect EACCES 104.16.19.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1107:14)
 
 npm manifest: 
   {
@@ -38,6 +38,7 @@ npm manifest:
       "@testing-library/user-event": "^7.1.2",
       "axios": "^0.19.2",
       "clsx": "latest",
+      "env-cmd": "^10.1.0",
       "final-form": "^4.19.1",
       "final-form-calculate": "^1.3.1",
       "final-form-material-ui": "^0.3.0",
@@ -52,11 +53,14 @@ npm manifest:
       "react-firebase-file-uploader": "^2.4.3",
       "react-router-dom": "^5.1.2",
       "react-scripts": "3.4.1",
-      "rechart": "^0.0.1"
+      "uuid4": "^1.1.4"
     },
     "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
+      "start:normal": "env-cmd -e normal react-scripts start",
+      "start:local:api": "env-cmd -e localapi react-scripts start",
+      "start:local:firebase": "env-cmd -e localfirebase react-scripts start",
+      "build:dev": "env-cmd -e develop react-scripts build",
+      "build": "env-cmd -e master react-scripts build",
       "test": "react-scripts test",
       "eject": "react-scripts eject",
       "check-eslint-config": "eslint --print-config src/index.js | eslint-config-prettier-check",
@@ -3662,7 +3666,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
     integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
   
-  commander@^4.1.1:
+  commander@^4.0.0, commander@^4.1.1:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
     integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
@@ -4682,6 +4686,14 @@ Lockfile:
     version "2.0.2"
     resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.2.tgz#ac74db0bba8d33808bbf36809c3a5c3683531436"
     integrity sha512-dmD3AvJQBUjKpcNkoqr+x+IF0SdRtPz9Vk0uTy4yWqga9ibB6s4v++QFWNohjiUGoMlF552ZvNyXDxz5iW0qmw==
+  
+  env-cmd@^10.1.0:
+    version "10.1.0"
+    resolved "https://registry.yarnpkg.com/env-cmd/-/env-cmd-10.1.0.tgz#c7f5d3b550c9519f137fdac4dd8fb6866a8c8c4b"
+    integrity sha512-mMdWTT9XKN7yNth/6N6g2GuKuJTsKMDHlQFUDacb/heQRRWOTIZ42t1rMHnQu4jYxU1ajdTeJM+9eEETlqToMA==
+    dependencies:
+      commander "^4.0.0"
+      cross-spawn "^7.0.0"
   
   envify@^3.0.0:
     version "3.4.1"
@@ -11860,6 +11872,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
     integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+  
+  uuid4@^1.1.4:
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-1.1.4.tgz#80fa0618749110bdb8aa47cc2cc2167c6331f4eb"
+    integrity sha512-Gr1q2k40LpF8CokcnQFjPDsdslzJbTCTBG5xQIEflUov431gFkY5KduiGIeKYAamkQnNn4IfdHJbLnl9Bib8TQ==
   
   uuid@^3.0.1, uuid@^3.2.1, uuid@^3.3.2:
     version "3.4.0"

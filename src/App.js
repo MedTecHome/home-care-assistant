@@ -11,7 +11,6 @@ import CustomBoundary from './MessageHandle/CustomBoundary';
 import { AuthContextProvider, useAuthContext } from './contexts/AuthContext';
 import MessageComponent from './MessageHandle/MessageComponent';
 import theme1 from './themes/theme1';
-import { isLocal } from './helpers/utils';
 
 const useStyles = makeStyles(() => ({
   mainContainer: {
@@ -39,11 +38,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 function AuthLoading() {
-  const { currentUser, currentUserProfile } = useAuthContext();
+  const { loadingProfile } = useAuthContext();
   const classes = useStyles();
-  const isLogin = isLocal ? true : currentUser;
 
-  if (isLogin && !currentUserProfile) {
+  if (loadingProfile) {
     return (
       <div className={classes.authLoading}>
         <div className={classes.circularProgress}>

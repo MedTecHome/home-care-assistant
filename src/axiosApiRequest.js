@@ -15,7 +15,8 @@ const baseUrlFirebase =
 const baseUrlLocal = reactDB === 'local' ? 'http://192.168.42.86:5001/test1-6f25a/us-central1/api/' : baseUrlFirebase;
 
 const apiData = axios.create({
-  baseURL: isLocal ? baseUrlLocal : baseUrlFirebase
+  baseURL: isLocal ? baseUrlLocal : baseUrlFirebase,
+  timeout: 10000
 });
 
 apiData.interceptors.response.use(

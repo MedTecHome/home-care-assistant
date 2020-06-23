@@ -33,7 +33,7 @@
     "react-firebase-file-uploader": "^2.4.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "rechart": "^0.0.1",
+    "recharts": "^1.8.5",
     "uuid4": "^1.1.4"
   },
   "scripts": {

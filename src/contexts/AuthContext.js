@@ -18,6 +18,7 @@ export function AuthContextProvider({ children }) {
   const { RegisterMessage } = useMessageContext();
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
 
   const isSuperadmin = getPropValue(currentUserProfile, 'role') === 'superadmin';
   const isAdmin = getPropValue(currentUserProfile, 'role') === 'admin';
@@ -32,6 +33,7 @@ export function AuthContextProvider({ children }) {
           setCurrentUser(user);
           const idToken = await user.getIdToken();
           localStorage.setItem('AuthToken', `Bearer ${idToken}`);
+          setLoadingProfile(true);
           const profile = await getProfileById(user.uid);
           if (profile) {
             setCurrentUserProfile(profile);
@@ -41,6 +43,7 @@ export function AuthContextProvider({ children }) {
           // const id = 'NSs59e3B3nhEmeqWGYqJdbLVpBD3'; // clinic id
           const id = 'qQqcCclJu6NVdFdDoRyhSfj6cqf1'; // doctor id
           // const id = '8nFFoW1hILdsCRq0zgDUoHQyVXs1'; // paciente id
+          setLoadingProfile(true);
           const profile = await getProfileById(id);
           if (profile) {
             setCurrentUserProfile(profile);
@@ -51,6 +54,8 @@ export function AuthContextProvider({ children }) {
         }
       } catch (e) {
         RegisterMessage(ERROR_MESSAGE, e, 'AuthContext');
+      } finally {
+        setLoadingProfile(false);
       }
     });
 
@@ -83,9 +88,21 @@ export function AuthContextProvider({ children }) {
       isDoctor,
       isPatient,
       signInUser,
-      signOutUser
+      signOutUser,
+      loadingProfile
     }),
-    [currentUser, currentUserProfile, isSuperadmin, isAdmin, isClinic, isDoctor, isPatient, signInUser, signOutUser]
+    [
+      currentUser,
+      currentUserProfile,
+      isSuperadmin,
+      isAdmin,
+      isClinic,
+      isDoctor,
+      isPatient,
+      signInUser,
+      signOutUser,
+      loadingProfile
+    ]
   );
 
   return <AuthContext.Provider value={valueMemoize}>{children}</AuthContext.Provider>;
@@ -104,6 +121,7 @@ export const useAuthContext = () => {
     isPatient: values.isPatient,
     signInUser: values.signInUser,
     signOutUser: values.signOutUser,
-    errorState: values.errorState
+    errorState: values.errorState,
+    loadingProfile: values.loadingProfile
   };
 };
