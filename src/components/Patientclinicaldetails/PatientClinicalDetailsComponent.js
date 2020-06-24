@@ -8,6 +8,7 @@ import PatientHistoryComponent from '../ClinicalHistory/PatientHistoryComponent'
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 import EvolutionComponent from '../Evolution/EvolutionComponent';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
 function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
@@ -39,6 +40,7 @@ function PatientClinicalDetailsComponent() {
 
   return (
     <>
+      <TitlePagesComponent text="Detalles clínicos" />
       {isDoctor ? (
         <FiltersClinicalDetails setPatient={handlePatient} patient={patient} doctor={currentUserProfile.id} />
       ) : null}
@@ -57,9 +59,14 @@ function PatientClinicalDetailsComponent() {
             {isDoctor && <Tab label="Tratamientos" value="treatments" />}
           </Tabs>
         </Paper>
-        {(tab === 'treatments' && <TreatmentsComponent patient={patient} />) ||
+        {(tab === 'treatments' && <TreatmentsComponent patient={patient} showTitle={false} />) ||
           (tab === 'clinictest' && (
-            <PatientHistoryComponent patient={patient} defaultTest={defaultTest} isDoctor={isDoctor} />
+            <PatientHistoryComponent
+              showTitle={false}
+              patient={patient}
+              defaultTest={defaultTest}
+              isDoctor={isDoctor}
+            />
           )) ||
           (tab === 'evolution' && isDoctor && (
             <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />

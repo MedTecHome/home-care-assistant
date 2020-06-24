@@ -6,7 +6,7 @@ import { DetailHistoryMedicalFormContentComponent } from '../ClinicalHistory/Det
 // import healthyStandards from '../../helpers/healthyStandards';
 import { severityConstant } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
-import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 
 const useStyles = makeStyles({
   contextDetail: {

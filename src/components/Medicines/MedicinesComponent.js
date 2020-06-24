@@ -14,6 +14,7 @@ import DeleteMedicineComponent from './forms/DeleteMedicineComponent';
 import DetailsMedicineComponent from './forms/DetailsMedicineComponent';
 import InputSearchByTagname from '../filters/InputSearchByTagName';
 import { useMedicinesContext, MedicinesContextProvider } from './MedicinesContext';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
 function SimpleMedicinesComponent() {
   const { currentUserProfile } = useAuthContext();
@@ -69,7 +70,7 @@ function SimpleMedicinesComponent() {
           null}
       </ModalComponent>
       <TableComponent
-        title="Listado de medicamentos"
+        title={<TitlePagesComponent text="Lista de medicamentos" />}
         extraText={
           <Typography>
             <strong>Total: </strong>({total})

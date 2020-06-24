@@ -1,12 +1,12 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Paper, makeStyles, Box } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateGlucoseUnity, validateHorario, validateSugarConcentration } from './validateMedicalForms';
 import GlucosaUnityFieldComponent from '../fields/GlucosaUnityFieldComponent';
 import IntakeTimeFieldComponent from '../fields/IntakeTimeFieldComponent';
-import TitleAndIconComponent from './TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 import GenericSelectNomenclatorFieldComponent from '../fields/GenericSelectNomenclatorFieldComponent';
 
 const useSyles = makeStyles({
@@ -24,7 +24,9 @@ function GlucoseForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="glucose" />
+      <Box marginBottom={1}>
+        <TitleAndIconComponent type="glucose" />
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={7}>
           <CustomTextFieldComponent

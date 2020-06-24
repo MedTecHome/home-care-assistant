@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Box } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateHearbeat, validatePI, validateSpO2 } from './validateMedicalForms';
-import TitleAndIconComponent from './TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -18,7 +18,9 @@ export default function OxygenForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="oxygen" />
+      <Box marginBottom={1}>
+        <TitleAndIconComponent type="oxygen" />
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent required name="SpO2" label="SpO2:" validate={validateSpO2} />
