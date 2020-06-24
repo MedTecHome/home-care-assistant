@@ -72,4 +72,8 @@ export const compareStringTagName = (a, b) => {
   return 0;
 };
 
+export const compareTrueField = (x, y) => {
+  return (x === y && 1) || x ? 1 : -1;
+};
+
 export const mutateDoc = doc => ({ id: doc.id, ...doc.data() });
