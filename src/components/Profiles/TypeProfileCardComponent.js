@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Avatar, ListItem, Typography, makeStyles, useMediaQuery } from '@material-ui/core';
+import { Avatar, ListItem, Typography, makeStyles, useMediaQuery, SvgIcon } from '@material-ui/core';
 import moment from 'moment';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { Block as BlockIcon } from '@material-ui/icons';
 import MedicalDetailButtonIcon from '../buttons/MedicalDetailButtonIcon';
 import EditButtonIcon from '../buttons/EditButtonIcon';
 import DeleteButtonIcon from '../buttons/DeleteButtonIcon';
@@ -22,6 +23,10 @@ const useStyles = makeStyles(theme => ({
   avatarImg: {
     width: 64,
     height: 64
+  },
+  disabledItem: {
+    backgroundColor: '#ddd',
+    color: 'rgba(0,0,0,0.3)'
   },
   contentItemList: {
     flex: 1,
@@ -79,11 +84,22 @@ function TypeProfileCardComponent({
       disableGutters
       onClick={() => handleSelectItemOnClick(profile.id)}
       alignItems="flex-start"
-      className={clsx(classes.itemList, isSelected && classes.selectedItemList, localClass.itemList)}
+      className={clsx(
+        classes.itemList,
+        isSelected && classes.selectedItemList,
+        localClass.itemList,
+        profile.disabled && localClass.disabledItem
+      )}
       divider
     >
       <div className={localClass.avatarInCard}>
-        <Avatar alt={profile.name} src={logo} className={localClass.avatarImg} />
+        <Avatar alt={profile.name} src={logo} className={localClass.avatarImg}>
+          {profile.disabled ? (
+            <SvgIcon color="secondary">
+              <BlockIcon />
+            </SvgIcon>
+          ) : null}
+        </Avatar>
       </div>
       <div className={localClass.contentItemList}>
         <Typography component="div">

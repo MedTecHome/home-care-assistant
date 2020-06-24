@@ -39,10 +39,7 @@ const useCustomStyles = makeStyles(theme => ({
     cursor: 'pointer',
 
     backgroundColor: theme.palette.background.paper,
-    marginBottom: 5,
-    '&:hover': {
-      background: '#f5f5f6'
-    }
+    marginBottom: 5
   },
   selectedItemList: {
     background: '#dddddd'
