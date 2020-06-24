@@ -9,6 +9,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 moment.updateLocale('en', {
+  weekdays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
   months: [
     'Enero',
     'Febrero',
