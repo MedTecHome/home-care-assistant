@@ -3,7 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PopoverComponent from '../containers/PopoverComponent';
 import { DetailHistoryMedicalFormContentComponent } from '../ClinicalHistory/DetailHistoryMedicalFormComponent';
-import healthyStandards from '../../helpers/healthyStandards';
+// import healthyStandards from '../../helpers/healthyStandards';
 import { severityConstant } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
 import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
@@ -19,15 +19,17 @@ const useStyles = makeStyles({
 });
 
 function PopupTestTypeComponent({ data }) {
-  const color =
+  /* const color =
     (data.type === 'pressure' && healthyStandards.pressure(data.sistolica, data.diastolica)) ||
     (data.type === 'temperature' && healthyStandards.temperature(data.celsiusDegree)) ||
     (data.type === 'weight' && healthyStandards.weight(150, data.weight)) ||
     (data.type === 'glucose' && healthyStandards.glucose(data.sugarConcentration)) ||
     (data.type === 'inr' && healthyStandards.inr(data.INR)) ||
-    (data.type === 'oxygen' && healthyStandards.heartbeat(data.heartbeat));
+    (data.type === 'oxygen' && healthyStandards.heartbeat(data.heartbeat)); */
 
-  const classes = useStyles({ color });
+  const classes = useStyles({
+    /* color */
+  });
 
   return (
     <PopoverComponent
