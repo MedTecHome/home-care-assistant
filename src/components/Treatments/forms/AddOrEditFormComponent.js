@@ -85,9 +85,9 @@ function AddOrEditFormComponent({
       await saveValues({ ...values, medicineSettings: medicineEdited }, formType);
       setTimeout(form.reset);
       setModalVisible(false, null);
-      RegisterMessage(SUCCESS_MESSAGE, 'Success', `Tretment - form - ${formType}`);
+      RegisterMessage(SUCCESS_MESSAGE, 'La acción ha sido realizada sin problemas.', `Tretment - form - ${formType}`);
     } catch (e) {
-      RegisterMessage(ERROR_MESSAGE, 'Success', `Tretment - form - ${formType}`);
+      RegisterMessage(ERROR_MESSAGE, e, `Tretment - form - ${formType}`);
     }
   };
 

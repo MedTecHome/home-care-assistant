@@ -51,7 +51,7 @@ function AddOrEditProfilesComponent({
       await saveProfileValues(values, formType);
       setTimeout(form.reset);
       setModalVisible(false, null);
-      RegisterMessage(SUCCESS_MESSAGE, 'Success', `Profile - form - ${formType}`);
+      RegisterMessage(SUCCESS_MESSAGE, 'La acción ha sido realizada sin problemas.', `Profile - form - ${formType}`);
     } catch (e) {
       RegisterMessage(ERROR_MESSAGE, e, `Profile - form - ${formType}`);
     }

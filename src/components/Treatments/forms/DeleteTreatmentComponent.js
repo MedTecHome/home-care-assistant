@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core';
 import { DialogTitleComponent } from '../../ModalComponent';
 import { useTreatmentsContext } from '../TreatmentsContext';
 import SaveButton from '../../buttons/SaveButton';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
+import { SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons/globalText';
 
 const useStyles = makeStyles({
   contentStyle: {
@@ -15,6 +17,7 @@ const useStyles = makeStyles({
 });
 
 function DeleteTreatmentComponent() {
+  const { RegisterMessage } = useMessageContext();
   const { setModalVisible, selected, saveValues, formType } = useTreatmentsContext();
   const [saving, setSaving] = useState(false);
   const classes = useStyles();
@@ -26,9 +29,15 @@ function DeleteTreatmentComponent() {
   const onDelete = async () => {
     const itemToDelete = selected;
     setSaving(true);
-    await saveValues(itemToDelete, formType);
-    setSaving(false);
-    setModalVisible(false, null);
+    try {
+      await saveValues(itemToDelete, formType);
+      RegisterMessage(SUCCESS_MESSAGE, 'Tratamiento eliminado.', `Treatment-delete-${formType}`);
+      setModalVisible(false, null);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, e, `Treatment-delete-${formType}`);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
