@@ -40,7 +40,7 @@ function CustomSelectFieldComponent({
       <MenuItem value="">Ninguno</MenuItem>
       {source.map(item => (
         <MenuItem key={item.id} value={item.id}>
-          {item.name}
+          {`${item.name} ${item.measure ? `(${item.measure})` : (item.abbreviation && `(${item.abbreviation})`) || ''}`}
         </MenuItem>
       ))}
     </Select>

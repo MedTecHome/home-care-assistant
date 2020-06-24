@@ -135,7 +135,7 @@ const useCustomStyles = makeStyles(theme => ({
     fontWeight: 600
   },
   contentDialog: {
-    maxWidth: 400,
+    maxWidth: 450,
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100%'
     }
