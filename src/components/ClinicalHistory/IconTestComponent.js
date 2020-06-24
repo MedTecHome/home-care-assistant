@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Block as BlockIcon } from '@material-ui/icons';
-import { makeStyles, Avatar, SvgIcon } from '@material-ui/core';
+import { makeStyles, Avatar } from '@material-ui/core';
 import OxygenIconSvg from '../../images/svg/oxygen.svg';
 import PressureIconSvg from '../../images/svg/pressure.svg';
 import WeightIconSvg from '../../images/svg/weight.svg';
@@ -12,6 +11,7 @@ import ExercisesIconSvg from '../../images/svg/exercises.svg';
 import TemperatureIconSvg from '../../images/svg/temperature.svg';
 import GlucoseIconSvg from '../../images/svg/glucose.svg';
 import InrIconSvg from '../../images/svg/inr.svg';
+import DefaultIconSvg from '../../images/svg/recently.svg';
 
 const useStyles = makeStyles({
   iconTest: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 function IconTestComponent({ type, className = {} }) {
   const classes = useStyles();
-  let iconSrc = '';
+  let iconSrc = DefaultIconSvg;
   switch (type) {
     case 'pressure': {
       iconSrc = PressureIconSvg;
@@ -67,15 +67,7 @@ function IconTestComponent({ type, className = {} }) {
     default:
       break;
   }
-  return (
-    <Avatar alt="" src={iconSrc} className={clsx(classes.iconTest, className)}>
-      {!type ? (
-        <SvgIcon color="secondary">
-          <BlockIcon />
-        </SvgIcon>
-      ) : null}
-    </Avatar>
-  );
+  return <Avatar alt="" src={iconSrc} className={clsx(classes.iconTest, className)} />;
 }
 
 export default IconTestComponent;

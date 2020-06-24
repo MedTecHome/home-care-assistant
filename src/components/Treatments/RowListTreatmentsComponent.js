@@ -96,7 +96,7 @@ function DetailTreatmentRowCellComponent({ open, data }) {
     <>
       {open && open === data.id && (
         <TableRow className={classes.contentDetailRow}>
-          <TableCell colSpan={6}>
+          <TableCell colSpan={8}>
             <Collapse in={open && open === data.id} timeout="auto" unmountOnExit addEndListener={() => {}}>
               <Typography component="label" noWrap>
                 <strong>Nombre Y Apellidos: </strong>
@@ -107,12 +107,23 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                   <Fieldset title="General">
                     <div className={classes.containerDetailDiv}>
                       <Typography>
+                        <strong>Motivo de administación: </strong>
+                        <GenericAsyncNomenclator
+                          id={getPropValue(data.medicine, 'administrationType')}
+                          nomenclator="administrationroute"
+                        />
+                      </Typography>
+                      <Typography>
                         <strong>Fecha inicio: </strong>
                         {moment.unix(data.startDate).format('DD/MM/YYYY')}
                       </Typography>
                       <Typography>
                         <strong>Fecha fin: </strong>
                         {moment.unix(data.endDate).format('DD/MM/YYYY')}
+                      </Typography>
+                      <Typography>
+                        <strong>Observaciones: </strong>
+                        <span>{getPropValue(data.medicine, 'observations') || '-'}</span>
                       </Typography>
                     </div>
                   </Fieldset>
