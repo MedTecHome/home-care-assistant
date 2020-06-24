@@ -13,8 +13,9 @@ import AddOrEditFormComponent from './forms/AddOrEditFormComponent';
 import DeleteTreatmentComponent from './forms/DeleteTreatmentComponent';
 import DetailsTreatmentComponent from './forms/DetailsTreatmentComponent';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
-function TreatmentsComponent({ patient }) {
+function TreatmentsComponent({ patient, showTitle = true }) {
   const {
     list,
     total,
@@ -60,6 +61,7 @@ function TreatmentsComponent({ patient }) {
         {formType === DETAILS_FORM_TEXT && <DetailsTreatmentComponent />}
       </ModalComponent>
       <TableComponent
+        title={showTitle ? <TitlePagesComponent text="Lista de tratamientos" /> : null}
         extraText={
           <Typography>
             <strong>Total: </strong>({total})

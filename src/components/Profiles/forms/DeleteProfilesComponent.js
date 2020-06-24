@@ -7,8 +7,11 @@ import { useProfilesContext } from '../ProfilesContext';
 import { DialogTitleComponent } from '../../ModalComponent';
 import SaveButton from '../../buttons/SaveButton';
 import useCustomStyles from '../../../jss/globalStyles';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
+import { SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons/globalText';
 
 export default function DeleteProfilesComponent() {
+  const { RegisterMessage } = useMessageContext();
   const [saving, setSaving] = useState(false);
   const { setModalVisible, selected, saveProfileValues, formType } = useProfilesContext();
   const classes = useCustomStyles();
@@ -20,9 +23,15 @@ export default function DeleteProfilesComponent() {
   const onDelete = async () => {
     const itemToDelete = selected;
     setSaving(true);
-    await saveProfileValues(itemToDelete, formType);
-    setSaving(false);
-    setModalVisible(false, null);
+    try {
+      await saveProfileValues(itemToDelete, formType);
+      RegisterMessage(SUCCESS_MESSAGE, 'Perfil eliminado.', `Profile-delete-${formType}`);
+      setModalVisible(false, null);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, e, `Profile-delete-${formType}`);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (

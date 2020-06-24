@@ -64,14 +64,14 @@ export function AddOrEditMedicineFormComponent({
                 <CustomTextFieldComponent label="Cantidad" name="doseCant" />
               </Grid>
               <Grid item xs={12} sm={8}>
-                <GenericSelectNomenclatorFieldComponent label="Tipo de Unidad" name="doseType" nomenclator="dosis" />
+                <GenericSelectNomenclatorFieldComponent label="Tipo de Dosis" name="doseType" nomenclator="dosis" />
               </Grid>
               <Grid item xs={4}>
                 <CustomTextFieldComponent label="Frecuencia" name="frequency" />
               </Grid>
               <Grid item xs={12} sm={8}>
                 <GenericSelectNomenclatorFieldComponent
-                  label="Tipo de Unidad"
+                  label="Vía Administración"
                   name="administrationType"
                   nomenclator="administrationRoute"
                 />
@@ -112,7 +112,7 @@ function AddOrEditMedicineComponent({ title, formType, selected, setModalVisible
   const onSubmit = async values => {
     try {
       await saveMedicineValues({ ...values, clinic }, formType);
-      RegisterMessage(SUCCESS_MESSAGE, 'Success', `Medicine-form-${formType}`);
+      RegisterMessage(SUCCESS_MESSAGE, 'La acción ha sido realizada sin problemas.', `Medicine-form-${formType}`);
       setModalVisible(false, null);
     } catch (e) {
       RegisterMessage(ERROR_MESSAGE, e, `Medicine-form-${formType}`);

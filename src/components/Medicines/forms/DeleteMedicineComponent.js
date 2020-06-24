@@ -6,8 +6,11 @@ import Button from '@material-ui/core/Button';
 import { DialogTitleComponent } from '../../ModalComponent';
 import SaveButton from '../../buttons/SaveButton';
 import useCustomStyles from '../../../jss/globalStyles';
+import { useMessageContext } from '../../../MessageHandle/MessageContext';
+import { SUCCESS_MESSAGE, ERROR_MESSAGE } from '../../../commons/globalText';
 
 function DeleteMedicineComponent({ setModalVisible, selected, saveMedicineValues, formType }) {
+  const { RegisterMessage } = useMessageContext();
   const [saving, setSaving] = useState(false);
   const classes = useCustomStyles();
 
@@ -18,9 +21,15 @@ function DeleteMedicineComponent({ setModalVisible, selected, saveMedicineValues
   const onDelete = async () => {
     const itemToDelete = selected;
     setSaving(true);
-    await saveMedicineValues(itemToDelete, formType);
-    setSaving(false);
-    setModalVisible(false, null);
+    try {
+      await saveMedicineValues(itemToDelete, formType);
+      RegisterMessage(SUCCESS_MESSAGE, 'Medicamento eliminado.', `Medicine-delete-${formType}`);
+      setModalVisible(false, null);
+    } catch (e) {
+      RegisterMessage(ERROR_MESSAGE, e, `Medicine-delete-${formType}`);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (

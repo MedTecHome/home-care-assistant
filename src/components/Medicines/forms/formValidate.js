@@ -3,8 +3,8 @@ import {
   REQUIRED_FIELD,
   REGEX_POSITIVE_NUMBER,
   INVALID_WEIRD_CHARACTERS_ON_TEXT,
-  REGEX_ONLY_ALPHA,
-  REGEX_POSITIVE_NUMBER_AND_DECIMAL_AND_FRACTION
+  REGEX_POSITIVE_NUMBER_AND_DECIMAL_AND_FRACTION,
+  REGEX_ALPHANUMERIC_AND_SPACE
 } from '../../../commons/globalText';
 
 const formValidate = values => {
@@ -12,7 +12,7 @@ const formValidate = values => {
   if (!values.name) {
     errors.name = REQUIRED_FIELD;
   }
-  if (values.name && !REGEX_ONLY_ALPHA.test(values.name)) {
+  if (values.name && !REGEX_ALPHANUMERIC_AND_SPACE.test(values.name)) {
     errors.name = INVALID_WEIRD_CHARACTERS_ON_TEXT;
   }
   if (values.concentrationCant && !REGEX_POSITIVE_NUMBER.test(values.concentrationCant)) {

@@ -39,10 +39,7 @@ const useCustomStyles = makeStyles(theme => ({
     cursor: 'pointer',
 
     backgroundColor: theme.palette.background.paper,
-    marginBottom: 5,
-    '&:hover': {
-      background: '#f5f5f6'
-    }
+    marginBottom: 5
   },
   selectedItemList: {
     background: '#dddddd'
@@ -135,7 +132,7 @@ const useCustomStyles = makeStyles(theme => ({
     fontWeight: 600
   },
   contentDialog: {
-    maxWidth: 400,
+    maxWidth: 450,
     [theme.breakpoints.down('xs')]: {
       maxWidth: '100%'
     }

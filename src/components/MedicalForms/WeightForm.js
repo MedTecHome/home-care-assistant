@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Box } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateWeight } from './validateMedicalForms';
-import TitleAndIconComponent from './TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +18,9 @@ function WeightForm({ classStyle }) {
   const classes = useStyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="weight" />
+      <Box marginBottom={1}>
+        <TitleAndIconComponent type="weight" />
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <CustomTextFieldComponent required type="number" label="Peso(kg)" name="weight" validate={validateWeight} />

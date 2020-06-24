@@ -3,6 +3,7 @@ import List from '@material-ui/core/List';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import useCustomStyles from '../../jss/globalStyles';
 import TypeProfileCardComponent from './TypeProfileCardComponent';
+import { compareTrueField } from '../../helpers/utils';
 
 function ListProfilesComponent({
   onClickDelete,
@@ -42,22 +43,24 @@ function ListProfilesComponent({
           <LinearProgress />
         </div>
       ) : (
-        profileList.map(profile => {
-          const isSelected = profileSelected && profileSelected.id === profile.id;
-          return (
-            <TypeProfileCardComponent
-              classes={classes}
-              key={profile.id}
-              profile={profile}
-              isSelected={isSelected}
-              isSuperadmin={isSuperadmin}
-              handleOnEditUserPassword={handleOnEditUserPassword}
-              handleOnClickDelete={handleOnClickDelete}
-              handleOnClickEdit={handleOnClickEdit}
-              handleSelectItemOnClick={handleSelectItemOnClick}
-            />
-          );
-        })
+        profileList
+          .sort((a, b) => compareTrueField(a.disabled, b.disabled))
+          .map(profile => {
+            const isSelected = profileSelected && profileSelected.id === profile.id;
+            return (
+              <TypeProfileCardComponent
+                classes={classes}
+                key={profile.id}
+                profile={profile}
+                isSelected={isSelected}
+                isSuperadmin={isSuperadmin}
+                handleOnEditUserPassword={handleOnEditUserPassword}
+                handleOnClickDelete={handleOnClickDelete}
+                handleOnClickEdit={handleOnClickEdit}
+                handleSelectItemOnClick={handleSelectItemOnClick}
+              />
+            );
+          })
       )}
     </List>
   );

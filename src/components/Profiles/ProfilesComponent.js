@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { useProfilesContext, withProfileContext } from './ProfilesContext';
 import ListProfilesComponent from './ListProfilesComponent';
 import ToolbarProfileComponent from './FiltersProfilesComponent';
@@ -11,7 +10,6 @@ import {
   EDIT_FORM_TEXT,
   EDIT_USER_PASSWORD_FORM_TEXT
 } from '../../commons/globalText';
-import useCustomStyles from '../../jss/globalStyles';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
@@ -20,6 +18,7 @@ import DeleteProfilesComponent from './forms/DeleteProfilesComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getRoleById } from '../../services/roles';
 import UpdateUserPasswordComponent from './forms/UpdateUserPasswordComponent';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
 function TitleProfilesComponent({ filterRole }) {
   const [roleDetails, setRoleDetails] = useState(null);
@@ -37,14 +36,10 @@ function TitleProfilesComponent({ filterRole }) {
     };
   }, [filterRole]);
 
-  const classes = useCustomStyles();
-  return (
-    <Breadcrumbs aria-label="breadcrumb">
-      <Typography color="textPrimary" variant="h5" className={classes.pageHeader}>
-        {roleDetails ? `Lista de ${roleDetails.name}${getPropValue(roleDetails, 'plural') || ''}` : 'Todos'}
-      </Typography>
-    </Breadcrumbs>
-  );
+  const text = roleDetails
+    ? `Lista de ${roleDetails.name.toLowerCase()}${getPropValue(roleDetails, 'plural') || ''}`
+    : 'Todos';
+  return <TitlePagesComponent text={text} />;
 }
 
 function ProfilesComponent({ filterRole }) {

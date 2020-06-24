@@ -9,6 +9,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 import PaginationComponent from '../pagination/PaginationComponent';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
 const useStyles = makeStyles({
   divRoot: {
@@ -60,6 +61,7 @@ function MonitoringComponent() {
 
   return (
     <>
+      <TitlePagesComponent text="Panel general" />
       <FiltersMonitoringComponent currentUserProfile={currentUserProfile} />
       <TableComponent
         extraText={
