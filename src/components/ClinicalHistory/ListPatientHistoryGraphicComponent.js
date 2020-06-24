@@ -2,7 +2,7 @@ import React from 'react';
 import { LinearProgress, Grid, Paper, Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer, CartesianGrid } from 'recharts';
 import moment from 'moment';
-import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 import { ListPatientHistoryByTypeComponent } from './ListPatientHistoryComponent';
 import { PrincipalFieldsTests } from '../../helpers/constants';
 

@@ -18,9 +18,13 @@ const useStyles = makeStyles(theme => ({
     '& > *': {
       padding: 2,
       fontSize: '0.8rem'
-    },
-    activeLink: {
-      color: 'red'
+    }
+  },
+  activeLink: {
+    '&.active': {
+      fontWeight: 600,
+      color: theme.palette.primary.main,
+      textDecoration: 'underline'
     }
   }
 }));
@@ -29,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 function NavigationMenu({ onClick }, ref) {
   const { currentUserProfile } = useAuthContext();
   const classes = useStyles();
+
   return (
     <>
       {currentUserProfile &&
@@ -46,7 +51,7 @@ function NavigationMenu({ onClick }, ref) {
               component={NavLink}
               to={route.path}
               onClick={onClick}
-              activeStyle={classes.activeLink}
+              className={classes.activeLink}
             >
               {route.label}
             </MenuItem>
@@ -79,7 +84,7 @@ export function NavigationLargeComponent() {
                   key={index.toString()}
                   component={NavLink}
                   to={route.path}
-                  activeStyle={classes.activeLink}
+                  className={classes.activeLink}
                 >
                   {route.label}
                 </Button>

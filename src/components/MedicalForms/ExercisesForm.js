@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Box } from '@material-ui/core';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateDistance, validateSteps, validateTime2 } from './validateMedicalForms';
-import TitleAndIconComponent from './TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 
 const useSyles = makeStyles({
   root: {
@@ -18,7 +18,9 @@ function ExercisesForm({ classStyle }) {
   const classes = useSyles();
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="exercises" />
+      <Box marginBottom={1}>
+        <TitleAndIconComponent type="exercises" />
+      </Box>
       <Grid item xs={12} container spacing={2}>
         <Grid item xs={4}>
           <CustomTextFieldComponent

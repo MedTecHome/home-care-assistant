@@ -10,7 +10,7 @@ import { getPropValue } from '../../helpers/utils';
 import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import { intakeTimeSource, severityConstant } from '../../helpers/constants';
-import TitleAndIconComponent from '../MedicalForms/TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 
 const useStyles = makeStyles({
   textStyle: {

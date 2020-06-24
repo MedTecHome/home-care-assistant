@@ -7,8 +7,9 @@ import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormCompone
 import { withCustomPaginationContext, useCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
 import ListPatientHistoryGraphicComponent from './ListPatientHistoryGraphicComponent';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
-function PatientHistoryComponent({ patient, isDoctor, defaultTest }) {
+function PatientHistoryComponent({ showTitle = true, patient, isDoctor, defaultTest }) {
   const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const {
     historyList,
@@ -53,6 +54,7 @@ function PatientHistoryComponent({ patient, isDoctor, defaultTest }) {
       <ModalComponent visible={modalVisible}>
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
+      {showTitle ? <TitlePagesComponent text="Pruebas clínicas" /> : null}
       <FiltersPatientHistoryComponent
         defaultType={defaultTest}
         onSelectDate={handleSelectDate}

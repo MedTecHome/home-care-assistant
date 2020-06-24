@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { Container, Grid, Button, makeStyles } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import { Form } from 'react-final-form';
-
 import { isEmpty } from '../../helpers/utils';
 import SaveButton from '../buttons/SaveButton';
 import { useAuthContext } from '../../contexts/AuthContext';
@@ -20,6 +19,7 @@ import { useMessageContext } from '../../MessageHandle/MessageContext';
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../commons/globalText';
 import OthersForms from './OthersForm';
 import { saveHealthDataAction } from '../../services/clinicaltest';
+import TitlePagesComponent from '../text/TitlePagesComponent';
 
 const useStyles = makeStyles({
   formContainer: {
@@ -81,6 +81,7 @@ const PatientMedicalForm = () => {
 
   return (
     <Container maxWidth="lg">
+      <TitlePagesComponent text="Entrada de parámetros" />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={10} md={4}>
           <SelectedChecboxForm defaultValues={selectedForms} onCheckboxChange={handleToogleCheckbox} />

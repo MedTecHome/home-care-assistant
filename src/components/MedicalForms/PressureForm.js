@@ -1,10 +1,10 @@
 import React from 'react';
-import { useMediaQuery, useTheme, Grid, Paper, makeStyles } from '@material-ui/core';
+import { useMediaQuery, useTheme, Grid, Paper, makeStyles, Box } from '@material-ui/core';
 import TimeFieldComponent from '../fields/TimeFieldComponent';
 import DateFieldComponent from '../fields/DateFieldComponent';
 import CustomTextFieldComponent from '../inputs/CustomTextFieldComponent';
 import { validateDiastolica, validateHeartrate, validateSistolica } from './validateMedicalForms';
-import TitleAndIconComponent from './TitleAndIconComponent';
+import TitleAndIconComponent from '../TitleAndIconComponent';
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +21,9 @@ function PressureForm({ classStyle }) {
 
   return (
     <Paper variant="outlined" className={classes.root}>
-      <TitleAndIconComponent type="pressure" />
+      <Box marginBottom={1}>
+        <TitleAndIconComponent type="pressure" />
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <CustomTextFieldComponent
