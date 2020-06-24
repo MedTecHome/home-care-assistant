@@ -1,5 +1,6 @@
 const treatmentsHeadCells = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Medicamento' },
+  { id: 'concentration', numeric: true, disablePadding: false, label: 'Concentración' },
   { id: 'doseCant', numeric: true, disablePadding: false, label: 'Dosis' },
   { id: 'frequency', numeric: true, disablePadding: false, label: 'Frecuencia' },
   { id: 'administrationroute', numeric: true, disablePadding: false, label: 'Vía Administración' },

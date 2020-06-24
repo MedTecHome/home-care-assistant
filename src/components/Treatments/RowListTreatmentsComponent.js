@@ -189,11 +189,17 @@ function RowListTreatmentsComponent({ row, open, setOpen, selected, selectRow, o
           <AsyncMedicineText id={getPropValue(row, 'medicine')} />
         </TableCell>
         <TableCell align="center">
-          {`${getPropValue(medicine, 'doseCant') || '-'}`}
-          <GenericAsyncNomenclator id={getPropValue(medicine, 'doseType')} nomenclator="dosis" />
+          {`${getPropValue(medicine, 'concentrationCant') || '-'} `}
+          <GenericAsyncNomenclator id={getPropValue(medicine, 'concentrationType')} nomenclator="concentrations" />
         </TableCell>
-        {!matchXs && <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>}
         {!matchXs && (
+          <TableCell align="center">
+            {`${getPropValue(medicine, 'doseCant') || '-'}`}
+            <GenericAsyncNomenclator id={getPropValue(medicine, 'doseType')} nomenclator="dosis" />
+          </TableCell>
+        )}
+        {!matchXs && <TableCell align="center">{getPropValue(medicine, 'frequency') || '-'}</TableCell>}
+        {!matchXs && !matchSm && (
           <TableCell align="center">
             <GenericAsyncNomenclator
               id={getPropValue(medicine, 'administrationType')}
