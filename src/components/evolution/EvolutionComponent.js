@@ -55,13 +55,11 @@ function EvolutionComponent({ setTab, patient }) {
 
   const enumeratedDays = params.rangeDate ? enumerateDaysBetweenDates(params.rangeDate[0], params.rangeDate[1]) : [];
 
-  /** const months = Array
-  .from(new Set(enumeratedDays.map(date => moment(date).format('MMMM'))))
-  .map(a => ({ name: a })); 
-  */
-  const weeks = Array.from(
+  const months = Array.from(new Set(enumeratedDays.map(date => moment(date).format('MMMM')))).map(a => ({ name: a }));
+
+  /* const weeks = Array.from(
     new Set(enumeratedDays.map(d => `${moment(d).format('MMMM')}_${Math.ceil(moment(d).date() / 7)}`))
-  );
+  ); */
 
   const handleClickParamter = type => {
     setTab('clinictest', type);
@@ -83,7 +81,7 @@ function EvolutionComponent({ setTab, patient }) {
       <TableContainer component={Paper} elevation={0}>
         <Table className={classes.tableRoot}>
           <TableHead className={classes.tableHead}>
-            {/* <TableRow>
+            <TableRow>
               <TableCell align="center" />
               {months.map(a => (
                 <TableCell
@@ -94,8 +92,8 @@ function EvolutionComponent({ setTab, patient }) {
                   {a.name}
                 </TableCell>
               ))}
-            </TableRow> */}
-            <TableRow>
+            </TableRow>
+            {/* <TableRow>
               <TableCell />
               {weeks.map(a => {
                 const week = a.split('_')[1];
@@ -112,7 +110,7 @@ function EvolutionComponent({ setTab, patient }) {
                   </TableCell>
                 );
               })}
-            </TableRow>
+            </TableRow> */}
             <TableRow>
               <TableCell rowSpan={2}>Parámetros/Días</TableCell>
               {enumeratedDays.map(a => (
