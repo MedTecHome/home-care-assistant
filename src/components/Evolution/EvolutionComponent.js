@@ -117,7 +117,9 @@ function EvolutionComponent({ setTab, patient }) {
                 <TableCell
                   align="center"
                   key={moment(a).format('YYYY-MM-DD')}
-                  className={moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') && classes.cellToday}
+                  className={
+                    moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ? classes.cellToday : undefined
+                  }
                 >
                   {moment(a).format('ddd')}
                 </TableCell>
@@ -128,7 +130,9 @@ function EvolutionComponent({ setTab, patient }) {
                 <TableCell
                   align="center"
                   key={moment(a).format('YYYY-MM-DD')}
-                  className={moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') && classes.cellToday}
+                  className={
+                    moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ? classes.cellToday : undefined
+                  }
                 >
                   {moment(a).format('DD')}
                 </TableCell>
