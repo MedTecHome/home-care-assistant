@@ -111,7 +111,14 @@ function EvolutionComponent({ setTab, patient }) {
               })}
             </TableRow>
             <TableRow>
-              <TableCell>Parámetros/Días</TableCell>
+              <TableCell rowSpan={2}>Parámetros/Días</TableCell>
+              {enumeratedDays.map(a => (
+                <TableCell align="center" key={moment(a).format('YYYY-MM-DD')}>
+                  {moment(a).format('ddd')}
+                </TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
               {enumeratedDays.map(a => (
                 <TableCell align="center" key={moment(a).format('YYYY-MM-DD')}>
                   {moment(a).format('DD')}
