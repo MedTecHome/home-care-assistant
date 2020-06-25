@@ -7,13 +7,14 @@ const mutateValues = ({ birthday, ...rest }) => ({
 });
 
 class Profile {
-  constructor({ name, lastName = '', email, username, emailVisible = false, role }) {
+  constructor({ name, lastName = '', email, username, emailVisible = false, role, disabled }) {
     this.name = name;
     this.lastName = lastName;
     this.email = email;
     this.username = username;
     this.emailVisible = emailVisible;
     this.role = role;
+    this.disabled = !disabled;
   }
 
   toJSON() {

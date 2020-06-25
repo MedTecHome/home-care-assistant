@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Paper, Divider, Box } from '@material-ui/core';
+import { Paper, Divider, Box, FormControlLabel, Checkbox, makeStyles } from '@material-ui/core';
 import { useProfilesContext, withProfileContext } from './ProfilesContext';
 import ListProfilesComponent from './ListProfilesComponent';
 import ToolbarProfileComponent from './FiltersProfilesComponent';
@@ -19,9 +19,17 @@ import { getRoleById } from '../../services/roles';
 import UpdateUserPasswordComponent from './forms/UpdateUserPasswordComponent';
 import TitlePagesComponent from '../text/TitlePagesComponent';
 
+const useStyles = makeStyles({
+  totalText: {
+    alignSelf: 'center',
+    whiteSpace: 'nowrap'
+  }
+});
+
 function TitleProfilesComponent({ filterRole }) {
   const [roleDetails, setRoleDetails] = useState(null);
   const mounted = useRef(true);
+
   useEffect(() => {
     mounted.current = true;
     if (filterRole) {
@@ -42,6 +50,7 @@ function TitleProfilesComponent({ filterRole }) {
 }
 
 function ProfilesComponent({ filterRole }) {
+  const classes = useStyles();
   const { currentUserProfile, isSuperadmin } = useAuthContext();
   const {
     formType,
@@ -55,6 +64,8 @@ function ProfilesComponent({ filterRole }) {
     saveProfileValues,
     setParentFilter,
     setRoleFilter,
+    seeDisabled,
+    setSeeDisabled,
     editUserPassword
   } = useProfilesContext();
 
@@ -109,8 +120,23 @@ function ProfilesComponent({ filterRole }) {
       <TitleProfilesComponent filterRole={filterRole} />
       <Paper>
         <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
-        <Box margin={1}>
-          <strong>Total: </strong>({total})
+        <Box margin={1} display="flex" justifyContent="space-between">
+          <div className={classes.totalText}>
+            <strong>Total: </strong>({total})
+          </div>
+          <div>
+            <FormControlLabel
+              label="Mostrar usuarios desactivados"
+              control={
+                <Checkbox
+                  fontSize="small"
+                  color="primary"
+                  checked={seeDisabled}
+                  onChange={e => setSeeDisabled(e.target.checked)}
+                />
+              }
+            />
+          </div>
         </Box>
         <Divider />
         <ListProfilesComponent

@@ -3,6 +3,9 @@ import { BRANCH_DEPLOY } from './firebaseConfig';
 import { reactDB, getPropValue, isLocal } from './helpers/utils';
 import ErrorMessages from './MessageHandle/errorMessages';
 
+// const { CancelToken } = axios;
+// let cancel;
+
 const apiEmail = axios.create({
   baseURL: 'htt://api.'
 });
@@ -48,6 +51,10 @@ apiData.interceptors.response.use(
 apiData.interceptors.request.use(
   config => {
     const newConfig = config;
+    /* newConfig.cancelToken = new CancelToken(function executor(c) {
+      cancel = c;
+    }); */
+
     const token = localStorage.getItem('AuthToken');
     newConfig.headers.Authorization = token;
     newConfig.headers['Content-Type'] = 'application/json;charset=UTF-8';
