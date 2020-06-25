@@ -30,7 +30,7 @@ export const PrincipalFieldsTests = {
   INR: 'INR (%)',
   heartbeat: 'Pulso(LPM)',
   steps: 'Pasos',
-  severity: 'Severidad'
+  severityRank: 'Severidad'
 };
 
 export const genders = [
@@ -59,15 +59,18 @@ export const intakeTimeSource = [
 export const severityConstant = [
   {
     id: 'nulo',
-    name: 'Nulo'
+    name: 'Nulo',
+    severityRank: 0
   },
   {
     id: 'leve',
-    name: 'Leve'
+    name: 'Leve',
+    rank: 1
   },
   {
     id: 'noImprovement',
-    name: 'Sin mejora'
+    name: 'Sin mejora',
+    severityRank: 2
   },
-  { id: 'verySerious', name: ' Muy severo' }
+  { id: 'verySerious', name: ' Muy severo', severityRank: 3 }
 ];
