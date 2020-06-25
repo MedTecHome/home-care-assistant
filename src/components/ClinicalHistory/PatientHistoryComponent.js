@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { Paper, Divider } from '@material-ui/core';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
 import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
@@ -9,7 +10,7 @@ import { getPropValue } from '../../helpers/utils';
 import ListPatientHistoryGraphicComponent from './ListPatientHistoryGraphicComponent';
 import TitlePagesComponent from '../text/TitlePagesComponent';
 
-function PatientHistoryComponent({ showTitle = true, patient, isDoctor, defaultTest }) {
+function PatientHistoryComponent({ patient, fromDoctor, defaultTest }) {
   const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const {
     historyList,
@@ -27,10 +28,10 @@ function PatientHistoryComponent({ showTitle = true, patient, isDoctor, defaultT
   } = usePatientHistoryContext();
 
   useEffect(() => {
-    const pS = isDoctor || !['recently', undefined, ''].includes(testFilter) ? pageSize : 1;
+    const pS = fromDoctor || !['recently', undefined, ''].includes(testFilter) ? pageSize : 1;
     // const pS = !['recently', undefined, ''].includes(testFilter) ? pageSize : 1;
     fetchList(pS, page, getPropValue(patient, 'id'), rangeDate, testFilter);
-  }, [isDoctor, pageSize, page, patient, rangeDate, testFilter, fetchList]);
+  }, [fromDoctor, pageSize, page, patient, rangeDate, testFilter, fetchList]);
 
   useEffect(() => {
     setTestFilter(defaultTest);
@@ -54,31 +55,34 @@ function PatientHistoryComponent({ showTitle = true, patient, isDoctor, defaultT
       <ModalComponent visible={modalVisible}>
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
-      {showTitle ? <TitlePagesComponent text="Pruebas clínicas" /> : null}
-      <FiltersPatientHistoryComponent
-        defaultType={defaultTest}
-        onSelectDate={handleSelectDate}
-        onSelectType={handleSelectType}
-      />
-      {isDoctor ? (
-        <ListPatientHistoryGraphicComponent
-          historyList={historyList}
-          loadingList={loadingList}
-          selectMedicalForm={selectMedicalForm}
-          selected={selected}
-          setModalVisible={setModalVisible}
+      {!fromDoctor ? <TitlePagesComponent text="Pruebas clínicas" /> : null}
+      <Paper>
+        <FiltersPatientHistoryComponent
+          defaultType={defaultTest}
+          onSelectDate={handleSelectDate}
+          onSelectType={handleSelectType}
         />
-      ) : (
-        <ListPatientHistoryComponent
-          defaultType={testFilter}
-          historyList={historyList}
-          loadingList={loadingList}
-          selectMedicalForm={selectMedicalForm}
-          selected={selected}
-          setModalVisible={setModalVisible}
-          total={total}
-        />
-      )}
+        <Divider />
+        {fromDoctor ? (
+          <ListPatientHistoryGraphicComponent
+            historyList={historyList}
+            loadingList={loadingList}
+            selectMedicalForm={selectMedicalForm}
+            selected={selected}
+            setModalVisible={setModalVisible}
+          />
+        ) : (
+          <ListPatientHistoryComponent
+            defaultType={testFilter}
+            historyList={historyList}
+            loadingList={loadingList}
+            selectMedicalForm={selectMedicalForm}
+            selected={selected}
+            setModalVisible={setModalVisible}
+            total={total}
+          />
+        )}
+      </Paper>
     </>
   );
 }

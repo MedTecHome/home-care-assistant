@@ -11,7 +11,8 @@ import {
   TableBody,
   Grid,
   LinearProgress,
-  fade
+  fade,
+  Box
 } from '@material-ui/core';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
@@ -73,11 +74,13 @@ function EvolutionComponent({ setTab, patient }) {
 
   return (
     <div className={classes.divRoot}>
-      <Grid container justify="flex-end">
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <FiltersRangeDateComponent onRangeSet={handleRangeFilter} />
+      <Box margin={2}>
+        <Grid container justify="flex-end">
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <FiltersRangeDateComponent onRangeSet={handleRangeFilter} />
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
       <TableContainer component={Paper} elevation={0}>
         <Table className={classes.tableRoot}>
           <TableHead className={classes.tableHead}>

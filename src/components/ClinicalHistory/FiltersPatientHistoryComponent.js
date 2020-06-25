@@ -3,16 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import { FormControl, InputLabel, Typography } from '@material-ui/core';
+import { FormControl, InputLabel, Typography, Box } from '@material-ui/core';
 import { testFormsNames } from '../../helpers/constants';
 import { compareStringTagName } from '../../helpers/utils';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import IconTestComponent from './IconTestComponent';
 
 const useStyles = makeStyles({
-  filterRoot: {
-    margin: '10px 0'
-  },
   formControl: {
     width: '100%',
     '& > .MuiSelect-root': {
@@ -67,7 +64,6 @@ function SelectClinicTest({ defaultType, onSelectType }) {
 }
 
 function FiltersPatientHistoryComponent({ onSelectDate, defaultType, onSelectType }) {
-  const classes = useStyles();
   const handleFilterDate = useCallback(
     value => {
       const array = [value[0].set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).unix(), value[1].unix()];
@@ -77,7 +73,7 @@ function FiltersPatientHistoryComponent({ onSelectDate, defaultType, onSelectTyp
   );
 
   return (
-    <div className={classes.filterRoot}>
+    <Box padding={2}>
       <Grid container justify="flex-start" spacing={2}>
         <Grid item xs={12} sm={6} md={4} lg={3} container alignContent="flex-end">
           <SelectClinicTest defaultType={defaultType} onSelectType={onSelectType} />
@@ -86,7 +82,7 @@ function FiltersPatientHistoryComponent({ onSelectDate, defaultType, onSelectTyp
           <FiltersRangeDateComponent onRangeSet={handleFilterDate} />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 

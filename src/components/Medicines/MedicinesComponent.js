@@ -6,7 +6,6 @@ import RowListMedicineComponent from './RowListMedicineComponent';
 import TableComponent from '../table/TableComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
-import PaginationComponent from '../pagination/PaginationComponent';
 import { getPropValue } from '../../helpers/utils';
 import { ADD_FORM_TEXT, EDIT_FORM_TEXT, DELETE_FORM_TEXT, DETAILS_FORM_TEXT } from '../../commons/globalText';
 import AddOrEditMedicineComponent from './forms/AddOrEditMedicineComponent';
@@ -79,6 +78,7 @@ function SimpleMedicinesComponent() {
         filters={<InputSearchByTagname setNameFilter={setNameFilter} nameFilter={nameFilter} />}
         headCells={medicineHeadCells}
         list={list}
+        total={total}
         loadingList={loadingList}
         setModalVisible={setModalVisible}
         selected={selected}
@@ -94,7 +94,6 @@ function SimpleMedicinesComponent() {
           />
         )}
       />
-      <PaginationComponent total={total} />
     </>
   );
 }

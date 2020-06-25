@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import { Box } from '@material-ui/core';
 import useDebounceCustom from '../../commons/useDebounceCustom';
 import getProfiles from '../../services/profiles';
 
@@ -63,7 +64,7 @@ function ProfileSearchComponent({ value, onSelect, doctor, filterRole = '' }) {
 
 function FiltersClinicalDetails({ patient, setPatient, doctor }) {
   return (
-    <div>
+    <Box margin={2}>
       <Grid container justify="flex-end">
         <Grid item xs={12} sm={6} md={4}>
           <ProfileSearchComponent
@@ -75,7 +76,7 @@ function FiltersClinicalDetails({ patient, setPatient, doctor }) {
           />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 

@@ -4,7 +4,7 @@ import { isEmpty } from '../../helpers/utils';
 
 const EvolutionContext = createContext({});
 
-export const withEvolutionContext = WrapperComponent => ({ setTab, patient, children }) => {
+export const withEvolutionContext = WrapperComponent => ({ fromDoctor, setTab, patient, children }) => {
   const [params, setParams] = useState({});
   const [treatments, setTreatmentList] = useState([]);
   const [testList, setTestList] = useState([]);
@@ -44,7 +44,7 @@ export const withEvolutionContext = WrapperComponent => ({ setTab, patient, chil
         setParams
       }}
     >
-      <WrapperComponent setTab={setTab} patient={patient}>
+      <WrapperComponent setTab={setTab} patient={patient} fromDoctor={fromDoctor}>
         {children}
       </WrapperComponent>
     </EvolutionContext.Provider>

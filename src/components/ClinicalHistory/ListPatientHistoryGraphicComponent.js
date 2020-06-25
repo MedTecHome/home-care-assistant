@@ -1,30 +1,36 @@
 import React from 'react';
-import { LinearProgress, Grid, Paper, Box, Divider, makeStyles, Typography } from '@material-ui/core';
+import { LinearProgress, Grid, Box, Divider, makeStyles, Typography, Card } from '@material-ui/core';
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer, CartesianGrid } from 'recharts';
 import moment from 'moment';
 import TitleAndIconComponent from '../TitleAndIconComponent';
 import { ListPatientHistoryByTypeComponent } from './ListPatientHistoryComponent';
-import { PrincipalFieldsTests } from '../../helpers/constants';
+import { PrincipalFieldsTests, severityConstant, testFormsNames } from '../../helpers/constants';
+import { getPropValue } from '../../helpers/utils';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  boxRoot: {
+    backgroundColor: '#f6f7f9'
+  },
   paperRoot: {
-    marginBottom: 20
+    marginBottom: 10
   },
   gridRoot: {
     padding: 5
   },
   gridList: {
-    minHeight: 400,
     maxHeight: 400,
+    minHeight: '100%',
     overflowY: 'scroll'
   },
   gridGraphic: {
     minHeight: 400,
     maxHeight: 400,
-    backgroundColor: '#f6f7f9',
-    color: 'transparent',
-    boxShadow: 'inset 0px 1px 3px rgba(0,0,0,0.5)',
-    backgroundClip: 'text'
+    [theme.breakpoints.down(960)]: {
+      borderBottom: '1px solid #ccc'
+    },
+    [theme.breakpoints.up(960)]: {
+      borderRight: '1px solid #ccc'
+    }
   },
   customTooltip: {
     backgroundColor: 'rgba(255,255,255, 0.5)',
@@ -43,7 +49,7 @@ const useStyles = makeStyles({
       marginRight: 10
     }
   }
-});
+}));
 
 const CustomLegendComponent = props => {
   const { payload } = props;
@@ -68,8 +74,15 @@ const CustomTooltip = ({ active, payload }) => {
       <div className={classes.customTooltip}>
         {payload.map((entry, index) => (
           <Typography key={index.toString()}>
-            <span>{`${PrincipalFieldsTests[entry.dataKey]}: `}</span>
-            <strong>{entry.value}</strong>
+            <span>{`${PrincipalFieldsTests[getPropValue(entry, 'dataKey')]}: `}</span>
+            <strong>
+              {getPropValue(entry, 'payload.type') === 'otherstest'
+                ? getPropValue(
+                    severityConstant.find(sc => sc.id === getPropValue(entry, 'payload.severity')),
+                    'name'
+                  )
+                : getPropValue(entry, 'value')}
+            </strong>
           </Typography>
         ))}
       </div>
@@ -102,7 +115,14 @@ function ListPatientHistoryGraphicComponent({
       ...(el.heartbeat ? { heartbeat: parseInt(el.heartbeat, 10) } : {}),
       ...(el.breathingFrecuency ? { breathingFrecuency: parseInt(el.breathingFrecuency, 10) } : {}),
       ...(el.steps ? { steps: parseInt(el.steps, 10) } : {}),
-      ...(el.gravity ? { gravity: parseInt(el.gravity, 10) } : {})
+      ...(el.severity
+        ? {
+            severityRank: getPropValue(
+              severityConstant.find(sc => sc.id === el.severity),
+              'severityRank'
+            )
+          }
+        : {})
     };
   });
 
@@ -117,26 +137,23 @@ function ListPatientHistoryGraphicComponent({
 
   if (loadingList) return <LinearProgress />;
   return (
-    <div>
+    <Box padding={1} className={classes.boxRoot}>
       {uniqueResult.map(a => (
-        <Paper key={a.type} variant="outlined" square className={classes.paperRoot}>
+        <Card key={a.type} elevation={10} variant="outlined" className={classes.paperRoot}>
           <Box margin={1}>
-            <TitleAndIconComponent type={a.type} />
+            <TitleAndIconComponent
+              type={a.type}
+              alternativeTitle={getPropValue(
+                testFormsNames.find(tf => tf.id === a.type),
+                'name'
+              )}
+            />
           </Box>
           <Divider />
-          <Grid container className={classes.gridRoot}>
-            <Grid item xs={12} sm={12} md={5} className={classes.gridList}>
-              <ListPatientHistoryByTypeComponent
-                list={a.list}
-                defaultType={a.type}
-                selectMedicalForm={selectMedicalForm}
-                selected={selected}
-                setModalVisible={setModalVisible}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={7} className={classes.gridGraphic}>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={6} className={classes.gridGraphic}>
               <ResponsiveContainer>
-                <LineChart height={250} data={a.list}>
+                <LineChart height={250} data={a.list} margin={{ bottom: 0, top: 10, right: 10, left: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" padding={{ left: 30, right: 30 }} />
                   <YAxis />
@@ -172,16 +189,25 @@ function ListPatientHistoryGraphicComponent({
                     (a.type === 'exercises' && (
                       <Line type="monotone" dataKey="steps" stroke="#8884d8" activeDot={{ r: 8 }} />
                     )) ||
-                    (a.type === 'others' && (
-                      <Line type="monotone" dataKey="gravity" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    (a.type === 'otherstest' && (
+                      <Line type="monotone" dataKey="severityRank" stroke="#8884d8" activeDot={{ r: 8 }} />
                     ))}
                 </LineChart>
               </ResponsiveContainer>
             </Grid>
+            <Grid item xs={12} sm={12} md={6} className={classes.gridList}>
+              <ListPatientHistoryByTypeComponent
+                list={a.list}
+                defaultType={a.type}
+                selectMedicalForm={selectMedicalForm}
+                selected={selected}
+                setModalVisible={setModalVisible}
+              />
+            </Grid>
           </Grid>
-        </Paper>
+        </Card>
       ))}
-    </div>
+    </Box>
   );
 }
 

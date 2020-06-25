@@ -7,7 +7,6 @@ import headMonitoringCells from './headMonitoringCells';
 import RowMonitoringComponent from './RowMonitoringComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
-import PaginationComponent from '../pagination/PaginationComponent';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import TitlePagesComponent from '../text/TitlePagesComponent';
 
@@ -76,6 +75,7 @@ function MonitoringComponent() {
         }
         headCells={headMonitoringCells}
         list={list}
+        total={total}
         loadingList={loadingList}
         render={(row, index) => (
           <RowMonitoringComponent
@@ -87,7 +87,6 @@ function MonitoringComponent() {
           />
         )}
       />
-      <PaginationComponent total={total} />
     </>
   );
 }

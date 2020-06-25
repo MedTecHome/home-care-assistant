@@ -8,7 +8,8 @@ import {
   IconButton,
   Avatar,
   CircularProgress,
-  Grid
+  Grid,
+  Paper
 } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
@@ -20,7 +21,6 @@ import { ERROR_MESSAGE } from '../commons/globalText';
 
 const useStyles = makeStyles({
   root: {
-    backgroundColor: '#ccd5',
     padding: 0,
     position: 'relative'
   },
@@ -34,13 +34,14 @@ const useStyles = makeStyles({
     margin: 'auto'
   },
   logoImg: {
-    width: props => (props.open ? 64 : 34),
-    height: props => (props.open ? 64 : 34),
+    width: props => (props.open ? 94 : 64),
+    height: props => (props.open ? 94 : 64),
     objectFit: 'cover',
     margin: 'auto'
   },
   itemContent: {
-    padding: '0 10px'
+    padding: '0 10px',
+    alignSelf: 'center'
   },
   itemTitle: {
     width: '100%',
@@ -137,7 +138,7 @@ function ClinicInfoComponent() {
   };
 
   return (
-    <>
+    <Paper>
       {isLogin && (isClinic || isDoctor || isPatient) && clinicInfo ? (
         <List className={classes.root}>
           <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
@@ -147,17 +148,19 @@ function ClinicInfoComponent() {
             <div className={classes.itemList}>
               <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
               <div className={classes.itemContent}>
-                <Typography className={classes.itemTitle} variant="h6">
+                <Typography className={classes.itemTitle} variant={open ? 'h6' : 'h5'}>
                   {`${getPropValue(clinicInfo, 'name')} ${getPropValue(clinicInfo, 'lastName')}`}
                 </Typography>
                 <Collapse className={classes.collapseItem} in={open}>
                   <Grid container spacing={1}>
                     <Grid item xs={12} sm={6}>
-                      <Typography>Correo: {` ${getPropValue(clinicInfo, 'email')}`}</Typography>
+                      <Typography>
+                        <strong>{`Correo: `}</strong> {`${getPropValue(clinicInfo, 'email')}`}
+                      </Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography component="div" className={classes.phonesText}>
-                        <span>{`Teléfonos: `}</span>
+                        <strong>{`Teléfonos: `}</strong>
                         <div className={classes.phonesNumbers}>
                           <span>{getPropValue(clinicInfo, 'primaryPhone')}</span>
                           <span>{getPropValue(clinicInfo, 'secondaryPhone')}</span>
@@ -166,7 +169,7 @@ function ClinicInfoComponent() {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography className={classes.addressText}>
-                        {`Dirección: `}
+                        <strong>{`Dirección: `}</strong>
                         {`${getPropValue(clinicInfo, 'address') || '-'}`}
                       </Typography>
                     </Grid>
@@ -177,7 +180,7 @@ function ClinicInfoComponent() {
           </ListItem>
         </List>
       ) : null}
-    </>
+    </Paper>
   );
 }
 export default ClinicInfoComponent;

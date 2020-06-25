@@ -91,7 +91,8 @@ function AddOrEditProfilesComponent({
                 ...(selected.role ? { role: getPropValue(selected, 'role') } : {}),
                 parent: getPropValue(selected, 'parent'),
                 ...(selected.sex ? { sex: getPropValue(selected, 'sex') } : {}),
-                ...(selected.birthday ? { birthday: selected.birthday } : {})
+                ...(selected.birthday ? { birthday: selected.birthday } : {}),
+                disabled: !selected.disabled
               }
             : {}),
           parent: currentUserProfile.id
@@ -212,6 +213,11 @@ function AddOrEditProfilesComponent({
                         <CheckboxesFieldComponent label="Ramdom" namee="ramdomPassword" />
                       </Grid>
                     </>
+                  )}
+                  {selected.disabled && (
+                    <Grid item xs={12}>
+                      <CheckboxesFieldComponent label="Usuario activado" namee="disabled" />
+                    </Grid>
                   )}
                   {values.role === 'patient' && (
                     <Grid item xs={12}>
