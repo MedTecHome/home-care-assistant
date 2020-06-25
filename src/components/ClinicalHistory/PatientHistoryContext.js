@@ -71,16 +71,10 @@ const PatientHistoryContextProvider = ({ children }) => {
   );
 };
 
-export const withPatientHistoryContext = WrapperComponent => ({
-  showTitle,
-  defaultTest,
-  patient,
-  isDoctor,
-  children
-}) => {
+export const withPatientHistoryContext = WrapperComponent => ({ defaultTest, patient, fromDoctor, children }) => {
   return (
     <PatientHistoryContextProvider>
-      <WrapperComponent showTitle={showTitle} defaultTest={defaultTest} patient={patient} isDoctor={isDoctor}>
+      <WrapperComponent fromDoctor={fromDoctor} defaultTest={defaultTest} patient={patient}>
         {children}
       </WrapperComponent>
     </PatientHistoryContextProvider>

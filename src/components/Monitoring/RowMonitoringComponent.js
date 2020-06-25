@@ -40,12 +40,13 @@ function RowMonitoringComponent({ row, selectRow }) {
           {`${getPropValue(row, 'user.name')} ${getPropValue(row, 'user.lastName')}` || '-'}
         </Typography>
       </TableCell>
-      <TableCell align="center">{getPropValue(row, 'user.age') || '-'}</TableCell>
+
       <TableCell align="center">
         <Typography>
           {moment.unix(row.latestDate).isValid() ? moment.unix(row.latestDate).format('DD/MM/YYYY') : '-'}
         </Typography>
       </TableCell>
+      {!matchXs && <TableCell align="center">{getPropValue(row, 'user.age') || '-'}</TableCell>}
       {!matchXs && (
         <TableCell
           align="center"
