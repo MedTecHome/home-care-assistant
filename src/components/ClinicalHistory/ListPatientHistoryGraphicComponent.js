@@ -4,7 +4,7 @@ import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer, Ca
 import moment from 'moment';
 import TitleAndIconComponent from '../TitleAndIconComponent';
 import { ListPatientHistoryByTypeComponent } from './ListPatientHistoryComponent';
-import { PrincipalFieldsTests, severityConstant } from '../../helpers/constants';
+import { PrincipalFieldsTests, severityConstant, testFormsNames } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
 
 const useStyles = makeStyles(theme => ({
@@ -141,7 +141,13 @@ function ListPatientHistoryGraphicComponent({
       {uniqueResult.map(a => (
         <Card key={a.type} elevation={10} variant="outlined" className={classes.paperRoot}>
           <Box margin={1}>
-            <TitleAndIconComponent type={a.type} />
+            <TitleAndIconComponent
+              type={a.type}
+              alternativeTitle={getPropValue(
+                testFormsNames.find(tf => tf.id === a.type),
+                'name'
+              )}
+            />
           </Box>
           <Divider />
           <Grid container>
