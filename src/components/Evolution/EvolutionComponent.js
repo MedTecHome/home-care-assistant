@@ -10,16 +10,16 @@ import {
   Paper,
   TableBody,
   Grid,
-  LinearProgress
+  LinearProgress,
+  fade
 } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
 import FiltersRangeDateComponent from '../filters/FiltersRangeDateComponent';
 import { useEvolutionContext, withEvolutionContext } from './EvolutionContext';
 import { enumerateDaysBetweenDates, getPropValue } from '../../helpers/utils';
 import EvolutionTreatmentsRowComponent from './EvolutionTreatmentsRowComponent';
 import EvolutionTestRowComponent from './EvolutionTestRowComponent';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   divRoot: {
     marginBottom: 40,
     marginTop: 10
@@ -37,13 +37,13 @@ const useStyles = makeStyles({
     }
   },
   cellToday: {
-    backgroundColor: blue[50]
+    backgroundColor: fade(theme.palette.primary.light, 0.4)
   },
   textLink: {
     textDecoration: 'underline',
     cursor: 'pointer'
   }
-});
+}));
 
 function EvolutionComponent({ setTab, patient }) {
   const { params, setParams, loadingList, treatments, testList } = useEvolutionContext();
@@ -114,14 +114,22 @@ function EvolutionComponent({ setTab, patient }) {
             <TableRow>
               <TableCell rowSpan={2}>Parámetros/Días</TableCell>
               {enumeratedDays.map(a => (
-                <TableCell align="center" key={moment(a).format('YYYY-MM-DD')}>
+                <TableCell
+                  align="center"
+                  key={moment(a).format('YYYY-MM-DD')}
+                  className={moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') && classes.cellToday}
+                >
                   {moment(a).format('ddd')}
                 </TableCell>
               ))}
             </TableRow>
             <TableRow>
               {enumeratedDays.map(a => (
-                <TableCell align="center" key={moment(a).format('YYYY-MM-DD')}>
+                <TableCell
+                  align="center"
+                  key={moment(a).format('YYYY-MM-DD')}
+                  className={moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') && classes.cellToday}
+                >
                   {moment(a).format('DD')}
                 </TableCell>
               ))}
