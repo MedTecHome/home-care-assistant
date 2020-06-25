@@ -39,7 +39,7 @@ function RowListMedicineComponent({ row, selected, selectRow, onModalVisible }) 
         )}
         {!matchXs && (
           <TableCell>
-            <GenericAsyncNomenclator id={getPropValue(row, 'administrationType')} name="aministrationroute" />
+            <GenericAsyncNomenclator id={getPropValue(row, 'administrationType')} nomenclator="administrationroute" />
           </TableCell>
         )}
         {!matchXs && !matchSm && <TableCell align="center">{row.frequency || '-'}</TableCell>}

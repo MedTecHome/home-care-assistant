@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Typography from '@material-ui/core/Typography';
+import { Paper, Divider, Box } from '@material-ui/core';
 import { useProfilesContext, withProfileContext } from './ProfilesContext';
 import ListProfilesComponent from './ListProfilesComponent';
 import ToolbarProfileComponent from './FiltersProfilesComponent';
@@ -12,7 +12,6 @@ import {
 } from '../../commons/globalText';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
-import PaginationComponent from '../pagination/PaginationComponent';
 import AddOrEditProfilesComponent from './forms/AddOrEditProfilesComponent';
 import DeleteProfilesComponent from './forms/DeleteProfilesComponent';
 import { useAuthContext } from '../../contexts/AuthContext';
@@ -108,21 +107,24 @@ function ProfilesComponent({ filterRole }) {
           ))}
       </ModalComponent>
       <TitleProfilesComponent filterRole={filterRole} />
-      <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
-      <Typography>
-        <strong>Total: </strong>({total})
-      </Typography>
-      <ListProfilesComponent
-        loadingList={loadingList}
-        profileList={profileList}
-        selected={selected}
-        selectProfileFromList={selectProfileFromList}
-        onClickDelete={handleOnClickDelete}
-        onClickEdit={handleOnClickEdit}
-        OnEditUserPassword={handleEditUserPassword}
-        isSuperadmin={isSuperadmin}
-      />
-      <PaginationComponent total={total} />
+      <Paper>
+        <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
+        <Box margin={1}>
+          <strong>Total: </strong>({total})
+        </Box>
+        <Divider />
+        <ListProfilesComponent
+          loadingList={loadingList}
+          profileList={profileList}
+          total={total}
+          selected={selected}
+          selectProfileFromList={selectProfileFromList}
+          onClickDelete={handleOnClickDelete}
+          onClickEdit={handleOnClickEdit}
+          OnEditUserPassword={handleEditUserPassword}
+          isSuperadmin={isSuperadmin}
+        />
+      </Paper>
     </>
   );
 }

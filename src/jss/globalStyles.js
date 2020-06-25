@@ -37,9 +37,7 @@ const useCustomStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     cursor: 'pointer',
-
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: 5
+    backgroundColor: theme.palette.background.paper
   },
   selectedItemList: {
     background: '#dddddd'

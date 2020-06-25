@@ -8,14 +8,14 @@ const headMonitoringCells = [
     label: 'Nombre y  Apellidos'
   },
   {
-    id: 'age',
-    numeric: true,
-    label: 'Edad(años)'
-  },
-  {
     id: 'latestDate',
     numeric: true,
     label: 'Fecha'
+  },
+  {
+    id: 'age',
+    numeric: true,
+    label: 'Edad(años)'
   },
   {
     id: 'pressure',

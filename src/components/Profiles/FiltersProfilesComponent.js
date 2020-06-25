@@ -6,7 +6,7 @@ import InputSearchByTagname from '../filters/InputSearchByTagName';
 
 const useStyle = makeStyles({
   root: {
-    margin: '10px 0'
+    padding: '10px'
   }
 });
 
@@ -17,11 +17,11 @@ function FiltersProfileComponent({ onClickAdd }) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1} justify="space-between" alignItems="flex-end">
+      <Grid container spacing={1} justify="space-between" alignItems="center">
         <Grid item xs={12} sm={3} md={3}>
           <AddButtonIcon onClick={onClickAdd} size={match ? '2x' : 'lg'} />
         </Grid>
-        <Grid item xs={12} sm={5} md={4} container justify="flex-end">
+        <Grid item xs={12} sm={5} md={4} container justify="center">
           <InputSearchByTagname nameFilter={nameFilter} setNameFilter={setNameFilter} />
         </Grid>
       </Grid>

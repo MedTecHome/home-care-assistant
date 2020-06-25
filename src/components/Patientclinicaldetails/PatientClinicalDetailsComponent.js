@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, Divider } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import TreatmentsComponent from '../Treatments/TreatmentsComponent';
 import FiltersClinicalDetails from './FiltersClinicalDetailsComponent';
@@ -41,11 +41,12 @@ function PatientClinicalDetailsComponent() {
   return (
     <>
       <TitlePagesComponent text="Detalles clínicos" />
-      {isDoctor ? (
-        <FiltersClinicalDetails setPatient={handlePatient} patient={patient} doctor={currentUserProfile.id} />
-      ) : null}
-      <div>
-        <Paper square color="inherit">
+      <Paper>
+        {isDoctor ? (
+          <FiltersClinicalDetails setPatient={handlePatient} patient={patient} doctor={currentUserProfile.id} />
+        ) : null}
+        <div>
+          <Divider />
           <Tabs
             value={tab}
             onChange={handleTabChange}
@@ -58,21 +59,17 @@ function PatientClinicalDetailsComponent() {
             <Tab label="Pruebas clínicas" value="clinictest" />
             {isDoctor && <Tab label="Tratamientos" value="treatments" />}
           </Tabs>
-        </Paper>
-        {(tab === 'treatments' && <TreatmentsComponent patient={patient} showTitle={false} />) ||
-          (tab === 'clinictest' && (
-            <PatientHistoryComponent
-              showTitle={false}
-              patient={patient}
-              defaultTest={defaultTest}
-              isDoctor={isDoctor}
-            />
-          )) ||
-          (tab === 'evolution' && isDoctor && (
-            <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />
-          )) ||
-          null}
-      </div>
+          <Divider />
+          {(tab === 'treatments' && <TreatmentsComponent patient={patient} fromDoctor={isDoctor} />) ||
+            (tab === 'clinictest' && (
+              <PatientHistoryComponent patient={patient} defaultTest={defaultTest} fromDoctor={isDoctor} />
+            )) ||
+            (tab === 'evolution' && isDoctor && (
+              <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />
+            )) ||
+            null}
+        </div>
+      </Paper>
     </>
   );
 }
