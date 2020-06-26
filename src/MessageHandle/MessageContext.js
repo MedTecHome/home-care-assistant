@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import { ERROR_MESSAGE } from '../commons/globalText';
+import { IsValidJSONString } from '../helpers/utils';
 
 const MessageContext = createContext({});
 
@@ -11,9 +12,14 @@ export const MessageContextProvider = ({ children }) => {
     let messageDetail = '';
     let codeError = '';
     if (type === ERROR_MESSAGE) {
-      const { message: text, code } = JSON.parse(message.message);
-      codeError = code;
-      messageDetail = text;
+      if (IsValidJSONString(message.message)) {
+        const { message: text, code } = JSON.parse(message.message);
+        codeError = code;
+        messageDetail = text;
+      } else {
+        codeError = 'error-interno';
+        messageDetail = 'Ha ocurrido un error interno.';
+      }
     } else {
       messageDetail = message;
     }

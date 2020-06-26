@@ -45,7 +45,8 @@ const ErrorMessages = {
   'auth/email-already-in-use': 'El correo electrónico correspondiente a la credencial ya existe.',
   'auth/wrong-password': 'La contraseña no es válida.',
   'error-interno': 'Ha ocurrido un error interno',
-  '404': 'No encontrado'
+  '404': 'No encontrado',
+  '401': 'Acceso denegado al recurso solicitado'
 };
 
 export default ErrorMessages;

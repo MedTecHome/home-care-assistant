@@ -8,7 +8,8 @@ import {
   ADD_FORM_TEXT,
   DELETE_FORM_TEXT,
   EDIT_FORM_TEXT,
-  EDIT_USER_PASSWORD_FORM_TEXT
+  EDIT_USER_PASSWORD_FORM_TEXT,
+  ERROR_MESSAGE
 } from '../../commons/globalText';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
@@ -18,6 +19,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { getRoleById } from '../../services/roles';
 import UpdateUserPasswordComponent from './forms/UpdateUserPasswordComponent';
 import TitlePagesComponent from '../text/TitlePagesComponent';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
 
 const useStyles = makeStyles({
   totalText: {
@@ -27,21 +29,26 @@ const useStyles = makeStyles({
 });
 
 function TitleProfilesComponent({ filterRole }) {
+  const { RegisterMessage } = useMessageContext();
   const [roleDetails, setRoleDetails] = useState(null);
   const mounted = useRef(true);
 
   useEffect(() => {
     mounted.current = true;
     if (filterRole) {
-      getRoleById(filterRole).then(result => {
-        if (mounted.current) setRoleDetails(result);
-      });
+      getRoleById(filterRole)
+        .then(result => {
+          if (mounted.current) setRoleDetails(result);
+        })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'TitleProfilesComponent-useEffect');
+        });
     }
 
     return () => {
       mounted.current = false;
     };
-  }, [filterRole]);
+  }, [filterRole, RegisterMessage]);
 
   const text = roleDetails
     ? `Lista de ${roleDetails.name.toLowerCase()}${getPropValue(roleDetails, 'plural') || ''}`
