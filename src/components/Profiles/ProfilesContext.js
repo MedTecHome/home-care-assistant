@@ -19,6 +19,7 @@ export const withProfileContext = WrapperComponent => props => {
   const [parentFilter, setParentFilter] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
   const [nameFilter, setNameFilter] = useState('');
+  const [seeDisabled, setSeeDisabled] = useState(false);
   const { pageSize, page, resetPagination } = useCustomPaginationContext();
   const [globalState, globalDispatch] = useReducer(GlobalReducer, initialGlobalState, init => init);
   const mounted = useRef(true);
@@ -38,12 +39,12 @@ export const withProfileContext = WrapperComponent => props => {
     mounted.current = true;
     if (!isEmpty(parentFilter) && !isEmpty(roleFilter)) {
       setLoadingList(true);
-      fetchList(pageSize, page, { parent: parentFilter, role: roleFilter, fullname: nameFilter });
+      fetchList(pageSize, page, { parent: parentFilter, role: roleFilter, fullname: nameFilter, seeDisabled });
     }
     return () => {
       mounted.current = false;
     };
-  }, [parentFilter, roleFilter, nameFilter, page, pageSize, fetchList, action]);
+  }, [parentFilter, roleFilter, nameFilter, seeDisabled, page, pageSize, fetchList, action]);
 
   const editUserPassword = useCallback(async params => {
     try {
@@ -100,6 +101,8 @@ export const withProfileContext = WrapperComponent => props => {
         parentFilter,
         roleFilter,
         nameFilter,
+        seeDisabled,
+        setSeeDisabled,
         ...globalState,
         resetPagination,
         selectProfileFromList,
@@ -138,6 +141,8 @@ export const useProfilesContext = () => {
     setNameFilter: values.setNameFilter,
     total: values.total,
     resetPagination: values.resetPagination,
-    editUserPassword: values.editUserPassword
+    editUserPassword: values.editUserPassword,
+    seeDisabled: values.seeDisabled,
+    setSeeDisabled: values.setSeeDisabled
   };
 };
