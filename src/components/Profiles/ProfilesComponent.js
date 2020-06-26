@@ -58,7 +58,10 @@ function TitleProfilesComponent({ filterRole }) {
 
 function ProfilesComponent({ filterRole }) {
   const classes = useStyles();
-  const { currentUserProfile, isSuperadmin } = useAuthContext();
+  const {
+    currentUserProfile: { id, realDoctors, maxDoctors },
+    isSuperadmin
+  } = useAuthContext();
   const {
     formType,
     setModalVisible,
@@ -81,8 +84,8 @@ function ProfilesComponent({ filterRole }) {
   }, [filterRole, setRoleFilter]);
 
   useEffect(() => {
-    setParentFilter(currentUserProfile.id);
-  }, [currentUserProfile.id, setParentFilter]);
+    setParentFilter(id);
+  }, [id, setParentFilter]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -112,7 +115,7 @@ function ProfilesComponent({ filterRole }) {
             selectProfileFromList={selectProfileFromList}
             saveProfileValues={saveProfileValues}
             setModalVisible={setModalVisible}
-            currentUserProfile={currentUserProfile}
+            parent={id}
           />
         )) ||
           (formType === DELETE_FORM_TEXT && <DeleteProfilesComponent />) ||
@@ -126,7 +129,7 @@ function ProfilesComponent({ filterRole }) {
       </ModalComponent>
       <TitleProfilesComponent filterRole={filterRole} />
       <Paper>
-        <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
+        <ToolbarProfileComponent disabledAdd={realDoctors >= maxDoctors} onClickAdd={handleOnClickAdd} />
         <Box margin={1} display="flex" justifyContent="space-between">
           <div className={classes.totalText}>
             <strong>Total: </strong>({total})
