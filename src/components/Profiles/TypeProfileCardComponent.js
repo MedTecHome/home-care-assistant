@@ -125,7 +125,7 @@ function TypeProfileCardComponent({
         {getPropValue(profile, 'role') === 'clinic' && (
           <Typography>
             Límite Doctores:
-            <strong>{` ${getPropValue(profile, 'realDoctors')}/${getPropValue(profile, 'maxDoctors')}`}</strong>
+            <strong>{` ${getPropValue(profile, 'realDoctors') || '0'}/${getPropValue(profile, 'maxDoctors')}`}</strong>
           </Typography>
         )}
         {!match && profile.role && profile.role === 'patient' && (

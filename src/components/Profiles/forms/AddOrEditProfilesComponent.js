@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 function AddOrEditProfilesComponent({
   title,
   filterRole,
-  currentUserProfile,
+  parent,
   saveProfileValues,
   setModalVisible,
   formType,
@@ -95,7 +95,7 @@ function AddOrEditProfilesComponent({
                 disabled: !selected.disabled
               }
             : {}),
-          parent: currentUserProfile.id
+          parent
         }}
         decorators={[calculator]}
         validate={validateProfile}
@@ -214,7 +214,7 @@ function AddOrEditProfilesComponent({
                       </Grid>
                     </>
                   )}
-                  {selected.disabled && (
+                  {getPropValue(selected, 'disabled') && (
                     <Grid item xs={12}>
                       <CheckboxesFieldComponent label="Usuario activado" namee="disabled" />
                     </Grid>
