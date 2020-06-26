@@ -18,7 +18,7 @@ const baseUrlFirebase =
 const baseUrlLocal = reactDB === 'local' ? 'http://192.168.42.86:5001/test1-6f25a/us-central1/api/' : baseUrlFirebase;
 
 const apiData = axios.create({
-  baseURL: isLocal ? baseUrlLocal : baseUrlFirebase,
+  baseURL: baseUrlLocal,
   timeout: 10000
 });
 
@@ -40,9 +40,11 @@ apiData.interceptors.response.use(
           getPropValue(err, 'response.data.error.code') ||
           getPropValue(err, 'response.status').toString() ||
           'error-interno',
-        message: getPropValue(err, 'response.data.error.code')
-          ? ErrorMessages[getPropValue(err, 'response.data.error.code') || 'error-interno']
-          : getPropValue(err, 'response.data.error.message')
+        message:
+          ErrorMessages[getPropValue(err, 'response.data.error.code')] ||
+          ErrorMessages[getPropValue(err, 'response.status')] ||
+          ErrorMessages['error-interno'] ||
+          getPropValue(err, 'response.data.error.message')
       })
     );
   }

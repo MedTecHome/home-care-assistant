@@ -8,7 +8,8 @@ import {
   ADD_FORM_TEXT,
   DELETE_FORM_TEXT,
   EDIT_FORM_TEXT,
-  EDIT_USER_PASSWORD_FORM_TEXT
+  EDIT_USER_PASSWORD_FORM_TEXT,
+  ERROR_MESSAGE
 } from '../../commons/globalText';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import { getPropValue } from '../../helpers/utils';
@@ -18,6 +19,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { getRoleById } from '../../services/roles';
 import UpdateUserPasswordComponent from './forms/UpdateUserPasswordComponent';
 import TitlePagesComponent from '../text/TitlePagesComponent';
+import { useMessageContext } from '../../MessageHandle/MessageContext';
 
 const useStyles = makeStyles({
   totalText: {
@@ -27,21 +29,26 @@ const useStyles = makeStyles({
 });
 
 function TitleProfilesComponent({ filterRole }) {
+  const { RegisterMessage } = useMessageContext();
   const [roleDetails, setRoleDetails] = useState(null);
   const mounted = useRef(true);
 
   useEffect(() => {
     mounted.current = true;
     if (filterRole) {
-      getRoleById(filterRole).then(result => {
-        if (mounted.current) setRoleDetails(result);
-      });
+      getRoleById(filterRole)
+        .then(result => {
+          if (mounted.current) setRoleDetails(result);
+        })
+        .catch(e => {
+          RegisterMessage(ERROR_MESSAGE, e, 'TitleProfilesComponent-useEffect');
+        });
     }
 
     return () => {
       mounted.current = false;
     };
-  }, [filterRole]);
+  }, [filterRole, RegisterMessage]);
 
   const text = roleDetails
     ? `Lista de ${roleDetails.name.toLowerCase()}${getPropValue(roleDetails, 'plural') || ''}`
@@ -51,7 +58,10 @@ function TitleProfilesComponent({ filterRole }) {
 
 function ProfilesComponent({ filterRole }) {
   const classes = useStyles();
-  const { currentUserProfile, isSuperadmin } = useAuthContext();
+  const {
+    currentUserProfile: { id, realDoctors, maxDoctors },
+    isSuperadmin
+  } = useAuthContext();
   const {
     formType,
     setModalVisible,
@@ -74,8 +84,8 @@ function ProfilesComponent({ filterRole }) {
   }, [filterRole, setRoleFilter]);
 
   useEffect(() => {
-    setParentFilter(currentUserProfile.id);
-  }, [currentUserProfile.id, setParentFilter]);
+    setParentFilter(id);
+  }, [id, setParentFilter]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -105,7 +115,7 @@ function ProfilesComponent({ filterRole }) {
             selectProfileFromList={selectProfileFromList}
             saveProfileValues={saveProfileValues}
             setModalVisible={setModalVisible}
-            currentUserProfile={currentUserProfile}
+            parent={id}
           />
         )) ||
           (formType === DELETE_FORM_TEXT && <DeleteProfilesComponent />) ||
@@ -119,7 +129,7 @@ function ProfilesComponent({ filterRole }) {
       </ModalComponent>
       <TitleProfilesComponent filterRole={filterRole} />
       <Paper>
-        <ToolbarProfileComponent onClickAdd={handleOnClickAdd} />
+        <ToolbarProfileComponent disabledAdd={realDoctors >= maxDoctors} onClickAdd={handleOnClickAdd} />
         <Box margin={1} display="flex" justifyContent="space-between">
           <div className={classes.totalText}>
             <strong>Total: </strong>({total})

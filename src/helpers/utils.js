@@ -25,6 +25,15 @@ export const isEmpty = value => {
   }
 };
 
+export function IsValidJSONString(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 export const getPropValue = (obj, key) => key.split('.').reduce((o, x) => (o == undefined ? o : o[x]), obj);
 
 export const formatDateWithTime = (date, time) => {
