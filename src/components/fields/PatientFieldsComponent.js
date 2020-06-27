@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { DatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
+import { CalendarToday } from '@material-ui/icons';
 import ProfileFieldComponent from './ProfileFieldComponent';
 import { validateBirthday, validateDoctor, validateHeight } from '../Profiles/forms/validateProfile';
 import useCustomStyles from '../../jss/globalStyles';
@@ -29,6 +30,9 @@ function PatientsFieldComponent({ formType }) {
           format="DD/MM/YYYY"
           name="birthday"
           inputVariant="outlined"
+          InputProps={{
+            endAdornment: <CalendarToday htmlColor="#666" />
+          }}
           fieldProps={{
             validate: validateBirthday
           }}

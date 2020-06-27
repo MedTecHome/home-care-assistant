@@ -1,13 +1,14 @@
 import React from 'react';
-import { KeyboardTimePicker } from 'mui-rff';
+import { TimePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
+import { AccessTime } from '@material-ui/icons';
 import { validateTime } from '../MedicalForms/validateMedicalForms';
 
 export default function TimeFieldComponent({ classes, name, label, maxDate }) {
   return (
     <Grid item xs={6} sm={6} md={6}>
-      <KeyboardTimePicker
+      <TimePicker
         required
         dateFunsUtils={MomentUtils}
         className={classes.formControl}
@@ -21,6 +22,9 @@ export default function TimeFieldComponent({ classes, name, label, maxDate }) {
         name={name}
         fieldProps={{
           validate: validateTime
+        }}
+        InputProps={{
+          endAdornment: <AccessTime htmlColor="#666" />
         }}
       />
     </Grid>

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import MomentUtil from '@date-io/moment';
 import { makeStyles, Typography, Box } from '@material-ui/core';
+import { DateRange as DateRangeIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   filterRangeDate: {
@@ -40,6 +41,9 @@ function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
           size={size}
           inputVariant="outlined"
           format="DD-MM-YYYY"
+          InputProps={{
+            endAdornment: <DateRangeIcon htmlColor="#666" fontSize="small" />
+          }}
         />
         <Box margin={1}>
           <Typography>{' al '}</Typography>
@@ -56,6 +60,9 @@ function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
           size={size}
           inputVariant="outlined"
           format="DD-MM-YYYY"
+          InputProps={{
+            endAdornment: <DateRangeIcon htmlColor="#666" fontSize="small" />
+          }}
         />
       </div>
     </MuiPickersUtilsProvider>
