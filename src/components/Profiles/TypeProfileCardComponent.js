@@ -150,7 +150,7 @@ function TypeProfileCardComponent({
       <div className={localClass.actionContent}>
         <EditUserPasswordIcon onClick={() => handleOnEditUserPassword(profile.id)} />
         {profile.role && profile.role === 'patient' && (
-          <NavLink to={{ pathname: '/detallesclinicos', state: { profile } }}>
+          <NavLink to={{ pathname: '/parametros_clinicos', state: { profile } }}>
             <MedicalDetailButtonIcon />
           </NavLink>
         )}

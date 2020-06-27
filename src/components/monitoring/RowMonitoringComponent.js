@@ -31,7 +31,7 @@ function RowMonitoringComponent({ row, selectRow }) {
         <Typography
           component={NavLink}
           to={{
-            pathname: '/detallesclinicos',
+            pathname: '/parametros_clinicos',
             state: {
               profile: row.user
             }
@@ -130,7 +130,7 @@ function RowMonitoringComponent({ row, selectRow }) {
       )}
 
       <TableCell align="center">
-        <NavLink to={{ pathname: '/detallesclinicos', state: { profile: row.user } }}>
+        <NavLink to={{ pathname: '/parametros_clinicos', state: { profile: row.user } }}>
           <MedicalDetailButtonIcon />
         </NavLink>
       </TableCell>

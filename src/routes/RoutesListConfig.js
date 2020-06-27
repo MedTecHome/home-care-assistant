@@ -79,16 +79,16 @@ const RouteListConfig = [
     navegation: true
   },
   {
-    path: '/historial',
+    path: '/historial/parametros_clinicos',
     component: PatietHistoryComponentWithContext,
-    label: 'Historial',
+    label: 'Historial de Parámetros',
     roles: ['patient'],
     navegation: ['patient']
   },
   {
-    path: '/detallesclinicos',
+    path: '/parametros_clinicos',
     component: PatientClinicalDetailsComponent,
-    label: 'Detalles clínicos',
+    label: 'Parámetros clínicos',
     roles: ['doctor'],
     navegation: ['doctor']
   },

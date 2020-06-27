@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { Paper, Divider } from '@material-ui/core';
 import { usePatientHistoryContext, withPatientHistoryContext } from './PatientHistoryContext';
-import ListPatientHistoryComponent from './ListPatientHistoryComponent';
 import FiltersPatientHistoryComponent from './FiltersPatientHistoryComponent';
 import ModalComponent from '../ModalComponent';
 import DetailHistoryMedicalFormComponent from './DetailHistoryMedicalFormComponent';
@@ -23,7 +22,7 @@ function PatientHistoryComponent({ patient, fromDoctor, defaultTest }) {
     setModalVisible,
     selectMedicalForm,
     selected,
-    total,
+    // total,
     fetchList
   } = usePatientHistoryContext();
 
@@ -55,7 +54,7 @@ function PatientHistoryComponent({ patient, fromDoctor, defaultTest }) {
       <ModalComponent visible={modalVisible}>
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
-      {!fromDoctor ? <TitlePagesComponent text="Pruebas clínicas" /> : null}
+      {!fromDoctor ? <TitlePagesComponent text="Parámetros clínicos" /> : null}
       <Paper>
         <FiltersPatientHistoryComponent
           defaultType={defaultTest}
@@ -63,25 +62,13 @@ function PatientHistoryComponent({ patient, fromDoctor, defaultTest }) {
           onSelectType={handleSelectType}
         />
         <Divider />
-        {fromDoctor ? (
-          <ListPatientHistoryGraphicComponent
-            historyList={historyList}
-            loadingList={loadingList}
-            selectMedicalForm={selectMedicalForm}
-            selected={selected}
-            setModalVisible={setModalVisible}
-          />
-        ) : (
-          <ListPatientHistoryComponent
-            defaultType={testFilter}
-            historyList={historyList}
-            loadingList={loadingList}
-            selectMedicalForm={selectMedicalForm}
-            selected={selected}
-            setModalVisible={setModalVisible}
-            total={total}
-          />
-        )}
+        <ListPatientHistoryGraphicComponent
+          historyList={historyList}
+          loadingList={loadingList}
+          selectMedicalForm={selectMedicalForm}
+          selected={selected}
+          setModalVisible={setModalVisible}
+        />
       </Paper>
     </>
   );

@@ -44,7 +44,11 @@ function GenericAsyncNomenclator({ id, nomenclator }) {
   return (
     <Typography component="span">
       {` ${
-        getPropValue(detail, 'measure') || getPropValue(detail, 'abbreviation') || getPropValue(detail, 'name') || ''
+        getPropValue(detail, 'measure') ||
+        getPropValue(detail, 'abbreviation') ||
+        getPropValue(detail, 'name') ||
+        (nomenclator === 'administrationroute' && '-') ||
+        '-'
       }`}
     </Typography>
   );
