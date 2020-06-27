@@ -60,7 +60,9 @@ function ProfilesComponent({ filterRole }) {
   const classes = useStyles();
   const {
     currentUserProfile: { id, realDoctors, maxDoctors },
-    isSuperadmin
+    isSuperadmin,
+    isDoctor,
+    isClinic
   } = useAuthContext();
   const {
     formType,
@@ -136,7 +138,11 @@ function ProfilesComponent({ filterRole }) {
           </div>
           <div>
             <FormControlLabel
-              label="Mostrar usuarios desactivados"
+              label={
+                (isDoctor && 'Mostrar pacientes de alta') ||
+                (isClinic && 'Mostrar doctores inactivos') ||
+                'Mostrar usuarios inactivos'
+              }
               control={
                 <Checkbox
                   fontSize="small"
