@@ -73,7 +73,7 @@ export function AddOrEditMedicineFormComponent({
                 <GenericSelectNomenclatorFieldComponent
                   label="Vía Administración"
                   name="administrationType"
-                  nomenclator="administrationRoute"
+                  nomenclator="administrationroute"
                 />
               </Grid>
               <Grid item xs={12}>
