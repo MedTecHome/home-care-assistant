@@ -31,7 +31,7 @@ export function DetailsContentMedicineComponent({ data, classes }) {
         {getPropValue(data, 'frequency') || '-'}
       </Typography>
       <Typography component="div">
-        <strong> {`Via Administración: `}</strong>
+        <strong> {`Vía Administración: `}</strong>
         <GenericAsyncNomenclator id={getPropValue(data, 'administrationType')} nomenclator="administrationroute" />
       </Typography>
       <Typography component="div">
