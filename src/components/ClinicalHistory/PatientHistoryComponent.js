@@ -55,7 +55,7 @@ function PatientHistoryComponent({ patient, fromDoctor, defaultTest }) {
       <ModalComponent visible={modalVisible}>
         <DetailHistoryMedicalFormComponent />
       </ModalComponent>
-      {!fromDoctor ? <TitlePagesComponent text="Pruebas clínicas" /> : null}
+      {!fromDoctor ? <TitlePagesComponent text="Parámetros clínicos" /> : null}
       <Paper>
         <FiltersPatientHistoryComponent
           defaultType={defaultTest}
