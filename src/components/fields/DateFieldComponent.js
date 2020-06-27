@@ -3,6 +3,7 @@ import { DatePicker } from 'mui-rff';
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
+import { Today as TodayIcon } from '@material-ui/icons';
 import { validateDate } from '../MedicalForms/validateMedicalForms';
 
 export default function DateFieldComponent({ minDate, maxDate, classes, name, label }) {
@@ -24,6 +25,9 @@ export default function DateFieldComponent({ minDate, maxDate, classes, name, la
         maxDate={maxDate}
         fieldProps={{
           validate: validateDate
+        }}
+        InputProps={{
+          endAdornment: <TodayIcon htmlColor="#666" fontSize="small" />
         }}
       />
     </Grid>

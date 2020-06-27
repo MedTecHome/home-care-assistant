@@ -74,11 +74,11 @@ function FiltersPatientHistoryComponent({ onSelectDate, defaultType, onSelectTyp
 
   return (
     <Box padding={2}>
-      <Grid container justify="flex-start" spacing={2}>
-        <Grid item xs={12} sm={6} md={4} lg={3} container alignContent="flex-end">
+      <Grid container justify="space-between" alignItems="flex-start" spacing={2}>
+        <Grid item xs={12} sm={6} md={4} container alignContent="flex-end">
           <SelectClinicTest defaultType={defaultType} onSelectType={onSelectType} />
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Grid item xs={12} sm={6} md={4}>
           <FiltersRangeDateComponent onRangeSet={handleFilterDate} />
         </Grid>
       </Grid>
