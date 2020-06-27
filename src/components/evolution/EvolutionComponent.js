@@ -58,10 +58,6 @@ function EvolutionComponent({ setTab, patient }) {
 
   const months = Array.from(new Set(enumeratedDays.map(date => moment(date).format('MMMM')))).map(a => ({ name: a }));
 
-  /* const weeks = Array.from(
-    new Set(enumeratedDays.map(d => `${moment(d).format('MMMM')}_${Math.ceil(moment(d).date() / 7)}`))
-  ); */
-
   const handleClickParamter = type => {
     setTab('clinictest', type);
   };
@@ -86,56 +82,57 @@ function EvolutionComponent({ setTab, patient }) {
           <TableHead className={classes.tableHead}>
             <TableRow>
               <TableCell align="center" />
-              {months.map(a => (
+              {months.map((a, index) => (
                 <TableCell
                   align="center"
                   key={a.name}
                   colSpan={enumeratedDays.filter(b => moment(b).format('MMMM') === a.name).length}
+                  style={{
+                    borderRight: months[index + 1] && a !== months[index + 1] ? 'solid 1px #666' : ''
+                  }}
                 >
                   {a.name}
                 </TableCell>
               ))}
             </TableRow>
-            {/* <TableRow>
-              <TableCell />
-              {weeks.map(a => {
-                const week = a.split('_')[1];
-                return (
-                  <TableCell
-                    align="center"
-                    key={a}
-                    colSpan={
-                      enumeratedDays.filter(b => `${moment(b).format('MMMM')}_${Math.ceil(moment(b).date() / 7)}` === a)
-                        .length
-                    }
-                  >
-                    {`Semana ${week}`}
-                  </TableCell>
-                );
-              })}
-            </TableRow> */}
             <TableRow>
               <TableCell rowSpan={2}>Parámetros/Días</TableCell>
-              {enumeratedDays.map(a => (
+              {enumeratedDays.map((a, index) => (
                 <TableCell
                   align="center"
                   key={moment(a).format('YYYY-MM-DD')}
                   className={
                     moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ? classes.cellToday : undefined
                   }
+                  style={{
+                    borderRight:
+                      (enumeratedDays[index + 1] &&
+                        moment(a).format('MMMM') !== moment(enumeratedDays[index + 1]).format('MMMM')) ||
+                      moment(a).weekday() === 6
+                        ? `solid 1px #666`
+                        : ''
+                  }}
                 >
                   {moment(a).format('ddd')}
                 </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              {enumeratedDays.map(a => (
+              {enumeratedDays.map((a, index) => (
                 <TableCell
                   align="center"
                   key={moment(a).format('YYYY-MM-DD')}
                   className={
                     moment(a).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ? classes.cellToday : undefined
                   }
+                  style={{
+                    borderRight:
+                      (enumeratedDays[index + 1] &&
+                        moment(a).format('MMMM') !== moment(enumeratedDays[index + 1]).format('MMMM')) ||
+                      moment(a).weekday() === 6
+                        ? `solid 1px #666`
+                        : ''
+                  }}
                 >
                   {moment(a).format('DD')}
                 </TableCell>
