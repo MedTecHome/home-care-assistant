@@ -34,8 +34,8 @@ const useStyles = makeStyles({
     margin: 'auto'
   },
   logoImg: {
-    width: props => (props.open ? 94 : 64),
-    height: props => (props.open ? 94 : 64),
+    width: 128,
+    height: 128,
     objectFit: 'cover',
     margin: 'auto'
   },
@@ -149,21 +149,21 @@ function ClinicInfoComponent() {
               <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
               <div className={classes.itemContent}>
                 <Typography className={classes.itemTitle} variant={open ? 'h6' : 'h5'}>
-                  {`${getPropValue(clinicInfo, 'name')} ${getPropValue(clinicInfo, 'lastName')}`}
+                  {`${getPropValue(clinicInfo, 'name') || ''} ${getPropValue(clinicInfo, 'lastName') || ''}`}
                 </Typography>
                 <Collapse className={classes.collapseItem} in={open}>
                   <Grid container spacing={1}>
                     <Grid item xs={12} sm={6}>
                       <Typography>
-                        <strong>{`Correo: `}</strong> {`${getPropValue(clinicInfo, 'email')}`}
+                        <strong>{`Correo: `}</strong> {`${getPropValue(clinicInfo, 'email') || ''}`}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography component="div" className={classes.phonesText}>
                         <strong>{`Teléfonos: `}</strong>
                         <div className={classes.phonesNumbers}>
-                          <span>{getPropValue(clinicInfo, 'primaryPhone')}</span>
-                          <span>{getPropValue(clinicInfo, 'secondaryPhone')}</span>
+                          <span>{getPropValue(clinicInfo, 'primaryPhone') || ''}</span>
+                          <span>{getPropValue(clinicInfo, 'secondaryPhone') || ''}</span>
                         </div>
                       </Typography>
                     </Grid>
