@@ -34,8 +34,8 @@ const useStyles = makeStyles({
     margin: 'auto'
   },
   logoImg: {
-    width: props => (props.open ? 94 : 64),
-    height: props => (props.open ? 94 : 64),
+    width: 128,
+    height: 128,
     objectFit: 'cover',
     margin: 'auto'
   },
