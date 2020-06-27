@@ -3,7 +3,7 @@ import { LinearProgress, Grid, Box, Divider, makeStyles, Typography, Card } from
 import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer, CartesianGrid } from 'recharts';
 import moment from 'moment';
 import TitleAndIconComponent from '../TitleAndIconComponent';
-import { ListPatientHistoryByTypeComponent } from './ListPatientHistoryComponent';
+import { ListPatientHistoryByTypeComponent } from './ListPatientHistoryComponentOLD';
 import { PrincipalFieldsTests, severityConstant, testFormsNames } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
 
@@ -73,7 +73,12 @@ const CustomTooltip = ({ active, payload }) => {
     return (
       <div className={classes.customTooltip}>
         {payload.map((entry, index) => (
-          <Typography key={index.toString()}>
+          <Typography
+            key={index.toString()}
+            style={{
+              color: entry.color
+            }}
+          >
             <span>{`${PrincipalFieldsTests[getPropValue(entry, 'dataKey')]}: `}</span>
             <strong>
               {getPropValue(entry, 'payload.type') === 'otherstest'
@@ -102,25 +107,40 @@ function ListPatientHistoryGraphicComponent({
   const classes = useStyles();
 
   const formatA = historyList.map(el => {
+    const auxVal =
+      parseInt(el.celsiusDegree, 10) ||
+      (el.type === 'heartrate' && parseInt(el.heartrate, 10)) ||
+      parseInt(el.weight, 10) ||
+      parseInt(el.INR, 10) ||
+      parseInt(el.sugarConcentration, 10) ||
+      parseInt(el.heartbeat, 10) ||
+      parseInt(el.breathingFrecuency, 10) ||
+      parseInt(el.steps, 10) ||
+      getPropValue(
+        severityConstant.find(sc => sc.id === el.severity),
+        'severityRank'
+      ) ||
+      (parseInt(el.diastolica, 10) >= parseInt(el.sistolica, 10)
+        ? parseInt(el.diastolica, 10)
+        : parseInt(el.sistolica, 10));
+
     return {
       ...el,
+      dataMax: auxVal + 10 ** (auxVal.toString().length - 1),
       date: moment.unix(el.clinicalDate).format('DD-MM-YYYY'),
       ...(el.diastolica ? { diastolica: parseInt(el.diastolica, 10) } : {}),
       ...(el.sistolica ? { sistolica: parseInt(el.sistolica, 10) } : {}),
       ...(el.heartrate ? { heartrate: parseInt(el.heartrate, 10) } : {}),
-      ...(el.weight ? { weight: parseInt(el.weight, 10) } : {}),
-      ...(el.celsiusDegree ? { celsiusDegree: parseInt(el.celsiusDegree, 10) } : {}),
-      ...(el.INR ? { INR: parseInt(el.INR, 10) } : {}),
-      ...(el.sugarConcentration ? { sugarConcentration: parseInt(el.sugarConcentration, 10) } : {}),
-      ...(el.heartbeat ? { heartbeat: parseInt(el.heartbeat, 10) } : {}),
-      ...(el.breathingFrecuency ? { breathingFrecuency: parseInt(el.breathingFrecuency, 10) } : {}),
-      ...(el.steps ? { steps: parseInt(el.steps, 10) } : {}),
+      ...(el.weight ? { weight: auxVal } : {}),
+      ...(el.celsiusDegree ? { celsiusDegree: auxVal } : {}),
+      ...(el.INR ? { INR: auxVal } : {}),
+      ...(el.sugarConcentration ? { sugarConcentration: auxVal } : {}),
+      ...(el.heartbeat ? { heartbeat: auxVal } : {}),
+      ...(el.breathingFrecuency ? { breathingFrecuency: auxVal } : {}),
+      ...(el.steps ? { steps: auxVal } : {}),
       ...(el.severity
         ? {
-            severityRank: getPropValue(
-              severityConstant.find(sc => sc.id === el.severity),
-              'severityRank'
-            )
+            severityRank: auxVal
           }
         : {})
     };
@@ -156,7 +176,7 @@ function ListPatientHistoryGraphicComponent({
                 <LineChart height={250} data={a.list} margin={{ bottom: 0, top: 10, right: 10, left: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" padding={{ left: 30, right: 30 }} />
-                  <YAxis />
+                  <YAxis dataKey="dataMax" domain={[0, 'dataMax']} />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend content={<CustomLegendComponent />} />
                   {(a.type === 'pressure' && [

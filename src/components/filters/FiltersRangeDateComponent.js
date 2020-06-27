@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 const today = moment();
-const defaultStart = today.clone().add(-10, 'days');
+const defaultStart = today.clone().add(-4, 'days');
 const defaultEnd = today.clone().add(3, 'days');
 
 function FiltersRangeDateComponent({ onRangeSet, size = 'small' }) {
