@@ -82,6 +82,7 @@ class Patient extends Profile {
     phoneVisible = false,
     phoneSecondaryVisible = false,
     parent,
+    clinic,
     agreement,
     ...profile
   }) {
@@ -99,6 +100,7 @@ class Patient extends Profile {
     this.birthday = birthday;
     this.address = address;
     this.parent = parent;
+    this.clinic = clinic;
     this.agreement = agreement;
     this.age = yearsDiff;
   }

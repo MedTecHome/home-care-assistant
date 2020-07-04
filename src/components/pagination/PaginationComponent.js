@@ -7,7 +7,7 @@ function PaginationComponent({ total }) {
   const match = useMediaQuery(theme => theme.breakpoints.down(450));
 
   const handleChangeRowsPerPage = event => {
-    setPageSize(parseInt(event.target.value, 10));
+    setPageSize(Number(event.target.value));
     setPage(0);
   };
 
