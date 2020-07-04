@@ -37,6 +37,7 @@ function AddOrEditProfilesComponent({
   title,
   filterRole,
   parent,
+  clinic,
   saveProfileValues,
   setModalVisible,
   formType,
@@ -90,12 +91,14 @@ function AddOrEditProfilesComponent({
                 ...selected,
                 ...(selected.role ? { role: getPropValue(selected, 'role') } : {}),
                 parent: getPropValue(selected, 'parent'),
+                clinic: getPropValue(selected, 'clinic'),
                 ...(selected.sex ? { sex: getPropValue(selected, 'sex') } : {}),
                 ...(selected.birthday ? { birthday: selected.birthday } : {}),
                 disabled: !selected.disabled
               }
             : {}),
-          parent
+          parent,
+          clinic
         }}
         decorators={[calculator]}
         validate={validateProfile}
