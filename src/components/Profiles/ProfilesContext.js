@@ -16,7 +16,7 @@ export const withProfileContext = WrapperComponent => props => {
   const [loadingList, setLoadingList] = useState(false);
   const [action, setAction] = useState('');
   const [selected, setSelected] = useState(null);
-  const [parentFilter, setParentFilter] = useState('');
+  const [clinicFilter, setClinicFilter] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
   const [nameFilter, setNameFilter] = useState('');
   const [seeDisabled, setSeeDisabled] = useState(false);
@@ -37,14 +37,14 @@ export const withProfileContext = WrapperComponent => props => {
 
   useEffect(() => {
     mounted.current = true;
-    if (!isEmpty(parentFilter) && !isEmpty(roleFilter)) {
+    if (!isEmpty(clinicFilter) && !isEmpty(roleFilter)) {
       setLoadingList(true);
-      fetchList(pageSize, page, { parent: parentFilter, role: roleFilter, fullname: nameFilter, seeDisabled });
+      fetchList(pageSize, page, { clinic: clinicFilter, role: roleFilter, fullname: nameFilter, seeDisabled });
     }
     return () => {
       mounted.current = false;
     };
-  }, [parentFilter, roleFilter, nameFilter, seeDisabled, page, pageSize, fetchList, action]);
+  }, [clinicFilter, roleFilter, nameFilter, seeDisabled, page, pageSize, fetchList, action]);
 
   const editUserPassword = useCallback(async params => {
     try {
@@ -98,7 +98,7 @@ export const withProfileContext = WrapperComponent => props => {
         profileList,
         loadingList,
         selected,
-        parentFilter,
+        clinicFilter,
         roleFilter,
         nameFilter,
         seeDisabled,
@@ -109,7 +109,7 @@ export const withProfileContext = WrapperComponent => props => {
         saveProfileValues,
         setModalVisible,
         setRoleFilter,
-        setParentFilter,
+        setClinicFilter,
         setNameFilter,
         editUserPassword,
         total
@@ -133,10 +133,10 @@ export const useProfilesContext = () => {
     selectProfileFromList: values.selectProfileFromList,
     saveProfileValues: values.saveProfileValues,
     setModalVisible: values.setModalVisible,
-    parentFilter: values.parentFilter,
+    clinicFilter: values.clinicFilter,
     roleFilter: values.roleFilter,
     nameFilter: values.nameFilter,
-    setParentFilter: values.setParentFilter,
+    setClinicFilter: values.setClinicFilter,
     setRoleFilter: values.setRoleFilter,
     setNameFilter: values.setNameFilter,
     total: values.total,

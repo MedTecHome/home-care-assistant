@@ -23,7 +23,7 @@ function CoagulationForm({ classStyle }) {
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <CustomTextFieldComponent type="number" label="INR:" name="INR" required validate={validateINR} />
+          <CustomTextFieldComponent label="INR:" name="INR" required validate={validateINR} />
         </Grid>
         <DateFieldComponent maxDate={Date.now()} classes={classStyle} name="coagulationInrDate" label="Día" />
         <TimeFieldComponent maxDate={Date.now()} label="Hora" name="coagulationInrTime" classes={classStyle} />

@@ -63,6 +63,7 @@ function PatientHistoryComponent({ patient, fromDoctor, defaultTest }) {
         />
         <Divider />
         <ListPatientHistoryGraphicComponent
+          rangeDate={rangeDate}
           historyList={historyList}
           loadingList={loadingList}
           selectMedicalForm={selectMedicalForm}

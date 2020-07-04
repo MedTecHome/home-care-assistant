@@ -59,7 +59,7 @@ function TitleProfilesComponent({ filterRole }) {
 function ProfilesComponent({ filterRole }) {
   const classes = useStyles();
   const {
-    currentUserProfile: { id, realDoctors, maxDoctors },
+    currentUserProfile: { id, parent: clinic, realDoctors, maxDoctors },
     isSuperadmin,
     isDoctor,
     isClinic
@@ -74,7 +74,7 @@ function ProfilesComponent({ filterRole }) {
     selected,
     loadingList,
     saveProfileValues,
-    setParentFilter,
+    setClinicFilter,
     setRoleFilter,
     seeDisabled,
     setSeeDisabled,
@@ -86,8 +86,8 @@ function ProfilesComponent({ filterRole }) {
   }, [filterRole, setRoleFilter]);
 
   useEffect(() => {
-    setParentFilter(id);
-  }, [id, setParentFilter]);
+    setClinicFilter(clinic);
+  }, [clinic, setClinicFilter]);
 
   const handleOnClickDelete = () => {
     setModalVisible(true, DELETE_FORM_TEXT);
@@ -118,6 +118,7 @@ function ProfilesComponent({ filterRole }) {
             saveProfileValues={saveProfileValues}
             setModalVisible={setModalVisible}
             parent={id}
+            clinic={clinic}
           />
         )) ||
           (formType === DELETE_FORM_TEXT && <DeleteProfilesComponent />) ||
