@@ -1,6 +1,6 @@
 import React from 'react';
 import { LinearProgress, Grid, Box, Divider, makeStyles, Typography, Card } from '@material-ui/core';
-import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid, Area, AreaChart } from 'recharts';
 import moment from 'moment';
 import TitleAndIconComponent from '../TitleAndIconComponent';
 import { ListPatientHistoryByTypeComponent } from './ListPatientHistoryComponentOLD';
@@ -137,196 +137,225 @@ function ListPatientHistoryGraphicComponent({
     ? enumerateDaysBetweenDates(moment.unix(rangeDate[0]), moment.unix(rangeDate[1]))
     : [];
 
-  const aux1 = historyList.map(el => {
-    const { type } = el;
-    const list = enumeratedDays.map(day => {
-      const current =
-        historyList.find(
-          item => moment(day).format('DD-MM-YYYY') === moment.unix(item.clinicalDate).format('DD-MM-YYYY')
-        ) || {};
+  const aux1 = historyList
+    .sort((a, b) => a.clinicalDate - b.clinicalDate)
+    .map(el => {
+      const { type, clinicalDate } = el;
       const auxVal =
-        Number(current.celsiusDegree) ||
-        (type === 'heartrate' && Number(current.heartrate)) ||
-        Number(current.weight) ||
-        Number(current.INR) ||
-        Number(current.sugarConcentration) ||
-        Number(current.heartbeat) ||
-        Number(current.breathingFrecuency) ||
-        Number(current.steps) ||
+        Number(el.celsiusDegree) ||
+        (type === 'heartrate' && Number(el.heartrate)) ||
+        Number(el.weight) ||
+        Number(el.INR) ||
+        Number(el.sugarConcentration) ||
+        Number(el.heartbeat) ||
+        Number(el.breathingFrecuency) ||
+        Number(el.steps) ||
         getPropValue(
-          severityConstant.find(sc => sc.id === current.severity),
+          severityConstant.find(sc => sc.id === el.severity),
           'severityRank'
         ) ||
-        (Number(current.diastolica) >= Number(current.sistolica)
-          ? Number(current.diastolica)
-          : Number(current.sistolica));
+        (Number(el.diastolica) >= Number(el.sistolica) ? Number(el.diastolica) : Number(el.sistolica));
 
       return {
-        ...current,
-        ...(auxVal ? { dataMax: auxVal + 10 ** (auxVal.toString().split('.').length - 1) } : {}),
-        date: moment(day).format('DD-MM-YYYY'),
-        ...(current.diastolica ? { diastolica: Number(el.diastolica) } : {}),
-        ...(current.sistolica ? { sistolica: Number(el.sistolica) } : {}),
-        ...(current.heartrate ? { heartrate: Number(el.heartrate) } : {}),
-        ...(current.weight ? { weight: auxVal } : {}),
-        ...(current.celsiusDegree ? { celsiusDegree: auxVal } : {}),
-        ...(current.INR ? { INR: auxVal } : {}),
-        ...(current.sugarConcentration ? { sugarConcentration: auxVal } : {}),
-        ...(current.heartbeat ? { heartbeat: auxVal } : {}),
-        ...(current.breathingFrecuency ? { breathingFrecuency: auxVal } : {}),
-        ...(current.steps ? { steps: auxVal } : {}),
-        ...(current.severity
+        ...el,
+        ...(auxVal ? { dataMax: auxVal + 10 ** (auxVal.toString().split('.')[0].toString().length - 1) } : {}),
+        date: moment.unix(clinicalDate).format('DD-MM-YYYY'),
+        ...(el.diastolica ? { diastolica: Number(el.diastolica) } : {}),
+        ...(el.sistolica ? { sistolica: Number(el.sistolica) } : {}),
+        ...(el.heartrate ? { heartrate: Number(el.heartrate) } : {}),
+        ...(el.weight ? { weight: auxVal } : {}),
+        ...(el.celsiusDegree ? { celsiusDegree: auxVal } : {}),
+        ...(el.INR ? { INR: auxVal } : {}),
+        ...(el.sugarConcentration ? { sugarConcentration: auxVal } : {}),
+        ...(el.heartbeat ? { heartbeat: auxVal } : {}),
+        ...(el.breathingFrecuency ? { breathingFrecuency: auxVal } : {}),
+        ...(el.steps ? { steps: auxVal } : {}),
+        ...(el.severity
           ? {
               severityRank: auxVal
             }
           : {})
       };
     });
-    return { type, list };
-  });
 
-  const uniqueResult = Array.from(new Set(aux1.map(a => a.type))).map(type => {
-    return aux1.find(a => a.type === type);
+  const aux2 = aux1.map(item => ({ type: item.type, list: aux1.filter(el => el.type === item.type) }));
+
+  const uniqueResult = Array.from(new Set(aux2.map(a => a.type))).map(type => {
+    return aux2.find(a => a.type === type);
   });
 
   if (loadingList) return <LinearProgress />;
   return (
     <Box padding={1} className={classes.boxRoot}>
-      {uniqueResult.map((a, index) => (
-        <Card key={`${a.type}_${index.toString()}`} elevation={10} variant="outlined" className={classes.paperRoot}>
-          <Box margin={1}>
-            <TitleAndIconComponent
-              type={a.type}
-              alternativeTitle={getPropValue(
-                testFormsNames.find(tf => tf.id === a.type),
-                'name'
-              )}
-            />
-          </Box>
-          <Divider />
-          <Grid container>
-            <Grid item xs={12} sm={12} md={6} className={classes.gridGraphic}>
-              <ResponsiveContainer>
-                <LineChart height={250} data={a.list} margin={{ bottom: 0, top: 10, right: 10, left: 10 }}>
-                  <CartesianGrid strokeDasharray={`${enumeratedDays.length} ${enumeratedDays.length}`} />
-                  <XAxis dataKey="date" padding={{ left: 30, right: 30 }} tick={<CustomizedAxisTick />} />
-                  <YAxis dataKey="dataMax" domain={[0, 'dataMax']} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend content={<CustomLegendComponent />} />
-                  {(a.type === 'pressure' && [
-                    <Line
-                      key="diastolica"
-                      type="monotone"
-                      dataKey="diastolica"
-                      stroke="#8884d8"
-                      activeDot={{ r: 8 }}
-                      label={<CustomizedLabel />}
-                    />,
-                    <Line
-                      key="sistolica"
-                      type="monotone"
-                      dataKey="sistolica"
-                      stroke="#82ca9d"
-                      activeDot={{ r: 8 }}
-                      label={<CustomizedLabel />}
-                    />
-                  ]) ||
-                    (a.type === 'heartrate' && (
-                      <Line
-                        type="monotone"
-                        dataKey="heartrate"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'temperature' && (
-                      <Line
-                        type="monotone"
-                        dataKey="celsiusDegree"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'weight' && (
-                      <Line
-                        type="monotone"
-                        dataKey="weight"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'glucose' && (
-                      <Line
-                        type="monotone"
-                        dataKey="sugarConcentration"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'inr' && (
-                      <Line
-                        type="monotone"
-                        dataKey="INR"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'breathing' && (
-                      <Line
-                        type="monotone"
-                        dataKey="breathingFrecuency"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'oxygen' && (
-                      <Line
-                        type="monotone"
-                        dataKey="heartbeat"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'exercises' && (
-                      <Line
-                        type="monotone"
-                        dataKey="steps"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    )) ||
-                    (a.type === 'otherstest' && (
-                      <Line
-                        type="monotone"
-                        dataKey="severityRank"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                        label={<CustomizedLabel />}
-                      />
-                    ))}
-                </LineChart>
-              </ResponsiveContainer>
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} className={classes.gridList}>
-              <ListPatientHistoryByTypeComponent
-                list={a.list.filter(item => item.type)}
-                defaultType={a.type}
-                selectMedicalForm={selectMedicalForm}
-                selected={selected}
-                setModalVisible={setModalVisible}
+      {uniqueResult
+        .filter(item => item.list.some(exist => exist.type))
+        .map((a, index) => (
+          <Card key={`${a.type}_${index.toString()}`} elevation={10} variant="outlined" className={classes.paperRoot}>
+            <Box margin={1}>
+              <TitleAndIconComponent
+                type={a.type}
+                alternativeTitle={getPropValue(
+                  testFormsNames.find(tf => tf.id === a.type),
+                  'name'
+                )}
               />
+            </Box>
+            <Divider />
+            <Grid container>
+              <Grid item xs={12} sm={12} md={6} className={classes.gridGraphic}>
+                <ResponsiveContainer>
+                  <AreaChart height={250} data={a.list} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorOne" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="colorTwo" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray={`${enumeratedDays.length} ${enumeratedDays.length}`} />
+                    <XAxis dataKey="date" padding={{ left: 30, right: 30 }} tick={<CustomizedAxisTick />} />
+                    <YAxis dataKey="dataMax" domain={[0, 'dataMax']} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend content={<CustomLegendComponent />} />
+                    {(a.type === 'pressure' && [
+                      <Area
+                        key="diastolica"
+                        type="monotone"
+                        dataKey="diastolica"
+                        stroke="#8884d8"
+                        activeDot={{ r: 8 }}
+                        label={<CustomizedLabel />}
+                        fillOpacity={1}
+                        fill="url(#colorOne)"
+                      />,
+                      <Area
+                        key="sistolica"
+                        type="monotone"
+                        dataKey="sistolica"
+                        stroke="#82ca9d"
+                        activeDot={{ r: 8 }}
+                        label={<CustomizedLabel />}
+                        fillOpacity={1}
+                        fill="url(#colorTwo)"
+                      />
+                    ]) ||
+                      (a.type === 'heartrate' && (
+                        <Area
+                          type="monotone"
+                          dataKey="heartrate"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'temperature' && (
+                        <Area
+                          type="monotone"
+                          dataKey="celsiusDegree"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'weight' && (
+                        <Area
+                          type="monotone"
+                          dataKey="weight"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'glucose' && (
+                        <Area
+                          type="monotone"
+                          dataKey="sugarConcentration"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'inr' && (
+                        <Area
+                          type="monotone"
+                          dataKey="INR"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'breathing' && (
+                        <Area
+                          type="monotone"
+                          dataKey="breathingFrecuency"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'oxygen' && (
+                        <Area
+                          type="monotone"
+                          dataKey="heartbeat"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'exercises' && (
+                        <Area
+                          type="monotone"
+                          dataKey="steps"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      )) ||
+                      (a.type === 'otherstest' && (
+                        <Area
+                          type="monotone"
+                          dataKey="severityRank"
+                          stroke="#8884d8"
+                          activeDot={{ r: 8 }}
+                          label={<CustomizedLabel />}
+                          fillOpacity={1}
+                          fill="url(#colorOne)"
+                        />
+                      ))}
+                  </AreaChart>
+                </ResponsiveContainer>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} className={classes.gridList}>
+                <ListPatientHistoryByTypeComponent
+                  list={a.list.filter(item => item.type)}
+                  defaultType={a.type}
+                  selectMedicalForm={selectMedicalForm}
+                  selected={selected}
+                  setModalVisible={setModalVisible}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
-      ))}
+          </Card>
+        ))}
     </Box>
   );
 }
