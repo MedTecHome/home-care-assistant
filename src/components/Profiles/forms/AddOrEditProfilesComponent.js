@@ -91,6 +91,7 @@ function AddOrEditProfilesComponent({
                 ...selected,
                 ...(selected.role ? { role: getPropValue(selected, 'role') } : {}),
                 parent: getPropValue(selected, 'parent'),
+                //  ...(!['admin', 'clinic'].includes(selected.role) ? { clinic: getPropValue(selected, 'clinic') } : {}),
                 clinic: getPropValue(selected, 'clinic'),
                 ...(selected.sex ? { sex: getPropValue(selected, 'sex') } : {}),
                 ...(selected.birthday ? { birthday: selected.birthday } : {}),
