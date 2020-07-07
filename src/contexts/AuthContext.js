@@ -41,8 +41,8 @@ export function AuthContextProvider({ children }) {
         } else if (isLocal) {
           // const id = '6KkcyToAmdQnmpdr7HTxIFYuZEI2'; // admin id
           // const id = 'NSs59e3B3nhEmeqWGYqJdbLVpBD3'; // clinic id
-          // const id = 'qQqcCclJu6NVdFdDoRyhSfj6cqf1'; // doctor id
-          const id = '8nFFoW1hILdsCRq0zgDUoHQyVXs1'; // paciente id
+          const id = 'qQqcCclJu6NVdFdDoRyhSfj6cqf1'; // doctor id
+          // const id = '8nFFoW1hILdsCRq0zgDUoHQyVXs1'; // paciente id
           setLoadingProfile(true);
           const profile = await getProfileById(id);
           if (profile) {
