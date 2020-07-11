@@ -106,22 +106,22 @@ function DetailTreatmentRowCellComponent({ open, data }) {
                 <Grid item xs={12} md={6}>
                   <Fieldset title="General">
                     <div className={classes.containerDetailDiv}>
-                      <Typography>
+                      <Typography component="label">
                         <strong>Motivo de administación: </strong>
                         <GenericAsyncNomenclator
                           id={getPropValue(data.medicine, 'administrationType')}
                           nomenclator="administrationroute"
                         />
                       </Typography>
-                      <Typography>
+                      <Typography compolenent="label">
                         <strong>Fecha inicio: </strong>
                         {moment.unix(data.startDate).format('DD/MM/YYYY')}
                       </Typography>
-                      <Typography>
+                      <Typography compolenent="label">
                         <strong>Fecha fin: </strong>
                         {moment.unix(data.endDate).format('DD/MM/YYYY')}
                       </Typography>
-                      <Typography>
+                      <Typography compolenent="label">
                         <strong>Observaciones: </strong>
                         <span>{getPropValue(data.medicine, 'observations') || '-'}</span>
                       </Typography>
