@@ -9,7 +9,8 @@ import {
   Avatar,
   CircularProgress,
   Grid,
-  Paper
+  Paper,
+  Container
 } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useAuthContext } from '../contexts/AuthContext';
@@ -24,18 +25,20 @@ const useStyles = makeStyles({
     padding: 0,
     position: 'relative'
   },
+  itemRoot: {
+    padding: '16px 0'
+  },
   collapseButton: {
     position: 'absolute',
     right: 0,
     zIndex: 1
   },
   itemList: {
-    display: 'flex',
-    margin: 'auto'
+    display: 'flex'
   },
   logoImg: {
-    width: 128,
-    height: 128,
+    width: props => (props.open ? 128 : 82),
+    height: props => (props.open ? 128 : 82),
     objectFit: 'cover',
     margin: 'auto'
   },
@@ -46,7 +49,6 @@ const useStyles = makeStyles({
   itemTitle: {
     width: '100%',
     marginBottom: 5,
-    textAlign: 'center',
     color: '#666',
     fontWeight: 600
   },
@@ -139,47 +141,51 @@ function ClinicInfoComponent() {
 
   return (
     <Paper>
-      {isLogin && (isClinic || isDoctor || isPatient) && clinicInfo ? (
-        <List className={classes.root}>
-          <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
-            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          </IconButton>
-          <ListItem>
-            <div className={classes.itemList}>
-              <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
-              <div className={classes.itemContent}>
-                <Typography className={classes.itemTitle} variant={open ? 'h6' : 'h5'}>
-                  {`${getPropValue(clinicInfo, 'name') || ''} ${getPropValue(clinicInfo, 'lastName') || ''}`}
-                </Typography>
-                <Collapse className={classes.collapseItem} in={open}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} sm={6}>
-                      <Typography>
-                        <strong>{`Correo: `}</strong> {`${getPropValue(clinicInfo, 'email') || ''}`}
-                      </Typography>
+      <Container maxWidth="lg">
+        {isLogin && (isClinic || isDoctor || isPatient) && clinicInfo ? (
+          <List className={classes.root}>
+            <IconButton className={classes.collapseButton} onClick={handleOpenDetail}>
+              {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </IconButton>
+            <ListItem className={classes.itemRoot}>
+              <div className={classes.itemList}>
+                <AsyncImageComponent id={getPropValue(clinicInfo, 'logoUrl')} className={classes.logoImg} />
+                <div className={classes.itemContent}>
+                  <Typography className={classes.itemTitle} variant={open ? 'h6' : 'h5'}>
+                    {`${getPropValue(clinicInfo, 'name') || ''} ${getPropValue(clinicInfo, 'lastName') || ''}`}
+                  </Typography>
+                  <Collapse className={classes.collapseItem} in={open}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={6}>
+                        <Typography>
+                          <strong>{`Correo: `}</strong> {`${getPropValue(clinicInfo, 'email') || ''}`}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Typography component="div" className={classes.phonesText}>
+                          <strong>{`Teléfonos: `}</strong>
+                          <div className={classes.phonesNumbers}>
+                            <span>{getPropValue(clinicInfo, 'primaryPhone') || ''}</span>
+                            <span>{getPropValue(clinicInfo, 'secondaryPhone') || ''}</span>
+                          </div>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Typography className={classes.addressText}>
+                          <strong>{`Dirección: `}</strong>
+                          {`${getPropValue(clinicInfo, 'address') || '-'}`}
+                        </Typography>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography component="div" className={classes.phonesText}>
-                        <strong>{`Teléfonos: `}</strong>
-                        <div className={classes.phonesNumbers}>
-                          <span>{getPropValue(clinicInfo, 'primaryPhone') || ''}</span>
-                          <span>{getPropValue(clinicInfo, 'secondaryPhone') || ''}</span>
-                        </div>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography className={classes.addressText}>
-                        <strong>{`Dirección: `}</strong>
-                        {`${getPropValue(clinicInfo, 'address') || '-'}`}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Collapse>
+                  </Collapse>
+                </div>
               </div>
-            </div>
-          </ListItem>
-        </List>
-      ) : null}
+            </ListItem>
+          </List>
+        ) : (
+          <div />
+        )}
+      </Container>
     </Paper>
   );
 }
