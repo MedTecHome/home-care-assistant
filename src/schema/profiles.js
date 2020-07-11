@@ -71,6 +71,8 @@ class Doctor extends Profile {
   }
 }
 
+class Nurse extends Doctor {}
+
 class Patient extends Profile {
   constructor({
     sex,
@@ -110,6 +112,9 @@ const specificProfile = values => {
   switch (values.role) {
     case 'patient': {
       return new Patient(mutateValues(values)).toJSON();
+    }
+    case 'nurse': {
+      return new Nurse(values).toJSON();
     }
     case 'doctor': {
       return new Doctor(values).toJSON();
