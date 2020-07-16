@@ -12,8 +12,8 @@ import TitlePagesComponent from '../text/TitlePagesComponent';
 
 function PatientClinicalDetailsComponent() {
   const { state } = useLocation();
-  const { currentUserProfile, isDoctor, isNurse } = useAuthContext();
-  const [tab, setTab] = useState(isDoctor || isNurse ? 'evolution' : 'clinictest');
+  const { currentUserProfile, isDoctor } = useAuthContext();
+  const [tab, setTab] = useState(isDoctor ? 'evolution' : 'clinictest');
   const [defaultTest, setDefaultTest] = useState('');
   const [patient, setPatient] = useState(null);
 
@@ -25,7 +25,7 @@ function PatientClinicalDetailsComponent() {
     }
   }, [state, currentUserProfile]);
 
-  const handleTabChange = (_, newValue) => {
+  const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
 
@@ -42,7 +42,9 @@ function PatientClinicalDetailsComponent() {
     <>
       <TitlePagesComponent text="Detalles clínicos" />
       <Paper>
-        {isDoctor || isNurse ? <FiltersClinicalDetails setPatient={handlePatient} patient={patient} /> : null}
+        {isDoctor ? (
+          <FiltersClinicalDetails setPatient={handlePatient} patient={patient} doctor={currentUserProfile.id} />
+        ) : null}
         <div>
           <Divider />
           <Tabs
@@ -53,16 +55,16 @@ function PatientClinicalDetailsComponent() {
             indicatorColor="primary"
             textColor="primary"
           >
-            {(isDoctor || isNurse) && <Tab label="Evolución" value="evolution" />}
+            {isDoctor && <Tab label="Evolución" value="evolution" />}
             <Tab label="Parámetros clínicos" value="clinictest" />
-            {(isDoctor || isNurse) && <Tab label="Tratamientos" value="treatments" />}
+            {isDoctor && <Tab label="Tratamientos" value="treatments" />}
           </Tabs>
           <Divider />
-          {(tab === 'treatments' && <TreatmentsComponent patient={patient} fromDoctor={isDoctor || isNurse} />) ||
+          {(tab === 'treatments' && <TreatmentsComponent patient={patient} fromDoctor={isDoctor} />) ||
             (tab === 'clinictest' && (
-              <PatientHistoryComponent patient={patient} defaultTest={defaultTest} fromDoctor={isDoctor || isNurse} />
+              <PatientHistoryComponent patient={patient} defaultTest={defaultTest} fromDoctor={isDoctor} />
             )) ||
-            (tab === 'evolution' && (isDoctor || isNurse) && (
+            (tab === 'evolution' && isDoctor && (
               <EvolutionComponent patient={patient} setTab={handleTabFromEvolution} />
             )) ||
             null}

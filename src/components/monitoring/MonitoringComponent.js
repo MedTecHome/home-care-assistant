@@ -1,9 +1,11 @@
 import React from 'react';
 import { makeStyles, colors } from '@material-ui/core';
 import { withMonitoringContext, useMonitoringContext } from './MonitoringContext';
+import FiltersMonitoringComponent from './FiltersMonitoringComponent';
 import TableComponent from '../table/TableComponent';
 import headMonitoringCells from './headMonitoringCells';
 import RowMonitoringComponent from './RowMonitoringComponent';
+import { useAuthContext } from '../../contexts/AuthContext';
 import { getPropValue } from '../../helpers/utils';
 import { withCustomPaginationContext } from '../pagination/PaginationContext';
 import TitlePagesComponent from '../text/TitlePagesComponent';
@@ -54,10 +56,12 @@ function LegendTableMonitoring({ total, totalRed = 0, totalYellow = 0, totalGree
 
 function MonitoringComponent() {
   const { list, total, loadingList, selected, setSelectedFromList, legend } = useMonitoringContext();
+  const { currentUserProfile } = useAuthContext();
 
   return (
     <>
       <TitlePagesComponent text="Panel general" />
+      <FiltersMonitoringComponent currentUserProfile={currentUserProfile} />
       <TableComponent
         extraText={
           <>

@@ -5,7 +5,6 @@ const LoginComponent = lazy(() => import('../components/Login/LoginComponent'));
 const ProfilesComponent = lazy(() => import('../components/Profiles/ProfilesComponent'));
 const ClinicsComponent = lazy(() => import('../components/Profiles/clinics/ClinicsComponent'));
 const DoctorsComponent = lazy(() => import('../components/Profiles/doctors/DoctorsComponent'));
-const NursesComponent = lazy(() => import('../components/Profiles/nurses/NursesComponent'));
 const PatientsComponent = lazy(() => import('../components/Profiles/patients/PatientsComponent'));
 const MonitoringComponent = lazy(() => import('../components/Monitoring/MonitoringComponent'));
 // const HomeComponent = lazy(() => import('../components/HomeComponent'));
@@ -30,7 +29,7 @@ const RouteListConfig = [
     path: '/inicio',
     component: HomeInfoComponent,
     label: 'Inicio',
-    roles: ['admin', 'clinic', 'doctor', 'nurse', 'patient']
+    roles: ['admin', 'clinic', 'doctor', 'patient']
   },
   {
     path: '/login',
@@ -59,24 +58,17 @@ const RouteListConfig = [
     navegation: true
   },
   {
-    path: '/enfermeros',
-    component: NursesComponent,
-    roles: ['clinic'],
-    label: 'Enfermeros',
-    navegation: true
-  },
-  {
     path: '/monitorear',
     component: MonitoringComponent,
     label: 'Panel General',
-    roles: ['doctor', 'nurse'],
+    roles: ['doctor'],
     navegation: true
   },
   {
     path: '/pacientes',
     component: PatientsComponent,
     label: 'Pacientes',
-    roles: ['doctor', 'nurse'],
+    roles: ['doctor'],
     navegation: true
   },
   {
@@ -97,14 +89,14 @@ const RouteListConfig = [
     path: '/parametros_clinicos',
     component: PatientClinicalDetailsComponent,
     label: 'Parámetros clínicos',
-    roles: ['doctor', 'nurse'],
-    navegation: ['doctor', 'nurse']
+    roles: ['doctor'],
+    navegation: ['doctor']
   },
   {
     path: '/medicamentos',
     component: MedicinesComponent,
     label: 'Medicamentos',
-    roles: ['doctor', 'nurse'],
+    roles: ['doctor'],
     navegation: true
   },
   {
