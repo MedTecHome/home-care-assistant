@@ -27,8 +27,11 @@ export const withMonitoringContext = WrapperComponent => () => {
 
   useEffect(() => {
     mounted.current = true;
-    setLoadingList(true);
-    fetchList(pageSize, page, params);
+    const { parent: parentId, ...filters } = params;
+    if (parentId) {
+      setLoadingList(true);
+      fetchList(pageSize, page, { parent: parentId, ...filters });
+    }
     return () => {
       mounted.current = false;
     };

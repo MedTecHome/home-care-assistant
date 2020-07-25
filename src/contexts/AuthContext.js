@@ -24,7 +24,6 @@ export function AuthContextProvider({ children }) {
   const isAdmin = getPropValue(currentUserProfile, 'role') === 'admin';
   const isClinic = getPropValue(currentUserProfile, 'role') === 'clinic';
   const isDoctor = getPropValue(currentUserProfile, 'role') === 'doctor';
-  const isNurse = getPropValue(currentUserProfile, 'role') === 'nurse';
   const isPatient = getPropValue(currentUserProfile, 'role') === 'patient';
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export function AuthContextProvider({ children }) {
           // const id = '6KkcyToAmdQnmpdr7HTxIFYuZEI2'; // admin id
           // const id = 'NSs59e3B3nhEmeqWGYqJdbLVpBD3'; // clinic id
           const id = 'qQqcCclJu6NVdFdDoRyhSfj6cqf1'; // doctor id
-          // const id = 'VYxiXk9ZKldZTaJYd7KpjvWZDjp1'; // nurse id
           // const id = '8nFFoW1hILdsCRq0zgDUoHQyVXs1'; // paciente id
           setLoadingProfile(true);
           const profile = await getProfileById(id);
@@ -88,7 +86,6 @@ export function AuthContextProvider({ children }) {
       isAdmin,
       isClinic,
       isDoctor,
-      isNurse,
       isPatient,
       signInUser,
       signOutUser,
@@ -101,7 +98,6 @@ export function AuthContextProvider({ children }) {
       isAdmin,
       isClinic,
       isDoctor,
-      isNurse,
       isPatient,
       signInUser,
       signOutUser,
@@ -122,7 +118,6 @@ export const useAuthContext = () => {
     isAdmin: values.isAdmin,
     isClinic: values.isClinic,
     isDoctor: values.isDoctor,
-    isNurse: values.isNurse,
     isPatient: values.isPatient,
     signInUser: values.signInUser,
     signOutUser: values.signOutUser,
