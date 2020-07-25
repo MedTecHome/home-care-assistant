@@ -37,7 +37,7 @@ function getSymbolo(type) {
   }
 }
 
-function EvolutionTestRowComponent({ clinicaltest, aux, classes, handleClickParamter }) {
+function EvolutionTestRowComponent({ patient, clinicaltest, aux, classes, handleClickParamter }) {
   const localClasses = useStyles();
 
   return (
@@ -77,7 +77,7 @@ function EvolutionTestRowComponent({ clinicaltest, aux, classes, handleClickPara
                   );
                 })
                 .map((b, index2) => {
-                  return <PopupTestTypeComponent key={index2.toString()} data={b} />;
+                  return <PopupTestTypeComponent key={index2.toString()} patient={patient} data={b} />;
                 })}
             </div>
           </TableCell>

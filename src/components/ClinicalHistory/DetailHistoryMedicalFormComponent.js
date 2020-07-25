@@ -11,6 +11,7 @@ import { DialogTitleComponent } from '../ModalComponent';
 import { usePatientHistoryContext } from './PatientHistoryContext';
 import { intakeTimeSource, severityConstant } from '../../helpers/constants';
 import TitleAndIconComponent from '../TitleAndIconComponent';
+import legendColors from '../../helpers/legendColors';
 
 const useStyles = makeStyles({
   textStyle: {
@@ -23,25 +24,56 @@ const useStyles = makeStyles({
   contentStyle: {
     maxWidth: 400,
     minWidth: 350
+  },
+  textColor: {
+    color: props => props.color || '#000000'
   }
 });
 
+function TextWithColor({ color, children }) {
+  const classes = useStyles({ color });
+  return (
+    <Typography component="span" className={classes.textColor}>
+      {children}
+    </Typography>
+  );
+}
+
 export function DetailHistoryMedicalFormContentComponent({ className, selected }) {
+  const legend = selected.legend || selected.diasLegend || selected.sisLegend;
+  const color = legend.option === -1 ? legend.color : legendColors[legend.option][legend.color];
+
   return (
     <Grid item xs={12} className={className}>
       {selected.type === 'pressure' && (
         <>
           <Typography component="div">
             <strong>{`Diastolica: `}</strong>
-            {getPropValue(selected, 'diastolica') || '-'}
+            <TextWithColor
+              color={
+                selected.diasLegend.option === -1
+                  ? selected.diasLegend.color
+                  : legendColors[selected.diasLegend.option][selected.diasLegend.color]
+              }
+            >
+              {getPropValue(selected, 'diastolica') || '-'}
+            </TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Sistolica: `}</strong>
-            {getPropValue(selected, 'sistolica') || '-'}
+            <TextWithColor
+              color={
+                selected.sisLegend.option === -1
+                  ? selected.sisLegend.color
+                  : legendColors[selected.sisLegend.option][selected.sisLegend.color]
+              }
+            >
+              {getPropValue(selected, 'sistolica') || '-'}
+            </TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Frecuencia Cardiaca: `}</strong>
-            {`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}
+            <TextWithColor>{`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}</TextWithColor>
           </Typography>
         </>
       )}
@@ -49,7 +81,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Frecuencia Cardiaca: `}</strong>
-            {`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'heartrate') || '-'}(LPM)`}</TextWithColor>
           </Typography>
         </>
       )}
@@ -57,7 +89,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Temperatura: `}</strong>
-            {`${getPropValue(selected, 'celsiusDegree')}(℃)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'celsiusDegree')}(℃)` || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -65,7 +97,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Peso: `}</strong>
-            {`${getPropValue(selected, 'weight')}(kg)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'weight')}(kg)` || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -73,32 +105,36 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Concentración de azúcar: `}</strong>
-            {`${getPropValue(selected, 'sugarConcentration')} ${getPropValue(selected, 'glucoseUnity')}` || '-'}
+            <TextWithColor color={color}>
+              {`${getPropValue(selected, 'sugarConcentration')} ${getPropValue(selected, 'glucoseUnity')}` || '-'}
+            </TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Horario: `}</strong>
-            {getPropValue(selected, 'shedule.name') || '-'}
+            <TextWithColor color={color}>{getPropValue(selected, 'shedule.name') || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Momento de ingesta: `}</strong>
-            {intakeTimeSource.find(item => item.id === getPropValue(selected, 'intakeTime')).name || '-'}
+            <TextWithColor color={color}>
+              {intakeTimeSource.find(item => item.id === getPropValue(selected, 'intakeTime')).name || '-'}
+            </TextWithColor>
           </Typography>
           <Typography component="div" />
           <Typography component="div">
             <strong>{`HbA1c: `}</strong>
-            {getPropValue(selected, 'hba1c') || '-'}
+            <TextWithColor color={color}>{getPropValue(selected, 'hba1c') || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Insulina(comida): `}</strong>
-            {getPropValue(selected, 'insulinaFood') || '-'}
+            <TextWithColor color={color}>{getPropValue(selected, 'insulinaFood') || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Basal: `}</strong>
-            {getPropValue(selected, 'basal') || '-'}
+            <TextWithColor color={color}>{getPropValue(selected, 'basal') || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Unidad de pan: `}</strong>
-            {getPropValue(selected, 'breadUnity') || '-'}
+            <TextWithColor color={color}>{getPropValue(selected, 'breadUnity') || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -106,15 +142,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`EtCO: `}</strong>
-            {`${getPropValue(selected, 'EtCO')}(mmHg)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'EtCO')}(mmHg)` || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`PI: `}</strong>
-            {`${getPropValue(selected, 'breathingPI')}(%)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'breathingPI')}(%)` || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Frecuencia Respiratoria: `}</strong>
-            {`${getPropValue(selected, 'breathingFrecuency')}(RPM)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'breathingFrecuency')}(RPM)` || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -122,7 +158,7 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`INR: `}</strong>
-            {`${getPropValue(selected, 'INR')}(%)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'INR')}(%)` || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -130,15 +166,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Pulso: `}</strong>
-            {`${getPropValue(selected, 'heartbeat')}(LPM)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'heartbeat')}(LPM)` || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`SpO2: `}</strong>
-            {`${getPropValue(selected, 'SpO2')}(%)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'SpO2')}(%)` || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`PI: `}</strong>
-            {`${getPropValue(selected, 'oxygenPI')}(%)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'oxygenPI')}(%)` || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -146,15 +182,15 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Distancia: `}</strong>
-            {`${getPropValue(selected, 'distance')}(m)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'distance')}(m)` || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>Tiempo: </strong>
-            {`${getPropValue(selected, 'time')}(min)` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'time')}(min)` || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Cantidad de pasos: `}</strong>
-            {`${getPropValue(selected, 'steps')}` || '-'}
+            <TextWithColor color={color}>{`${getPropValue(selected, 'steps')}` || '-'}</TextWithColor>
           </Typography>
         </>
       )}
@@ -163,14 +199,16 @@ export function DetailHistoryMedicalFormContentComponent({ className, selected }
         <>
           <Typography component="div">
             <strong>{`Nombre: `}</strong>
-            {getPropValue(selected, 'othersName') || '-'}
+            <TextWithColor color={color}> {getPropValue(selected, 'othersName') || '-'}</TextWithColor>
           </Typography>
           <Typography component="div">
             <strong>{`Severidad: `}</strong>
-            {getPropValue(
-              severityConstant.find(item => item.id === getPropValue(selected, 'severity')),
-              'name'
-            ) || '-'}
+            <TextWithColor color={color}>
+              {getPropValue(
+                severityConstant.find(item => item.id === getPropValue(selected, 'severity')),
+                'name'
+              ) || '-'}
+            </TextWithColor>
           </Typography>
         </>
       )}
