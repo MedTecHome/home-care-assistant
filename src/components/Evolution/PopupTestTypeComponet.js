@@ -3,32 +3,49 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PopoverComponent from '../containers/PopoverComponent';
 import { DetailHistoryMedicalFormContentComponent } from '../ClinicalHistory/DetailHistoryMedicalFormComponent';
-// import healthyStandards from '../../helpers/healthyStandards';
 import { severityConstant } from '../../helpers/constants';
 import { getPropValue } from '../../helpers/utils';
 import TitleAndIconComponent from '../TitleAndIconComponent';
+import legendColors from '../../helpers/legendColors';
 
 const useStyles = makeStyles({
   contextDetail: {
     width: 250
   },
   textColor: {
-    color: props => (props.color ? props.color.A700 : ''),
-    baclgroundColor: props => (props.color ? props.color[200] : '')
+    color: props => (props.color ? props.color : '')
   }
 });
 
+function PressureTextWithColor({ pressure }) {
+  const classesSis = useStyles({
+    color:
+      pressure.sisLegend.option === -1
+        ? pressure.sisLegend.color
+        : legendColors[pressure.sisLegend.option][pressure.sisLegend.color]
+  });
+
+  const classesDis = useStyles({
+    color:
+      pressure.diasLegend.option === -1
+        ? pressure.diasLegend.color
+        : legendColors[pressure.diasLegend.option][pressure.diasLegend.color]
+  });
+
+  return (
+    <div>
+      <span className={classesSis.textColor}>{pressure.sistolica}</span>
+      <span>/</span>
+      <span className={classesDis.textColor}> {pressure.diastolica}</span>
+    </div>
+  );
+}
+
 function PopupTestTypeComponent({ data }) {
-  /* const color =
-    (data.type === 'pressure' && healthyStandards.pressure(data.sistolica, data.diastolica)) ||
-    (data.type === 'temperature' && healthyStandards.temperature(data.celsiusDegree)) ||
-    (data.type === 'weight' && healthyStandards.weight(150, data.weight)) ||
-    (data.type === 'glucose' && healthyStandards.glucose(data.sugarConcentration)) ||
-    (data.type === 'inr' && healthyStandards.inr(data.INR)) ||
-    (data.type === 'oxygen' && healthyStandards.heartbeat(data.heartbeat)); */
+  const legend = data.legend || data.diasLegend || data.sisLegend;
 
   const classes = useStyles({
-    /* color */
+    color: legend.option === -1 ? legend.color : legendColors[legend.option][legend.color]
   });
 
   return (
@@ -36,7 +53,7 @@ function PopupTestTypeComponent({ data }) {
       header={<TitleAndIconComponent type={data.type} />}
       title={
         <Typography className={classes.textColor} component="span">
-          {(data.type === 'pressure' && `${data.sistolica}/${data.diastolica}`) ||
+          {(data.type === 'pressure' && <PressureTextWithColor pressure={data} />) ||
             (data.type === 'heartrate' && `${data.heartrate}`) ||
             (data.type === 'temperature' && data.celsiusDegree) ||
             (data.type === 'weight' && data.weight) ||

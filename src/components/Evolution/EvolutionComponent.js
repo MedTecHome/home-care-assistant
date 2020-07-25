@@ -150,6 +150,7 @@ function EvolutionComponent({ setTab, patient }) {
               testList.map(mt => (
                 <EvolutionTestRowComponent
                   key={mt.id}
+                  patient={patient}
                   clinicaltest={mt}
                   aux={enumeratedDays}
                   handleClickParamter={handleClickParamter}
